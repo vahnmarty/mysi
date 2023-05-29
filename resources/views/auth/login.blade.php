@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <div class="py-12 pb-32">
+    <div>
 
-        <h1 class="font-semibold text-4xl text-center text-primary-blue">Login</h1>
+        <h1 class="font-base text-4xl text-center text-primary-blue">Login</h1>
         <div class="text-center mt-8 text-sm font-bold">
             <p>Welcome to the St. Ignatius College Preparatory Community Portal.</p>
             <p>Log in or create an account to interact with SI.</p>
@@ -11,7 +11,7 @@
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <form x-data="{ open: false }" method="POST" action="{{ route('login') }}" class="py-8">
+            <form x-data="{ open: false }" method="POST" action="{{ route('login') }}" class="mt-8">
                 @csrf
 
                 <!-- Email Address -->
@@ -41,17 +41,23 @@
                     </label>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
-                    @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
-                        </a>
-                    @endif
+                <div class="flex items-center justify-center mt-4 space-x-8 ">
+                    <a class="underline text-sm text-red-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                        {{ __('Forgot your username?') }}
+                    </a>
 
-                    <x-primary-button class="ml-3">
-                        {{ __('Log in') }}
-                    </x-primary-button>
+                    <a class="underline text-sm text-red-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
+                    
                 </div>
+
+
+                <div class="mt-8 flex justify-center">
+                    <button type="submit" class="btn-primary">Log In</button>
+                </div>
+
+                <p class="text-xs text-center mt-8">Don't have an account? <a href="{{ route('register') }}" class="font-bold text-primary-red">Create account</a></p>
             </form>
         </div>
     </div>

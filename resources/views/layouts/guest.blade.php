@@ -21,11 +21,11 @@
         <div class="flex flex-col justify-between min-h-screen">
             @include('includes.guest.header')
 
-            <main class="flex-1 py-12">
+            <main class="flex-1 py-16">
                 {{ $slot ?? '' }}
             </main>
 
-        @include('includes.guest.footer')
+            @include('includes.guest.footer')
         </div>
         
     </body>
