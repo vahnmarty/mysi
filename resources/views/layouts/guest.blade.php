@@ -14,6 +14,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles
+        @livewireScripts
+        @stack('scripts')
         
     </head>
     <body class="font-sans text-gray-900 antialiased">
@@ -21,12 +24,14 @@
         <div class="flex flex-col justify-between min-h-screen">
             @include('includes.guest.header')
 
-            <main class="flex-1 py-16">
+            <main class="flex-1 relative py-8">
                 {{ $slot ?? '' }}
             </main>
 
             @include('includes.guest.footer')
         </div>
+
+        @livewire('notifications')
         
     </body>
 </html>

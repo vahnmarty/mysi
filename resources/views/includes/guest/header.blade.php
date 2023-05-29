@@ -1,4 +1,4 @@
-<header>
+<header class="relative">
     <div class="bg-primary-red py-6">
         <div class="max-w-6xl px-8 mx-auto">
             <div class="flex">
@@ -10,4 +10,5 @@
             </div>
         </div>
     </div>
+    <img src="{{ asset('img/headerWave.png') }}" class="h-10 w-full"/>
 </header>
