@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Models\AccountRequest;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
+
+use Carbon\Carbon;
 
 class RegisteredUserController extends Controller
 {
@@ -53,6 +56,30 @@ class RegisteredUserController extends Controller
     {
         $email = $request->email;
 
-        return view('auth.pending', compact('email'));
+        # Check if user exists already
+        if(User::where('email', $email)->exists()){
+            return redirect('login');
+        }
+
+        # Check if accoutn has been activated already
+        if(AccountRequest::where('email', $email)->whereNotNull('activated_at')->first()){
+            return redirect('login');
+        }
+
+        # Check if user has requested already
+        $account = AccountRequest::firstOrCreate(
+            ['email' => $email], 
+            [
+                'expires_at' => Carbon::now()->addMinutes(10)
+            ]);
+
+        if($account->expired()){
+            $account = AccountRequest::create([
+                'email' => $email,
+                'expires_at' => Carbon::now()->addMinutes(10)
+            ]);
+        }
+
+        return view('auth.pending', compact('account'));
     }
 }

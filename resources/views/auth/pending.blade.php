@@ -5,7 +5,7 @@
         <div class="text-center mt-8">
             <p class="font-bold text-sm">Please check your Inbox or Spam folder to to create your account.</p>
 
-            <p class="mt-8">Email sent to <strong class="font-bold text-green-500 text-primary-red">{{ $email }}</strong></p>
+            <p class="mt-8">Email sent to <strong class="font-bold  text-primary-red">{{ $account->email }}.</strong></p>
 
         </div>
         
