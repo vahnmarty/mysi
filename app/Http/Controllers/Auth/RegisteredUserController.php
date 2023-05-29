@@ -48,4 +48,11 @@ class RegisteredUserController extends Controller
 
         return redirect(RouteServiceProvider::HOME);
     }
+
+    public function pending(Request $request): View
+    {
+        $email = $request->email;
+
+        return view('auth.pending', compact('email'));
+    }
 }

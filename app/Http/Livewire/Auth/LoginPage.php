@@ -73,6 +73,7 @@ class LoginPage extends Component implements HasForms
 
     public function showCreateAccount()
     {
+        return redirect('account/pending', $this->email);
         return $this->action = AccountAction::CreateAccount;
     }
 
