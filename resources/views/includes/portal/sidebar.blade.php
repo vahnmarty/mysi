@@ -1,5 +1,5 @@
 <section>
-    <div class="hidden lg:flex flex-col justify-between w-64 h-full min-h-[90vh] bg-white border-r">
+    <div class="hidden lg:flex flex-col justify-between w-64 h-full min-h-[90vh] bg-gray-100 border-r">
 
         <div class="py-8">
             <ul>
