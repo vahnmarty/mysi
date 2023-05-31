@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Auth;
 
+use Auth;
+use App\Models\User;
 use Livewire\Component;
 use App\Enums\AccountAction;
 use Filament\Forms\Contracts\HasForms;
@@ -21,6 +23,11 @@ class LoginPage extends Component implements HasForms
         return view('livewire.auth.login-page')->layout('layouts.guest');
     }
 
+    public function mount()
+    {
+        
+    }
+
     protected function getFormSchema()
     {
         return [
@@ -34,7 +41,7 @@ class LoginPage extends Component implements HasForms
             TextInput::make('password')
                 ->placeholder('**************')
                 ->reactive()
-                ->hidden($this->showPassword())
+                ->visible($this->showPassword())
                 ->password()
                 ->required(),
         ];
@@ -55,8 +62,7 @@ class LoginPage extends Component implements HasForms
 
     public function checkInternal($email)
     {
-        # Check Internal DB
-        return false;
+        return User::where('email', $email)->exists();
     }
 
     public function fetchCrm($email)
@@ -85,5 +91,17 @@ class LoginPage extends Component implements HasForms
     public function showPassword()
     {
         return $this->action == AccountAction::Login;
+    }
+
+    public function login()
+    {
+        $data = $this->form->getState();
+        
+        if(Auth::attempt([ 'email' => $data['email'] , 'password' => $data['password']]) ){
+
+            session()->flash('message', "You are Login successful.");
+
+            return redirect('dashboard');
+        }
     }
 }

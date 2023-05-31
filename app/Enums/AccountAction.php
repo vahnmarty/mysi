@@ -11,7 +11,7 @@ use BenSampo\Enum\Enum;
  */
 final class AccountAction extends Enum
 {
-    const Login = 0;
-    const CreateAccount = 1;
-    const NoAccount = 2;
+    const Login = 'Login';
+    const CreateAccount = 'CreateAccount';
+    const NoAccount = 'NoAccount';
 }
