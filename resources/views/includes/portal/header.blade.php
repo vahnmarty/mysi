@@ -1,12 +1,26 @@
 <header class="relative">
-    <div class="py-6 bg-primary-red">
-        <div class="max-w-6xl px-8 mx-auto">
+    <div class="py-2 lg:py-6 bg-primary-red">
+        <div class="max-w-6xl px-4 mx-auto lg:px-8">
             <div class="flex items-center justify-between">
-                <div class="flex">
-                    <img src="{{ asset('img/logo-white.png') }}" class="w-auto h-16" alt="">
-                    <div class="pl-8">
+                <div class="flex items-center lg:items-start">
+                    <img src="{{ asset('img/logo-white.png') }}" class="object-cover w-auto h-8 lg:w-auto lg:h-16">
+                    <div class="hidden pl-8 lg:block">
                         <h4 class="text-3xl font-bold text-white font-heading">My SI</h4>
                         <p class="text-xl text-white font-heading">St. Ignatius College Prepatory</p>
+                    </div>
+                    <div x-data="{ open: false }" 
+                        class="px-4 lg:hidden">
+                        <button x-on:click="open = !open; $dispatch('open-menu')"
+                            x-show="!open"
+                            type="button">
+                            <x-heroicon-s-menu class="w-5 h-5 text-gray-300"/>
+                        </button>
+                        <button x-on:click="open = !open; $dispatch('open-menu')"
+                            x-show="open"
+                            x-cloak
+                            type="button">
+                            <x-heroicon-s-x class="w-5 h-5 text-gray-300"/>
+                        </button>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -54,7 +68,7 @@
                         <x-dropdown>
                             <x-slot name="trigger">
                                 <button class="flex p-1 transition duration-200 ease-in-out hover:bg-red-900" type="button">
-                                    <div class="mr-3 text-right">
+                                    <div class="hidden mr-3 text-right lg:block">
                                         <p class="text-sm text-white">{{ Auth::user()->name }}</p>
                                         <p class="text-xs text-gray-100">{{ Auth::user()->email }}</p>
                                     </div>

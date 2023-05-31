@@ -17,13 +17,19 @@
     @livewireStyles
     @livewireScripts
     @stack('scripts')
+
+    <style>
+        [x-cloak]{
+            display: none;;
+        }
+    </style>
 </head>
 
 <body class="h-full font-sans antialiased">
 
     @include('includes.portal.header')
 
-    <div class="flex">
+    <div class="lg:flex">
 
         @include('includes.portal.sidebar')
 
