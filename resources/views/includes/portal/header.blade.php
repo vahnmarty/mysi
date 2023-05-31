@@ -1,6 +1,6 @@
 <header class="relative">
     <div class="py-2 lg:py-6 bg-primary-red">
-        <div class="max-w-6xl px-4 mx-auto lg:px-8">
+        <div class="px-4 mx-auto lg:px-8">
             <div class="flex items-center justify-between">
                 <div class="flex items-center lg:items-start">
                     <img src="{{ asset('img/logo-white.png') }}" class="object-cover w-auto h-8 lg:w-auto lg:h-16">
