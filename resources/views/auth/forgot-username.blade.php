@@ -2,14 +2,18 @@
 
     <div class="max-w-xl px-4 mx-auto lg:px-8">
 
-        <h1 class="text-4xl text-center font-base text-primary-blue">Forgot Password </h1>
+        <h1 class="text-4xl text-center font-base text-primary-blue">Forgot Username </h1>
         <div class="mt-8 text-sm">
-            <p>Enter the email address associated with your username to reset the password.</p>
+            <p>
+                Enter your email address and click “Submit” to get your username. Please note, your email may be
+                associated with your spouse’s/partner’s email address/username. If so, you will need access to the
+                email account to reset the password.
+            </p>
         </div>
         
         <x-auth-session-status class="mb-4" :status="session('status')" />
     
-        <form method="POST" action="{{ route('password.email') }}" class="mt-8">
+        <form method="POST" action="{{ route('username.send') }}" class="mt-8">
             @csrf
     
             <!-- Email Address -->
