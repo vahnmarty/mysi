@@ -60,7 +60,10 @@ class ParentInformation extends Component implements HasTable, HasForms
     protected function getTableActions(): array
     {
         return [ 
-            Action::make('edit'),
+            Action::make('edit')
+                ->action(function(Parents $record){
+                    $this->form->fill($record->toArray());
+                }),
             DeleteAction::make()->icon(''),
         ];
     }
@@ -113,7 +116,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->required(),
                                 //->tel()
                                 //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                            TextInput::make('email')->label('Preffered Email')->email()->required(),
+                            TextInput::make('email')->label('Preferred Email')->email()->required(),
                             TextInput::make('alt_email')->label('Alternate Email')->email(),
                             TextInput::make('employer')->required(),
                             TextInput::make('job_title')->required(),
