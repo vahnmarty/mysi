@@ -23,6 +23,7 @@ export default {
             colors: {
                 'primary-red': '#A71930',
                 'primary-blue': '#002664',
+                'link': '#0096FF',
                 danger: colors.rose,
                 primary: colors.blue,
                 success: colors.green,

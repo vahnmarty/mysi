@@ -7,9 +7,9 @@
                 </a>
                 <div class="pl-8">
                     <a href="{{ url('/') }}">
-                        <h4 class="text-3xl font-bold text-white font-heading">St. Ignatius College Prepatory</h4>
+                        <h4 class="text-4xl text-white font-heading">St. Ignatius College Prepatory</h4>
                     </a>
-                    <p class="text-xl text-white font-heading">Community Portal</p>
+                    <p class="text-xl text-white font-heading"></p>
                 </div>
             </div>
         </div>

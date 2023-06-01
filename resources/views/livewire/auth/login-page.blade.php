@@ -27,11 +27,11 @@
             </div>
 
             <div class="flex items-center justify-center mt-4 space-x-8 ">
-                <a class="text-sm text-red-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('username.forgot') }}">
+                <a class="text-sm rounded-md text-link dark:text-gray-400 hover:text-link hover:underline dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('username.forgot') }}">
                     {{ __('Forgot your username?') }}
                 </a>
 
-                <a class="text-sm text-red-600 underline rounded-md dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                <a class="text-sm rounded-md text-link dark:text-gray-400 hover:text-link hover:underline dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
                 
@@ -44,7 +44,7 @@
                 <button x-show="next" type="button" wire:click="login" class="btn-primary">Log In</button>
             </div>
 
-            <p class="mt-8 text-xs text-center">Don't have an account? <a href="{{ route('register') }}" class="font-bold text-primary-red">Create account</a></p>
+            <p class="mt-8 text-xs text-center">Don't have an account? <a href="{{ route('register') }}" class="font-bold text-link hover:underline">Create account</a></p>
         </form>
     </div>
 </div>

@@ -19,7 +19,7 @@
                 <button x-show="next" type="submit" class="btn-primary">Register</button>
             </div>
 
-            <p class="mt-8 text-xs text-center">Have an account? <a href="{{ route('login') }}" class="font-bold text-primary-red">Login</a></p>
+            <p class="mt-8 text-xs text-center">Have an account? <a href="{{ route('login') }}" class="font-bold text-link">Login</a></p>
         </form>
     </div>
 </div>
