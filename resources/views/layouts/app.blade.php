@@ -21,7 +21,7 @@
 
     <style>
         [x-cloak]{
-            display: none;;
+            display: none;
         }
     </style>
 </head>
