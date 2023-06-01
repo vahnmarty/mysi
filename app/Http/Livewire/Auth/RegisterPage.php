@@ -43,13 +43,13 @@ class RegisterPage extends Component implements HasForms
                 ->maxLength(191)
                 ->required(),
             TextInput::make('username')
-                ->unique()
+                ->unique(User::class, 'username')
                 ->required(),
             TextInput::make('email')
                 ->label('Email Address')
                 ->placeholder('Enter your email address')
                 ->email()
-                ->unique()
+                ->unique(User::class, 'email')
                 ->required(),
                 TextInput::make('password')
                 ->reactive()
