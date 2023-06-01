@@ -14,7 +14,7 @@
                 next: false,
              }" 
              x-on:showpassword.window="next = true"
-             wire:submit.prevent="login"
+             wire:submit.prevent
              class="mt-8">
 
             {{ $this->form }}
@@ -37,10 +37,11 @@
                 
             </div>
 
-
+            <x-validation-errors/>
+            
             <div class="flex justify-center mt-8">
                 <button x-show="!next" wire:click="next" type="button" class="btn-primary">Continue</button>
-                <button x-show="next" type="submit" class="btn-primary">Log In</button>
+                <button x-show="next" type="button" wire:click="login" class="btn-primary">Log In</button>
             </div>
 
             <p class="mt-8 text-xs text-center">Don't have an account? <a href="{{ route('register') }}" class="font-bold text-primary-red">Create account</a></p>

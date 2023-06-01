@@ -23,6 +23,8 @@ class RegisterPage extends Component implements HasForms
     public $first_name, $last_name;
     public $username, $email;
     public $password, $valid_password, $password_confirmation, $password_validation = [];
+
+    protected $queryString = ['status'];
     
     public function render()
     {

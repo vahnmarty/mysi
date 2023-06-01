@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Enums\AccountAction;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class LoginPage extends Component implements HasForms
@@ -33,9 +34,8 @@ class LoginPage extends Component implements HasForms
         return [
             TextInput::make('email')
                 ->label('Username/Email')
-                ->placeholder('Enter your email address')
+                ->placeholder('Username or email address')
                 ->reactive()
-                ->email()
                 ->autofocus()
                 ->required(),
             TextInput::make('password')
@@ -62,13 +62,13 @@ class LoginPage extends Component implements HasForms
 
     public function checkInternal($email)
     {
-        return User::where('email', $email)->exists();
+        return User::where('username', $email)->orWhere('email', $email)->exists();
     }
 
     public function fetchCrm($email)
     {
         # Check Salesforce
-        return true;
+        return false;
     }
 
     public function proceedLogin()
@@ -85,7 +85,7 @@ class LoginPage extends Component implements HasForms
 
     public function noAccount()
     {
-        return $this->action = AccountAction::NoAccount;
+        return redirect()->route('register', ['status' => 404]);
     }
 
     public function showPassword()
@@ -98,10 +98,18 @@ class LoginPage extends Component implements HasForms
         $data = $this->form->getState();
         
         if(Auth::attempt([ 'email' => $data['email'] , 'password' => $data['password']]) ){
-
-            session()->flash('message', "You are Login successful.");
-
             return redirect('dashboard');
         }
+
+        if(Auth::attempt([ 'username' => $data['email'] , 'password' => $data['password']]) ){
+            return redirect('dashboard');
+        }
+
+        $this->addError('login', 'Wrong username or wrong password');
+
+        Notification::make()
+            ->title('Unable to login. Check your username and password.')
+            ->danger()
+            ->send();
     }
 }
