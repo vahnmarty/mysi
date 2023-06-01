@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\CreateAccountPassword;
+use App\Http\Livewire\Application\ParentInformation;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,9 @@ require __DIR__.'/auth.php';
 Route::get('login', LoginPage::class)->name('login')->middleware('guest');
 Route::get('register', RegisterPage::class)->name('register')->middleware('guest');
 Route::get('account/create/{token}', CreateAccountPassword::class)->name('account.request');
+
+
+Route::group(['middleware' => 'auth', 'verified'], function(){
+
+    Route::get('parents', ParentInformation::class)->name('application.parents');
+});
