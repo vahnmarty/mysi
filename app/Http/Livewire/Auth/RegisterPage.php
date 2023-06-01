@@ -2,10 +2,18 @@
 
 namespace App\Http\Livewire\Auth;
 
+use Str;
+use Auth;
+use Hash;
 use Closure;
+use App\Models\User;
 use Livewire\Component;
 use Filament\Forms\Contracts\HasForms;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Illuminate\Validation\ValidationException;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class RegisterPage extends Component implements HasForms
@@ -13,11 +21,8 @@ class RegisterPage extends Component implements HasForms
     use InteractsWithForms;
 
     public $first_name, $last_name;
-    public $email;
-    public $password;
-    public $valid_password;
-    public $password_confirmation;
-    public $password_validation = [];
+    public $username, $email;
+    public $password, $valid_password, $password_confirmation, $password_validation = [];
     
     public function render()
     {
@@ -32,15 +37,19 @@ class RegisterPage extends Component implements HasForms
                 ->placeholder('Parent/Guardian First Name')
                 ->maxLength(191)
                 ->required(),
-            TextInput::make('last_Name')
+            TextInput::make('last_name')
                 ->label('Last Name')
                 ->placeholder('Parent/Guardian Last Name')
                 ->maxLength(191)
+                ->required(),
+            TextInput::make('username')
+                ->unique()
                 ->required(),
             TextInput::make('email')
                 ->label('Email Address')
                 ->placeholder('Enter your email address')
                 ->email()
+                ->unique()
                 ->required(),
                 TextInput::make('password')
                 ->reactive()
@@ -106,5 +115,32 @@ class RegisterPage extends Component implements HasForms
         }
 
         $this->password_validation = $array;
+    }
+
+    protected function onValidationError(ValidationException $exception): void
+    {
+        Notification::make()
+            ->title($exception->getMessage())
+            ->danger()
+            ->send();
+    }
+
+    public function register()
+    {
+        $data = $this->form->getState();
+
+        $user = User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }

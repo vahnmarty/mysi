@@ -5,8 +5,8 @@
                 <div class="flex items-center lg:items-start">
                     <img src="{{ asset('img/logo-white.png') }}" class="object-cover w-auto h-8 lg:w-auto lg:h-16">
                     <div class="hidden pl-8 lg:block">
-                        <h4 class="text-3xl font-bold text-white font-heading">My SI</h4>
-                        <p class="text-xl text-white font-heading">St. Ignatius College Prepatory</p>
+                        <h4 class="text-3xl font-bold text-white font-heading">St. Ignatius College Prepatory</h4>
+                        <p class="text-xl text-white font-heading">Community Portal</p>
                     </div>
                     <div x-data="{ open: false }" 
                         class="px-4 lg:hidden">
@@ -69,8 +69,8 @@
                             <x-slot name="trigger">
                                 <button class="flex p-1 transition duration-200 ease-in-out hover:bg-red-900" type="button">
                                     <div class="hidden mr-3 text-right lg:block">
-                                        <p class="text-sm text-white">{{ Auth::user()->name }}</p>
-                                        <p class="text-xs text-gray-100">{{ Auth::user()->email }}</p>
+                                        <p class="text-sm text-white">{{ Auth::user()->first_name }}</p>
+                                        <p class="text-xs text-gray-100">{{ Auth::user()->username ?? Auth::user()->email }}</p>
                                     </div>
                                     <div class="p-2 bg-gray-500 rounded-sm">
                                         <x-heroicon-o-user class="w-5 h-5 text-white"/>
@@ -79,14 +79,14 @@
                             </x-slot>
                             <x-slot name="content">
                                 <div class="py-3">
-                                    <div class="px-6 py-3 hover:bg-gray-100">
-                                        <a href="{{ url('user/profile') }}" class="flex gap-3 text-xs">
+                                    <div class="hover:bg-gray-100">
+                                        <a href="{{ url('user/profile') }}" class="flex gap-3 px-6 py-3 text-xs ">
                                             <x-heroicon-o-user-circle class="w-4 h-4"/>
                                             Profile
                                         </a>
                                     </div>
-                                    <div class="px-6 py-3 hover:bg-gray-100">
-                                        <a href="#" class="flex gap-3 text-xs" onclick="document.querySelector('#form_logout').submit()">
+                                    <div class="hover:bg-gray-100">
+                                        <a href="#" class="flex gap-3 px-6 py-3 text-xs " onclick="document.querySelector('#form_logout').submit()">
                                             <x-heroicon-o-logout class="w-4 h-4"/>
                                             Log out
                                         </a>
