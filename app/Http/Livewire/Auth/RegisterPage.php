@@ -7,6 +7,7 @@ use Auth;
 use Hash;
 use Closure;
 use App\Models\User;
+use App\Models\Account;
 use Livewire\Component;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Auth\Events\Registered;
@@ -132,7 +133,10 @@ class RegisterPage extends Component implements HasForms
     {
         $data = $this->form->getState();
 
+        $account = $this->createAccount();
+
         $user = User::create([
+            'account_id' => $account->id,
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'username' => $data['username'],
@@ -145,5 +149,23 @@ class RegisterPage extends Component implements HasForms
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function createAccount()
+    {
+        # Fetch Salesforce
+
+        $data = $this->form->getState();
+
+        $name = $this->accountNameGenerator($data);
+
+        return Account::create(['name' => $name]);
+    }
+
+    public function accountNameGenerator($data)
+    {
+        return 'The ' . $data['first_name'] . ' ' . $data['last_name'] . ' Family';
+
+        // Examples:  The Joseph Smith Family (if only 1 parent); The Carol and Michael Brady Family (if 2 parents w/ same last name); The Albert Thomas and Zoey Anderson Family (if 2 parents w/ different last names) - NOTE:  Alphabetize by Parent's first name
     }
 }

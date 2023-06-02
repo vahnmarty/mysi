@@ -19,11 +19,14 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'account_id',
         'first_name',
         'last_name',
         'username',
         'email',
         'password',
+        'phone',
+        'phone_verified_at'
     ];
 
     /**
@@ -49,5 +52,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendForgotUsernameNotification()
     {
         $this->notify(new ForgotUsernameNotification());
+    }
+
+    public function passwords()
+    {
+        return $this->hasMany(PasswordHistory::class);
+    }
+
+    public function addPasswordHistory()
+    {
+        $this->passwords()->create([
+            'password' => $this->password
+        ]);
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
     }
 }
