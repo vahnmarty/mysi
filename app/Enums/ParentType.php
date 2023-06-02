@@ -11,9 +11,16 @@ use BenSampo\Enum\Enum;
  */
 final class ParentType extends Enum
 {
+    // Dropdown options are:  Father, Mother, Stepfather, Stepmother, Grandfather, Grandmother, Uncle, Aunt, Male Guardian, Female Guardian
+
     const Father = 'Father';
     const Mother = 'Mother';
+    const Stepfather = 'Stepfather';
+    const Stepmother = 'Stepmother';
     const Grandmother = 'Grandmother';
     const Grandfather = 'Grandfather';
-    const Guardian = 'Guardian';
+    const Uncle = 'Uncle';
+    const Aunt = 'Aunt';
+    const MaleGuardian = 'Male Guardian';
+    const FemaleGuardian = 'Female Guardian';
 }

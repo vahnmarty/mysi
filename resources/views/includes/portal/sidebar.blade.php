@@ -35,7 +35,7 @@
                     </x-slot>
                     Parents
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('children') }}" :active="request()->is('children')">
                     <x-slot name="icon">
                         <x-heroicon-o-academic-cap class="w-5 h-5" />
                     </x-slot>

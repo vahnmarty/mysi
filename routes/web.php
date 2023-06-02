@@ -6,6 +6,7 @@ use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Application\ParentInformation;
+use App\Http\Livewire\Application\ChildrenInformation;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +41,5 @@ Route::get('account/create/{token}', CreateAccountPassword::class)->name('accoun
 Route::group(['middleware' => 'auth', 'verified'], function(){
 
     Route::get('parents', ParentInformation::class)->name('application.parents');
+    Route::get('children', ChildrenInformation::class)->name('application.children');
 });

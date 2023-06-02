@@ -4,15 +4,19 @@ namespace App\Http\Livewire\Application;
 
 use Auth;
 use App\Models\User;
+use App\Enums\Gender;
 use App\Enums\Suffix;
-use App\Models\Parents;
+use App\Models\Child;
 use Livewire\Component;
 use App\Enums\CrudAction;
+use App\Enums\GradeLevel;
 use App\Enums\ParentType;
+use App\Enums\RacialType;
 use App\Enums\Salutation;
-use App\Enums\AddressLocation;
+use App\Enums\ConditionBoolean;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
@@ -21,12 +25,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class ParentInformation extends Component implements HasTable, HasForms
+class ChildrenInformation extends Component implements HasTable, HasForms
 {
     use InteractsWithTable;
     use InteractsWithForms;
@@ -40,7 +46,7 @@ class ParentInformation extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.parent-information');
+        return view('livewire.application.children-information');
     }
 
     public function mount()
@@ -51,20 +57,19 @@ class ParentInformation extends Component implements HasTable, HasForms
 
         if($this->getTableQuery()->count() <= 0){
             $this->enable_form = true;
-            return;
         }
     }
 
     public function getTableQuery()
     {
-        return Parents::where('user_id', auth()->id());
+        return Child::where('user_id', auth()->id());
     }
 
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('relationship_type')->label('Relationship'),
-            TextColumn::make('name')->formatStateUsing(fn(Parents $record) => $record->getFullName() ),
+            TextColumn::make('relationship'),
+            TextColumn::make('name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone'),
             TextColumn::make('email'),
         ];
@@ -74,7 +79,7 @@ class ParentInformation extends Component implements HasTable, HasForms
     {
         return [ 
             Action::make('edit')
-                ->action(function(Parents $record){
+                ->action(function(Child $record){
                     $this->model_id = $record->id;
                     $this->action = CrudAction::Update;
                     $this->enable_form = true;
@@ -107,17 +112,17 @@ class ParentInformation extends Component implements HasTable, HasForms
 
     protected function getTableEmptyStateIcon(): ?string 
     {
-        return 'heroicon-o-bookmark';
+        return 'heroicon-o-user';
     }
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Parent Information yet';
+        return 'No Children Data yet';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a parent using the form below.';
+        return 'You may create a child information using the form below.';
     }
 
     protected function getFormStatePath(): string
@@ -128,33 +133,39 @@ class ParentInformation extends Component implements HasTable, HasForms
     protected function getFormSchema(): array
     {
         return [
-            Hidden::make('user_id'),
-            Grid::make(2)
-                ->schema([
-                    Grid::make(1)
-                        ->columnSpan(1)
-                        ->schema([
-                            Select::make('relationship_type')->options(ParentType::asSelectArray())->required(),
-                            Select::make('salutation')->options(Salutation::asSelectArray())->required(),
-                            TextInput::make('first_name')->required(),
-                            TextInput::make('middle_name')->required(),
-                            TextInput::make('last_name')->required(),
-                            Select::make('suffix')->options(Suffix::asSelectArray())->required(),
-                        ]),
-                    Grid::make(1)
-                        ->columnSpan(1)
-                        ->schema([
-                            Select::make('address_location')->options(AddressLocation::asSelectArray())->required(),
-                            TextInput::make('mobile_phone')
-                                ->required(),
-                                //->tel()
-                                //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                            TextInput::make('email')->label('Preferred Email')->email()->required(),
-                            TextInput::make('alt_email')->label('Alternate Email')->email(),
-                            TextInput::make('employer')->required(),
-                            TextInput::make('job_title')->required(),
-                        ])
-                ]),
+            Grid::make(3)
+            ->schema([
+                Hidden::make('user_id'),
+                TextInput::make('first_name')->label('Legal First Name')->required(),
+                TextInput::make('middle_name')->label('Legal Middle Name')->required(),
+                TextInput::make('last_name')->label('Legal Last Name')->required(),
+                Select::make('suffix')->options(Suffix::asSelectArray())->required(),
+                TextInput::make('preferred_first_name')->label('Preferred First Name')->helperText('(must be different from First Name)')->required(),
+                DatePicker::make('birthdate')->label('Date of Birth')->required(),
+                Select::make('gender')->options(Gender::asSelectArray())->required(),
+                TextInput::make('email')->label('Preferred Email')->email()->required(),
+                TextInput::make('mobile_phone')
+                    ->required(),
+                    //->tel()
+                    //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
+                Select::make('race')
+                    ->label('How do you identify racially?')
+                    ->multiple()->options(RacialType::asSameArray())
+                    ->required()
+                    ->columnSpan(2),
+                Radio::make('multi_racial_flag')
+                    ->label('Multi Racial?')
+                    ->options(ConditionBoolean::asSelectArray())->required(),
+                TextInput::make('ethnicity')->label('What is your ethnicity?'),
+
+                Select::make('current_grade')->options(GradeLevel::asSelectArray())->required(),
+
+
+                TextInput::make('alt_email')->label('Alternate Email')->email(),
+                TextInput::make('employer')->required(),
+                TextInput::make('job_title')->required(),
+            ])
+            
         ];
     }
 
@@ -163,7 +174,7 @@ class ParentInformation extends Component implements HasTable, HasForms
         $data = $this->form->getState();
 
         if($this->action == CrudAction::Create){
-            Parents::create($data);
+            Child::create($data);
 
             Notification::make()
                 ->title('Parent created successfully')
@@ -174,7 +185,7 @@ class ParentInformation extends Component implements HasTable, HasForms
 
         }
         else{
-            $model = Parents::find($this->model_id);
+            $model = Child::find($this->model_id);
             $model->update($data);
 
             Notification::make()
