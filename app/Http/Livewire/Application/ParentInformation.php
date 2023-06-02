@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Enums\Suffix;
 use App\Models\Parents;
 use Livewire\Component;
+use App\Enums\CrudAction;
 use App\Enums\ParentType;
 use App\Enums\Salutation;
 use Filament\Forms\Components\Grid;
@@ -19,6 +20,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -29,6 +31,11 @@ class ParentInformation extends Component implements HasTable, HasForms
     use InteractsWithForms;
 
     public $data = [];
+
+    public $enable_form = false;
+
+    public $action = CrudAction::Create; 
+    public $model_id;
     
     public function render()
     {
@@ -40,6 +47,10 @@ class ParentInformation extends Component implements HasTable, HasForms
         $this->form->fill([
             'user_id' => Auth::id()
         ]);
+
+        if($this->getTableQuery()->count() <= 0){
+            $this->enable_form = true;
+        }
     }
 
     public function getTableQuery()
@@ -62,11 +73,30 @@ class ParentInformation extends Component implements HasTable, HasForms
         return [ 
             Action::make('edit')
                 ->action(function(Parents $record){
+                    $this->model_id = $record->id;
+                    $this->action = CrudAction::Update;
+                    $this->enable_form = true;
                     $this->form->fill($record->toArray());
+                    
                 }),
             DeleteAction::make()->icon(''),
         ];
     }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [ 
+            CreateAction::make()
+                ->label('Add')
+                ->action(function(){
+                    $this->reset('model_id');
+                    $this->action = CrudAction::Create;
+                    $this->enable_form = true;
+                    $this->form->fill();
+                })
+        ];
+    }
+
 
     protected function isTablePaginationEnabled(): bool 
     {
@@ -98,6 +128,7 @@ class ParentInformation extends Component implements HasTable, HasForms
         return [
             Hidden::make('user_id'),
             Grid::make(2)
+                ->visible($this->enable_form)
                 ->schema([
                     Grid::make(1)
                         ->columnSpan(1)
@@ -129,14 +160,32 @@ class ParentInformation extends Component implements HasTable, HasForms
     {
         $data = $this->form->getState();
 
-        Parents::create($data);
+        if($this->action == CrudAction::Create){
+            Parents::create($data);
 
-        Notification::make()
-            ->title('Parent created successfully')
-            ->success()
-            ->send();
+            Notification::make()
+                ->title('Parent created successfully')
+                ->success()
+                ->send();
 
-        $this->reset('data');
+            $this->reset('data');
+
+        }
+        else{
+            $model = Parents::find($this->model_id);
+            $model->update($data);
+
+            Notification::make()
+                ->title('Parent updated successfully')
+                ->success()
+                ->send();
+
+            $this->reset('data');
+
+        }
+
+        $this->enable_form = false;
+        
     }
 
 }
