@@ -52,7 +52,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
     public function mount()
     {
         $this->form->fill([
-            'user_id' => Auth::id()
+            'account_id' => accountId()
         ]);
 
         if($this->getTableQuery()->count() <= 0){
@@ -62,7 +62,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Child::where('user_id', auth()->id());
+        return Child::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 
@@ -135,7 +135,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
         return [
             Grid::make(3)
             ->schema([
-                Hidden::make('user_id'),
+                Hidden::make('account_id'),
                 TextInput::make('first_name')->label('Legal First Name')->required(),
                 TextInput::make('middle_name')->label('Legal Middle Name')->required(),
                 TextInput::make('last_name')->label('Legal Last Name')->required(),
