@@ -37,33 +37,41 @@ class RegisterPage extends Component implements HasForms
     {
         return [
             TextInput::make('first_name')
+                ->disableLabel()
                 ->label('First Name')
                 ->placeholder('Parent/Guardian First Name')
                 ->maxLength(191)
                 ->required(),
             TextInput::make('last_name')
+                ->disableLabel()
                 ->label('Last Name')
                 ->placeholder('Parent/Guardian Last Name')
                 ->maxLength(191)
                 ->required(),
-            TextInput::make('username')
-                ->unique(User::class, 'username')
-                ->required(),
+            // TextInput::make('username')
+            //     ->disableLabel()
+            //     ->unique(User::class, 'username')
+            //     ->required(),
             TextInput::make('email')
+                ->disableLabel()
                 ->label('Email Address')
-                ->placeholder('Enter your email address')
+                ->placeholder('Parent/Guardian Email')
                 ->email()
                 ->unique(User::class, 'email')
                 ->required(),
                 TextInput::make('password')
+                ->disableLabel()
                 ->reactive()
                 ->required()
                 ->password()
+                ->placeholder("Password")
                 ->afterStateUpdated(function (Closure $get, $state) {
                     $this->validatePassword($state);
                 }),
             TextInput::make('password_confirmation')
+                ->disableLabel()
                 ->label('Confirm Password')
+                ->placeholder("Confirm Password")
                 ->reactive()
                 ->required()
                 ->password()
@@ -139,7 +147,7 @@ class RegisterPage extends Component implements HasForms
             'account_id' => $account->id,
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
-            'username' => $data['username'],
+            //'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

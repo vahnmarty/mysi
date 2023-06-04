@@ -1,8 +1,8 @@
 <div>
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Login</h1>
-    <div class="mt-8 text-sm font-bold text-center">
-        <p>Welcome to the St. Ignatius College Preparatory Community Portal.</p>
+    <div class="mt-8 text-sm text-center">
+        <p>Welcome to St. Ignatius College Preparatory’s MySI portal.</p>
         <p>Log in or create an account to interact with SI.</p>
     </div>
     

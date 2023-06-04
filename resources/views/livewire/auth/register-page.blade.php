@@ -2,8 +2,10 @@
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Create Account </h1>
     <div class="mt-8 text-sm">
-        <p>NOTE: Please use one account per family. Creating multiple accounts will cause
-            data inconsistencies and may result in denial of admission to SI.</p>
+        <p>
+            NOTE: Please use one account per family. Creating multiple accounts will cause data
+            inconsistencies and may result in the wrong information being sent to SI.
+        </p>
     </div>
     
     <div>
