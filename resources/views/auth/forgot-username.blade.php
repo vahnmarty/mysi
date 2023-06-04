@@ -5,9 +5,7 @@
         <h1 class="text-4xl text-center font-base text-primary-blue">Forgot Username </h1>
         <div class="mt-8 text-sm">
             <p>
-                Enter your email address and click “Submit” to get your username. Please note, your email may be
-                associated with your spouse’s/partner’s email address/username. If so, you will need access to the
-                email account to reset the password.
+                Enter your first name, last name and either your email or your phone number.
             </p>
         </div>
         
@@ -17,6 +15,11 @@
             @csrf
     
             <!-- Email Address -->
+            <div>
+                <x-input-label for="email" :value="__('First Name')" />
+                <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus placeholder="Email Address" />
+                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            </div>
             <div>
                 <x-input-label for="email" :value="__('Email')" />
                 <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus placeholder="Email Address" />

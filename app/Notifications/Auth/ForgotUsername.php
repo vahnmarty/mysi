@@ -35,7 +35,10 @@ class ForgotUsername extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Your SI Username is: ' . $notifiable->username)
+                    ->greeting('Hi,')
+                    ->line('Thank you for your interest in St. Ignatius College Preparatory and using the MySI portal.')
+                    ->line("Your account is associated with the following email:  {$notifiable->email}")
+                    ->line("To reset your password, you will need to go to Forgot Password and enter the email above. The instructions will go to that email address, so you will need to have access to the email account to reset the password.")
                     ->action('Log In', url('/login'))
                     ->line('Thank you for using our application!');
     }

@@ -27,7 +27,7 @@
             </div>
 
             <div class="flex items-center justify-center mt-4 space-x-8 ">
-                <a class="text-sm rounded-md text-link dark:text-gray-400 hover:text-link hover:underline dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('username.forgot') }}">
+                <a class="text-sm rounded-md text-link dark:text-gray-400 hover:text-link hover:underline dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('forgot-username') }}">
                     {{ __('Forgot your username?') }}
                 </a>
 
