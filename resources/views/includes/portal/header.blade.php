@@ -7,7 +7,7 @@
                     <div class="hidden pl-8 lg:block">
                         <a href="{{ url('/') }}" class="flex items-center gap-3">
                             <h4 class="text-4xl font-extrabold text-white font-heading">MySI </h4>
-                            <p class="text-3xl text-white font-heading">- St. Ignatius College Prepatory</p>
+                            <p class="text-3xl text-white font-heading">- St. Ignatius College Preparatory</p>
                         </a>
                     </div>
                     <div x-data="{ open: false }" 

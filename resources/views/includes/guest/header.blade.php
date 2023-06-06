@@ -8,12 +8,12 @@
                 <div class="pl-8">
                     <a href="{{ url('/') }}">
                         <h4 class="text-4xl font-extrabold text-white font-heading">MySI</h4>
-                        <p class="text-xl text-white font-heading">St. Ignatius College Prepatory</p>
+                        <p class="text-xl text-white font-heading">St. Ignatius College Preparatory</p>
                     </a>
                     <p class="text-xl text-white font-heading"></p>
                 </div>
             </div>
         </div>
     </div>
-    <img src="{{ asset('img/headerWave.png') }}" class="w-full h-10"/>
+    <img src="{{ asset('img/headerWave.png') }}" class="hidden w-full h-10"/>
 </header>
