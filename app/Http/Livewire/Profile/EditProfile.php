@@ -4,8 +4,15 @@ namespace App\Http\Livewire\Profile;
 
 use Str;
 use Auth;
+use Closure;
 use App\Models\User;
 use Livewire\Component;
+use App\Rules\HasNumber;
+use App\Rules\HasLowercase;
+use App\Rules\HasUppercase;
+use App\Models\EmailRequest;
+use App\Rules\HasSpecialCharacter;
+use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -26,6 +33,8 @@ class EditProfile extends Component implements HasForms
     public function mount()
     {
         $this->profileForm->fill(Auth::user()->toArray());
+
+        $this->email_request = EmailRequest::where('user_id', Auth::id())->whereNull('verified_at')->exists();
     }
 
     protected function getForms(): array 
@@ -35,8 +44,6 @@ class EditProfile extends Component implements HasForms
                 ->schema($this->getProfileFormSchema()),
             'emailForm' => $this->makeForm()
                 ->schema($this->getEmailFormSchema()),
-            'passwordForm' => $this->makeForm()
-                ->schema($this->getPasswordFormSchema()),
         ];
     } 
 
@@ -56,22 +63,6 @@ class EditProfile extends Component implements HasForms
             TextInput::make('email')
                 ->unique(table: User::class)
                 ->email()
-                ->required(),
-        ];
-    }
-
-    protected function getPasswordFormSchema()
-    {
-        return [
-            TextInput::make('old_password')
-                ->password()
-                ->required(),
-            TextInput::make('new_password')
-                ->password()
-                ->required(),
-            TextInput::make('password_confirmation')
-                ->label("Confirm Password")
-                ->password()
                 ->required(),
         ];
     }
@@ -109,4 +100,5 @@ class EditProfile extends Component implements HasForms
             ->warning()
             ->send();
     }
+
 }

@@ -31,16 +31,7 @@
             </div>
         </form>
 
-        <form wire:submit.prevent="updatePassword" class="p-8 bg-gray-100 border rounded-md ">
-
-            <h3 class="mb-8 font-bold font-heading">New Password</h3>
-            
-            {{ $this->passwordForm }}
-
-            <div class="flex justify-start mt-8">
-                <button type="submit" class="btn-primary">Save Changes</button>
-            </div>
-        </form>
+        @livewire('profile.update-password')
 
     </div>
 
