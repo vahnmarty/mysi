@@ -39,7 +39,6 @@ Route::get('login', LoginPage::class)->name('login')->middleware('guest');
 Route::get('register', RegisterPage::class)->name('register')->middleware('guest');
 Route::get('account/create/{token}', CreateAccountPassword::class)->name('account.request');
 Route::get('forgot-username', ForgotUsernamePage::class)->name('forgot-username');
-Route::get('reset-password', ResetPasswordPage::class)->name('reset-password');
 
 
 Route::group(['middleware' => 'auth', 'verified'], function(){
