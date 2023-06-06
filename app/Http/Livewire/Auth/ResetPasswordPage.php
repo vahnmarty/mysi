@@ -7,6 +7,7 @@ use Auth;
 use Closure;
 use App\Models\User;
 use Livewire\Component;
+use App\Notifications\Auth\PasswordChanged;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -117,6 +118,8 @@ class ResetPasswordPage extends Component implements HasForms
             $user->save();
 
             Auth::login($user);
+
+            $user->notify(new PasswordChanged);
 
             return redirect('dashboard');
         }

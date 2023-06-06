@@ -70,7 +70,7 @@
                                 <button class="flex p-1 transition duration-200 ease-in-out hover:bg-red-900" type="button">
                                     <div class="hidden mr-3 text-right lg:block">
                                         <p class="text-sm text-white">{{ Auth::user()->first_name }}</p>
-                                        <p class="text-xs text-gray-100">{{ Auth::user()->username ?? Auth::user()->email }}</p>
+                                        <p class="text-xs text-gray-100">{{ Auth::user()->username ? '@' . Auth::user()->username : Auth::user()->email }}</p>
                                     </div>
                                     <div class="p-2 bg-gray-500 rounded-sm">
                                         <x-heroicon-o-user class="w-5 h-5 text-white"/>
