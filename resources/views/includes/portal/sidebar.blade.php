@@ -21,12 +21,6 @@
                         <li>
                             <a href="{{ url('profile/edit') }}" class="block py-2 pl-16 hover:bg-primary-red/10">Edit Profile</a>
                         </li>
-                        <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Username</a>
-                        </li>
-                        <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Password</a>
-                        </li>
                     </x-slot>
                 </x-sidebar-menu>
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('parents*')">
