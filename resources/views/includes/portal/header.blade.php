@@ -5,8 +5,10 @@
                 <div class="flex items-center lg:items-start">
                     <img src="{{ asset('img/logo-white.png') }}" class="object-cover w-auto h-8 lg:w-auto lg:h-16">
                     <div class="hidden pl-8 lg:block">
-                        <h4 class="text-3xl font-bold text-white font-heading">St. Ignatius College Prepatory</h4>
-                        <p class="text-xl text-white font-heading">Community Portal</p>
+                        <a href="{{ url('/') }}" class="flex items-center gap-3">
+                            <h4 class="text-4xl font-extrabold text-white font-heading">MySI </h4>
+                            <p class="text-3xl text-white font-heading">- St. Ignatius College Prepatory</p>
+                        </a>
                     </div>
                     <div x-data="{ open: false }" 
                         class="px-4 lg:hidden">

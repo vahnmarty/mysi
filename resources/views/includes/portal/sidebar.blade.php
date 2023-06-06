@@ -16,10 +16,10 @@
                     Profile
                     <x-slot name="menu">
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">My Profile</a>
+                            <a href="{{ url('profile') }}" class="block py-2 pl-16 hover:bg-primary-red/10">My Profile</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Edit Profile</a>
+                            <a href="{{ url('profile/edit') }}" class="block py-2 pl-16 hover:bg-primary-red/10">Edit Profile</a>
                         </li>
                         <li>
                             <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Username</a>
