@@ -64,7 +64,7 @@
 
         <div class="py-8">
             <ul>
-                <x-sidebar-menu  :active="request()->is('profile*')">
+                <x-sidebar-menu  :active="request()->is('activities*')">
                     <x-slot name="icon">
                         <x-heroicon-o-presentation-chart-line class="w-5 h-5" />
                     </x-slot>

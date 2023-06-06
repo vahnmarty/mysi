@@ -3,6 +3,7 @@
 use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\RegisterPage;
+use App\Http\Livewire\Profile\MyProfile;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
@@ -29,9 +30,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('user/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('user/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('user/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
@@ -43,8 +44,9 @@ Route::get('forgot-username', ForgotUsernamePage::class)->name('forgot-username'
 
 Route::group(['middleware' => 'auth', 'verified'], function(){
 
+    Route::get('profile', MyProfile::class)->name('profile.index');
     Route::get('profile/edit', EditProfile::class)->name('profile.edit');
-    
+
 });
 
 
