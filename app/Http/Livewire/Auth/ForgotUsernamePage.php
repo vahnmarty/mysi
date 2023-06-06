@@ -2,13 +2,16 @@
 
 namespace App\Http\Livewire\Auth;
 
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use App\Notifications\Auth\EmailForgotUsername;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-class ForgotUsername extends Component implements HasForms
+class ForgotUsernamePage extends Component implements HasForms
 {
     use InteractsWithForms;
 
@@ -18,7 +21,7 @@ class ForgotUsername extends Component implements HasForms
     
     public function render()
     {
-        return view('livewire.auth.forgot-username')->layout('layouts.guest');;
+        return view('livewire.auth.forgot-username-page')->layout('layouts.guest');;
     }
 
     protected function getFormSchema()
@@ -41,11 +44,11 @@ class ForgotUsername extends Component implements HasForms
                 ->helperText(fn () => new HtmlString('<p class="mt-4 text-center">OR</p>'))
                 ->reactive()
                 ->required( fn() =>  empty($this->phone) ),
-            TextInput::make('phone')
-                ->disableLabel()
-                ->reactive()
-                ->placeholder("Phone")
-                ->required( fn() => empty($this->email) ),
+            // TextInput::make('phone')
+            //     ->disableLabel()
+            //     ->reactive()
+            //     ->placeholder("Phone")
+            //     ->required( fn() => empty($this->email) ),
         ];
     }
 
@@ -53,6 +56,21 @@ class ForgotUsername extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        dd($data);
+        $user = User::where('first_name', 'LIKE', '%' . $data['first_name'] . '%')
+            ->where('last_name', 'LIKE', '%' . $data['last_name'] . '%')
+            ->where('email', $data['email'])
+            ->first();
+
+        if(!$user){
+            return Notification::make()
+                ->title('User not found.')
+                ->danger()
+                ->send();
+        }
+
+        $user->notify(new EmailForgotUsername);
+
+        $this->sent = true;
+        
     }
 }
