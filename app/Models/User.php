@@ -66,6 +66,18 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
+    public function checkPasswordTaken($newPassword)
+    {
+        foreach($this->passwords as $history)
+        {
+            if(\Hash::check($newPassword, $history->password)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function account()
     {
         return $this->belongsTo(Account::class);

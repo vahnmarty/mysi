@@ -12,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Hash;
 
 class ResetPasswordPage extends Component implements HasForms
 {
@@ -111,15 +112,33 @@ class ResetPasswordPage extends Component implements HasForms
     {
         $data = $this->form->getState();
 
+
         if($this->valid_password)
         {
             $user = User::where('email', $this->email)->first();
+
+
+            if($user->checkPasswordTaken($data['password'])){
+                Notification::make()
+                    ->title("Please choose a different password. You cannot use your previous passwords.")
+                    ->danger()
+                    ->send();
+                    
+                return false;
+            }
+
+            # Save Password
             $user->password = bcrypt($this->password);
             $user->save();
 
-            Auth::login($user);
+            # Save Password History
+            $user->addPasswordHistory();
 
+            # Email Notification
             $user->notify(new PasswordChanged);
+
+            # Login
+            Auth::login($user);
 
             return redirect('dashboard');
         }
