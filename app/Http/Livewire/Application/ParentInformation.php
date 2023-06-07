@@ -63,10 +63,14 @@ class ParentInformation extends Component implements HasTable, HasForms
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('relationship_type')->label('Relationship'),
-            TextColumn::make('name')->formatStateUsing(fn(Parents $record) => $record->getFullName() ),
+            //TextColumn::make('relationship_type')->label('Relationship'),
+            TextColumn::make('name')
+                ->label('Parent/Guardian Name')
+                ->formatStateUsing(fn(Parents $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone'),
             TextColumn::make('email'),
+            TextColumn::make('employer'),
+            TextColumn::make('job_title'),
         ];
     }
 
