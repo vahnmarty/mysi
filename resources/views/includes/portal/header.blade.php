@@ -82,7 +82,7 @@
                             <x-slot name="content">
                                 <div class="py-3">
                                     <div class="hover:bg-gray-100">
-                                        <a href="{{ url('user/profile') }}" class="flex gap-3 px-6 py-3 text-xs ">
+                                        <a href="{{ url('profile') }}" class="flex gap-3 px-6 py-3 text-xs ">
                                             <x-heroicon-o-user-circle class="w-4 h-4"/>
                                             Profile
                                         </a>
