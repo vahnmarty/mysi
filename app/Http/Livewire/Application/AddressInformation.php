@@ -4,15 +4,21 @@ namespace App\Http\Livewire\Application;
 
 use Auth;
 use App\Models\User;
+use App\Enums\Gender;
 use App\Enums\Suffix;
-use App\Models\Parents;
+use App\Models\School;
+use App\Models\Address;
 use Livewire\Component;
 use App\Enums\CrudAction;
+use App\Enums\GradeLevel;
 use App\Enums\ParentType;
+use App\Enums\RacialType;
 use App\Enums\Salutation;
-use App\Enums\AddressLocation;
+use App\Enums\AddressType;
+use App\Enums\ConditionBoolean;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
@@ -21,13 +27,15 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class ParentInformation extends Component implements HasTable, HasForms
+class AddressInformation extends Component implements HasTable, HasForms
 {
     use InteractsWithTable;
     use InteractsWithForms;
@@ -41,7 +49,7 @@ class ParentInformation extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.parent-information');
+        return view('livewire.application.address-information');
     }
 
     public function mount()
@@ -52,26 +60,20 @@ class ParentInformation extends Component implements HasTable, HasForms
 
         if($this->getTableQuery()->count() <= 0){
             $this->enable_form = true;
-            return;
         }
     }
 
     public function getTableQuery()
     {
-        return Parents::where('account_id', accountId());
+        return Address::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 
     {
         return [
-            //TextColumn::make('relationship_type')->label('Relationship'),
-            TextColumn::make('name')
-                ->label('Parent/Guardian Name')
-                ->formatStateUsing(fn(Parents $record) => $record->getFullName() ),
-            TextColumn::make('mobile_phone'),
-            TextColumn::make('personal_email')->label("Email"),
-            TextColumn::make('employer'),
-            TextColumn::make('job_title'),
+            TextColumn::make('address_type'),
+            TextColumn::make('address')->formatStateUsing(fn(Address $record) => $record->getFullAddress() ),
+            TextColumn::make('phone_number')->label('Phone'),
         ];
     }
 
@@ -79,7 +81,7 @@ class ParentInformation extends Component implements HasTable, HasForms
     {
         return [ 
             Action::make('edit')
-                ->action(function(Parents $record){
+                ->action(function(Address $record){
                     $this->model_id = $record->id;
                     $this->action = CrudAction::Update;
                     $this->enable_form = true;
@@ -112,17 +114,17 @@ class ParentInformation extends Component implements HasTable, HasForms
 
     protected function getTableEmptyStateIcon(): ?string 
     {
-        return 'heroicon-o-bookmark';
+        return 'heroicon-o-collection';
     }
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Parent Information yet';
+        return 'No Address Data yet';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a parent using the form below.';
+        return 'You may create a address information using the form below.';
     }
 
     protected function getFormStatePath(): string
@@ -139,34 +141,37 @@ class ParentInformation extends Component implements HasTable, HasForms
                     Grid::make(1)
                         ->columnSpan(1)
                         ->schema([
-                            Select::make('salutation')->options(Salutation::asSameArray())->required(),
-                            TextInput::make('first_name')
-                                ->label('Legal First Name')
+                            TextInput::make('address')
+                                ->label('Street Address')
                                 ->required(),
-                            TextInput::make('middle_name')
-                                ->label('Legal Middle Name')
+                            TextInput::make('city')
                                 ->required(),
-                            TextInput::make('last_name')
-                                ->label('Legal Last Name')
+                            Select::make('state')
+                                ->options(us_states())
+                                ->preload()
+                                ->searchable()
                                 ->required(),
-                            Select::make('suffix')->options(Suffix::asSelectArray())->required(),
-                            TextInput::make('preferred_first_name')
-                                ->label('Preferred First Name (must be different from Legal First Name)')
+                            TextInput::make('zip_code')
+                                ->label('ZIP Code')
+                                ->minLength(4)
+                                ->maxLength(5)
+                                ->numeric()
+                                ->required(),
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)
                         ->schema([
-                            Select::make('relationship_type')->options(ParentType::asSelectArray())->required(),
-                            Select::make('address_location')->options(AddressLocation::asSelectArray())->required(),
-                            TextInput::make('mobile_phone')
+                            Select::make('address_type')
+                                ->label('Address Type')
+                                ->options(AddressType::asSameArray())
+                                ->required(),
+                            TextInput::make('phone_number')
+                                ->label('Phone at Location')
                                 ->required()
-                                ->mask(fn (Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                                ->mask(fn (Mask $mask) => $mask->pattern('0{0}000-000-0000'))
+                                ->placeholder('+1 000-000-0000')
                                 ->tel()
                                 ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                            TextInput::make('personal_email')->label('Preferred Email')->email()->required(),
-                            // TextInput::make('alternate_email')->label('Alternate Email')->email(),
-                            TextInput::make('employer')->required(),
-                            TextInput::make('job_title')->required(),
                         ])
                 ]),
         ];
@@ -177,10 +182,10 @@ class ParentInformation extends Component implements HasTable, HasForms
         $data = $this->form->getState();
 
         if($this->action == CrudAction::Create){
-            Parents::create($data);
+            Address::create($data);
 
             Notification::make()
-                ->title('Parent created successfully')
+                ->title('Address created successfully')
                 ->success()
                 ->send();
 
@@ -188,11 +193,11 @@ class ParentInformation extends Component implements HasTable, HasForms
 
         }
         else{
-            $model = Parents::find($this->model_id);
+            $model = Address::find($this->model_id);
             $model->update($data);
 
             Notification::make()
-                ->title('Parent updated successfully')
+                ->title('Address updated successfully')
                 ->success()
                 ->send();
 

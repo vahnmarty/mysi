@@ -10,6 +10,7 @@ use App\Http\Livewire\Auth\ResetPasswordPage;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Application\ParentInformation;
+use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 
 /*
@@ -54,4 +55,5 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 
     Route::get('parents', ParentInformation::class)->name('application.parents');
     Route::get('children', ChildrenInformation::class)->name('application.children');
+    Route::get('address', AddressInformation::class)->name('application.address');
 });

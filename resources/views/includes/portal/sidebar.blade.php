@@ -29,13 +29,13 @@
                     </x-slot>
                     Parents
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('children') }}" :active="request()->is('children')">
+                <x-sidebar-item href="{{ url('children') }}" :active="request()->is('children*')">
                     <x-slot name="icon">
                         <x-heroicon-o-academic-cap class="w-4 h-4" />
                     </x-slot>
                     Children
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('address') }}" :active="request()->is('address*')">
                     <x-slot name="icon">
                         <x-heroicon-o-location-marker class="w-4 h-4" />
                     </x-slot>

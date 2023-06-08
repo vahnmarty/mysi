@@ -10,17 +10,12 @@ use App\Enums\Traits\EnumCustomTrait;
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-final class Salutation extends Enum
+final class AddressType extends Enum
 {
     use EnumCustomTrait;
     
-    // Dropdown options are:  Mr., Mrs., Ms., Dr., Prof., Rev., Hon.
-    const Mr = 'Mr.';
-    const Mrs = 'Mrs.';
-    const Ms = 'Ms.';
-    const Dr = 'Dr.';
-    const Prof = 'Prof.';
-    const Rev = 'Rev.';
-    const Hon = 'Hon.';
-
+    const PrimaryAddress = 'Primary Address';
+    const SecondaryAddress = 'Secondary Address';
+    const OtherAddress1 = 'Other Address 1';
+    const OtherAddress2 = 'Other Address 2';
 }
