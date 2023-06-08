@@ -11,7 +11,7 @@
             <x-heroicon-s-menu class="w-4 h-4"/>
         </div>
     </button>
-    <ul x-show="open" x-cloak>
+    <ul x-show="open" x-cloak class="pl-16 list-disc text-primary-red">
        {{ $menu }}
     </ul>
 </li>

@@ -15,5 +15,7 @@ final class RecordType extends Enum
     const Prospect  = '0128a000000ii6pAAA';
     const Parent    = '0128a000000ii6oAAA';
 
-    // 0128a000000ii6qAAA for Student, if new record; 0128a000000ii6pAAA for Prospect; 0128a000000ii6oAAA for Parent, if new; use existing RecordTypeId if old record
+    // 0128a000000ii6qAAA for Student, if new record; 
+    // 0128a000000ii6pAAA for Prospect; 
+    // 0128a000000ii6oAAA for Parent, if new; use existing RecordTypeId if old record
 }

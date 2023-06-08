@@ -104,4 +104,25 @@
             </div>
         </div>
     </div>
+    <div class="px-8 py-2 bg-red-800 lg:py-2">
+        <div class="flex justify-between">
+            <div class="flex items-center flex-1 gap-8 text-xs text-white">
+                <a href="">Home</a>
+                <a href="">Profile</a>
+
+                <x-flyout-menu button="Information">
+                    <div class="w-56 p-4 text-sm font-semibold leading-6 text-gray-900 bg-white shadow-lg shrink rounded-xl ring-1 ring-gray-900/5">
+                        <a href="#" class="block p-2 hover:text-indigo-600">Children Info</a>
+                      </div>
+                </x-flyout-menu>
+
+                <x-flyout-menu button="Activities">
+                    <div class="w-56 p-4 text-sm font-semibold leading-6 text-gray-900 bg-white shadow-lg shrink rounded-xl ring-1 ring-gray-900/5">
+                        <a href="#" class="block p-2 hover:text-indigo-600">Eight Grades</a>
+                      </div>
+                </x-flyout-menu>
+
+            </div>
+        </div>
+    </div>
 </header>

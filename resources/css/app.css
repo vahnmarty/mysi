@@ -20,3 +20,7 @@ html, body{
 .filament-tables-empty-state svg{
     @apply text-white;
 }
+
+.sub-menu{
+    @apply block py-2 pr-2;
+}

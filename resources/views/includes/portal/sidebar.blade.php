@@ -16,10 +16,10 @@
                     Profile
                     <x-slot name="menu">
                         <li>
-                            <a href="{{ url('profile') }}" class="block py-2 pl-16 hover:bg-primary-red/10">My Profile</a>
+                            <a href="{{ url('profile') }}" class="sub-menu">My Profile</a>
                         </li>
                         <li>
-                            <a href="{{ url('profile/edit') }}" class="block py-2 pl-16 hover:bg-primary-red/10">Edit Profile</a>
+                            <a href="{{ url('profile/edit') }}" class="sub-menu">Edit Profile</a>
                         </li>
                     </x-slot>
                 </x-sidebar-menu>
@@ -71,16 +71,46 @@
                     Activities
                     <x-slot name="menu">
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">My Profile</a>
+                            <a href="" class="sub-menu">Eight Graders</a>
+                            
+                            <ul class="pl-4 list-[circle]">
+                                <li>
+                                    <a href="{{ url('book-a-wildcat-experience') }}" class="sub-menu">Book a Wildcat Experience</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('admission') }}" class="sub-menu">Apply at SI</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('supplemental-recommendation') }}" class="sub-menu">Supplemental Recommendation</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Edit Profile</a>
+                            <a href="" class="sub-menu">Existing Students</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Username</a>
+                            <a href="" class="sub-menu">Transfer Students</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Password</a>
+                            <a href="" class="sub-menu">Summer Camp</a>
+                        </li>
+                        <li>
+                            <a href="" class="sub-menu">Summer School</a>
+                        </li>
+                        <li>
+                            <a href="" class="sub-menu">Buy SI Merch</a>
+                        </li>
+                        <li>
+                            <a href="" class="sub-menu">SI Atheltics</a>
+                        </li>
+                        <li>
+                            <a href="" class="sub-menu">SI Arts</a>
+                        </li>
+                        <li>
+                            <a href="" class="sub-menu">SI Newsletter</a>
+                        </li>
+                        <li>
+                            <a href="" class="sub-menu">Donate to SI</a>
                         </li>
                     </x-slot>
                 </x-sidebar-menu>
@@ -127,16 +157,16 @@
                     Profile
                     <x-slot name="menu">
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">My Profile</a>
+                            <a href="" class="sub-menu">My Profile</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Edit Profile</a>
+                            <a href="" class="sub-menu">Edit Profile</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Username</a>
+                            <a href="" class="sub-menu">Change Username</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Password</a>
+                            <a href="" class="sub-menu">Change Password</a>
                         </li>
                     </x-slot>
                 </x-sidebar-menu>
@@ -188,16 +218,16 @@
                     Activities
                     <x-slot name="menu">
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">My Profile</a>
+                            <a href="" class="sub-menu">My Profile</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Edit Profile</a>
+                            <a href="" class="sub-menu">Edit Profile</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Username</a>
+                            <a href="" class="sub-menu">Change Username</a>
                         </li>
                         <li>
-                            <a href="" class="block py-2 pl-16 hover:bg-primary-red/10">Change Password</a>
+                            <a href="" class="sub-menu">Change Password</a>
                         </li>
                     </x-slot>
                 </x-sidebar-menu>
