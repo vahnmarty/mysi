@@ -6,6 +6,16 @@
             NOTE: Please use one account per family. Creating multiple accounts will cause data
             inconsistencies and may result in the wrong information being sent to SI.
         </p>
+        <div class="mt-4">
+            <p>Your password must have: </p>
+            <ul class="pl-6 list-disc">
+                <li>At least 1 uppercase letter</li>
+                <li>At least 1 lowercase letter</li>
+                <li>At least 1 number</li>
+                <li>At least 1 special character (only use the following characters: ! @ # $ or %)</li>
+                <li>Must be between 8 – 16 characters long</li>
+            </ul>
+        </div>
     </div>
     
     <div>

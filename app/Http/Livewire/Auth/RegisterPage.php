@@ -9,11 +9,16 @@ use Closure;
 use App\Models\User;
 use App\Models\Account;
 use Livewire\Component;
+use App\Rules\HasNumber;
+use App\Rules\HasLowercase;
+use App\Rules\HasUppercase;
+use App\Rules\HasSpecialCharacter;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Phpsa\FilamentPasswordReveal\Password;
 use Illuminate\Validation\ValidationException;
 use Filament\Forms\Concerns\InteractsWithForms;
 
@@ -21,9 +26,7 @@ class RegisterPage extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $first_name, $last_name;
-    public $username, $email;
-    public $password, $valid_password, $password_confirmation, $password_validation = [];
+    public $first_name, $last_name, $email, $password,  $password_confirmation;
 
     public $status;
     protected $queryString = ['status'];
@@ -48,10 +51,6 @@ class RegisterPage extends Component implements HasForms
                 ->placeholder('Parent/Guardian Last Name')
                 ->maxLength(191)
                 ->required(),
-            // TextInput::make('username')
-            //     ->disableLabel()
-            //     ->unique(User::class, 'username')
-            //     ->required(),
             TextInput::make('email')
                 ->disableLabel()
                 ->label('Email Address')
@@ -59,75 +58,30 @@ class RegisterPage extends Component implements HasForms
                 ->email()
                 ->unique(User::class, 'email')
                 ->required(),
-                TextInput::make('password')
+            Password::make('password')
                 ->disableLabel()
+                ->revealable()
                 ->reactive()
                 ->required()
                 ->password()
+                ->confirmed()
                 ->placeholder("Password")
-                ->afterStateUpdated(function (Closure $get, $state) {
-                    $this->validatePassword($state);
-                }),
-            TextInput::make('password_confirmation')
+                ->rules([
+                    new HasUppercase(),
+                    new HasLowercase(),
+                    new HasNumber(),
+                    new HasSpecialCharacter(),
+                ]),
+            Password::make('password_confirmation')
                 ->disableLabel()
+                ->revealable()
                 ->label('Confirm Password')
                 ->placeholder("Confirm Password")
-                ->reactive()
                 ->required()
                 ->password()
-                ->afterStateUpdated(function (Closure $get, $state) {
-                    $this->validatePassword($get('password'));
-                })
         ];
     }
 
-    public function validatePassword($password = null)
-    {
-        $array = [
-            [
-                'key' => 'uppercase',
-                'passed' => preg_match('/[A-Z]/', $password),
-                'description' => 'At least 1 uppercase letter',
-            ],
-            [
-                'key' => 'lowercase',
-                'passed' =>  preg_match('/[a-z]/', $password),
-                'description' => 'At least 1 lowercase letter',
-            ],
-            [
-                'key' => 'number',
-                'passed' => preg_match('/[0-9]/', $password),
-                'description' => 'At least 1 number',
-            ],
-            [
-                'key' => 'special',
-                'passed' => preg_match('/[!@#$%]/', $password),
-                'description' => 'At least 1 special character (only use the following characters: ! @ # $ or %)',
-            ],
-            [
-                'key' => 'characters',
-                'passed' => (Str::length($password) >= 8 && Str::length($password) <= 16),
-                'description' => 'Must be between 8 – 16 characters long'
-            ],
-            [
-                'key' => 'confirmed',
-                'passed' => $this->password_confirmation == $password,
-                'description' => 'Password must match with confirm password.'
-            ]
-        ];
-
-        $this->valid_password = true;
-
-        foreach($array as $item)
-        {
-            if($item['passed'] == false){
-                $this->valid_password = false;
-                break;
-            }
-        }
-
-        $this->password_validation = $array;
-    }
 
     protected function onValidationError(ValidationException $exception): void
     {
