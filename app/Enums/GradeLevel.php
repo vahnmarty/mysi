@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use App\Enums\Traits\EnumCustomTrait;
 
 /**
  * @method static static OptionOne()
@@ -11,6 +12,8 @@ use BenSampo\Enum\Enum;
  */
 final class GradeLevel extends Enum
 {
+    use EnumCustomTrait;
+    
     // Dropdown options are:  Pre-kindergarten, Kindergarten, 1, 2, 3, 4, 5, 6, 7, 8, Freshman, Sophomore, Junior, Senior, College, Post HS/College
     const PreKindergarten = 'Pre-kindergarten';
     const Kindergarten = 'Kindergarten';

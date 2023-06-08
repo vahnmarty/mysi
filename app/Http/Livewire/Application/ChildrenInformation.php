@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\Child;
+use App\Models\School;
 use Livewire\Component;
 use App\Enums\CrudAction;
 use App\Enums\GradeLevel;
@@ -29,6 +30,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
@@ -68,10 +70,11 @@ class ChildrenInformation extends Component implements HasTable, HasForms
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('relationship'),
-            TextColumn::make('name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
+            TextColumn::make('student_name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone'),
-            TextColumn::make('email'),
+            TextColumn::make('personal_email'),
+            TextColumn::make('current_school'),
+            TextColumn::make('current_grade'),
         ];
     }
 
@@ -141,26 +144,20 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                 TextInput::make('last_name')->label('Legal Last Name')->required(),
                 Select::make('suffix')->options(Suffix::asSelectArray())->required(),
                 TextInput::make('preferred_first_name')->label('Preferred First Name')->helperText('(must be different from First Name)')->required(),
-                DatePicker::make('birthdate')->label('Date of Birth')->required(),
                 Select::make('gender')->options(Gender::asSelectArray())->required(),
-                TextInput::make('email')->label('Preferred Email')->email()->required(),
+                TextInput::make('personal_email')->label('Preferred Email')->email()->required(),
                 TextInput::make('mobile_phone')
-                    ->required(),
-                    //->tel()
-                    //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                Select::make('race')
-                    ->label('How do you identify racially?')
-                    ->multiple()->options(RacialType::asSameArray())
                     ->required()
-                    ->columnSpan(2),
-                TextInput::make('ethnicity')->label('What is your ethnicity?'),
+                    ->mask(fn (Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                    ->tel()
+                    ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
 
-                Select::make('current_grade')->options(GradeLevel::asSelectArray())->required(),
-
-
-                TextInput::make('alt_email')->label('Alternate Email')->email(),
-                TextInput::make('employer')->required(),
-                TextInput::make('job_title')->required(),
+                Select::make('current_school')
+                    ->options(School::active()->get()->pluck('name', 'name')->toArray())
+                    ->preload()
+                    ->searchable()
+                    ->required(),
+                Select::make('current_grade')->options(GradeLevel::asSameArray())->required(),
             ])
             
         ];

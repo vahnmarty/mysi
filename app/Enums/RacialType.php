@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use App\Enums\Traits\EnumCustomTrait;
 
 /**
  * @method static static OptionOne()
@@ -11,6 +12,8 @@ use BenSampo\Enum\Enum;
  */
 final class RacialType extends Enum
 {
+    use EnumCustomTrait;
+    
     // Checkbox options are:  Asian, Black/African American, Latino/Latina/Latinx, Native American/Indigenous, Polynesian or Pacific Islander, White
     const Asian = 'Asian';
     const Black = 'Black/African American';
@@ -18,16 +21,4 @@ final class RacialType extends Enum
     const Native = 'Native American/Indigenous';
     const Polynesian = 'Polynesian or Pacific Islander';
     const White = 'White';
-
-    public static function asSameArray(): array
-    {
-        $array = static::asArray();
-        $selectArray = [];
-
-        foreach ($array as $value) {
-            $selectArray[$value] = $value;
-        }
-
-        return $selectArray;
-    }
 }
