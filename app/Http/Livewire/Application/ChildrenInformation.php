@@ -153,9 +153,6 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                     ->multiple()->options(RacialType::asSameArray())
                     ->required()
                     ->columnSpan(2),
-                Radio::make('multi_racial_flag')
-                    ->label('Multi Racial?')
-                    ->options(ConditionBoolean::asSelectArray())->required(),
                 TextInput::make('ethnicity')->label('What is your ethnicity?'),
 
                 Select::make('current_grade')->options(GradeLevel::asSelectArray())->required(),

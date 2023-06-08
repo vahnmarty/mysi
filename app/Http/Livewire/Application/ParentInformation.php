@@ -23,6 +23,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
@@ -68,7 +69,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                 ->label('Parent/Guardian Name')
                 ->formatStateUsing(fn(Parents $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone'),
-            TextColumn::make('email'),
+            TextColumn::make('personal_email')->label("Email"),
             TextColumn::make('employer'),
             TextColumn::make('job_title'),
         ];
@@ -138,23 +139,32 @@ class ParentInformation extends Component implements HasTable, HasForms
                     Grid::make(1)
                         ->columnSpan(1)
                         ->schema([
-                            Select::make('relationship_type')->options(ParentType::asSelectArray())->required(),
                             Select::make('salutation')->options(Salutation::asSelectArray())->required(),
-                            TextInput::make('first_name')->required(),
-                            TextInput::make('middle_name')->required(),
-                            TextInput::make('last_name')->required(),
+                            TextInput::make('first_name')
+                                ->label('Legal First Name')
+                                ->required(),
+                            TextInput::make('middle_name')
+                                ->label('Legal Middle Name')
+                                ->required(),
+                            TextInput::make('last_name')
+                                ->label('Legal Last Name')
+                                ->required(),
                             Select::make('suffix')->options(Suffix::asSelectArray())->required(),
+                            TextInput::make('preferred_first_name')
+                                ->label('Preferred First Name (must be different from Legal First Name)')
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)
                         ->schema([
+                            Select::make('relationship_type')->options(ParentType::asSelectArray())->required(),
                             Select::make('address_location')->options(AddressLocation::asSelectArray())->required(),
                             TextInput::make('mobile_phone')
-                                ->required(),
-                                //->tel()
-                                //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                            TextInput::make('email')->label('Preferred Email')->email()->required(),
-                            TextInput::make('alt_email')->label('Alternate Email')->email(),
+                                ->required()
+                                ->mask(fn (Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                                ->tel()
+                                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
+                            TextInput::make('personal_email')->label('Preferred Email')->email()->required(),
+                            // TextInput::make('alternate_email')->label('Alternate Email')->email(),
                             TextInput::make('employer')->required(),
                             TextInput::make('job_title')->required(),
                         ])
