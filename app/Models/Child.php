@@ -15,4 +15,9 @@ class Child extends Model
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function application()
+    {
+        return $this->hasOne(Application::class);
+    }
 }

@@ -84,11 +84,12 @@ class AdmissionApplication extends Component implements HasTable, HasForms
         return [ 
             TextColumn::make('status'),
             Action::make('apply')
-                ->action(function(Address $record){
-                    $this->model_id = $record->id;
-                    $this->action = CrudAction::Update;
-                    $this->enable_form = true;
-                    $this->form->fill($record->toArray());
+                ->action(function(Child $record){
+                    $app = $record->application()->create([
+                        'account_id' => accountId()
+                    ]);
+
+                    return redirect()->route('application.form', $app->uuid);
                 }),
         ];
     }
