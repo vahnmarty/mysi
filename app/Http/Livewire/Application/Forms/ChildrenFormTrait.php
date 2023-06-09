@@ -13,8 +13,6 @@ use Filament\Forms\Components\CheckboxList;
 
 trait ChildrenFormTrait{
 
-    const ChildModel = 'child';
-
     public function getChildrenForm()
     {
         return [

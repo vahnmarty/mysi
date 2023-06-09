@@ -15,10 +15,16 @@ class ApplicationForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
+    # Trait Declaration
     use ChildrenFormTrait;
     
+    # Model
     public Application $app;
 
+    # Constant Variables
+    const ChildModel = 'child';
+
+    # Form
     public $data = [];
 
     public function render()
@@ -142,7 +148,7 @@ class ApplicationForm extends Component implements HasForms
             $model = $this->app->{$relationship};
         }else{
             $model = $this->app;
-        }
+        } 
 
         $model->$column = $value;
         $model->save();
