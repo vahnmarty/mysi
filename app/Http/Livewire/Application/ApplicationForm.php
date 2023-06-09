@@ -140,8 +140,11 @@ class ApplicationForm extends Component implements HasForms
     {
         if($relationship){
             $model = $this->app->{$relationship};
-            $model->$column = $value;
-            $model->save();
+        }else{
+            $model = $this->app;
         }
+
+        $model->$column = $value;
+        $model->save();
     }
 }

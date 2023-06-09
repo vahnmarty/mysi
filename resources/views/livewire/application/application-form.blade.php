@@ -1,7 +1,7 @@
 <div>
     <div class="flex justify-between">
         <h2 class="text-2xl font-semibold font-heading text-primary-blue">
-            Application for {{ $app->child->getFullName() }} – Parent Section
+            Application for {{ $app->child->getFullName() }}
         </h2>
     </div>
 
