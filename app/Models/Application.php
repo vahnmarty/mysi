@@ -20,4 +20,9 @@ class Application extends Model
             $model->uuid = (string) Str::uuid();
         });
     }
+
+    public function child()
+    {
+        return $this->belongsTo(Child::class);
+    }
 }
