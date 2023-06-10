@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Application\Forms;
 
+use Closure;
 use App\Enums\Gender;
 use App\Models\School;
 use App\Enums\RacialType;
@@ -101,13 +102,22 @@ trait ChildrenFormTrait{
                 }),
             Select::make(self::ChildModel .'.current_school')
                 ->label('Current School')
-                ->options(School::active()->get()->pluck('name', 'name')->toArray())
+                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                 ->preload()
                 ->searchable()
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('current_school', $state, self::ChildModel);
+                }),
+            TextInput::make(self::ChildModel .'.current_school_not_listed')
+                ->label('If not listed, add it here')
+                ->lazy()
+                ->required()
+                ->placeholder('Enter School Name')
+                ->hidden(fn (Closure $get) => $get(self::ChildModel .'.current_school') !== self::NotListed)
+                ->afterStateUpdated(function($state){
+                    //$this->autoSave('current_school_not_listed', $state, self::ChildModel);
                 }),
             TextInput::make('other_high_school_1')
                 ->label('Other High School #1')

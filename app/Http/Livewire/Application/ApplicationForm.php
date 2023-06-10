@@ -23,6 +23,7 @@ class ApplicationForm extends Component implements HasForms
 
     # Constant Variables
     const ChildModel = 'child';
+    const NotListed = 'Not Listed';
 
     # Form
     public $data = [];
