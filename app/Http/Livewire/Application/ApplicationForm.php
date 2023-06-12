@@ -47,7 +47,7 @@ class ApplicationForm extends Component implements HasForms
     {
         return [
             Toggle::make('autosave')->disabled(),
-            Section::make('Children Information')
+            Section::make('Student Information')
                 ->collapsible()
                 // ->description(new HtmlString('
                 // <div class="flex items-start gap-8 mt-8">
