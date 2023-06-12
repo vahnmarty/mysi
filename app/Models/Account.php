@@ -16,4 +16,9 @@ class Account extends Model
     {
         return Auth::user()->account_id;
     }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

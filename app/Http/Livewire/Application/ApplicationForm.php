@@ -10,14 +10,15 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Http\Livewire\Application\Forms\AddressFormTrait;
 use App\Http\Livewire\Application\Forms\ChildrenFormTrait;
 
 class ApplicationForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    # Trait Declaration
-    use ChildrenFormTrait;
+    # Import Traits
+    use ChildrenFormTrait, AddressFormTrait;
     
     # Model
     public Application $app;
@@ -36,9 +37,14 @@ class ApplicationForm extends Component implements HasForms
 
     public function mount($uuid)
     {
-        $this->app = Application::with('child')->whereUuid($uuid)->firstOrFail();
+        $this->app = Application::whereUuid($uuid)->firstOrFail();
+        $account = $this->app->account;
 
-        $this->form->fill($this->app->toArray());
+        $data = $this->app->toArray();
+        $data['child'] = $this->app->child->toArray();
+        $data['addresses'] = $account->addresses->toArray();
+
+        $this->form->fill($data);
 
         $this->data['autosave'] = true;
     }
@@ -63,9 +69,7 @@ class ApplicationForm extends Component implements HasForms
                 // </div>'))
                 ->schema($this->getChildrenForm()),
             Section::make('Address Information')
-                ->schema([
-
-                ])
+                ->schema($this->getAddressForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Parent/Guardian Information')

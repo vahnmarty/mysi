@@ -25,4 +25,14 @@ class Application extends Model
     {
         return $this->belongsTo(Child::class);
     }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasManyThrough(Address::class, Account::class);
+    }
 }
