@@ -18,7 +18,7 @@ export default {
                 'footer-wave': "url('/img/wave.svg')",
               },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Open Sans', 'sans-serif'],
             },
             colors: {
                 'primary-red': '#A71930',

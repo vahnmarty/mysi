@@ -155,6 +155,10 @@ class ApplicationForm extends Component implements HasForms
             $model = $this->app;
         } 
 
+        if(is_array($value)){
+            $value = implode(',', $value);
+        }
+
         $model->$column = $value;
         $model->save();
     }

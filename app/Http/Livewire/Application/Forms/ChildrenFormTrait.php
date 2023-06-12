@@ -88,8 +88,11 @@ trait ChildrenFormTrait{
                 ->columns(3)
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->autoSave('race', $state, self::ChildModel);
+                ->afterStateHydrated(function (CheckboxList $component, $state) {
+                    $component->state(explode(',', $state));
+                })
+                ->afterStateUpdated(function(Closure $get, $state){
+                    $this->autoSave('race', $state, self::ChildModel);
                 }),
             TagsInput::make(self::ChildModel .'.ethnicity')
                 ->label('What is your ethnicity?')
@@ -97,7 +100,10 @@ trait ChildrenFormTrait{
                 ->lazy()
                 ->required()
                 ->placeholder('Enter ethnicity then Press Comma or Enter')
-                ->afterStateUpdated(function($state){
+                ->afterStateHydrated(function (TagsInput $component, $state) {
+                    $component->state(explode(',', $state));
+                })
+                ->afterStateUpdated(function(Closure $get, $state){
                     $this->autoSave('ethnicity', $state, self::ChildModel);
                 }),
             Select::make(self::ChildModel .'.current_school')
