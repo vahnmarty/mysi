@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Application;
 use Livewire\Component;
 use App\Models\Application;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
@@ -38,11 +39,14 @@ class ApplicationForm extends Component implements HasForms
         $this->app = Application::with('child')->whereUuid($uuid)->firstOrFail();
 
         $this->form->fill($this->app->toArray());
+
+        $this->data['autosave'] = true;
     }
 
     protected function getFormSchema(): array
     {
         return [
+            Toggle::make('autosave')->disabled(),
             Section::make('Children Information')
                 ->collapsible()
                 // ->description(new HtmlString('

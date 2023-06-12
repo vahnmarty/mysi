@@ -14,7 +14,7 @@
                 next: false,
              }" 
              x-on:showpassword.window="next = true"
-             wire:submit.prevent
+             wire:submit.prevent="login"
              class="mt-8">
 
             {{ $this->form }}

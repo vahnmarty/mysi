@@ -15,7 +15,7 @@ class LoginPage extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $email, $password;
+    public $email, $password, $show_password = false;
 
     public $action;
 
@@ -35,13 +35,20 @@ class LoginPage extends Component implements HasForms
             TextInput::make('email')
                 ->label('Username/Email')
                 ->placeholder('Username or email address')
-                ->reactive()
+                ->lazy()
                 ->autofocus()
+                ->afterStateUpdated(function($state){
+                    if($this->checkInternal($state)){
+                        $this->showPassword();
+                        $this->proceedLogin();
+                        $this->show_password = true;
+                    }
+                })
                 ->required(),
             TextInput::make('password')
                 ->placeholder('**************')
                 ->reactive()
-                ->visible($this->showPassword())
+                ->visible(fn() => $this->show_password)
                 ->password()
                 ->required(),
         ];
