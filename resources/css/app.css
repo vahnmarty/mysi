@@ -24,3 +24,12 @@ html, body{
 .sub-menu{
     @apply block py-2 pr-2;
 }
+
+.filament-forms-component-container * :disabled{
+    @apply bg-gray-200;
+}
+
+
+.choices.is-disabled .choices__inner{
+    @apply bg-gray-200;
+}

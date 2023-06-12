@@ -10,6 +10,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Http\Livewire\Application\Forms\ParentFormTrait;
 use App\Http\Livewire\Application\Forms\AddressFormTrait;
 use App\Http\Livewire\Application\Forms\ChildrenFormTrait;
 
@@ -18,7 +19,7 @@ class ApplicationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Import Traits
-    use ChildrenFormTrait, AddressFormTrait;
+    use ChildrenFormTrait, AddressFormTrait, ParentFormTrait;
     
     # Model
     public Application $app;
@@ -38,15 +39,15 @@ class ApplicationForm extends Component implements HasForms
     public function mount($uuid)
     {
         $this->app = Application::whereUuid($uuid)->firstOrFail();
-        $account = $this->app->account;
+        $account = $this->app->account->load('addresses', 'parents');
 
         $data = $this->app->toArray();
         $data['child'] = $this->app->child->toArray();
         $data['addresses'] = $account->addresses->toArray();
+        $data['parents'] = $account->parents->toArray();
+        $data['autosave'] = true;
 
         $this->form->fill($data);
-
-        $this->data['autosave'] = true;
     }
 
     protected function getFormSchema(): array
@@ -73,15 +74,11 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Parent/Guardian Information')
-                ->schema([
-
-                ])
+                ->schema($this->getParentForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Sibling Information')
-                ->schema([
-
-                ])
+                ->schema($this->getParentForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Matrix')

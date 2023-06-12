@@ -21,4 +21,9 @@ class Account extends Model
     {
         return $this->hasMany(Address::class);
     }
+
+    public function parents()
+    {
+        return $this->hasMany(Parents::class);
+    }
 }
