@@ -188,6 +188,8 @@
                     </x-slot>
                     Address
                 </x-sidebar-item>
+
+                @if(Auth::user()->account?->applications()->count())
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-archive class="w-4 h-4" />
@@ -206,6 +208,7 @@
                     </x-slot>
                     Emergency Contact
                 </x-sidebar-item>
+                @endif
             </ul>
         </div>
 

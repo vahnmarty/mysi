@@ -27,7 +27,6 @@ trait ParentFormTrait{
     {
         return [
             Repeater::make('parents')
-                
                 ->createItemButtonLabel('Add Parent/Guardian')
                 ->schema([
                     Hidden::make('id')
@@ -70,8 +69,22 @@ trait ParentFormTrait{
                         ->label('List all high schools, colleges, or graduate schools you have attended')
                         ->helperText('(Please limit answer to 75 words.)'),
                 ])
-            
+                ->registerListeners([
+                    'repeater::deleteItem' => [
+                        function (Component $component, string $statePath, string $uuidToDelete): void {
+                            $items = $component->getState();
+                            $parents = ParentModel::where('account_id', $this->app->account_id)->get();
 
+                            foreach($parents as $parent){
+                                $existing = collect($items)->where('id', $parent->id)->first();
+
+                                if(!$existing){
+                                    $parent->delete();
+                                }
+                            }
+                        },
+                    ],
+                ])
         ];
     }
 

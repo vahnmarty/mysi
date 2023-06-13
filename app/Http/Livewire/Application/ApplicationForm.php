@@ -164,29 +164,4 @@ class ApplicationForm extends Component implements HasForms
         $model->save();
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-    
-        $this->registerListeners([
-            'repeater::deleteItem' => [
-                function (Component $component, string $statePath, string $uuidToDelete): void {
-
-                    dd($uuidToDelete);
-                    
-                    if ($component->isDisabled()) {
-                        return;
-                    }
-    
-                    if ($statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    
-    
-                    // Delete item with UUID `$uuidToDelete`
-                },
-            ],
-        ]);
-    }
 }

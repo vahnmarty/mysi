@@ -26,4 +26,9 @@ class Account extends Model
     {
         return $this->hasMany(Parents::class);
     }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
 }
