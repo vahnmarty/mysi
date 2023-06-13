@@ -2,16 +2,20 @@
 
 namespace App\Http\Livewire\Application\Forms;
 
+use Str;
 use Closure;
 use App\Enums\Suffix;
 use App\Models\School;
+use App\Models\Parents as ParentModel;
 use App\Enums\Salutation;
 use App\Enums\AddressType;
 use App\Enums\LivingSituationType;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -23,9 +27,17 @@ trait ParentFormTrait{
     {
         return [
             Repeater::make('parents')
+                
                 ->createItemButtonLabel('Add Parent/Guardian')
-                ->defaultItems(1)
                 ->schema([
+                    Hidden::make('id')
+                        ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
+                            if(!$state){
+                                $parentModel = ParentModel::create(['account_id' => $this->app->account_id]);
+
+                                $set('id', $parentModel->id);
+                            }
+                        }),
                     Select::make('salutation')
                         ->options(Salutation::asSameArray())
                         ->required(),

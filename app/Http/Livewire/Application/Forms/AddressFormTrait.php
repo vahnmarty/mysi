@@ -84,8 +84,6 @@ trait AddressFormTrait{
                         })
                 ])
                 ->createItemButtonLabel('Add Address')
-                ->cloneable()
-                ->defaultItems(1)
         ];
     }
 

@@ -53,7 +53,7 @@ class ApplicationForm extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            Toggle::make('autosave')->disabled(),
+            Toggle::make('autosave'),
             Section::make('Student Information')
                 ->collapsible()
                 // ->description(new HtmlString('
@@ -78,7 +78,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Sibling Information')
-                ->schema($this->getParentForm())
+                ->schema([])
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Matrix')
@@ -162,5 +162,31 @@ class ApplicationForm extends Component implements HasForms
 
         $model->$column = $value;
         $model->save();
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+    
+        $this->registerListeners([
+            'repeater::deleteItem' => [
+                function (Component $component, string $statePath, string $uuidToDelete): void {
+
+                    dd($uuidToDelete);
+                    
+                    if ($component->isDisabled()) {
+                        return;
+                    }
+    
+                    if ($statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    
+    
+                    // Delete item with UUID `$uuidToDelete`
+                },
+            ],
+        ]);
     }
 }
