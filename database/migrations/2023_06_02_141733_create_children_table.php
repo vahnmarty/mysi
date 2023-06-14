@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('salesforce_id')->nullable();
             $table->string('record_type_id')->nullable();
 
-            $table->string('first_name');
-            $table->string('middle_name');
-            $table->string('last_name');
+            $table->string('first_name')->nullable();
+            $table->string('middle_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('suffix')->nullable();
             $table->string('preferred_first_name')->nullable();
             $table->string('personal_email')->nullable();
@@ -31,9 +31,7 @@ return new class extends Migration
             $table->string('ethnicity')->nullable();
             $table->string('current_grade')->nullable();
             $table->string('current_school')->nullable();
-            $table->string('current_school_others')->nullable();
-
-
+            $table->string('current_school_not_listed')->nullable();
             $table->string('religion')->nullable();
             $table->string('religion_other')->nullable();
             $table->string('religious_community')->nullable();

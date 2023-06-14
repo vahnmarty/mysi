@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
 use App\Enums\Gender;
+use App\Enums\Suffix;
 use App\Models\School;
 use App\Enums\RacialType;
 use Filament\Forms\Components\Select;
@@ -38,7 +39,8 @@ trait StudentFormTrait{
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('middle_name', $state);
                 }),
-            TextInput::make('student.suffix')
+            Select::make('student.suffix')
+                ->options(Suffix::asSelectArray())
                 ->label('Suffix')
                 ->lazy()
                 ->required()
@@ -68,6 +70,7 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('gender', $state);
                 }),
             TextInput::make('student.personal_email')
+                ->email()
                 ->label('Personal Email')
                 ->lazy()
                 ->required()

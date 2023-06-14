@@ -126,7 +126,7 @@ trait ParentFormTrait{
                         function (Component $component, string $statePath, string $uuidToDelete): void {
                             $items = $component->getState();
                             $parents = ParentModel::where('account_id', $this->app->account_id)->get();
-
+                            
                             foreach($parents as $parent){
                                 $existing = collect($items)->where('id', $parent->id)->first();
 
