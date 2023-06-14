@@ -14,6 +14,7 @@ use App\Enums\CrudAction;
 use App\Enums\GradeLevel;
 use App\Enums\ParentType;
 use App\Enums\RacialType;
+use App\Enums\RecordType;
 use App\Enums\Salutation;
 use App\Enums\AddressType;
 use App\Enums\ConditionBoolean;
@@ -93,7 +94,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                         return redirect()->route('application.form', $record->application->uuid);
                     }
                     $app = $record->application()->create([
-                        'account_id' => accountId()
+                        'account_id' => accountId(),
+                        'record_type_id' => RecordType::Student
                     ]);
 
                     return redirect()->route('application.form', $app->uuid);
@@ -101,19 +103,19 @@ class AdmissionApplication extends Component implements HasTable, HasForms
         ];
     }
 
-    protected function getTableHeaderActions(): array
-    {
-        return [ 
-            CreateAction::make()
-                ->label('Add')
-                ->action(function(){
-                    $this->reset('model_id');
-                    $this->action = CrudAction::Create;
-                    $this->enable_form = true;
-                    $this->form->fill();
-                })
-        ];
-    }
+    // protected function getTableHeaderActions(): array
+    // {
+    //     return [ 
+    //         CreateAction::make()
+    //             ->label('Add')
+    //             ->action(function(){
+    //                 $this->reset('model_id');
+    //                 $this->action = CrudAction::Create;
+    //                 $this->enable_form = true;
+    //                 $this->form->fill();
+    //             })
+    //     ];
+    // }
 
 
     protected function isTablePaginationEnabled(): bool 

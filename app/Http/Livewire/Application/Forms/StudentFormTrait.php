@@ -17,72 +17,72 @@ trait StudentFormTrait{
     public function getStudentForm()
     {
         return [
-            TextInput::make(self::ChildModel .'.first_name')
+            TextInput::make('student.first_name')
                 ->label('Legal First Name')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('first_name', $state, self::ChildModel);
+                    $this->autoSaveStudent('first_name', $state);
                 }),
-            TextInput::make(self::ChildModel .'.last_name')
+            TextInput::make('student.last_name')
                 ->label('Legal Last Name')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('last_name', $state, self::ChildModel);
+                    $this->autoSaveStudent('last_name', $state);
                 }),
-            TextInput::make(self::ChildModel .'.middle_name')
+            TextInput::make('student.middle_name')
                 ->label('Legal Middle Name')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('middle_name', $state, self::ChildModel);
+                    $this->autoSaveStudent('middle_name', $state);
                 }),
-            TextInput::make(self::ChildModel .'.suffix')
+            TextInput::make('student.suffix')
                 ->label('Suffix')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('suffix', $state, self::ChildModel);
+                    $this->autoSaveStudent('suffix', $state);
                 }),
-            TextInput::make(self::ChildModel .'.preferred_first_name')
+            TextInput::make('student.preferred_first_name')
                 ->label('Preferred First Name')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('preferred_first_name', $state, self::ChildModel);
+                    $this->autoSaveStudent('preferred_first_name', $state);
                 }),
-            DatePicker::make(self::ChildModel .'.birthdate')
+            DatePicker::make('student.birthdate')
                 ->label('Date of Birth')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('birthdate', $state, self::ChildModel);
+                    $this->autoSaveStudent('birthdate', $state);
                 }),
-            Select::make(self::ChildModel .'.gender')
+            Select::make('student.gender')
                 ->label('Gender')
                 ->options(Gender::asSelectArray())
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('gender', $state, self::ChildModel);
+                    $this->autoSaveStudent('gender', $state);
                 }),
-            TextInput::make(self::ChildModel .'.personal_email')
+            TextInput::make('student.personal_email')
                 ->label('Personal Email')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('personal_email', $state, self::ChildModel);
+                    $this->autoSaveStudent('personal_email', $state);
                 }),
-            TextInput::make(self::ChildModel .'.mobile_phone')
+            TextInput::make('student.mobile_phone')
                 ->label('Mobile Phone')
                 ->tel()
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('mobile_phone', $state, self::ChildModel);
+                    $this->autoSaveStudent('mobile_phone', $state);
                 }),
-            CheckboxList::make(self::ChildModel .'.race')
+            CheckboxList::make('student.race')
                 ->label('How do you identify racially?')
                 ->options(RacialType::asSameArray())
                 ->columns(3)
@@ -92,9 +92,9 @@ trait StudentFormTrait{
                     $component->state(explode(',', $state));
                 })
                 ->afterStateUpdated(function(Closure $get, $state){
-                    $this->autoSave('race', $state, self::ChildModel);
+                    $this->autoSaveStudent('race', $state);
                 }),
-            TagsInput::make(self::ChildModel .'.ethnicity')
+            TagsInput::make('student.ethnicity')
                 ->label('What is your ethnicity?')
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Middle Eastern, Salvadorian"')
                 ->lazy()
@@ -104,9 +104,9 @@ trait StudentFormTrait{
                     $component->state(explode(',', $state));
                 })
                 ->afterStateUpdated(function(Closure $get, $state){
-                    $this->autoSave('ethnicity', $state, self::ChildModel);
+                    $this->autoSaveStudent('ethnicity', $state);
                 }),
-            Select::make(self::ChildModel .'.current_school')
+            Select::make('student.current_school')
                 ->label('Current School')
                 ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                 ->preload()
@@ -114,16 +114,16 @@ trait StudentFormTrait{
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSave('current_school', $state, self::ChildModel);
+                    $this->autoSaveStudent('current_school', $state);
                 }),
-            TextInput::make(self::ChildModel .'.current_school_not_listed')
+            TextInput::make('student.current_school_not_listed')
                 ->label('If not listed, add it here')
                 ->lazy()
                 ->required()
                 ->placeholder('Enter School Name')
-                ->hidden(fn (Closure $get) => $get(self::ChildModel .'.current_school') !== self::NotListed)
+                ->hidden(fn (Closure $get) => $get('current_school') !== self::NotListed)
                 ->afterStateUpdated(function($state){
-                    //$this->autoSave('current_school_not_listed', $state, self::ChildModel);
+                    //$this->autoSaveStudent('current_school_not_listed', $state);
                 }),
             TextInput::make('other_high_school_1')
                 ->label('Other High School #1')
@@ -158,5 +158,12 @@ trait StudentFormTrait{
                     $this->autoSave('other_high_school_4', $state);
                 }),
         ];
+    }
+
+    private function autoSaveStudent($column, $value)
+    {
+        $model = $this->app->student;
+        $model->$column = $value;
+        $model->save();
     }
 }

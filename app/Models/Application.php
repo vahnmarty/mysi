@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Str;
+use App\Enums\RecordType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,9 +24,9 @@ class Application extends Model
         });
     }
 
-    public function child()
+    public function student()
     {
-        return $this->belongsTo(Child::class);
+        return $this->belongsTo(Child::class, 'child_id');
     }
 
     public function account()
