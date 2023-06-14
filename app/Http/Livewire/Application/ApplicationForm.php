@@ -12,14 +12,15 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Http\Livewire\Application\Forms\ParentFormTrait;
 use App\Http\Livewire\Application\Forms\AddressFormTrait;
-use App\Http\Livewire\Application\Forms\ChildrenFormTrait;
+use App\Http\Livewire\Application\Forms\SiblingFormTrait;
+use App\Http\Livewire\Application\Forms\StudentFormTrait;
 
 class ApplicationForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
     # Import Traits
-    use ChildrenFormTrait, AddressFormTrait, ParentFormTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait;
     
     # Model
     public Application $app;
@@ -68,7 +69,7 @@ class ApplicationForm extends Component implements HasForms
                 //         </p>
                 //     </div>
                 // </div>'))
-                ->schema($this->getChildrenForm()),
+                ->schema($this->getStudentForm()),
             Section::make('Address Information')
                 ->schema($this->getAddressForm())
                 ->collapsible()
@@ -78,7 +79,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Sibling Information')
-                ->schema([])
+                ->schema($this->getSiblingForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Matrix')

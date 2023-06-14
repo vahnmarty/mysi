@@ -12,9 +12,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
 
-trait ChildrenFormTrait{
+trait StudentFormTrait{
 
-    public function getChildrenForm()
+    public function getStudentForm()
     {
         return [
             TextInput::make(self::ChildModel .'.first_name')
