@@ -33,39 +33,91 @@ trait ParentFormTrait{
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
                             if(!$state){
                                 $parentModel = ParentModel::create(['account_id' => $this->app->account_id]);
-
                                 $set('id', $parentModel->id);
                             }
                         }),
                     Select::make('salutation')
                         ->options(Salutation::asSameArray())
-                        ->required(),
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'salutation', $state);
+                        }),
                     TextInput::make('first_name')
                         ->label('Legal First Name')
-                        ->required(),
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'first_name', $state);
+                        }),
                     TextInput::make('middle_name')
                         ->label('Legal Middle Name')
-                        ->required(),
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'middle_name', $state);
+                        }),
                     TextInput::make('last_name')
                         ->label('Legal Last Name')
-                        ->required(),
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'last_name', $state);
+                        }),
                     Select::make('suffix')
                         ->options(Suffix::asSelectArray())
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'suffix', $state);
+                        })
                         ->required(),
                     TextInput::make('mobile_phone')
                         ->tel()
-                        ->required(),
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'mobile_phone', $state);
+                        }),
                     TextInput::make('personal_email')
                         ->label('Preferred Email')
                         ->email()
-                        ->required(),
-                    TextInput::make('employer'),
-                    TextInput::make('job_title'),
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'personal_email', $state);
+                        }),
+                    TextInput::make('employer')
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'employer', $state);
+                        }),
+                    TextInput::make('job_title')
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'job_title', $state);
+                        }),
                     TextInput::make('work_email')
-                        ->email(),
-                    TextInput::make('work_phone'),
-                    TextInput::make('work_phone_ext'),
+                        ->email()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'work_email', $state);
+                        }),
+                    TextInput::make('work_phone')
+                        ->tel()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'work_phone', $state);
+                        }),
+                    TextInput::make('work_phone_ext')
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'work_phone_ext', $state);
+                        }),
                     Textarea::make('schools_attended')
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'schools_attended', $state);
+                        })
                         ->label('List all high schools, colleges, or graduate schools you have attended')
                         ->helperText('(Please limit answer to 75 words.)'),
                 ])
@@ -86,6 +138,13 @@ trait ParentFormTrait{
                     ],
                 ])
         ];
+    }
+
+    private function autoSaveParent($id, $column, $value)
+    {
+        $model = ParentModel::find($id);
+        $model->$column = $value;
+        $model->save();
     }
 
 }
