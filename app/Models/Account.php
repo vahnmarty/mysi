@@ -36,4 +36,9 @@ class Account extends Model
     {
         return $this->hasMany(Child::class);
     }
+
+    public function siblings()
+    {
+
+    }
 }

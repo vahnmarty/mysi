@@ -46,6 +46,7 @@ class ApplicationForm extends Component implements HasForms
         $data['student'] = $this->app->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
+        $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
         $data['autosave'] = true;
 
         $this->form->fill($data);

@@ -89,7 +89,9 @@ trait StudentFormTrait{
                 ->lazy()
                 ->required()
                 ->afterStateHydrated(function (CheckboxList $component, $state) {
-                    $component->state(explode(',', $state));
+                    if(is_string($state)){
+                        $component->state(explode(',', $state));
+                    }
                 })
                 ->afterStateUpdated(function(Closure $get, $state){
                     $this->autoSaveStudent('race', $state);
@@ -101,7 +103,9 @@ trait StudentFormTrait{
                 ->required()
                 ->placeholder('Enter ethnicity then Press Comma or Enter')
                 ->afterStateHydrated(function (TagsInput $component, $state) {
-                    $component->state(explode(',', $state));
+                    if(is_string($state)){
+                        $component->state(explode(',', $state));
+                    }
                 })
                 ->afterStateUpdated(function(Closure $get, $state){
                     $this->autoSaveStudent('ethnicity', $state);
@@ -123,7 +127,7 @@ trait StudentFormTrait{
                 ->placeholder('Enter School Name')
                 ->hidden(fn (Closure $get) => $get('current_school') !== self::NotListed)
                 ->afterStateUpdated(function($state){
-                    //$this->autoSaveStudent('current_school_not_listed', $state);
+                    $this->autoSaveStudent('current_school_not_listed', $state);
                 }),
             TextInput::make('other_high_school_1')
                 ->label('Other High School #1')
