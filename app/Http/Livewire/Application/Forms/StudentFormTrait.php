@@ -132,7 +132,7 @@ trait StudentFormTrait{
                 ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                 ->preload()
                 ->searchable()
-                ->lazy()
+                ->reactive()
                 ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('current_school', $state);
@@ -142,7 +142,7 @@ trait StudentFormTrait{
                 ->lazy()
                 ->required()
                 ->placeholder('Enter School Name')
-                ->hidden(fn (Closure $get) => $get('current_school') !== self::NotListed)
+                ->hidden(fn (Closure $get) => $get('student.current_school') !== self::NotListed)
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('current_school_not_listed', $state);
                 }),
