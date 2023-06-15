@@ -38,7 +38,11 @@ trait FamilyMatrixTrait{
                 Select::make('relationship')
                     ->disableLabel()
                     ->options(ParentType::asSameArray())
-                    ->required(),
+                    ->required()
+                    ->lazy()
+                    ->afterStateUpdated(function(Closure $get, $state){
+                        $this->autoSaveMatrix($get('id'), 'relationship', $state);
+                    }),
                 Select::make('address_location')
                     ->disableLabel()
                     ->options(AddressLocation::asSameArray())
@@ -52,5 +56,10 @@ trait FamilyMatrixTrait{
             ])
             ->columnSpan('full')
         ];
+    }
+
+    private function autoSaveMatrix($id, $column, $value)
+    {
+        
     }
 }

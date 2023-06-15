@@ -94,10 +94,20 @@ trait StudentFormTrait{
                 ->afterStateHydrated(function (CheckboxList $component, $state) {
                     if(is_string($state)){
                         $component->state(explode(',', $state));
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
                     }
                 })
                 ->afterStateUpdated(function(Closure $get, $state){
-                    $this->autoSaveStudent('race', $state);
+
+                    $input = is_array($state) ? implode(',', $state) : $state;
+
+                    $this->autoSaveStudent('race', $input);
+
+                    $multi_racial_flag = count($get('student.race')) > 1;
+
+                    $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
             TagsInput::make('student.ethnicity')
                 ->label('What is your ethnicity?')
@@ -108,10 +118,14 @@ trait StudentFormTrait{
                 ->afterStateHydrated(function (TagsInput $component, $state) {
                     if(is_string($state)){
                         $component->state(explode(',', $state));
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
                     }
                 })
                 ->afterStateUpdated(function(Closure $get, $state){
-                    $this->autoSaveStudent('ethnicity', $state);
+                    $input = is_array($state) ? implode(',', $state) : $state;
+                    $this->autoSaveStudent('ethnicity', $input);
                 }),
             Select::make('student.current_school')
                 ->label('Current School')

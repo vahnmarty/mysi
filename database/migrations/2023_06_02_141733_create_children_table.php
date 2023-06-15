@@ -24,6 +24,12 @@ return new class extends Migration
             $table->string('preferred_first_name')->nullable();
             $table->string('personal_email')->nullable();
             $table->string('mobile_phone')->nullable();
+
+
+            $table->string('relationship')->nullable();
+            $table->string('living_situation')->nullable();
+            $table->string('address_location')->nullable();
+
             $table->boolean('si_alumni_flag')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('gender')->nullable();
