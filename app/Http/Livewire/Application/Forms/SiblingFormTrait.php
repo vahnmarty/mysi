@@ -123,4 +123,9 @@ trait SiblingFormTrait{
         $model->$column = $value;
         $model->save();
     }
+
+    public function syncMatrix(Closure $get)
+    {
+        
+    }
 }

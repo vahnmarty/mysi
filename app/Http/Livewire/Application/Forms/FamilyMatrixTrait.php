@@ -26,13 +26,14 @@ trait FamilyMatrixTrait{
             ->disableItemMovement()
             ->hideLabels()
             ->schema([
-                Hidden::make('id'),
-                Hidden::make('first_name'),
-                Hidden::make('last_name'),
+                Hidden::make('id')->reactive(),
+                Hidden::make('first_name')->reactive(),
+                Hidden::make('last_name')->reactive(),
                 TextInput::make('name')
                     ->formatStateUsing(function(Closure $get){
                         return $get('first_name') . ' ' .$get('last_name');
                     })
+                    ->reactive()
                     ->disabled()
                     ->disableLabel(),
                 Select::make('relationship')

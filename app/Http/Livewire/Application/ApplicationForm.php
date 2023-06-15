@@ -86,6 +86,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Matrix')
+                ->description('If the matrix is not showing all the items, please refresh the page.')
                 ->schema($this->getFamilyMatrix())
                 ->collapsible()
                 ->collapsed(true),
