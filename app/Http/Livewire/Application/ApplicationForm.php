@@ -14,13 +14,14 @@ use App\Http\Livewire\Application\Forms\ParentFormTrait;
 use App\Http\Livewire\Application\Forms\AddressFormTrait;
 use App\Http\Livewire\Application\Forms\SiblingFormTrait;
 use App\Http\Livewire\Application\Forms\StudentFormTrait;
+use App\Http\Livewire\Application\Forms\FamilyMatrixTrait;
 
 class ApplicationForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
     # Import Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait;
     
     # Model
     public Application $app;
@@ -40,13 +41,14 @@ class ApplicationForm extends Component implements HasForms
     public function mount($uuid)
     {
         $this->app = Application::whereUuid($uuid)->firstOrFail();
-        $account = $this->app->account->load('addresses', 'parents');
+        $account = $this->app->account->load('addresses', 'parents', 'children');
 
         $data = $this->app->toArray();
         $data['student'] = $this->app->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
         $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
+        $data['matrix'] = $account->children->toArray();
         $data['autosave'] = true;
 
         $this->form->fill($data);
@@ -84,9 +86,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Matrix')
-                ->schema([
-
-                ])
+                ->schema($this->getFamilyMatrix())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Legacy Information')

@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use App\Enums\Traits\EnumCustomTrait;
 
 /**
  * @method static static OptionOne()
@@ -11,6 +12,7 @@ use BenSampo\Enum\Enum;
  */
 final class ParentType extends Enum
 {
+    use EnumCustomTrait;
     // Dropdown options are:  Father, Mother, Stepfather, Stepmother, Grandfather, Grandmother, Uncle, Aunt, Male Guardian, Female Guardian
 
     const Father = 'Father';
