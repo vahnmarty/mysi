@@ -9,6 +9,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Http\Livewire\Application\Forms\LegacyFormTrait;
 use App\Http\Livewire\Application\Forms\ParentFormTrait;
@@ -187,8 +188,34 @@ class ApplicationForm extends Component implements HasForms
             $value = implode(',', $value);
         }
 
-        $model->$column = $value;
-        $model->save();
+        try {
+            $model->$column = $value;
+            $model->save();
+            
+        } catch (\Exception $e) {
+
+            Notification::make()
+                ->title($e->getMessage())
+                ->danger()
+                ->send();
+        }
+
+        
+    }
+
+    public function __autoSave($model, $column, $value)
+    {
+        try {
+            $model->$column = $value;
+            $model->save();
+            
+        } catch (\Exception $e) {
+
+            Notification::make()
+                ->title('Error! Invalid value: ' . $value)
+                ->danger()
+                ->send();
+        }
     }
 
 }

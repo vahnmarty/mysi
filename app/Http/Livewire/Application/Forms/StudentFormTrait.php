@@ -183,8 +183,6 @@ trait StudentFormTrait{
 
     private function autoSaveStudent($column, $value)
     {
-        $model = $this->app->student;
-        $model->$column = $value;
-        $model->save();
+        $this->__autoSave($this->app->student, $column, $value);
     }
 }

@@ -11,6 +11,7 @@ use App\Enums\ReligionType;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
@@ -58,7 +59,9 @@ trait ReligionFormTrait{
                 ->maxLength(4)
                 ->lazy()
                 ->afterStateUpdated(function(Closure $get, $state){
-                    $this->autoSaveStudent('baptism_year', $state);
+                    if( strlen($state) == 4){
+                        $this->autoSaveStudent('baptism_year', $state);
+                    }
                 }),
             TextInput::make('student.confirmation_year')
                 ->label('Confirmation Year')
@@ -68,6 +71,7 @@ trait ReligionFormTrait{
                 ->maxLength(4)
                 ->lazy()
                 ->afterStateUpdated(function(Closure $get, $state){
+                    if( strlen($state) == 4)
                     $this->autoSaveStudent('confirmation_year', $state);
                 }),
             
@@ -76,8 +80,17 @@ trait ReligionFormTrait{
 
     private function autoSaveStudentReligion($column, $value)
     {
-        $model = $this->app->student;
-        $model->$column = $value;
-        $model->save();
+        try {
+            $model = $this->app->student;
+            $model->$column = $value;
+            $model->save();
+        } catch (\Exception $e) {
+
+            Notification::make()
+                ->title('Please input a valid year.')
+                ->danger()
+                ->send();
+        }
+        
     }
 }
