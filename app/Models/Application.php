@@ -38,4 +38,9 @@ class Application extends Model
     {
         return $this->hasManyThrough(Address::class, Account::class);
     }
+
+    public function matrix()
+    {
+        return $this->hasMany(FamilyMatrix::class);
+    }
 }

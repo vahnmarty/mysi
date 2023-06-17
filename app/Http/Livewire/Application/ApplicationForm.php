@@ -48,10 +48,35 @@ class ApplicationForm extends Component implements HasForms
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
         $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
-        $data['matrix'] = $account->children->toArray();
+        $data['matrix'] = $this->createMatrix($this->app, $data['parents'], $data['siblings']);
         $data['autosave'] = true;
 
         $this->form->fill($data);
+    }
+
+    public function createMatrix(Application $app, $parents, $siblings)
+    {
+        $matrix = [];
+
+        foreach($parents as $parent)
+        {
+            $parentMatrix = $app->matrix()->firstOrCreate([
+                'parent_id' => $parent['id']
+            ]);
+
+            $matrix[] = $parentMatrix->toArray();
+        }
+
+        foreach($siblings as $child)
+        {
+            $siblingMatrix = $app->matrix()->firstOrCreate([
+                'child_id' => $child['id']
+            ]);
+
+            $matrix[] = $siblingMatrix->toArray();
+        }
+
+        return $matrix;
     }
 
     protected function getFormSchema(): array
