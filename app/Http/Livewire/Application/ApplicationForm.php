@@ -10,6 +10,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Http\Livewire\Application\Forms\LegacyFormTrait;
 use App\Http\Livewire\Application\Forms\ParentFormTrait;
 use App\Http\Livewire\Application\Forms\AddressFormTrait;
 use App\Http\Livewire\Application\Forms\SiblingFormTrait;
@@ -21,7 +22,7 @@ class ApplicationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Import Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait;
     
     # Model
     public Application $app;
@@ -41,7 +42,7 @@ class ApplicationForm extends Component implements HasForms
     public function mount($uuid)
     {
         $this->app = Application::whereUuid($uuid)->firstOrFail();
-        $account = $this->app->account->load('addresses', 'parents', 'children');
+        $account = $this->app->account->load('addresses', 'parents', 'children', 'legacies');
 
         $data = $this->app->toArray();
         $data['student'] = $this->app->student->toArray();
@@ -49,6 +50,7 @@ class ApplicationForm extends Component implements HasForms
         $data['parents'] = $account->parents->toArray();
         $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
         $data['matrix'] = $this->createMatrix($this->app, $data['parents'], $data['siblings']);
+        $data['legacy'] = $account->legacies->toArray();
         $data['autosave'] = true;
 
         $this->form->fill($data);
@@ -116,9 +118,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Legacy Information')
-                ->schema([
-
-                ])
+                ->schema($this->getLegacyForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Spiritual and Community Information')

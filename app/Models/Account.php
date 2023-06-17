@@ -41,4 +41,9 @@ class Account extends Model
     {
 
     }
+
+    public function legacies()
+    {
+        return $this->hasMany(Legacy::class);
+    }
 }
