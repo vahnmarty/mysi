@@ -203,20 +203,4 @@ trait ReligionFormTrait{
             
         ];
     }
-
-    private function autoSaveStudentReligion($column, $value)
-    {
-        try {
-            $model = $this->app->student;
-            $model->$column = $value;
-            $model->save();
-        } catch (\Exception $e) {
-
-            Notification::make()
-                ->title('Please input a valid year.')
-                ->danger()
-                ->send();
-        }
-        
-    }
 }
