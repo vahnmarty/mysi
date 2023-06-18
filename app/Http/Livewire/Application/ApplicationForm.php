@@ -188,17 +188,8 @@ class ApplicationForm extends Component implements HasForms
             $value = implode(',', $value);
         }
 
-        try {
-            $model->$column = $value;
-            $model->save();
-            
-        } catch (\Exception $e) {
-
-            Notification::make()
-                ->title($e->getMessage())
-                ->danger()
-                ->send();
-        }
+        $model->$column = $value;
+        $model->save();
 
         
     }

@@ -33,8 +33,6 @@ return new class extends Migration
             $table->string('school_liturgies_explanation')->nullable();
             $table->boolean('retreats')->nullable();
             $table->string('retreats_explanation')->nullable();
-
-            
             $table->string('community_service')->nullable();
             $table->string('community_service_explanation')->nullable();
             $table->string('religious_statement_by')->nullable();
