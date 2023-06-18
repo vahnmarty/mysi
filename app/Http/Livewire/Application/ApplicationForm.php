@@ -19,13 +19,14 @@ use App\Http\Livewire\Application\Forms\StudentFormTrait;
 use App\Http\Livewire\Application\Forms\FamilyMatrixTrait;
 use App\Http\Livewire\Application\Forms\ReligionFormTrait;
 use App\Http\Livewire\Application\Forms\ParentStatementTrait;
+use App\Http\Livewire\Application\Forms\StudentStatementTrait;
 
 class ApplicationForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
     # Import Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait;
     
     # Model
     public Application $app;
@@ -133,9 +134,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Student Statement')
-                ->schema([
-
-                ])
+                ->schema($this->getStudentStatement())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('School Activities')
