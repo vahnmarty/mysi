@@ -54,7 +54,6 @@ class ApplicationForm extends Component implements HasForms
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
         $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
-        $data['matrix'] = $this->createMatrix($this->app, $data['parents'], $data['siblings']);
         $data['legacy'] = $account->legacies->toArray();
         $data['activities'] = $this->app->activities->toArray();
         $data['autosave'] = true;
