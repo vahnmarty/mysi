@@ -16,6 +16,7 @@ use App\Http\Livewire\Application\Forms\ParentFormTrait;
 use App\Http\Livewire\Application\Forms\AddressFormTrait;
 use App\Http\Livewire\Application\Forms\SiblingFormTrait;
 use App\Http\Livewire\Application\Forms\StudentFormTrait;
+use App\Http\Livewire\Application\Forms\ActivityFormTrait;
 use App\Http\Livewire\Application\Forms\FamilyMatrixTrait;
 use App\Http\Livewire\Application\Forms\ReligionFormTrait;
 use App\Http\Livewire\Application\Forms\ParentStatementTrait;
@@ -26,7 +27,7 @@ class ApplicationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Import Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait, ActivityFormTrait;
     
     # Model
     public Application $app;
@@ -45,7 +46,7 @@ class ApplicationForm extends Component implements HasForms
 
     public function mount($uuid)
     {
-        $this->app = Application::whereUuid($uuid)->firstOrFail();
+        $this->app = Application::with('activities', 'student')->whereUuid($uuid)->firstOrFail();
         $account = $this->app->account->load('addresses', 'parents', 'children', 'legacies');
 
         $data = $this->app->toArray();
@@ -55,6 +56,7 @@ class ApplicationForm extends Component implements HasForms
         $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
         $data['matrix'] = $this->createMatrix($this->app, $data['parents'], $data['siblings']);
         $data['legacy'] = $account->legacies->toArray();
+        $data['activities'] = $this->app->activities->toArray();
         $data['autosave'] = true;
 
         $this->form->fill($data);
@@ -138,9 +140,8 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('School Activities')
-                ->schema([
-
-                ])
+                ->schema($this->getActivityForm())
+                ->description('List up to four current extracurricular activities that you are most passionate about.')
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Writing Sample')

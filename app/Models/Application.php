@@ -43,4 +43,9 @@ class Application extends Model
     {
         return $this->hasMany(FamilyMatrix::class);
     }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
 }
