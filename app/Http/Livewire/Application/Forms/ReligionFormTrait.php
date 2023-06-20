@@ -135,6 +135,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
+                        ->required()
                         ->disabled(fn (Closure $get) => empty($get('religious_studies_classes')) || $get('religious_studies_classes') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('religious_studies_classes_explanation', $state);
@@ -151,6 +152,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
+                        ->required()
                         ->disabled(fn (Closure $get) => empty($get('school_liturgies')) || $get('school_liturgies') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('school_liturgies_explanation', $state);
@@ -167,6 +169,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
+                        ->required()
                         ->disabled(fn (Closure $get) => empty($get('retreats')) || $get('retreats') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('retreats_explanation', $state);
@@ -183,6 +186,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
+                        ->required()
                         ->disabled(fn (Closure $get) => empty($get('community_service')) || $get('community_service') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('community_service_explanation', $state);
