@@ -75,7 +75,7 @@ trait SiblingFormTrait{
                     ->lazy()
                     ->required()
                     ->email()
-                    ->afterStateUpdated(function(Closure $get, Component $component, $state){
+                    ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
                         $livewire->validateOnly($component->getStatePath());
                         $this->autoSaveSibling($get('id'), 'personal_email', $state);
                     }),

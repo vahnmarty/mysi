@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
+use Livewire\Component as Livewire;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\Child;
@@ -61,7 +62,9 @@ trait LegacyFormTrait{
                     ->numeric()
                     ->minLength(4)
                     ->maxLength(4)
-                    ->afterStateUpdated(function(Closure $get, $state){
+                    ->maxValue(date('Y'))
+                    ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
+                        $livewire->validateOnly($component->getStatePath());
                         $this->autoSaveLegacy($get('id'), 'graduation_year', $state);
                     }),
             ])

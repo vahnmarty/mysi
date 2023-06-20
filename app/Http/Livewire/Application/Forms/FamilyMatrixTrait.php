@@ -9,6 +9,7 @@ use App\Enums\SiblingType;
 use App\Models\FamilyMatrix;
 use App\Enums\AddressLocation;
 use App\Enums\LivingSituationType;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -66,6 +67,8 @@ trait FamilyMatrixTrait{
                         }),
                     Toggle::make('status')
                         ->label('Deceased?'),
+                    Toggle::make('is_primary')
+                        ->label('Primary?'),
                 ]),
             TableRepeater::make('siblings')
                 ->label('')
@@ -111,7 +114,10 @@ trait FamilyMatrixTrait{
                         }),
                     Toggle::make('status')
                         ->disabled()
-                        ->label('Deceased?'),
+                        ->label(new HtmlString('<span class="invisible">Deceased?</span>')),
+                    Toggle::make('primary')
+                        ->disabled()
+                        ->label(new HtmlString('<span class="invisible">Primary?</span>')),
                 ])
         ];
     }

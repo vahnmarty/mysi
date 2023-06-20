@@ -35,5 +35,5 @@ html, body{
 }
 
 .filament-table-repeater-column{
-    @apply border-0 border-none;
+    /* @apply border-0 border-none; */
 }
