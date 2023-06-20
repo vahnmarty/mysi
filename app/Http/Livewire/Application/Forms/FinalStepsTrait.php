@@ -99,6 +99,20 @@ trait FinalStepsTrait{
                     TextInput::make('billing.zip_code')
                         ->label('Billing Zip Code')
                         ->required(),
+                    Placeholder::make('note')
+                        ->label('')
+                        ->columnSpan('full')
+                        ->content(new HtmlString('
+                            <p class="text-sm">
+                            <strong class="text-primary-red">NOTE:</strong>  
+                            Before you click on the Pay button, please make
+                            sure your information is correct.  You will not
+                            be able to edit payment information after you
+                            click the Pay button because SI does not store
+                            your credit information.  If you are not ready
+                            to make a payment, click on the Close button.
+                            </p>
+                        '))
                 ])
         ];
     }
