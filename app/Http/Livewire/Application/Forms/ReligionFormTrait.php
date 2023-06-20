@@ -15,13 +15,15 @@ use Filament\Forms\Components\Radio;
 use App\Enums\FamilySpiritualityType;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Textarea;
+//use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
+
+use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
 
 trait ReligionFormTrait{
 
