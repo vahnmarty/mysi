@@ -130,12 +130,12 @@ class AdmissionApplication extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Address Data yet';
+        return 'No Student Data yet';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a address information using the form below.';
+        return 'You may create a a child first before applying.';
     }
 
     protected function getFormStatePath(): string

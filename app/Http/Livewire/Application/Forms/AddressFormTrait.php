@@ -9,6 +9,7 @@ use App\Enums\AddressType;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -20,13 +21,29 @@ trait AddressFormTrait{
     {
         return [
             Repeater::make('addresses')
+                ->registerListeners([
+                    'repeater::deleteItem' => [
+                        function (Component $component, string $statePath, string $uuidToDelete): void {
+                            $items = $component->getState();
+                            $addresses = Address::where('account_id', $this->app->account_id)->get();
+
+                            foreach($addresses as $index => $address){
+                                $existing = collect($items)->where('id', $address->id)->first();
+
+                                if(!$existing){
+                                    $address->delete();
+                                }
+                            }
+                        },
+                    ],
+                ])
                 ->schema([
                     Hidden::make('id'),
                     Select::make('address_type')
                         ->options(AddressType::asSameArray())
                         ->required()
                         ->reactive()
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->afterStateUpdated(function(Closure $get, Closure $set, $state){
                             $id = $get('id');
 
                             if(!$id){
@@ -37,6 +54,8 @@ trait AddressFormTrait{
                                 ]);
 
                                 $id = $address->id;
+
+                                $set('id', $id);
                             }
                             $this->autoSaveAddress($id, 'address_type', $state);
                         }),
