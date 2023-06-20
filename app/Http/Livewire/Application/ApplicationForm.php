@@ -10,6 +10,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use App\Forms\Components\WritingSampleSection;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Http\Livewire\Application\Forms\LegacyFormTrait;
 use App\Http\Livewire\Application\Forms\ParentFormTrait;
@@ -19,6 +20,7 @@ use App\Http\Livewire\Application\Forms\StudentFormTrait;
 use App\Http\Livewire\Application\Forms\ActivityFormTrait;
 use App\Http\Livewire\Application\Forms\FamilyMatrixTrait;
 use App\Http\Livewire\Application\Forms\ReligionFormTrait;
+use App\Http\Livewire\Application\Forms\WritingSampleTrait;
 use App\Http\Livewire\Application\Forms\ParentStatementTrait;
 use App\Http\Livewire\Application\Forms\StudentStatementTrait;
 
@@ -27,7 +29,7 @@ class ApplicationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Import Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait, ActivityFormTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait, ActivityFormTrait, WritingSampleTrait;
     
     # Model
     public Application $app;
@@ -144,9 +146,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Writing Sample')
-                ->schema([
-
-                ])
+                ->schema($this->getWritingSampleForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('High School Placement Test')
