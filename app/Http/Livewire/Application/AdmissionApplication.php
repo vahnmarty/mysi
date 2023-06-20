@@ -67,7 +67,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId());
+        return Child::where('account_id', accountId())->where('current_grade', GradeLevel::Grade8);
     }
 
     protected function getTableColumns(): array 

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
+use Livewire\Component as Livewire;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\Child;
@@ -23,7 +24,7 @@ trait SiblingFormTrait{
     {
         return [
             Repeater::make('siblings')
-            ->createItemButtonLabel('Add Children')
+            ->createItemButtonLabel('Add Sibling')
             ->defaultItems(1)
             ->schema([
                 Hidden::make('id')
@@ -74,7 +75,8 @@ trait SiblingFormTrait{
                     ->lazy()
                     ->required()
                     ->email()
-                    ->afterStateUpdated(function(Closure $get, $state){
+                    ->afterStateUpdated(function(Closure $get, Component $component, $state){
+                        $livewire->validateOnly($component->getStatePath());
                         $this->autoSaveSibling($get('id'), 'personal_email', $state);
                     }),
                 Select::make('current_school')

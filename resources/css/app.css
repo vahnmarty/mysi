@@ -33,3 +33,7 @@ html, body{
 .choices.is-disabled .choices__inner{
     @apply bg-gray-200;
 }
+
+.filament-table-repeater-column{
+    @apply border-0 border-none;
+}
