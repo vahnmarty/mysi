@@ -11,9 +11,11 @@
 
             {{ $this->form }}
 
-            <div class="flex justify-end mt-8">
-                <button type="submit" class="btn-primary">Save Changes</button>
+            @if($is_validated)
+            <div class="flex justify-center mt-8">
+                <button type="submit" class="btn-primary">Pay Fee and Submit Application</button>
             </div>
+            @endif
         </form>
     </div>
 </div>

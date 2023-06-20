@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Application;
 
+use Auth;
 use Livewire\Component;
 use App\Models\Application;
 use Illuminate\Support\HtmlString;
@@ -12,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use App\Forms\Components\WritingSampleSection;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Http\Livewire\Application\Forms\FinalStepsTrait;
 use App\Http\Livewire\Application\Forms\LegacyFormTrait;
 use App\Http\Livewire\Application\Forms\ParentFormTrait;
 use App\Http\Livewire\Application\Forms\AddressFormTrait;
@@ -29,17 +31,17 @@ class ApplicationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Import Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait, ActivityFormTrait, WritingSampleTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait, ActivityFormTrait, WritingSampleTrait, FinalStepsTrait;
     
     # Model
     public Application $app;
 
     # Constant Variables
-    const ChildModel = 'child';
     const NotListed = 'Not Listed';
 
     # Form
     public $data = [];
+    public $is_validated = false;
 
     public function render()
     {
@@ -50,6 +52,7 @@ class ApplicationForm extends Component implements HasForms
     {
         $this->app = Application::with('activities', 'student')->whereUuid($uuid)->firstOrFail();
         $account = $this->app->account->load('addresses', 'parents', 'children', 'legacies');
+        $user = Auth::user();
 
         $data = $this->app->toArray();
         $data['student'] = $this->app->student->toArray();
@@ -58,6 +61,11 @@ class ApplicationForm extends Component implements HasForms
         $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
         $data['legacy'] = $account->legacies->toArray();
         $data['activities'] = $this->app->activities->toArray();
+        $data['billing'] = [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email
+        ];
         $data['autosave'] = true;
 
         $this->form->fill($data);
@@ -156,9 +164,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Final Steps')
-                ->schema([
-
-                ])
+                ->schema($this->getFinalStepsForm())
                 ->collapsible()
                 ->collapsed(true),
         ];
@@ -188,8 +194,6 @@ class ApplicationForm extends Component implements HasForms
 
         $model->$column = $value;
         $model->save();
-
-        
     }
 
     public function __autoSave($model, $column, $value)
@@ -205,6 +209,13 @@ class ApplicationForm extends Component implements HasForms
                 ->danger()
                 ->send();
         }
+    }
+
+    public function validateForm()
+    {
+        $data = $this->form->getState();
+
+        $this->is_validated = true;
     }
 
 }

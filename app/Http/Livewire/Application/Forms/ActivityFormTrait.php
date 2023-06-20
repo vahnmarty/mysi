@@ -58,7 +58,7 @@ trait ActivityFormTrait{
                     ->lazy()
                     ->required()
                     ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveActivity($get('id'), 'number_of_years', $state);
+                        $this->autoSaveActivity($get('id'), 'hours_per_week', $state);
                     }),
                 Textarea::make('activity_information')
                     ->label("Explain your involvement in this activity.  For example, the team(s) you play on, position(s) you play, concert(s)/recital(s) you have performed in, and/or why you are involved in this activity.")
