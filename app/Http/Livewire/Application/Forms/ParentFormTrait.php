@@ -6,13 +6,13 @@ use Str;
 use Closure;
 use App\Enums\Suffix;
 use App\Models\School;
-use App\Models\Parents as ParentModel;
 use App\Enums\Salutation;
 use App\Enums\AddressType;
 use App\Enums\LivingSituationType;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use App\Models\Parents as ParentModel;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Component;
@@ -20,6 +20,7 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
+use Wiebenieuwenhuis\FilamentCharCounter\Textarea as NewTextArea;
 
 trait ParentFormTrait{
 
@@ -113,11 +114,12 @@ trait ParentFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_phone_ext', $state);
                         }),
-                    Textarea::make('schools_attended')
+                    NewTextArea::make('schools_attended')
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'schools_attended', $state);
                         })
+                        ->maxLength(500)
                         ->label('List all high schools, colleges, or graduate schools you have attended')
                         ->helperText('(Please limit answer to 75 words.)'),
                 ])
