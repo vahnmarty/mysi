@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.12",
         "phpsa/filament-password-reveal": "^1.1",
-        "wiebenieuwenhuis/filament-char-counter": "^1.1"
+        "wiebenieuwenhuis/filament-char-counter": "^1.1",
+        "authorizenet/authorizenet": "2.0.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

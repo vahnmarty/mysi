@@ -56,7 +56,7 @@ trait FinalStepsTrait{
                         <button type="button" wire:click="validateForm" class="btn-primary">Continue</button>
                 </div>')),
             Fieldset::make('Billing & Payment')
-                ->visible(fn() => $this->is_validated)
+                ->visible(fn(Closure $get) => $this->is_validated && $get('agree_to_release_record') && $get('agree_academic_record_is_true') )
                 ->columns(3)
                 ->schema([
                     TextInput::make('billing.first_name')
