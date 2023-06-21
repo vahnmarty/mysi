@@ -7,7 +7,7 @@
 
 
     <div class="pb-32 mt-8">
-        <form wire:submit.prevent="save">
+        <form wire:submit.prevent="submit">
 
             {{ $this->form }}
 

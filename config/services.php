@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'authorize' => [
+        'login_id' => env("AUTHORIZE_LOGIN_ID"),
+        'transaction_key' => env('AUTHORIZE_TRANSACTION_KEY')
+    ]
+
 ];

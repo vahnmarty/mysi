@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Application;
 
 use Auth;
+use App\Models\Payment;
 use Livewire\Component;
+use App\Enums\PaymentType;
 use App\Models\Application;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Toggle;
@@ -11,8 +13,10 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use net\authorize\api\contract\v1 as AnetAPI;
 use App\Forms\Components\WritingSampleSection;
 use Filament\Forms\Concerns\InteractsWithForms;
+use net\authorize\api\controller as AnetController;
 use App\Http\Livewire\Application\Forms\FinalStepsTrait;
 use App\Http\Livewire\Application\Forms\LegacyFormTrait;
 use App\Http\Livewire\Application\Forms\ParentFormTrait;
@@ -22,6 +26,8 @@ use App\Http\Livewire\Application\Forms\StudentFormTrait;
 use App\Http\Livewire\Application\Forms\ActivityFormTrait;
 use App\Http\Livewire\Application\Forms\FamilyMatrixTrait;
 use App\Http\Livewire\Application\Forms\ReligionFormTrait;
+
+
 use App\Http\Livewire\Application\Forms\WritingSampleTrait;
 use App\Http\Livewire\Application\Forms\ParentStatementTrait;
 use App\Http\Livewire\Application\Forms\StudentStatementTrait;
@@ -64,7 +70,14 @@ class ApplicationForm extends Component implements HasForms
         $data['billing'] = [
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'email' => $user->email
+            'email' => $user->email,
+            'card_number' => '4111111111111111',
+            'card_cvv' => '131',
+            'card_expiration' => '06/30',
+            'address' => 'Zone Meteor',
+            'city' => 'Iligan City',
+            'state' => 'Florida',
+            'zip_code' => '11311'
         ];
         $data['autosave'] = true;
 
@@ -222,6 +235,139 @@ class ApplicationForm extends Component implements HasForms
             'user_id' => Auth::id(),
             'initial_amount' => 100
         ]);
+    }
+
+    function authorizeCreditCard($data)
+    {
+        $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+        $merchantAuthentication->setName(config('services.authorize.login_id'));
+        $merchantAuthentication->setTransactionKey(config('services.authorize.transaction_key'));
+        
+        // Set the transaction's refId
+        $refId = 'ref' . time();
+
+        // Create the payment data for a credit card
+        $creditCard = new AnetAPI\CreditCardType();
+        $creditCard->setCardNumber($data['card_number']);
+        $creditCard->setExpirationDate("2038-12");
+        $creditCard->setCardCode($data['card_cvv']);
+
+        // Add the payment data to a paymentType object
+        $paymentOne = new AnetAPI\PaymentType();
+        $paymentOne->setCreditCard($creditCard);
+
+        // Create order information
+        $order = new AnetAPI\OrderType();
+
+        $invoice_number = PaymentType::AppFee .'-'. $this->app->id ;
+
+        $order->setInvoiceNumber($invoice_number);
+        $order->setDescription("Payment For Admission Application");
+
+        // Set the customer's Bill To address
+        $customerAddress = new AnetAPI\CustomerAddressType();
+        $customerAddress->setFirstName($data['first_name']);
+        $customerAddress->setLastName($data['last_name']);
+        $customerAddress->setAddress($data['address']);
+        $customerAddress->setCity($data['city']);
+        $customerAddress->setState($data['state']);
+        $customerAddress->setZip($data['zip_code']);
+        $customerAddress->setCountry("USA");
+
+        // Set the customer's identifying information
+        $customerData = new AnetAPI\CustomerDataType();
+        $customerData->setType("individual");
+        $customerData->setId(Auth::id());
+        $customerData->setEmail($data['email']);
+
+
+        # Variables
+        $amount = config('settings.payment.application_fee');
+
+
+        // Create a TransactionRequestType object and add the previous objects to it
+        $transactionRequestType = new AnetAPI\TransactionRequestType();
+        $transactionRequestType->setTransactionType("authCaptureTransaction"); 
+        $transactionRequestType->setAmount($amount);
+        $transactionRequestType->setOrder($order);
+        $transactionRequestType->setPayment($paymentOne);
+        $transactionRequestType->setBillTo($customerAddress);
+        $transactionRequestType->setCustomer($customerData);
+
+        // Assemble the complete transaction request
+        $request = new AnetAPI\CreateTransactionRequest();
+        $request->setMerchantAuthentication($merchantAuthentication);
+        $request->setRefId($refId);
+        $request->setTransactionRequest($transactionRequestType);
+
+        // Create the controller and get the response
+        $controller = new AnetController\CreateTransactionController($request);
+        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+
+
+        if ($response != null) {
+            // Check to see if the API request was successfully received and acted upon
+            if ($response->getMessages()->getResultCode() == "Ok") {
+                // Since the API request was successful, look for a transaction response
+                // and parse it to display the results of authorizing the card
+                $tresponse = $response->getTransactionResponse();
+            
+                if ($tresponse != null && $tresponse->getMessages() != null) {
+
+                    $payment = Payment::firstOrCreate(
+                        [
+                        'application_id' => 1,
+                        'user_id' => Auth::id(),
+                        ],
+                        [  
+                        'name_on_card' => $data['first_name'] . ' ' . $data['last_name'],
+                        'payment_type' => PaymentType::AppFee,
+                        'transaction_id' => $tresponse->getResponseCode(),
+                        'auth_id' => $tresponse->getAuthCode(),
+                        'initial_amount' => $amount,
+                        'final_amount' => $amount,
+                        'quantity' => 1,
+                        'total_amount' => $amount
+                    ]);
+
+                    echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
+                    echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
+                    echo " Message Code: " . $tresponse->getMessages()[0]->getCode() . "\n";
+                    echo " Auth Code: " . $tresponse->getAuthCode() . "\n";
+                    echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
+                } else {
+                    echo "Transaction Failed \n";
+                    if ($tresponse->getErrors() != null) {
+                        echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
+                        echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
+                    }
+                }
+                // Or, print errors if the API request wasn't successful
+            } else {
+                echo "Transaction Failed \n";
+                $tresponse = $response->getTransactionResponse();
+            
+                if ($tresponse != null && $tresponse->getErrors() != null) {
+                    echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
+                    echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
+                } else {
+                    echo " Error Code  : " . $response->getMessages()->getMessage()[0]->getCode() . "\n";
+                    echo " Error Message : " . $response->getMessages()->getMessage()[0]->getText() . "\n";
+                }
+            }      
+        } else {
+            echo  "No response returned \n";
+        }
+
+        return $response;
+    }
+
+
+    public function submit()
+    {
+        $data = $this->form->getState();
+
+        $this->authorizeCreditCard($data['billing']);
     }
 
 }
