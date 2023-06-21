@@ -216,6 +216,12 @@ class ApplicationForm extends Component implements HasForms
         $data = $this->form->getState();
 
         $this->is_validated = true;
+
+        $payment = Payment::firstOrCreate([
+            'application_id' => $this->app->id,
+            'user_id' => Auth::id(),
+            'initial_amount' => 100
+        ]);
     }
 
 }

@@ -48,4 +48,14 @@ class Application extends Model
     {
         return $this->hasMany(Activity::class);
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

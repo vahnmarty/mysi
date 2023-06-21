@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\SamplePayment;
 use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\RegisterPage;
@@ -61,3 +62,5 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('admission', AdmissionApplication::class)->name('application.admission');
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
 });
+
+Route::get('test-payment', SamplePayment::class)->middleware('auth');
