@@ -3,11 +3,13 @@
 namespace App\Http\Livewire\Application;
 
 use Auth;
+use Mail;
 use App\Models\Payment;
 use Livewire\Component;
 use App\Enums\PaymentType;
 use App\Models\Application;
 use Illuminate\Support\HtmlString;
+use App\Mail\NewApplicationSubmitted;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
@@ -17,6 +19,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use App\Forms\Components\WritingSampleSection;
 use Filament\Forms\Concerns\InteractsWithForms;
 use net\authorize\api\controller as AnetController;
+use App\Notifications\Admission\ApplicationSubmitted;
 use App\Http\Livewire\Application\Forms\FinalStepsTrait;
 use App\Http\Livewire\Application\Forms\LegacyFormTrait;
 use App\Http\Livewire\Application\Forms\ParentFormTrait;
@@ -26,8 +29,6 @@ use App\Http\Livewire\Application\Forms\StudentFormTrait;
 use App\Http\Livewire\Application\Forms\ActivityFormTrait;
 use App\Http\Livewire\Application\Forms\FamilyMatrixTrait;
 use App\Http\Livewire\Application\Forms\ReligionFormTrait;
-
-
 use App\Http\Livewire\Application\Forms\WritingSampleTrait;
 use App\Http\Livewire\Application\Forms\ParentStatementTrait;
 use App\Http\Livewire\Application\Forms\StudentStatementTrait;
@@ -59,7 +60,9 @@ class ApplicationForm extends Component implements HasForms
     {
         $this->app = Application::with('activities', 'student')->whereUuid($uuid)->firstOrFail();
         
-        $status = $this->app->status()->firstOrCreate([
+        $status = $this->app->appStatus()->firstOrCreate([
+            'application_id' => $this->app->id,
+        ],[
             'application_started' => 1,
             'application_start_date' => now()
         ]);
@@ -309,7 +312,7 @@ class ApplicationForm extends Component implements HasForms
             
                 if ($tresponse != null && $tresponse->getMessages() != null) {
 
-                    $payment = Payment::firstOrCreate(
+                    $payment = Payment::updateOrCreate(
                         [
                         'application_id' => 1,
                         'user_id' => Auth::id(),
@@ -387,12 +390,19 @@ class ApplicationForm extends Component implements HasForms
 
         if($payment instanceof Payment){
 
-            $app = Application::with('status')->find($this->app->id);
+            $app = Application::with('appStatus')->find($this->app->id);
 
-            $app->status()->update([
+            $app->appStatus()->update([
                 'application_submitted' => true,
                 'application_submit_date' => now()
             ]);
+
+
+            Auth::user()->notify( new ApplicationSubmitted($app));
+
+            Mail::to(config('settings.si.admissions.email'))->send(new NewApplicationSubmitted($app));
+
+            
 
             $this->is_submitted = true;
 

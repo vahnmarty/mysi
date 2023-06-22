@@ -98,7 +98,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                         'record_type_id' => RecordType::Student
                     ]);
 
-                    $app->status()->create([
+                    $app->appStatus()->create([
                         'application_started' => 1,
                         'application_start_date' => now()
                     ]);

@@ -59,7 +59,7 @@ class Application extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function status()
+    public function appStatus()
     {
         return $this->hasOne(ApplicationStatus::class);
     }
