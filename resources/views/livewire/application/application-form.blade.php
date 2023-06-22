@@ -28,7 +28,7 @@
                 x-show="open"
                 x-cloak
                 class="flex justify-center mt-8">
-                <button type="submit" x-on:click="$dispatch('page-loading-open')" class="btn-primary">Pay Fee and Submit Application</button>
+                <button type="button" wire:click="submit" x-on:click="$dispatch('page-loading-open')" class="btn-primary">Pay Fee and Submit Application</button>
             </div>
         </form>
         @endif

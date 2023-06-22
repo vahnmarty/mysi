@@ -86,13 +86,6 @@ class ApplicationForm extends Component implements HasForms
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
-            'card_number' => '4111111111111111',
-            'card_cvv' => '131',
-            'card_expiration' => '06/30',
-            'address' => 'Zone Meteor',
-            'city' => 'Iligan City',
-            'state' => 'Florida',
-            'zip_code' => '11311'
         ];
         $data['autosave'] = true;
 
@@ -401,13 +394,11 @@ class ApplicationForm extends Component implements HasForms
                 'application_submitted' => true,
                 'application_submit_date' => now()
             ]);
-
+            
 
             Auth::user()->notify( new ApplicationSubmitted($app));
 
             Mail::to(config('settings.si.admissions.email'))->send(new NewApplicationSubmitted($app));
-
-            
 
             $this->is_submitted = true;
 
