@@ -98,6 +98,11 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                         'record_type_id' => RecordType::Student
                     ]);
 
+                    $app->status()->create([
+                        'application_started' => 1,
+                        'application_start_date' => now()
+                    ]);
+
                     return redirect()->route('application.form', $app->uuid);
                 }),
         ];
@@ -188,36 +193,6 @@ class AdmissionApplication extends Component implements HasTable, HasForms
         ];
     }
 
-    public function save()
-    {
-        $data = $this->form->getState();
-
-        if($this->action == CrudAction::Create){
-            Address::create($data);
-
-            Notification::make()
-                ->title('Address created successfully')
-                ->success()
-                ->send();
-
-            $this->reset('data');
-
-        }
-        else{
-            $model = Address::find($this->model_id);
-            $model->update($data);
-
-            Notification::make()
-                ->title('Address updated successfully')
-                ->success()
-                ->send();
-
-            $this->reset('data');
-
-        }
-
-        $this->enable_form = false;
-        
-    }
+    
 
 }

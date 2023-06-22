@@ -43,6 +43,8 @@
 
     @include('includes.portal.footer')
 
+    @include('includes.portal.page-loader')
+
     @livewire('notifications')
 
 </body>

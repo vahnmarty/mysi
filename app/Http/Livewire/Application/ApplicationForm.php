@@ -48,6 +48,7 @@ class ApplicationForm extends Component implements HasForms
     # Form
     public $data = [];
     public $is_validated = false;
+    public $is_submitted = false;
 
     public function render()
     {
@@ -57,6 +58,12 @@ class ApplicationForm extends Component implements HasForms
     public function mount($uuid)
     {
         $this->app = Application::with('activities', 'student')->whereUuid($uuid)->firstOrFail();
+        
+        $status = $this->app->status()->firstOrCreate([
+            'application_started' => 1,
+            'application_start_date' => now()
+        ]);
+
         $account = $this->app->account->load('addresses', 'parents', 'children', 'legacies');
         $user = Auth::user();
 
@@ -115,18 +122,6 @@ class ApplicationForm extends Component implements HasForms
             Toggle::make('autosave'),
             Section::make('Student Information')
                 ->collapsible()
-                // ->description(new HtmlString('
-                // <div class="flex items-start gap-8 mt-8">
-                //     <strong>DIRECTIONS:</strong>
-                //     <div>
-                //         <p>
-                //           This section is to be completed by a parent/guardian. Please add all necessary information for the student.  Required fields are in red.
-                //         </p>
-                //         <p>
-                //         Please make sure every required field is completed before saving your work. To save your work, you must click the Next/Save button at the bottom of the page.
-                //         </p>
-                //     </div>
-                // </div>'))
                 ->schema($this->getStudentForm()),
             Section::make('Address Information')
                 ->schema($this->getAddressForm())
@@ -259,7 +254,7 @@ class ApplicationForm extends Component implements HasForms
         // Create order information
         $order = new AnetAPI\OrderType();
 
-        $invoice_number = PaymentType::AppFee .'-'. $this->app->id ;
+        $invoice_number = PaymentType::AppFee .'-'. $this->app->id . '-' . date('s') ;
 
         $order->setInvoiceNumber($invoice_number);
         $order->setDescription("Payment For Admission Application");
@@ -330,11 +325,14 @@ class ApplicationForm extends Component implements HasForms
                         'total_amount' => $amount
                     ]);
 
-                    echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
-                    echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
-                    echo " Message Code: " . $tresponse->getMessages()[0]->getCode() . "\n";
-                    echo " Auth Code: " . $tresponse->getAuthCode() . "\n";
-                    echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
+                    return $payment;
+
+                    // echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
+                    // echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
+                    // echo " Message Code: " . $tresponse->getMessages()[0]->getCode() . "\n";
+                    // echo " Auth Code: " . $tresponse->getAuthCode() . "\n";
+                    // echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
+
                 } else {
                     echo "Transaction Failed \n";
                     if ($tresponse->getErrors() != null) {
@@ -346,17 +344,33 @@ class ApplicationForm extends Component implements HasForms
             } else {
                 echo "Transaction Failed \n";
                 $tresponse = $response->getTransactionResponse();
-            
+                $code = '';
+                $message = '';
+                
                 if ($tresponse != null && $tresponse->getErrors() != null) {
-                    echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
-                    echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
+                    $code = $tresponse->getErrors()[0]->getErrorCode();
+                    $message = $tresponse->getErrors()[0]->getErrorText() ;
                 } else {
-                    echo " Error Code  : " . $response->getMessages()->getMessage()[0]->getCode() . "\n";
-                    echo " Error Message : " . $response->getMessages()->getMessage()[0]->getText() . "\n";
+                    $code = $response->getMessages()->getMessage()[0]->getCode();
+                    $message = $response->getMessages()->getMessage()[0]->getText();
                 }
+
+                Notification::make()
+                    ->title('Transaction Failed! ' . $code)
+                    ->danger()
+                    ->send();
+
+                Notification::make()
+                    ->title('Transaction Failed! ' . $message)
+                    ->danger()
+                    ->send();
             }      
         } else {
-            echo  "No response returned \n";
+
+            Notification::make()
+                ->title('No response returned')
+                ->danger()
+                ->send();
         }
 
         return $response;
@@ -367,7 +381,25 @@ class ApplicationForm extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        $this->authorizeCreditCard($data['billing']);
+        $this->dispatchBrowserEvent('page-loading-open');
+
+        $payment = $this->authorizeCreditCard($data['billing']);
+
+        if($payment instanceof Payment){
+
+            $app = Application::with('status')->find($this->app->id);
+
+            $app->status()->update([
+                'application_submitted' => true,
+                'application_submit_date' => now()
+            ]);
+
+            $this->is_submitted = true;
+
+            $this->dispatchBrowserEvent('page-loading-close');
+        }
+
+        
     }
 
 }
