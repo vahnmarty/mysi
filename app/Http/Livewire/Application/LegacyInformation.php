@@ -5,17 +5,14 @@ namespace App\Http\Livewire\Application;
 use Auth;
 use Closure;
 use App\Models\User;
-use App\Enums\Gender;
-use App\Enums\Suffix;
+use App\Models\Legacy;
 use App\Models\School;
-use App\Models\Address;
 use Livewire\Component;
 use App\Enums\CrudAction;
 use App\Enums\GradeLevel;
 use App\Enums\ParentType;
 use App\Enums\RacialType;
 use App\Enums\Salutation;
-use App\Enums\AddressType;
 use App\Enums\ConditionBoolean;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
@@ -36,7 +33,7 @@ use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class AddressInformation extends Component implements HasTable, HasForms
+class LegacyInformation extends Component implements HasTable, HasForms
 {
     use InteractsWithTable;
     use InteractsWithForms;
@@ -50,7 +47,7 @@ class AddressInformation extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.address-information');
+        return view('livewire.application.legacy-information');
     }
 
     public function mount()
@@ -66,15 +63,16 @@ class AddressInformation extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Address::where('account_id', accountId());
+        return Legacy::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('address_type'),
-            TextColumn::make('address')->formatStateUsing(fn(Address $record) => $record->getFullAddress() ),
-            TextColumn::make('phone_number')->label('Phone'),
+            TextColumn::make('first_name'),
+            TextColumn::make('last_name'),
+            TextColumn::make('relationship_type'),
+            TextColumn::make('graduation_year'),
         ];
     }
 
@@ -82,7 +80,7 @@ class AddressInformation extends Component implements HasTable, HasForms
     {
         return [ 
             Action::make('edit')
-                ->action(function(Address $record){
+                ->action(function(Legacy $record){
                     $this->model_id = $record->id;
                     $this->action = CrudAction::Update;
                     $this->enable_form = true;
@@ -115,17 +113,17 @@ class AddressInformation extends Component implements HasTable, HasForms
 
     protected function getTableEmptyStateIcon(): ?string 
     {
-        return 'heroicon-o-collection';
+        return 'heroicon-o-user';
     }
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Address Data yet';
+        return 'No Legacy Data yet';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a address information using the form below.';
+        return 'You may create a legacy information using the form below.';
     }
 
     protected function getFormStatePath(): string
@@ -136,50 +134,28 @@ class AddressInformation extends Component implements HasTable, HasForms
     protected function getFormSchema(): array
     {
         return [
-            Hidden::make('account_id')
-                ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
-                    if(!$state){
-                        $set('account_id', accountId());
-                    }
-                }),
             Grid::make(2)
-                ->schema([
-                    Grid::make(1)
-                        ->columnSpan(1)
-                        ->schema([
-                            TextInput::make('address')
-                                ->label('Street Address')
-                                ->required(),
-                            TextInput::make('city')
-                                ->required(),
-                            Select::make('state')
-                                ->options(us_states())
-                                ->preload()
-                                ->searchable()
-                                ->required(),
-                            TextInput::make('zip_code')
-                                ->label('ZIP Code')
-                                ->minLength(4)
-                                ->maxLength(5)
-                                ->numeric()
-                                ->required(),
-                        ]),
-                    Grid::make(1)
-                        ->columnSpan(1)
-                        ->schema([
-                            Select::make('address_type')
-                                ->label('Address Type')
-                                ->options(AddressType::asSameArray())
-                                ->required(),
-                            TextInput::make('phone_number')
-                                ->label('Phone at Location')
-                                ->required()
-                                ->mask(fn (Mask $mask) => $mask->pattern('0{0}000-000-0000'))
-                                ->placeholder('+1 000-000-0000')
-                                ->tel()
-                                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                        ])
-                ]),
+            ->schema([
+                Hidden::make('account_id')
+                    ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
+                        if(!$state){
+                            $set('account_id', accountId());
+                        }
+                    }),
+                TextInput::make('first_name')->label('Legal First Name')->required(),
+                TextInput::make('last_name')->label('Legal Last Name')->required(),
+                Select::make('relationship_type')
+                    ->options(ParentType::asSameArray())
+                    ->required(),
+                TextInput::make('graduation_year')
+                    ->label('Graduation Year')
+                    ->numeric()
+                    ->minLength(4)
+                    ->maxLength(4)
+                    ->maxValue(date('Y'))
+                    ->required(),
+            ])
+            
         ];
     }
 
@@ -188,10 +164,10 @@ class AddressInformation extends Component implements HasTable, HasForms
         $data = $this->form->getState();
 
         if($this->action == CrudAction::Create){
-            Address::create($data);
+            Legacy::create($data);
 
             Notification::make()
-                ->title('Address created successfully')
+                ->title('Parent created successfully')
                 ->success()
                 ->send();
 
@@ -199,11 +175,11 @@ class AddressInformation extends Component implements HasTable, HasForms
 
         }
         else{
-            $model = Address::find($this->model_id);
+            $model = Legacy::find($this->model_id);
             $model->update($data);
 
             Notification::make()
-                ->title('Address updated successfully')
+                ->title('Parent updated successfully')
                 ->success()
                 ->send();
 

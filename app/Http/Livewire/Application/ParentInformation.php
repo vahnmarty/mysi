@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application;
 
 use Auth;
+use Closure;
 use App\Models\User;
 use App\Enums\Suffix;
 use App\Models\Parents;
@@ -133,7 +134,12 @@ class ParentInformation extends Component implements HasTable, HasForms
     protected function getFormSchema(): array
     {
         return [
-            Hidden::make('account_id'),
+            Hidden::make('account_id')
+            ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
+                if(!$state){
+                    $set('account_id', accountId());
+                }
+            }),
             Grid::make(2)
                 ->schema([
                     Grid::make(1)

@@ -42,7 +42,7 @@
                     Address
                 </x-sidebar-item>
                 @if(Auth::user()->account?->applications()->count())
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-archive class="w-4 h-4" />
                     </x-slot>
@@ -192,7 +192,7 @@
                 </x-sidebar-item>
 
                 @if(Auth::user()->account?->applications()->count())
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-archive class="w-4 h-4" />
                     </x-slot>

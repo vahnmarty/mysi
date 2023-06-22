@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application;
 
 use Auth;
+use Closure;
 use App\Models\User;
 use App\Enums\Gender;
 use App\Enums\Suffix;
@@ -138,7 +139,12 @@ class ChildrenInformation extends Component implements HasTable, HasForms
         return [
             Grid::make(3)
             ->schema([
-                Hidden::make('account_id'),
+                Hidden::make('account_id')
+                ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
+                    if(!$state){
+                        $set('account_id', accountId());
+                    }
+                }),
                 TextInput::make('first_name')->label('Legal First Name')->required(),
                 TextInput::make('middle_name')->label('Legal Middle Name')->required(),
                 TextInput::make('last_name')->label('Legal Last Name')->required(),
