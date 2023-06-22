@@ -67,6 +67,11 @@ class ApplicationForm extends Component implements HasForms
             'application_start_date' => now()
         ]);
 
+        if($status->application_submitted){
+            $this->is_submitted = true;
+            return;
+        }
+
         $account = $this->app->account->load('addresses', 'parents', 'children', 'legacies');
         $user = Auth::user();
 

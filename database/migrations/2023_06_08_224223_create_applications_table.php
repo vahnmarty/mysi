@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->uuid('uuid');
             $table->unsignedBigInteger('child_id');
-            $table->string('status')->nullable();
             $table->string('salesforce_id')->nullable();
             $table->string('record_type_id')->nullable();
 

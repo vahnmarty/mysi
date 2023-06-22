@@ -15,6 +15,8 @@ class Application extends Model
 
     protected $guarded = [] ;
 
+    protected $appends = ['status', 'record_type'];
+
     public static function boot()
     {
         parent::boot();
@@ -62,5 +64,19 @@ class Application extends Model
     public function appStatus()
     {
         return $this->hasOne(ApplicationStatus::class);
+    }
+
+    public function getRecordTypeAttribute()
+    {
+        return RecordType::fromValue($this->record_type_id)->description;
+    }
+
+    public function getStatusAttribute()
+    {
+        if($this->appStatus->application_submitted){
+            return 'Submitted';
+        }
+
+        return '--';
     }
 }
