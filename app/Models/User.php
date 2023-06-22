@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\Auth\ForgotUsername as ForgotUsernameNotification;
 
+use Filament\Models\Contracts\FilamentUser;
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -101,5 +103,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function emailRequests()
     {
         return $this->hasMany(EmailRequest::class);
+    }
+
+    public function getUserName(Model | Authenticatable $user): string
+
+    {
+
+        if ($user instanceof HasName) {
+
+            return $user->getFilamentName();
+
+        }
+
+
+
+        return $user->getAttributeValue('first_name');
+
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->first_name  . ' ' . $this->last_name;
+    }
+
+    public function canAccessFilament(): bool
+    {
+        return $this->hasRole('admin');
     }
 }

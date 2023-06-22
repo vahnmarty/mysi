@@ -20,6 +20,7 @@ class UsersTableSeeder extends Seeder
             $user->last_name = 'Admission';
             $user->email = config('settings.si.admissions.email');
             $user->password = bcrypt('password');
+            $user->email_verified_at = now();
             $user->save();
 
             $user->assignRole('admin');

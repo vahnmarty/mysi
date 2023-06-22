@@ -11,6 +11,7 @@ class UserObserver
      */
     public function created(User $user): void
     {
+        $user->assignRole('user');
         $user->addPasswordHistory();
         $user->addEmailHistory();
     }
