@@ -48,13 +48,13 @@
                     </x-slot>
                     Legacy
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('healthcare') }}" :active="request()->is('healthcare')">
                     <x-slot name="icon">
                         <x-heroicon-o-hand class="w-4 h-4" />
                     </x-slot>
                     Healthcare
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('emergency-contact') }}" :active="request()->is('emergency-contact')">
                     <x-slot name="icon">
                         <x-heroicon-o-identification class="w-4 h-4" />
                     </x-slot>
@@ -192,19 +192,19 @@
                 </x-sidebar-item>
 
                 @if(Auth::user()->account?->applications()->count())
-                <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('legacy')">
                     <x-slot name="icon">
                         <x-heroicon-o-archive class="w-4 h-4" />
                     </x-slot>
                     Legacy
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('healthcare') }}" :active="request()->is('healthcare')">
                     <x-slot name="icon">
                         <x-heroicon-o-hand class="w-4 h-4" />
                     </x-slot>
                     Healthcare
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('emergecy-contact') }}" :active="request()->is('emergecy-contact')">
                     <x-slot name="icon">
                         <x-heroicon-o-identification class="w-4 h-4" />
                     </x-slot>

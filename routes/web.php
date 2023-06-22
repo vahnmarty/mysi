@@ -16,6 +16,7 @@ use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
+use App\Http\Livewire\Application\HealthcareInformation;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('children', ChildrenInformation::class)->name('application.children');
     Route::get('address', AddressInformation::class)->name('application.address');
     Route::get('legacy', LegacyInformation::class)->name('application.legacy');
+    Route::get('healthcare', HealthcareInformation::class)->name('application.healthcare');
     Route::get('admission', AdmissionApplication::class)->name('application.admission');
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
 });

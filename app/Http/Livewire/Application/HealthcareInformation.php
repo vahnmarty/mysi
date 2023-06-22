@@ -5,14 +5,9 @@ namespace App\Http\Livewire\Application;
 use Auth;
 use Closure;
 use App\Models\User;
-use App\Models\Legacy;
-use App\Models\School;
 use Livewire\Component;
 use App\Enums\CrudAction;
-use App\Enums\GradeLevel;
-use App\Enums\ParentType;
-use App\Enums\RacialType;
-use App\Enums\Salutation;
+use App\Models\Healthcare;
 use App\Enums\ConditionBoolean;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
@@ -33,7 +28,7 @@ use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class LegacyInformation extends Component implements HasTable, HasForms
+class HealthcareInformation extends Component implements HasTable, HasForms
 {
     use InteractsWithTable;
     use InteractsWithForms;
@@ -47,7 +42,7 @@ class LegacyInformation extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.legacy-information');
+        return view('livewire.application.healthcare-information');
     }
 
     public function mount()
@@ -63,19 +58,21 @@ class LegacyInformation extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Legacy::where('account_id', accountId());
+        return Healthcare::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 
     {
         return [
+            TextColumn::make('insurance_company'),
+            TextColumn::make('policy_number'),
             TextColumn::make('first_name')
-                ->label('Legacy Name')
-                ->formatStateUsing(function(Legacy $record){
+                ->formatStateUsing(function(Healthcare $record){
                     return $record->first_name . ' ' . $record->last_name;
-                }),
-            TextColumn::make('relationship_type'),
-            TextColumn::make('graduation_year'),
+                })
+                ->label("Doctor's Name"),
+            TextColumn::make('phone')
+                ->label("Doctor's Phone"),
         ];
     }
 
@@ -83,7 +80,7 @@ class LegacyInformation extends Component implements HasTable, HasForms
     {
         return [ 
             Action::make('edit')
-                ->action(function(Legacy $record){
+                ->action(function(Healthcare $record){
                     $this->model_id = $record->id;
                     $this->action = CrudAction::Update;
                     $this->enable_form = true;
@@ -121,12 +118,12 @@ class LegacyInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Legacy Data yet';
+        return 'No Healthcare Data yet';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a legacy information using the form below.';
+        return 'You may create a healthcare information using the form below.';
     }
 
     protected function getFormStatePath(): string
@@ -145,19 +142,26 @@ class LegacyInformation extends Component implements HasTable, HasForms
                             $set('account_id', accountId());
                         }
                     }),
-                TextInput::make('first_name')->label('Legal First Name')->required(),
-                TextInput::make('last_name')->label('Legal Last Name')->required(),
-                
-                Select::make('relationship_type')
-                    ->options(ParentType::asSameArray())
+                TextInput::make('insurance_company')
+                    ->label('Medical Insurance Company')
                     ->required(),
-                TextInput::make('graduation_year')
-                    ->label('Graduation Year')
-                    ->numeric()
-                    ->minLength(4)
-                    ->maxLength(4)
-                    ->maxValue(date('Y'))
+                TextInput::make('policy_number')
+                    ->label('Medical Policy Number')
                     ->required(),
+                TextInput::make('first_name')
+                    ->label("Physician's First Name")
+                    ->required(),
+                TextInput::make('last_name')
+                    ->label("Physician's Last Name")
+                    ->required(),
+                TextInput::make('phone')
+                    ->label("Physician's Phone Number")
+                    ->tel()
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                    ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
+                    ->required(),
+                TextInput::make('phone_extension')
+                    ->label("Physician's Extension")
             ])
             
         ];
@@ -168,7 +172,7 @@ class LegacyInformation extends Component implements HasTable, HasForms
         $data = $this->form->getState();
 
         if($this->action == CrudAction::Create){
-            Legacy::create($data);
+            Healthcare::create($data);
 
             Notification::make()
                 ->title('Parent created successfully')
@@ -179,7 +183,7 @@ class LegacyInformation extends Component implements HasTable, HasForms
 
         }
         else{
-            $model = Legacy::find($this->model_id);
+            $model = Healthcare::find($this->model_id);
             $model->update($data);
 
             Notification::make()
