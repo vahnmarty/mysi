@@ -21,3 +21,9 @@ if (! function_exists('us_states')) {
         return $array;
     }
 }
+
+if (! function_exists('settings')) {
+    function settings($config) {
+        return \App\Models\Setting::where('config', $config)->first()?->value;
+    }
+}

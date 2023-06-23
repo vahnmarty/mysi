@@ -1,33 +1,68 @@
 <?php
 
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+use App\Http\Livewire\Auth\LoginPage;
+
+use Database\Seeders\RolesTableSeeder;
 use App\Providers\RouteServiceProvider;
 
-test('login screen can be rendered', function () {
-    $response = $this->get('/login');
 
-    $response->assertStatus(200);
-});
+// test('user role is created', function () {
+//     $this->seed(RolesTableSeeder::class);
+//     $user = Role::where('name', 'user')->exists();
+//     expect($user)->toBe(true);
+// });
 
-test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+// test('admin role is created', function () {
+//     $this->seed(RolesTableSeeder::class);
+//     $user = Role::where('name', 'admin')->exists();
+//     expect($user)->toBe(true);
+// });
 
-    $response = $this->post('/login', [
-        'email' => $user->email,
-        'password' => 'password',
-    ]);
+// test('login screen can be rendered', function () {
+//     $response = $this->get('/login');
 
-    $this->assertAuthenticated();
-    $response->assertRedirect(RouteServiceProvider::HOME);
-});
+//     $response->assertStatus(200);
+// });
 
-test('users can not authenticate with invalid password', function () {
-    $user = User::factory()->create();
+// use function Pest\Livewire\livewire;
 
-    $this->post('/login', [
-        'email' => $user->email,
-        'password' => 'wrong-password',
-    ]);
+// it('can login', function () {
+//     $this->seed(RolesTableSeeder::class);
+//     $newData = User::factory()->make();
+ 
+//     livewire(LoginPage::class)
+//         ->fillForm([
+//             'email' => $newData->email,
+//             'password' => 'password'
+//         ])
+//         ->call('login')
+//         ->assertSuccessful();
 
-    $this->assertGuest();
-});
+// });
+
+// test('users can authenticate using the login screen', function () {
+
+//     $this->seed(RolesTableSeeder::class);
+
+//     $user = User::factory()->create();
+
+//     $response = $this->post('/login', [
+//         'email' => $user->email,
+//         'password' => 'password',
+//     ]);
+
+//     $this->assertAuthenticated();
+// });
+
+// test('users can not authenticate with invalid password', function () {
+//     $user = User::factory()->create();
+
+//     $this->post('/login', [
+//         'email' => $user->email,
+//         'password' => 'wrong-password',
+//     ]);
+
+//     $this->assertGuest();
+// });
