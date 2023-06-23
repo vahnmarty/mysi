@@ -48,6 +48,7 @@ class LoginPage extends Component implements HasForms
             TextInput::make('password')
                 ->placeholder('**************')
                 ->reactive()
+                ->visible(fn() => $this->show_password)
                 ->password()
                 ->required(),
         ];

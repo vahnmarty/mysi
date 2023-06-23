@@ -22,7 +22,7 @@ trait PlacementFormTrait{
             Radio::make('entrance_exam_reservation')
                 ->label("Indicate the date and the high school where your child will take the entrance exam")
                 ->options([
-                    "si" => "At SI on [Date]",
+                    "si" => "At SI on " . settings('placement_test_date'),
                     "other" => "At Other Catholic High School"
                 ])
                 ->required()
