@@ -12,6 +12,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
 
@@ -75,13 +76,19 @@ trait AddressFormTrait{
                         ->required(),
                     Select::make('state')
                         ->options(us_states())
-                        ->disabled(fn(Closure $get) => !$get('address_type') )
+                        //->disabled(fn(Closure $get) => !$get('address_type') )
                         ->required()
-                        ->preload()
                         ->searchable()
                         ->reactive()
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveAddress($get('id'), 'state', $state);
+                            if($get('id')){
+                                $this->autoSaveAddress($get('id'), 'state', $state);
+                            }else{
+                                Notification::make()
+                                ->title('Error! Please select Address Type first.')
+                                ->danger()
+                                ->send();
+                            }
                         }),
                     TextInput::make('zip_code')
                         ->disabled(fn(Closure $get) => !$get('address_type') )

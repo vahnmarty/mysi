@@ -124,6 +124,7 @@ class ApplicationForm extends Component implements HasForms
             Toggle::make('autosave'),
             Section::make('Student Information')
                 ->collapsible()
+                ->collapsed(true)
                 ->schema($this->getStudentForm()),
             Section::make('Address Information')
                 ->schema($this->getAddressForm())
