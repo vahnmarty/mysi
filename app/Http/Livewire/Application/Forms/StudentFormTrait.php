@@ -43,7 +43,6 @@ trait StudentFormTrait{
                 ->options(Suffix::asSelectArray())
                 ->label('Suffix')
                 ->lazy()
-                ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('suffix', $state);
                 }),

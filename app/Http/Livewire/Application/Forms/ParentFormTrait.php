@@ -70,8 +70,7 @@ trait ParentFormTrait{
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'suffix', $state);
-                        })
-                        ->required(),
+                        }),
                     TextInput::make('mobile_phone')
                         ->tel()
                         ->required()
