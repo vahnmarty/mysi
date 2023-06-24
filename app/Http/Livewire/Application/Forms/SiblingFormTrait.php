@@ -59,7 +59,6 @@ trait SiblingFormTrait{
                     ->options(Suffix::asSelectArray())
                     ->label('Suffix')
                     ->lazy()
-                    ->required()
                     ->afterStateUpdated(function(Closure $get, $state){
                         $this->autoSaveSibling($get('id'), 'suffix', $state);
                     }),
