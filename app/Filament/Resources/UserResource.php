@@ -23,7 +23,10 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('first_name')->disabled(),
+                Forms\Components\TextInput::make('last_name')->disabled(),
+                Forms\Components\TextInput::make('email'),
+                Forms\Components\DatePicker::make('email_verified_at'),
             ]);
     }
 
@@ -34,6 +37,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('first_name'),
                 Tables\Columns\TextColumn::make('last_name'),
                 Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('email_verified_at')->dateTime(),
                 Tables\Columns\TextColumn::make('roles.name'),
             ])
             ->filters([
