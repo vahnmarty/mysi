@@ -155,7 +155,8 @@ class ParentInformation extends Component implements HasTable, HasForms
                             TextInput::make('last_name')
                                 ->label('Legal Last Name')
                                 ->required(),
-                            Select::make('suffix')->options(Suffix::asSelectArray())->required(),
+                            Select::make('suffix')
+                                ->options(Suffix::asSelectArray()),
                             TextInput::make('preferred_first_name')
                                 ->label('Preferred First Name (must be different from Legal First Name)')
                         ]),
