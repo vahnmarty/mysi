@@ -145,25 +145,41 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                         $set('account_id', accountId());
                     }
                 }),
-                TextInput::make('first_name')->label('Legal First Name')->required(),
-                TextInput::make('middle_name')->label('Legal Middle Name')->required(),
-                TextInput::make('last_name')->label('Legal Last Name')->required(),
-                Select::make('suffix')->options(Suffix::asSelectArray())->required(),
-                TextInput::make('preferred_first_name')->label('Preferred First Name')->helperText('(must be different from First Name)')->required(),
-                Select::make('gender')->options(Gender::asSelectArray())->required(),
-                TextInput::make('personal_email')->label('Preferred Email')->email()->required(),
+                TextInput::make('first_name')
+                    ->label('Legal First Name')
+                    ->required(),
+                TextInput::make('middle_name')
+                    ->label('Legal Middle Name')
+                    ->required(),
+                TextInput::make('last_name')
+                    ->label('Legal Last Name')
+                    ->required(),
+                Select::make('suffix')
+                    ->options(Suffix::asSelectArray()),
+                TextInput::make('preferred_first_name')
+                    ->label('Preferred First Name')
+                    ->helperText('(must be different from First Name)')
+                    ->required(),
+                Select::make('gender')
+                    ->options(Gender::asSelectArray())
+                    ->required(),
+                TextInput::make('personal_email')
+                    ->label('Preferred Email')
+                    ->email()
+                    ->required(),
                 TextInput::make('mobile_phone')
                     ->required()
                     ->mask(fn (Mask $mask) => $mask->pattern('+{1}000-000-0000'))
                     ->tel()
                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-
                 Select::make('current_school')
                     ->options(School::active()->get()->pluck('name', 'name')->toArray())
                     ->preload()
                     ->searchable()
                     ->required(),
-                Select::make('current_grade')->options(GradeLevel::asSameArray())->required(),
+                Select::make('current_grade')
+                    ->options(GradeLevel::asSameArray())
+                    ->required(),
             ])
             
         ];
