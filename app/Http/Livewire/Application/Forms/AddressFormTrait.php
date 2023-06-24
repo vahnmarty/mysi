@@ -79,7 +79,7 @@ trait AddressFormTrait{
                         ->required()
                         ->preload()
                         ->searchable()
-                        ->lazy()
+                        ->reactive()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveAddress($get('id'), 'state', $state);
                         }),
