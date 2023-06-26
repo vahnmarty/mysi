@@ -51,6 +51,7 @@ class ApplicationForm extends Component implements HasForms
     public $data = [];
     public $is_validated = false;
     public $is_submitted = false;
+    public $amount = 100;
 
     public function render()
     {
@@ -89,6 +90,10 @@ class ApplicationForm extends Component implements HasForms
             'email' => $user->email,
         ];
         $data['autosave'] = true;
+
+        if($this->app->payment){
+            $this->amount = $this->app->payment?->final_amount;
+        }
 
         $this->form->fill($data);
     }
@@ -233,7 +238,7 @@ class ApplicationForm extends Component implements HasForms
         ]);
     }
 
-    function authorizeCreditCard($data)
+    function authorizeCreditCard(Payment $payment, $data)
     {
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
         $merchantAuthentication->setName(config('services.authorize.login_id'));
@@ -278,7 +283,7 @@ class ApplicationForm extends Component implements HasForms
 
 
         # Variables
-        $amount = config('settings.payment.application_fee');
+        $amount = $payment->final_amount;
 
 
         // Create a TransactionRequestType object and add the previous objects to it
@@ -310,12 +315,7 @@ class ApplicationForm extends Component implements HasForms
             
                 if ($tresponse != null && $tresponse->getMessages() != null) {
 
-                    $payment = Payment::updateOrCreate(
-                        [
-                        'application_id' => 1,
-                        'user_id' => Auth::id(),
-                        ],
-                        [  
+                    $payment->update([  
                         'name_on_card' => $data['first_name'] . ' ' . $data['last_name'],
                         'payment_type' => PaymentType::AppFee,
                         'transaction_id' => $tresponse->getResponseCode(),
@@ -384,7 +384,9 @@ class ApplicationForm extends Component implements HasForms
 
         $this->dispatchBrowserEvent('page-loading-open');
 
-        $payment = $this->authorizeCreditCard($data['billing']);
+        $payment = $this->app->payment;
+
+        $payment = $this->authorizeCreditCard($payment, $data['billing']);
 
         if($payment instanceof Payment){
 

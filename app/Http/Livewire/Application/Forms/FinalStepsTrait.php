@@ -59,6 +59,14 @@ trait FinalStepsTrait{
                 ->visible(fn(Closure $get) => $this->is_validated && $get('agree_to_release_record') && $get('agree_academic_record_is_true') )
                 ->columns(3)
                 ->schema([
+                    Placeholder::make('amount')
+                        ->columnSpan('full')
+                        ->content(new HtmlString('
+                            <div>
+                                <h4>Your Payable Amount is: <strong class="font-bold text-primary-red">$'. number_format($this->amount, 2).'</strong></h4>
+                            </div>    
+                        '))
+                        ->reactive(),
                     TextInput::make('billing.first_name')
                         ->label('First Name')
                         ->required()
