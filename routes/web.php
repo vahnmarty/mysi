@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\SampleForm;
 use App\Http\Livewire\SamplePayment;
 use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
@@ -70,3 +71,4 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
+Route::get('sample-form', SampleForm::class);
