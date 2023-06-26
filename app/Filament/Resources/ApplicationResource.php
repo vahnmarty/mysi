@@ -47,7 +47,8 @@ class ApplicationResource extends Resource
                 //
             ])
             ->actions([
-                //Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -57,7 +58,7 @@ class ApplicationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PaymentRelationManager::class
         ];
     }
     
@@ -65,8 +66,9 @@ class ApplicationResource extends Resource
     {
         return [
             'index' => Pages\ListApplications::route('/'),
-            //'create' => Pages\CreateApplication::route('/create'),
-            //'edit' => Pages\EditApplication::route('/{record}/edit'),
+            'create' => Pages\CreateApplication::route('/create'),
+            'view' => Pages\ViewApplication::route('/{record}'),
+            'edit' => Pages\EditApplication::route('/{record}/edit'),
         ];
     }    
 }

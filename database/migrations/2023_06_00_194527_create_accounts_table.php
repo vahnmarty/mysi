@@ -22,6 +22,7 @@ return new class extends Migration
 
         Schema::table('users', function(Blueprint $table){
             $table->unsignedBigInteger('account_id')->nullable()->after('id');
+            $table->boolean('is_primary')->nullable()->after('account_id');
         });
     }
 
@@ -31,5 +32,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('accounts');
+
+        Schema::table('users', function(Blueprint $table){
+            $table->dropColumn('account_id');
+            $table->dropColumn('is_primary');
+        });
     }
 };
