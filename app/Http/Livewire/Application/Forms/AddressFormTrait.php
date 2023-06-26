@@ -75,11 +75,8 @@ trait AddressFormTrait{
                         })
                         ->required(),
                     Select::make('state')
-                        ->options([
-                            'Florida' => 'Florida'
-                        ])
-                        ->disabled(fn(Closure $get): bool => $get('address_type') ? false : true )
-                        ->searchable(fn (Select $component) => !$component->isDisabled())
+                        ->options(us_states())
+                        //->disabled(fn(Closure $get) => !$get('address_type') )
                         ->required()
                         ->searchable()
                         ->reactive()
