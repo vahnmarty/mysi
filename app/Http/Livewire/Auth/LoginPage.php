@@ -33,7 +33,8 @@ class LoginPage extends Component implements HasForms
     {
         return [
             TextInput::make('email')
-                ->label('Username/Email')
+                ->label('')
+                ->validationAttribute('Username/email')
                 ->placeholder('Username or email address')
                 ->lazy()
                 ->autofocus()
@@ -46,6 +47,8 @@ class LoginPage extends Component implements HasForms
                 })
                 ->required(),
             TextInput::make('password')
+                ->label('')
+                ->validationAttribute('Password')
                 ->placeholder('**************')
                 ->reactive()
                 ->visible(fn() => $this->show_password)

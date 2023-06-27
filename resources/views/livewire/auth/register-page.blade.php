@@ -22,7 +22,7 @@
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form wire:submit.prevent="register"
+        <form novalidate wire:submit.prevent="register"
              class="mt-8">
 
             {{ $this->form }}
