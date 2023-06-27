@@ -41,21 +41,21 @@ class RegisterPage extends Component implements HasForms
         return [
             TextInput::make('first_name')
                 ->disableLabel()
-                ->validationAttribute('First Name')
+                ->validationAttribute('Parent/Guardian first name')
                 ->label('First Name')
                 ->placeholder('Parent/Guardian First Name')
                 ->maxLength(191)
                 ->required(),
             TextInput::make('last_name')
                 ->disableLabel()
-                ->validationAttribute('Last Name')
+                ->validationAttribute('Parent/Guardian last name')
                 ->label('Last Name')
                 ->placeholder('Parent/Guardian Last Name')
                 ->maxLength(191)
                 ->required(),
             TextInput::make('phone')
                 ->disableLabel()
-                ->validationAttribute('Phone')
+                ->validationAttribute('Parent/Guardian phone number')
                 ->label('Parent/Guardian Phone')
                 ->placeholder('Parent/Guardian Phone')
                 ->tel()
@@ -63,7 +63,7 @@ class RegisterPage extends Component implements HasForms
                 ->required(),
             TextInput::make('email')
                 ->disableLabel()
-                ->validationAttribute('Email')
+                ->validationAttribute('Parent/Guardian email')
                 ->label('Email Address')
                 ->placeholder('Parent/Guardian Email')
                 ->email()
@@ -77,6 +77,8 @@ class RegisterPage extends Component implements HasForms
                 ->required()
                 ->password()
                 ->confirmed()
+                ->minLength(8)
+                ->maxLength(16)
                 ->placeholder("Password")
                 ->rules([
                     new HasUppercase(),
