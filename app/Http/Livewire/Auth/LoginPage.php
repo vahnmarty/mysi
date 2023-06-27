@@ -34,7 +34,7 @@ class LoginPage extends Component implements HasForms
         return [
             TextInput::make('email')
                 ->label('')
-                ->validationAttribute('Username/email')
+                ->validationAttribute('username/email')
                 ->placeholder('Username or email address')
                 ->lazy()
                 ->autofocus()

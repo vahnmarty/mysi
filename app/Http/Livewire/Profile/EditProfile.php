@@ -54,6 +54,10 @@ class EditProfile extends Component implements HasForms
                 ->required(),
             TextInput::make('last_name')
                 ->required(),
+            TextInput::make('phone')
+                ->tel()
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
+                ->required(),
         ];
     }
 

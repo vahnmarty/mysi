@@ -26,7 +26,7 @@ class RegisterPage extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $first_name, $last_name, $email, $password,  $password_confirmation;
+    public $first_name, $last_name, $email, $password, $phone, $password_confirmation;
 
     public $status;
     protected $queryString = ['status'];
@@ -41,18 +41,29 @@ class RegisterPage extends Component implements HasForms
         return [
             TextInput::make('first_name')
                 ->disableLabel()
+                ->validationAttribute('First Name')
                 ->label('First Name')
                 ->placeholder('Parent/Guardian First Name')
                 ->maxLength(191)
                 ->required(),
             TextInput::make('last_name')
                 ->disableLabel()
+                ->validationAttribute('Last Name')
                 ->label('Last Name')
                 ->placeholder('Parent/Guardian Last Name')
                 ->maxLength(191)
                 ->required(),
+            TextInput::make('phone')
+                ->disableLabel()
+                ->validationAttribute('Phone')
+                ->label('Parent/Guardian Phone')
+                ->placeholder('Parent/Guardian Phone')
+                ->tel()
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
+                ->required(),
             TextInput::make('email')
                 ->disableLabel()
+                ->validationAttribute('Email')
                 ->label('Email Address')
                 ->placeholder('Parent/Guardian Email')
                 ->email()
@@ -60,6 +71,7 @@ class RegisterPage extends Component implements HasForms
                 ->required(),
             Password::make('password')
                 ->disableLabel()
+                ->validationAttribute('Password')
                 ->revealable()
                 ->reactive()
                 ->required()
@@ -102,6 +114,7 @@ class RegisterPage extends Component implements HasForms
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             //'username' => $data['username'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
