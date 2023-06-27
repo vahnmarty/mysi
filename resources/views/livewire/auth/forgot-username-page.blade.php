@@ -14,6 +14,10 @@
         <div class="py-3 mt-8 text-center text-green-700 border border-green-300 rounded-md bg-green-50">
             <p>Email sent to <strong>{{ $email }}</strong></p>
         </div>
+
+        <div class="mt-8">
+            <p class="text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Log in</a>.</p>
+        </div>
         @else
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
