@@ -27,7 +27,7 @@
                 <button x-show="next" type="submit" class="btn-primary">Submit</button>
             </div>
 
-            <p class="mt-8 text-xs text-center">Back to login <a href="{{ route('login') }}" class="font-bold text-link">Login</a></p>
+            <p class="mt-8 text-base text-center">To log in, click  <a href="{{ route('login') }}" class="font-bold text-link">here</a>.</p>
         </form>
         @endif
     </div>

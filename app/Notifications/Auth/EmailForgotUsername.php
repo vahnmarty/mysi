@@ -3,9 +3,10 @@
 namespace App\Notifications\Auth;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class EmailForgotUsername extends Notification
 {
@@ -35,13 +36,14 @@ class EmailForgotUsername extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('MySI Username')
-                    ->greeting('Hi,')
-                    ->line('Thank you for your interest in St. Ignatius College Preparatory and using the MySI portal.')
-                    ->line("Your account is associated with the following email:  **{$notifiable->email}**")
-                    ->line('To reset your password, you will need to go to [Forgot Password]('.url('forgot-password').') and enter the email above. The instructions will go to that email address, so you will need to have access to the email account to reset the password.')
+                    ->subject('MySI Portal Username')
+                    ->greeting('Hi ' . $notifiable->first_name . ', ')
+                    ->line('Thank you for using the MySI Portal and for your interest in St. Ignatius College Preparatory.')
+                    ->line("The username associated with your email is:  **{$notifiable->email}**")
+                    ->line('To reset your password, you will need to go to [Forgot Password]('.url('forgot-password').') and enter the username/email above. The instructions will go to the email address, so you will need to have access to the email account to reset the password.')
                     ->action('Log In', url('/login'))
-                    ->line('Thank you for using our application!');
+                    ->line('If you do not have access to that email or have other technical issues, please contact **admissions@siprep.org**.')
+                    ->salutation(new HtmlString("**Regards**, <br>MySI Portal Admin" ));
     }
 
     /**

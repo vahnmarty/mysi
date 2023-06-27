@@ -44,11 +44,11 @@ class ForgotUsernamePage extends Component implements HasForms
                 ->helperText(fn () => new HtmlString('<p class="mt-4 text-center">OR</p>'))
                 ->reactive()
                 ->required( fn() =>  empty($this->phone) ),
-            // TextInput::make('phone')
-            //     ->disableLabel()
-            //     ->reactive()
-            //     ->placeholder("Phone")
-            //     ->required( fn() => empty($this->email) ),
+            TextInput::make('phone')
+                ->disableLabel()
+                ->reactive()
+                ->placeholder("Phone")
+                ->required( fn() => empty($this->email) ),
         ];
     }
 
@@ -56,10 +56,16 @@ class ForgotUsernamePage extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        $user = User::where('first_name', 'LIKE', '%' . $data['first_name'] . '%')
-            ->where('last_name', 'LIKE', '%' . $data['last_name'] . '%')
-            ->where('email', $data['email'])
-            ->first();
+        $query =  User::where('first_name', 'LIKE', '%' . $data['first_name'] . '%')
+            ->where('last_name', 'LIKE', '%' . $data['last_name'] . '%');
+
+        if($data['email']){
+            $query->where('email', $data['email']);
+        }elseif($data['phone']) {
+            $query->where('phone', $data['phone']);
+        }
+
+        $user = $query->first();
 
         if(!$user){
             return Notification::make()
