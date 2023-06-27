@@ -34,7 +34,6 @@ class SampleForm extends Component implements HasForms
                 ->disabled(fn(Closure $get): bool => $get('address_type') ? false : true )
                 ->searchable(fn (Select $component) => !$component->isDisabled())
                 ->required()
-                ->searchable()
                 ->reactive()
                 ->afterStateUpdated(function(Closure $get, $state){
                     
