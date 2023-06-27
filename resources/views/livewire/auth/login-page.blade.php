@@ -10,11 +10,8 @@
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form x-data="{ 
-                next: false,
-             }" 
+        <form 
              novalidate
-             x-on:showpassword.window="next = true"
              wire:submit.prevent="login"
              class="mt-8">
 
@@ -43,8 +40,7 @@
             
             
             <div class="flex justify-center mt-8">
-                <button x-show="!next" wire:click="next" type="button" class="btn-primary">Continue</button>
-                <button x-show="next" type="submit" wire:click="login" class="btn-primary">Log In</button>
+                <button  type="submit" wire:click="login" class="btn-primary">Log In</button>
             </div>
 
             <p class="mt-8 text-base text-center">Don't have an account? <a href="{{ route('register') }}" class="font-bold text-link hover:underline">Create account</a></p>
