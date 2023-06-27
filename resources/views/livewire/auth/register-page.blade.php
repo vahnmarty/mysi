@@ -2,12 +2,12 @@
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Create Account </h1>
     <div class="mt-8 text-sm">
-        <p>
+        <p class="font-bold">
             NOTE: Please use one account per family. Creating multiple accounts will cause data
             inconsistencies and may result in the wrong information being sent to SI.
         </p>
         <div class="mt-4">
-            <p>Your password must have: </p>
+            <p class="font-bold">Your password must have: </p>
             <ul class="pl-6 list-disc">
                 <li>At least 1 uppercase letter</li>
                 <li>At least 1 lowercase letter</li>
@@ -31,7 +31,7 @@
                 <button x-show="next" type="submit" class="btn-primary">Register</button>
             </div>
 
-            <p class="mt-8 text-xs text-center">Have an account? <a href="{{ route('login') }}" class="font-bold text-link">Login</a></p>
+            <p class="mt-8 text-base text-center">Have an account? <a href="{{ route('login') }}" class="font-bold text-link">Login</a></p>
         </form>
     </div>
 </div>

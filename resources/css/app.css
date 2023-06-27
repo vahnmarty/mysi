@@ -37,3 +37,8 @@ html, body{
 .filament-table-repeater-column{
     /* @apply border-0 border-none; */
 }
+
+input::-ms-reveal,
+input::-ms-clear {
+display: none;
+}

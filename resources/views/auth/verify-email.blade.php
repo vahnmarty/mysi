@@ -3,7 +3,7 @@
 
         <h1 class="text-4xl text-center font-base text-primary-blue">Verify Email </h1>
         <div class="mt-8 text-sm">
-            <p>{{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}.</p>
+            <p>Thank you for creating a MySI account.  A verification email has been sent to <strong>{{ $email }}</strong> . Please click on the link in the email to confirm your account.</p>
         </div>
         
         @if (session('status') == 'verification-link-sent')
