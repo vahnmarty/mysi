@@ -1,6 +1,6 @@
 <header class="relative">
     <div class="py-6 bg-primary-red">
-        <div class="max-w-6xl px-8 mx-auto">
+        <div class="px-8 mx-auto">
             <div class="flex">
                 <a href="{{ url('/') }}">
                     <img src="{{ asset('img/logo-white.png') }}" class="w-auto h-16" alt="">

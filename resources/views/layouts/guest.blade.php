@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>MySI Portal – St. Ignatius College Preparatory</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,12 +19,12 @@
         @stack('scripts')
         
     </head>
-    <body class="font-sans text-gray-900 antialiased">
+    <body class="font-sans antialiased text-gray-900">
 
         <div class="flex flex-col justify-between min-h-screen">
             @include('includes.guest.header')
 
-            <main class="flex-1 relative py-8">
+            <main class="relative flex-1 py-8">
                 {{ $slot ?? '' }}
             </main>
 
