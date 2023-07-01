@@ -4,15 +4,19 @@ namespace App\Http\Livewire\Auth;
 
 use Str;
 use Auth;
+use Hash;
 use Closure;
 use App\Models\User;
 use Livewire\Component;
-use App\Notifications\Auth\PasswordChanged;
+use App\Rules\HasNumber;
+use App\Rules\HasLowercase;
+use App\Rules\HasUppercase;
+use App\Rules\HasSpecialCharacter;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use App\Notifications\Auth\PasswordChanged;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Hash;
 
 class ResetPasswordPage extends Component implements HasForms
 {
@@ -21,6 +25,14 @@ class ResetPasswordPage extends Component implements HasForms
     public $password, $password_confirmation;
     public $password_validation = [];
     public $email, $token;
+
+    protected $messages = [
+        'password.required' => 'Password is required',
+        'password.min' => 'The password must be at least 8 characters',
+        'password.max' => 'The password must not be greater than 16 characters',
+        'password.confirmed' => 'Password and confirm password do not match.  Please re-enter password and confirm',
+        'password_confirmation.required' => 'Confirm password is required',
+    ];
 
     public function render()
     {
@@ -43,14 +55,29 @@ class ResetPasswordPage extends Component implements HasForms
                 ->email(),
             TextInput::make('password')
                 ->label('New Password')
+                ->validationAttribute('Password')
                 ->reactive()
-                ->required()
+                ->rules([
+                    new HasUppercase(),
+                    new HasLowercase(),
+                    new HasNumber(),
+                    new HasSpecialCharacter(),
+                    // function () {
+                    //     return function (string $attribute, $value, Closure $fail) {
+                    //         if (Auth::user()->checkPasswordTaken($value)) {
+                    //             $fail("Please choose a different password. You cannot use your previous passwords.");
+                    //         }
+                    //     };
+                    // },
+                ])
+                ->minLength(8)
+                ->maxLength(16)
                 ->password()
-                ->afterStateUpdated(function (Closure $get, $state) {
-                    $this->validatePassword($state);
-                }),
+                ->required()
+                ->confirmed(),
             TextInput::make('password_confirmation')
                 ->label('Confirm Password')
+                ->validationAttribute('')
                 ->reactive()
                 ->required()
                 ->password()

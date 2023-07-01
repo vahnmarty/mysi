@@ -6,17 +6,17 @@
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <form wire:submit.prevent="submit" class="mt-8">
+        <form wire:submit.prevent="submit" class="mt-8" novalidate>
             @csrf
 
-            <div class="text-xs">
+            <div class="text-base">
                 <p class="font-bold">Your password must have:</p>											
-                <ul class="flex flex-col">
+                <ul class="flex flex-col pl-4 text-sm list-disc">
                     @foreach($password_validation as $item)
                         @if($item['passed'])
-                        <li class="font-bold text-success-700">{{ $item['description'] }}</li>
+                        <li class="text-success-700">{{ $item['description'] }}</li>
                         @elseif($item['passed'] == false)
-                        <li class="font-bold text-danger-700">{{ $item['description'] }}</li>
+                        <li class="text-danger-700">{{ $item['description'] }}</li>
                         @else
                         <li class="">{{ $item['description'] }}</li>
                         @endif
