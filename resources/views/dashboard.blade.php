@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <div class="px-4 py-12">
-        <h2 class="text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to SI’s Community Portal</h2>
+        <h2 class="text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to the MySI Portal</h2>
 
         <div class="mt-8 space-y-8">
             <p>

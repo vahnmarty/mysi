@@ -27,7 +27,7 @@
                 </div>
                 <div class="flex items-center">
                     
-                    <div class="relative flex-shrink-0 ml-5 rounded-md">
+                    <!-- <div class="relative flex-shrink-0 ml-5 rounded-md">
                     
                         <x-dropdown width="96">
                             <x-slot name="trigger">
@@ -44,9 +44,9 @@
                                 </div>
                             </x-slot>
                         </x-dropdown>
-                    </div>
+                    </div> -->
     
-                    <div class="relative flex-shrink-0 ml-5 rounded-md">
+                    <!-- <div class="relative flex-shrink-0 ml-5 rounded-md">
                         
                         <x-dropdown width="96">
                             <x-slot name="trigger">
@@ -60,7 +60,7 @@
                                 </div>
                             </x-slot>
                         </x-dropdown>
-                    </div>
+                    </div> -->
     
                     
     
@@ -104,7 +104,7 @@
             </div>
         </div>
     </div>
-    <div class="px-8 py-2 bg-red-800 lg:py-2">
+    <!-- <div class="px-8 py-2 bg-red-800 lg:py-2">
         <div class="flex justify-between">
             <div class="flex items-center flex-1 gap-8 text-xs text-white">
                 <a href="">Home</a>
@@ -124,5 +124,5 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
 </header>

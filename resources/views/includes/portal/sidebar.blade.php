@@ -9,7 +9,7 @@
                     </x-slot>
                     Home
                 </x-sidebar-item>
-                <x-sidebar-menu  :active="request()->is('profile*')">
+                <!-- <x-sidebar-menu  :active="request()->is('profile*')">
                     <x-slot name="icon">
                         <x-heroicon-o-user class="w-4 h-4" />
                     </x-slot>
@@ -22,7 +22,7 @@
                             <a href="{{ url('profile/edit') }}" class="sub-menu">Edit Profile</a>
                         </li>
                     </x-slot>
-                </x-sidebar-menu>
+                </x-sidebar-menu> -->
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('parents*')">
                     <x-slot name="icon">
                         <x-heroicon-o-users class="w-4 h-4" />
@@ -122,18 +122,18 @@
                     </x-slot>
                     Contact Us
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <!-- <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-collection class="w-4 h-4" />
                     </x-slot>
                     Parent Directory
-                </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                </x-sidebar-item> -->
+                <!-- <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-calendar class="w-4 h-4" />
                     </x-slot>
                     Alumni Events
-                </x-sidebar-item>
+                </x-sidebar-item> -->
             </ul>
         </div>
     
@@ -152,7 +152,7 @@
                     </x-slot>
                     Home
                 </x-sidebar-item>
-                <x-sidebar-menu  :active="request()->is('profile*')">
+                <!-- <x-sidebar-menu  :active="request()->is('profile*')">
                     <x-slot name="icon">
                         <x-heroicon-o-user class="w-4 h-4" />
                     </x-slot>
@@ -165,7 +165,7 @@
                             <a href="{{ url('profile/edit') }}" class="sub-menu">Edit Profile</a>
                         </li>
                     </x-slot>
-                </x-sidebar-menu>
+                </x-sidebar-menu> -->
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('parents*')">
                     <x-slot name="icon">
                         <x-heroicon-o-users class="w-4 h-4" />
@@ -265,7 +265,7 @@
                     </x-slot>
                     Contact Us
                 </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <!-- <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-collection class="w-4 h-4" />
                     </x-slot>
@@ -276,7 +276,7 @@
                         <x-heroicon-o-calendar class="w-4 h-4" />
                     </x-slot>
                     Alumni Events
-                </x-sidebar-item>
+                </x-sidebar-item> -->
             </ul>
         </div>
         
