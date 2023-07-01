@@ -36,7 +36,13 @@ class AuthServiceProvider extends ServiceProvider
                 ->salutation(new HtmlString("**Regards**, <br>" . config('app.name')));
         });
 
-        ResetPassword::toMailUsing(function (object $notifiable, string $url) {
+        ResetPassword::toMailUsing(function (object $notifiable, string $token) {
+
+            $url = route('password.reset', [
+                    'token' => $token,
+                    'email' => $notifiable->getEmailForPasswordReset(),
+                ]);
+
             return (new MailMessage)
                 ->greeting('Hello, ' . $notifiable->first_name)
                 ->subject('Reset MySI Portal Password')
