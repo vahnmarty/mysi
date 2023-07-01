@@ -15,7 +15,7 @@
             <p class="mt-8 text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Log in</a>.</p>
         </div>
         @else
-        <form method="POST" action="{{ route('password.email') }}" class="mt-8">
+        <form method="POST" action="{{ route('password.email') }}" class="mt-8" novalidate>
             @csrf
     
             <!-- Email Address -->
