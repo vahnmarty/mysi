@@ -48,7 +48,9 @@ class ForgotUsernamePage extends Component implements HasForms
                 ->disableLabel()
                 ->reactive()
                 ->placeholder("Phone")
-                ->required( fn() => empty($this->email) ),
+                ->required( fn() => empty($this->email) )
+                ->tel()
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000')),
         ];
     }
 

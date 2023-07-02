@@ -3,7 +3,7 @@
     <div class="max-w-xl px-4 mx-auto lg:px-8">
 
         <h1 class="text-4xl text-center font-base text-primary-blue">Forgot Password </h1>
-        <div class="mt-8 text-sm font-bold">
+        <div class="mt-8 text-base">
             <p>Enter the email address associated with your username to reset the password.</p>
         </div>
         
