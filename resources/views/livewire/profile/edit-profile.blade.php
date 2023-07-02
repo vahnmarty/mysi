@@ -4,7 +4,7 @@
     </h2>
 
     <div class="pb-32 mt-8 space-y-8">
-        <form wire:submit.prevent="updateProfile" class="p-8 bg-gray-100 border rounded-md ">
+        <form wire:submit.prevent="updateProfile" class="p-8 bg-gray-100 border rounded-md" novalidate>
 
             <h3 class="mb-8 font-bold font-heading">Basic Details</h3>
             {{ $this->profileForm }}
@@ -14,7 +14,7 @@
             </div>
         </form>
 
-        <form wire:submit.prevent="updateEmail" class="p-8 bg-gray-100 border rounded-md ">
+        <form wire:submit.prevent="updateEmail" class="p-8 bg-gray-100 border rounded-md " novalidate>
 
             <h3 class="mb-4 font-bold font-heading">Email/Username</h3>
             

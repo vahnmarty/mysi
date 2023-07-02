@@ -24,6 +24,15 @@ class EditProfile extends Component implements HasForms
     use InteractsWithForms;
 
     public $email_request = false;
+
+    protected $messages = [
+        'first_name.required' => 'First Name is required',
+        'last_name.required' => 'Last Name is required',
+        'phone.required' => 'Phone Number is required',
+        'email.required' => 'Email is required',
+        'email.email' => 'Enter a valid email address',
+        'email.unique' => 'This email already exists'
+    ];
     
     public function render()
     {
@@ -55,6 +64,7 @@ class EditProfile extends Component implements HasForms
             TextInput::make('last_name')
                 ->required(),
             TextInput::make('phone')
+                ->placeholder('000-000-0000')
                 ->tel()
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
                 ->required(),

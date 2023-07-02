@@ -21,6 +21,14 @@ class UpdatePassword extends Component implements HasForms
     
     public $old_password, $password, $password_confirmation;
 
+    // protected $messages = [
+    //     'password.required' => 'Password is required',
+    //     'password.min' => 'The password must be at least 8 characters',
+    //     'password.max' => 'The password must not be greater than 16 characters',
+    //     'password.confirmed' => 'Password and confirm password do not match.  Please re-enter password and confirm',
+    //     'password_confirmation.required' => 'Confirm password is required',
+    // ];
+
     public function render()
     {
         return view('livewire.profile.update-password');
@@ -30,11 +38,13 @@ class UpdatePassword extends Component implements HasForms
     {
         return [
             TextInput::make('old_password')
+                ->label('Old Password')
+                ->validationAttribute('Old Password')
                 ->rules([
                     function () {
                         return function (string $attribute, $value, Closure $fail) {
                             if (!Hash::check($value, Auth::user()->password)) {
-                                $fail("The {$attribute} is invalid.");
+                                $fail("Old password is incorrect.");
                             }
                         };
                     },
@@ -58,7 +68,8 @@ class UpdatePassword extends Component implements HasForms
                 ->minLength(8)
                 ->maxLength(16)
                 ->password()
-                ->required(),
+                ->required()
+                ->confirmed(),
             TextInput::make('password_confirmation')
                 ->label("Confirm Password")
                 ->password()
