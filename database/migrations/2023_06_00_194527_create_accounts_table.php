@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone')->nullable();
-            $table->string('salesforce_id')->nullable();
-            $table->string('record_type_id')->nullable();
+            $table->string('name', 50);
+            $table->string('phone', 10)->nullable();
+            $table->string('salesforce_id', 18)->nullable();
+            $table->string('record_type_id', 18)->nullable();
             $table->timestamps();
         });
 

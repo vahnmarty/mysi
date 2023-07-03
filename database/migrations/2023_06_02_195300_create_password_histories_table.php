@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('password_histories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('password');
+            $table->string('password', 100);
             $table->string('status')->nullable();
             $table->timestamps();
         });

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('account_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
-            $table->string('token');
+            $table->string('email', 255);
+            $table->string('token', 255);
             $table->timestamps();
             $table->timestamp('expires_at')->nullable();
             $table->timestamp('activated_at')->nullable();
