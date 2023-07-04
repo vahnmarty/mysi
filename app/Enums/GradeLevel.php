@@ -25,8 +25,8 @@ final class GradeLevel extends Enum
     const Grade6 = '6';
     const Grade7 = '7';
     const Grade8 = '8';
-    const Freshman = '9`';
-    const Sophomore = '10`';
+    const Freshman = '9';
+    const Sophomore = '10';
     const Junior = '11';
     const Senior = '12';
     const College = 'College';
