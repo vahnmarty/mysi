@@ -69,10 +69,14 @@ class ParentInformation extends Component implements HasTable, HasForms
             TextColumn::make('name')
                 ->label('Parent/Guardian Name')
                 ->formatStateUsing(fn(Parents $record) => $record->getFullName() ),
-            TextColumn::make('mobile_phone'),
-            TextColumn::make('personal_email')->label("Email"),
-            TextColumn::make('employer'),
-            TextColumn::make('job_title'),
+            TextColumn::make('mobile_phone')
+                ->label('Mobile Phone'),
+            TextColumn::make('personal_email')
+                ->label("Email"),
+            TextColumn::make('employer')
+                ->label('Employer'),
+            TextColumn::make('job_title')
+                ->label('Job Title'),
         ];
     }
 
@@ -156,6 +160,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->label('Legal Last Name')
                                 ->required(),
                             Select::make('suffix')
+                                ->label('Suffix')
                                 ->options(Suffix::asSelectArray()),
                             TextInput::make('preferred_first_name')
                                 ->label('Preferred First Name (must be different from Legal First Name)')
@@ -163,17 +168,29 @@ class ParentInformation extends Component implements HasTable, HasForms
                     Grid::make(1)
                         ->columnSpan(1)
                         ->schema([
-                            Select::make('relationship_type')->options(ParentType::asSelectArray())->required(),
-                            Select::make('address_location')->options(AddressLocation::asSelectArray())->required(),
+                            Select::make('relationship_type')
+                                ->label('Relationship Type')
+                                ->options(ParentType::asSelectArray())->required(),
+                            Select::make('address_location')
+                                ->label('Address Location')
+                                ->options(AddressLocation::asSelectArray())->required(),
                             TextInput::make('mobile_phone')
+                                ->label('Mobile Phone')
                                 ->required()
                                 ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                                 ->tel()
                                 ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                            TextInput::make('personal_email')->label('Preferred Email')->email()->required(),
+                            TextInput::make('personal_email')
+                                ->label('Preferred Email')
+                                ->email()
+                                ->required(),
                             // TextInput::make('alternate_email')->label('Alternate Email')->email(),
-                            TextInput::make('employer')->required(),
-                            TextInput::make('job_title')->required(),
+                            TextInput::make('employer')
+                                ->label('Employer')
+                                ->required(),
+                            TextInput::make('job_title')
+                                ->label('Job Title')
+                                ->required(),
                         ])
                 ]),
         ];

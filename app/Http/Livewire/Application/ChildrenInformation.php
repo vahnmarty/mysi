@@ -71,11 +71,11 @@ class ChildrenInformation extends Component implements HasTable, HasForms
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('student_name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
-            TextColumn::make('mobile_phone'),
-            TextColumn::make('personal_email'),
-            TextColumn::make('current_school'),
-            TextColumn::make('current_grade'),
+            TextColumn::make('student_name')->label('Student Name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
+            TextColumn::make('mobile_phone')->label('Mobile Phone'),
+            TextColumn::make('personal_email')->label('Email'),
+            TextColumn::make('current_school')->label('Current School'),
+            TextColumn::make('current_grade')->label('Current Grade'),
         ];
     }
 
@@ -155,6 +155,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                     ->label('Legal Last Name')
                     ->required(),
                 Select::make('suffix')
+                    ->label('Suffix')
                     ->options(Suffix::asSelectArray()),
                 TextInput::make('preferred_first_name')
                     ->label('Preferred First Name')
@@ -168,17 +169,20 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                     ->email()
                     ->required(),
                 TextInput::make('mobile_phone')
+                    ->label('Mobile Phone')
                     ->required()
                     ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                     ->placeholder('(000) 000-0000')
                     ->tel(),
                     //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
                 Select::make('current_school')
+                    ->label('Current School')
                     ->options(School::active()->get()->pluck('name', 'name')->toArray())
                     ->preload()
                     ->searchable()
                     ->required(),
                 Select::make('current_grade')
+                    ->label('Current Grade')
                     ->options(GradeLevel::asSameArray())
                     ->required(),
             ])
