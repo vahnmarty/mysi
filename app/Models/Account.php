@@ -46,4 +46,16 @@ class Account extends Model
     {
         return $this->hasMany(Legacy::class);
     }
+
+    public function hasEnrolled()
+    {
+        foreach($this->applications as $app)
+        {
+            if($app->status == 'Enrolled'){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

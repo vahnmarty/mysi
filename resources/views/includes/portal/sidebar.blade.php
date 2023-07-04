@@ -27,7 +27,7 @@
                     <x-slot name="icon">
                         <x-heroicon-o-users class="w-4 h-4" />
                     </x-slot>
-                    Parents
+                    Parent/Guardian
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('children') }}" :active="request()->is('children*')">
                     <x-slot name="icon">
@@ -41,7 +41,7 @@
                     </x-slot>
                     Address
                 </x-sidebar-item>
-                @if(Auth::user()->account?->applications()->count())
+                @if(Auth::user()->account?->hasEnrolled())
                 <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-archive class="w-4 h-4" />
@@ -80,13 +80,14 @@
                                     <a href="{{ url('book-a-wildcat-experience') }}" class="sub-menu">Book a Wildcat Experience</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('admission') }}" class="sub-menu">Apply at SI</a>
+                                    <a href="{{ url('admission') }}" class="sub-menu">Admission Application</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('supplemental-recommendation') }}" class="sub-menu">Supplemental Recommendation</a>
                                 </li>
                             </ul>
                         </li>
+<!--                         
                         <li>
                             <a href="" class="sub-menu">Existing Students</a>
                         </li>
@@ -113,7 +114,7 @@
                         </li>
                         <li>
                             <a href="" class="sub-menu">Donate to SI</a>
-                        </li>
+                        </li> -->
                     </x-slot>
                 </x-sidebar-menu>
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
@@ -170,7 +171,7 @@
                     <x-slot name="icon">
                         <x-heroicon-o-users class="w-4 h-4" />
                     </x-slot>
-                    Parents
+                    Parent/Guardian
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('children') }}" :active="request()->is('children*')">
                     <x-slot name="icon">
@@ -184,7 +185,7 @@
                     </x-slot>
                     Address
                 </x-sidebar-item>
-                @if(Auth::user()->account?->applications()->count())
+                @if(Auth::user()->account?->hasEnrolled())
                 <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-archive class="w-4 h-4" />
@@ -223,14 +224,14 @@
                                     <a href="{{ url('book-a-wildcat-experience') }}" class="sub-menu">Book a Wildcat Experience</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('admission') }}" class="sub-menu">Apply at SI</a>
+                                    <a href="{{ url('admission') }}" class="sub-menu">Admission Application</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('supplemental-recommendation') }}" class="sub-menu">Supplemental Recommendation</a>
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a href="" class="sub-menu">Existing Students</a>
                         </li>
                         <li>
@@ -256,7 +257,7 @@
                         </li>
                         <li>
                             <a href="" class="sub-menu">Donate to SI</a>
-                        </li>
+                        </li> -->
                     </x-slot>
                 </x-sidebar-menu>
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
