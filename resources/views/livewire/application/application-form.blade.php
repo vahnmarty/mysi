@@ -20,7 +20,7 @@
             </div>
         </div>
         @else
-        <form wire:submit.prevent="submit">
+        <form wire:submit.prevent="submit" novalidate>
 
             {{ $this->form }}
 

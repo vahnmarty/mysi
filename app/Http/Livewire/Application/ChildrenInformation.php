@@ -137,7 +137,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
     protected function getFormSchema(): array
     {
         return [
-            Grid::make(3)
+            Grid::make(2)
             ->schema([
                 Hidden::make('account_id')
                 ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
