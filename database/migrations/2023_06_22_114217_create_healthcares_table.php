@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('healthcares', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
-            $table->string('salesforce_id')->nullable();
-            $table->string('record_type_id')->nullable();
+            $table->string('salesforce_id', 18)->nullable();
+            $table->string('record_type_id', 18)->nullable();
 
-            $table->string('insurance_company')->nullable();
-            $table->string('policy_number')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('phone_extension')->nullable();
+            $table->string('insurance_company', 100)->nullable();
+            $table->string('policy_number', 50)->nullable();
+            $table->string('first_name', 50)->nullable();
+            $table->string('last_name', 50)->nullable();
+            $table->string('phone', 10)->nullable();
+            $table->string('phone_extension', 20)->nullable();
 
             $table->timestamps();
         });

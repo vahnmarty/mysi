@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
-            $table->string('salesforce_id')->nullable();
-            $table->string('record_type_id')->nullable();
+            $table->string('salesforce_id', 18)->nullable();
+            $table->string('record_type_id', 18)->nullable();
 
-            $table->string('activity_name')->nullable();
-            $table->string('number_of_years')->nullable();
-            $table->string('hours_per_week')->nullable();
-            $table->longtext('activity_information')->nullable();
-            $table->longtext('most_passionate_activity')->nullable();
-            $table->longtext('new_extracurricular_activities')->nullable();
+            $table->string('activity_name', 50)->nullable();
+            $table->string('number_of_years', 3)->nullable();
+            $table->string('hours_per_week', 10)->nullable();
+            $table->string('activity_information', 750)->nullable();
+            $table->string('most_passionate_activity', 750)->nullable();
+            $table->string('new_extracurricular_activities', 750)->nullable();
 
             $table->timestamps();
         });

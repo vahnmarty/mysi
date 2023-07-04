@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('name_on_card')->nullable();
-            $table->string('payment_type')->nullable();
-            $table->string('transaction_id')->nullable();
-            $table->string('auth_id')->nullable();
-            $table->float('initial_amount')->nullable();
-            $table->string('promo_code')->nullable();
-            $table->float('promo_amount')->nullable();
-            $table->float('final_amount')->nullable();
+            $table->string('name_on_card',100)->nullable();
+            $table->string('payment_type', 20)->nullable();
+            $table->string('transaction_id', 20)->nullable();
+            $table->string('auth_id', 10)->nullable();
+            $table->float('initial_amount', 16, 2)->nullable();
+            $table->string('promo_code', 10)->nullable();
+            $table->float('promo_amount', 16, 2)->nullable();
+            $table->float('final_amount', 16, 2)->nullable();
             $table->integer('quantity')->nullable();
-            $table->float('total_amount')->nullable();
+            $table->float('total_amount', 16, 2)->nullable();
             $table->timestamps();
         });
     }
