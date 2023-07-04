@@ -11,7 +11,7 @@
         x-show="enable" 
         x-cloak 
         class="pb-32 mt-8">
-        <form wire:submit.prevent="save" class="p-8 bg-gray-100 border rounded-md ">
+        <form wire:submit.prevent="save" class="p-8 bg-gray-100 border rounded-md " novalidate>
 
             {{ $this->form }}
 
