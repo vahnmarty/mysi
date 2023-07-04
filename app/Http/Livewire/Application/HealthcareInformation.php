@@ -157,7 +157,7 @@ class HealthcareInformation extends Component implements HasTable, HasForms
                 TextInput::make('phone')
                     ->label("Physician's Phone Number")
                     ->tel()
-                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                     ->required(),
                 TextInput::make('phone_extension')

@@ -174,8 +174,8 @@ class AddressInformation extends Component implements HasTable, HasForms
                             TextInput::make('phone_number')
                                 ->label('Phone at Location')
                                 ->required()
-                                ->mask(fn (Mask $mask) => $mask->pattern('0{0}000-000-0000'))
-                                ->placeholder('+1 000-000-0000')
+                                ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
+                                ->placeholder('(000) 000-0000')
                                 ->tel()
                                 ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
                         ])

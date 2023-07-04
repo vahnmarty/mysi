@@ -15,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\TextInput\Mask;
 
 trait AddressFormTrait{
 
@@ -103,6 +104,7 @@ trait AddressFormTrait{
                     TextInput::make('phone_number')
                         ->disabled(fn(Closure $get) => !$get('address_type') )
                         ->label('Primary Phone Number at Location:')
+                        ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->tel()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){

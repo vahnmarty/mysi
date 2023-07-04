@@ -118,12 +118,12 @@ class ParentInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Parent Information yet';
+        return 'No Parent/Guardian Information yet';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a parent using the form below.';
+        return 'Create a Parent/Guardian record using the form below.';
     }
 
     protected function getFormStatePath(): string
@@ -167,7 +167,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                             Select::make('address_location')->options(AddressLocation::asSelectArray())->required(),
                             TextInput::make('mobile_phone')
                                 ->required()
-                                ->mask(fn (Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                                ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                                 ->tel()
                                 ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
                             TextInput::make('personal_email')->label('Preferred Email')->email()->required(),

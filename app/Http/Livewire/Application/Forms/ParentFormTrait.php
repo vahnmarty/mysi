@@ -20,6 +20,7 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\TextInput\Mask;
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea as NewTextArea;
 
 trait ParentFormTrait{
@@ -73,6 +74,7 @@ trait ParentFormTrait{
                         }),
                     TextInput::make('mobile_phone')
                         ->tel()
+                        ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
@@ -103,6 +105,7 @@ trait ParentFormTrait{
                             $this->autoSaveParent($get('id'),'work_email', $state);
                         }),
                     TextInput::make('work_phone')
+                        ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->tel()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){

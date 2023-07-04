@@ -158,19 +158,20 @@ class EmergencyContactInformation extends Component implements HasTable, HasForm
                 TextInput::make('home_phone')
                     ->label("Home Phone")
                     ->tel()
-                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                    ->placeholder('(000) 000-0000')
                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                     ->required(),
                 TextInput::make('mobile_phone')
                     ->label("Mobile Phone")
                     ->tel()
-                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                     ->required(),
                 TextInput::make('work_phone')
                     ->label("Work Phone")
                     ->tel()
-                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+{1}000-000-0000'))
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                     ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')
                     ->required(),
                 TextInput::make('work_phone_extension')

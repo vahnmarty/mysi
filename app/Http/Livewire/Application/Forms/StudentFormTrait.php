@@ -12,6 +12,7 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\TextInput\Mask;
 
 trait StudentFormTrait{
 
@@ -78,6 +79,7 @@ trait StudentFormTrait{
                 }),
             TextInput::make('student.mobile_phone')
                 ->label('Mobile Phone')
+                ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->tel()
                 ->lazy()
                 ->required()
