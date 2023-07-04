@@ -79,8 +79,4 @@ class Application extends Model
 
         return '--';
     }
-
-    public function scopeEnrolled($query){
-        return ;
-    }
 }
