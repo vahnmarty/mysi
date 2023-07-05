@@ -16,4 +16,9 @@ final class SiblingType extends Enum
     
     const Brother = 'Brother';
     const Sister = 'Sister';
+    const HalfBrother = 'Half-Brother';
+    const HalfSister = 'Half-Sister';
+    const StepBrother = 'Step-Brother';
+    const StepSister = 'Step-Sister';
+
 }

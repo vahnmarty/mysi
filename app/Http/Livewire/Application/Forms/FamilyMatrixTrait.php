@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
 use App\Models\Child;
+use App\Models\Address;
 use App\Enums\ParentType;
 use App\Enums\SiblingType;
 use App\Models\FamilyMatrix;
@@ -35,6 +36,7 @@ trait FamilyMatrixTrait{
                     Hidden::make('first_name')->reactive(),
                     Hidden::make('last_name')->reactive(),
                     TextInput::make('full_name')
+                        ->label('Parent/Guardian')
                         ->afterStateHydrated(function(Closure $get, Closure $set){
                             $set('full_name', $get('first_name') . ' ' . $get('last_name'));
                         })
@@ -42,6 +44,7 @@ trait FamilyMatrixTrait{
                         ->disabled()
                         ->disableLabel(),
                     Select::make('relationship_type')
+                        ->label('Relationship to Applicant')
                         ->disableLabel()
                         ->options(ParentType::asSameArray())
                         ->required()
@@ -50,14 +53,18 @@ trait FamilyMatrixTrait{
                             $this->autoSaveParent($get('id'), 'relationship_type', $state);
                         }),
                     Select::make('address_location')
+                        ->label('Address Location')
                         ->disableLabel()
-                        ->options(AddressLocation::asSameArray())
+                        ->options(function(){
+                            return Address::where('account_id', accountId())->pluck('address_type', 'address_type')->toArray();
+                        })
                         ->reactive()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'), 'address_location', $state);
                         })
                         ->required(),
                     Select::make('living_situation')
+                        ->label('Living Situation')
                         ->disableLabel()
                         ->options(LivingSituationType::asSameArray())
                         ->required()
@@ -82,6 +89,7 @@ trait FamilyMatrixTrait{
                     Hidden::make('first_name')->reactive(),
                     Hidden::make('last_name')->reactive(),
                     TextInput::make('full_name')
+                        ->label('Sibling')
                         ->afterStateHydrated(function(Closure $get, Closure $set){
                             $set('full_name', $get('first_name') . ' ' . $get('last_name'));
                         })
@@ -89,6 +97,7 @@ trait FamilyMatrixTrait{
                         ->disabled()
                         ->disableLabel(),
                     Select::make('relationship_type')
+                        ->label('Relationship to Applicant')
                         ->disableLabel()
                         ->options(SiblingType::asSameArray())
                         ->required()
@@ -97,14 +106,18 @@ trait FamilyMatrixTrait{
                             $this->autoSaveSibling($get('id'), 'relationship_type', $state);
                         }),
                     Select::make('address_location')
+                        ->label('Address Location')
                         ->disableLabel()
-                        ->options(AddressLocation::asSameArray())
+                        ->options(function(){
+                            return Address::where('account_id', accountId())->pluck('address_type', 'address_type')->toArray();
+                        })
                         ->reactive()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'address_location', $state);
                         })
                         ->required(),
                     Select::make('living_situation')
+                        ->label('Living Situation')
                         ->disableLabel()
                         ->options(LivingSituationType::asSameArray())
                         ->required()
