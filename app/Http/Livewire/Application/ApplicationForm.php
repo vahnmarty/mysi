@@ -162,13 +162,12 @@ class ApplicationForm extends Component implements HasForms
                 ->schema($this->getParentStatement())
                 ->collapsible()
                 ->collapsed(true),
-            Section::make('Student Statement')
+            Section::make('Applicant Statement')
                 ->schema($this->getStudentStatement())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('School Activities')
                 ->schema($this->getActivityForm())
-                ->description('List up to four current extracurricular activities that you are most passionate about.')
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Writing Sample')

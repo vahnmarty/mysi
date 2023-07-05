@@ -10,18 +10,20 @@ use App\Enums\ParentType;
 use App\Enums\RacialType;
 use App\Enums\CommonOption;
 use App\Enums\ReligionType;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Radio;
 use App\Enums\FamilySpiritualityType;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Fieldset;
 //use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
+
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
-
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
 
 trait StudentStatementTrait{
@@ -29,6 +31,9 @@ trait StudentStatementTrait{
     public function getStudentStatement()
     {
         return [
+            Placeholder::make('section_student_statement')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by the applicant only.')),
             Textarea::make('why_did_you_apply')
                 ->label("Why do you want to attend St. Ignatius College Preparatory?")
                 ->helperText("Up to 500 characters only.")
