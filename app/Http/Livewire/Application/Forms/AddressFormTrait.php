@@ -125,8 +125,9 @@ trait AddressFormTrait{
                         }),
                     TextInput::make('phone_number')
                         ->label('Phone Number')
+                        ->required()
                         ->disabled(fn(Closure $get) => !$get('address_type') )
-                        ->label('Primary Phone Number at Location:')
+                        ->label('Phone at Location:')
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->tel()
                         ->lazy()
