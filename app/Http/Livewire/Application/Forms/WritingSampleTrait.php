@@ -42,7 +42,7 @@ trait WritingSampleTrait{
                             </p>
                         </section>
                     </div>'))
-                ->helperText('Up to 1750 characters only.')
+                ->helperText('Please limit your answer to 250 words.')
                 ->maxLength(1750)
                 ->placeholder('Start writing here ...')
                 ->rows(15)
