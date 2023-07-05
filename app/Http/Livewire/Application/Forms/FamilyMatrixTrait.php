@@ -23,7 +23,7 @@ trait FamilyMatrixTrait{
     public function getFamilyMatrix()
     {
         return [
-            TableRepeater::make('parents')
+            TableRepeater::make('parents_matrix')
                 ->label('')
                 ->disableItemCreation()
                 ->disableItemDeletion()
@@ -70,7 +70,7 @@ trait FamilyMatrixTrait{
                     Toggle::make('is_primary')
                         ->label('Primary?'),
                 ]),
-            TableRepeater::make('siblings')
+            TableRepeater::make('siblings_matrix')
                 ->label('')
                 ->disableItemCreation()
                 ->disableItemDeletion()

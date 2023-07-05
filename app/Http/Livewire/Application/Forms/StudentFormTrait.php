@@ -30,7 +30,6 @@ trait StudentFormTrait{
             TextInput::make('student.middle_name')
                 ->label('Legal Middle Name')
                 ->lazy()
-                ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('middle_name', $state);
                 }),

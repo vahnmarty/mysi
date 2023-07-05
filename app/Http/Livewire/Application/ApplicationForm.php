@@ -74,14 +74,16 @@ class ApplicationForm extends Component implements HasForms
             return;
         }
 
-        $account = $this->app->account->load('addresses', 'parents', 'children', 'legacies');
+        $account = $this->app->account->load('addresses', 'guardians', 'parents', 'children', 'legacies');
         $user = Auth::user();
 
         $data = $this->app->toArray();
         $data['student'] = $this->app->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
-        $data['parents'] = $account->parents->toArray();
+        $data['parents'] = $account->guardians->toArray();
+        $data['parents_matrix'] = $account->parents->toArray();
         $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
+        $data['siblings_matrix'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
         $data['legacy'] = $account->legacies->toArray();
         $data['activities'] = $this->app->activities->toArray();
         $data['billing'] = [

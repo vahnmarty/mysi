@@ -3,12 +3,13 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
-use Livewire\Component as Livewire;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\Child;
 use App\Models\School;
+use App\Enums\GradeLevel;
 use App\Enums\RacialType;
+use Livewire\Component as Livewire;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
@@ -24,96 +25,115 @@ trait SiblingFormTrait{
     {
         return [
             Repeater::make('siblings')
-            ->createItemButtonLabel('Add Sibling')
-            ->defaultItems(1)
-            ->schema([
-                Hidden::make('id')
-                    ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
-                        if(!$state){
-                            $child = Child::create(['account_id' => $this->app->account_id]);
-                            $set('id', $child->id);
-                        }
-                    }),
-                TextInput::make('first_name')
-                    ->label('Legal First Name')
-                    ->lazy()
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveSibling($get('id'), 'first_name', $state);
-                    }),
-                TextInput::make('last_name')
-                    ->label('Legal Last Name')
-                    ->lazy()
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveSibling($get('id'), 'last_name', $state);
-                    }),
-                TextInput::make('middle_name')
-                    ->label('Legal Middle Name')
-                    ->lazy()
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveSibling($get('id'), 'middle_name', $state);
-                    }),
-                    Select::make('suffix')
-                    ->options(Suffix::asSameArray())
-                    ->label('Suffix')
-                    ->lazy()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveSibling($get('id'), 'suffix', $state);
-                    }),
-                TextInput::make('preferred_first_name')
-                    ->label('Preferred First Name')
-                    ->lazy()
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveSibling($get('id'), 'preferred_first_name', $state);
-                    }),
-                TextInput::make('personal_email')
-                    ->label('Personal Email')
-                    ->lazy()
-                    ->required()
-                    ->email()
-                    ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
-                        $livewire->validateOnly($component->getStatePath());
-                        $this->autoSaveSibling($get('id'), 'personal_email', $state);
-                    }),
-                Select::make('current_school')
-                    ->label('Current School')
-                    ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
-                    ->preload()
-                    ->searchable()
-                    ->lazy()
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveSibling($get('id'), 'current_school', $state);
-                    }),
-                TextInput::make('current_school_not_listed')
-                    ->label('If not listed, add it here')
-                    ->lazy()
-                    ->required()
-                    ->placeholder('Enter School Name')
-                    ->hidden(fn (Closure $get) => $get('current_school') !== self::NotListed)
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveSibling($get('id'), 'current_school_not_listed', $state);
-                    }),
-            ])
-            ->registerListeners([
-                'repeater::deleteItem' => [
-                    function (Component $component, string $statePath, string $uuidToDelete): void {
-                        $items = $component->getState();
-                        $siblings = Child::where('account_id', $this->app->account_id)->where('id', '!=', $this->app->child_id)->get();
+                ->label('')
+                ->createItemButtonLabel('Add Sibling')
+                ->disableItemMovement()
+                ->registerListeners([
+                    'repeater::deleteItem' => [
+                        function (Component $component, string $statePath, string $uuidToDelete): void {
+                            $items = $component->getState();
+                            $siblings = Child::where('account_id', $this->app->account_id)->where('id', '!=', $this->app->child_id)->get();
 
-                        foreach($siblings as $index => $child){
-                            $existing = collect($items)->where('id', $child->id)->first();
+                            foreach($siblings as $index => $child){
+                                $existing = collect($items)->where('id', $child->id)->first();
 
-                            if(!$existing){
-                                $child->delete();
+                                if(!$existing){
+                                    $child->delete();
+                                }
                             }
-                        }
-                    },
-                ],
-            ])
+                        },
+                    ],
+                ])
+                ->schema([
+                    Hidden::make('id')
+                        ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
+                            if(!$state){
+                                $child = Child::create(['account_id' => $this->app->account_id]);
+                                $set('id', $child->id);
+                            }
+                        }),
+                    TextInput::make('first_name')
+                        ->label('Legal First Name')
+                        ->lazy()
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'first_name', $state);
+                        }),
+                    TextInput::make('middle_name')
+                        ->label('Legal Middle Name')
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'middle_name', $state);
+                        }),
+                    TextInput::make('last_name')
+                        ->label('Legal Last Name')
+                        ->lazy()
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'last_name', $state);
+                        }),
+                    Select::make('suffix')
+                        ->options(Suffix::asSameArray())
+                        ->label('Suffix')
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'suffix', $state);
+                        }),
+                    // TextInput::make('preferred_first_name')
+                    //     ->label('Preferred First Name')
+                    //     ->lazy()
+                    //     ->required()
+                    //     ->afterStateUpdated(function(Closure $get, $state){
+                    //         $this->autoSaveSibling($get('id'), 'preferred_first_name', $state);
+                    //     }),
+                    // TextInput::make('personal_email')
+                    //     ->label('Personal Email')
+                    //     ->lazy()
+                    //     ->required()
+                    //     ->email()
+                    //     ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
+                    //         $livewire->validateOnly($component->getStatePath());
+                    //         $this->autoSaveSibling($get('id'), 'personal_email', $state);
+                    //     }),
+                    Select::make('current_school')
+                        ->label('Current School')
+                        ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                        ->preload()
+                        ->searchable()
+                        ->lazy()
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'current_school', $state);
+                        }),
+                    TextInput::make('current_school_not_listed')
+                        ->label('If not listed, add it here')
+                        ->lazy()
+                        ->required()
+                        ->placeholder('Enter School Name')
+                        ->hidden(fn (Closure $get) => $get('current_school') !== self::NotListed)
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'current_school_not_listed', $state);
+                        }),
+                    Select::make('current_grade')
+                        ->label('Current Grade')
+                        ->options(GradeLevel::asSameArray())
+                        ->preload()
+                        ->lazy()
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'current_grade', $state);
+                        }),
+                    TextInput::make('expected_graduation_year')
+                        ->label('High School Graduation Year')
+                        ->lazy()
+                        ->minLength(4)
+                        ->maxLength(4)
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'current_school_not_listed', $state);
+                        }),
+                ])
+                
             
         ];
     }
