@@ -78,7 +78,7 @@ class AddressInformation extends Component implements HasTable, HasForms
                 ->label('Address')
                 ->formatStateUsing(fn(Address $record) => $record->getFullAddress() ),
             TextColumn::make('phone_number')
-            ->label('Phone'),
+                ->label('Phone at Location'),
         ];
     }
 
@@ -124,18 +124,24 @@ class AddressInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Address Data yet';
+        return 'No Address information';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a address information using the form below.';
+        return 'Create an address record using the form below.';
     }
 
     protected function getFormStatePath(): string
     {
         return 'data';
     }
+
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
+    }
+
 
     protected function getFormSchema(): array
     {
@@ -165,7 +171,6 @@ class AddressInformation extends Component implements HasTable, HasForms
                                 ->label('ZIP Code')
                                 ->minLength(4)
                                 ->maxLength(5)
-                                ->numeric()
                                 ->required(),
                         ]),
                     Grid::make(1)
@@ -173,7 +178,26 @@ class AddressInformation extends Component implements HasTable, HasForms
                         ->schema([
                             Select::make('address_type')
                                 ->label('Address Type')
-                                ->options(AddressType::asSameArray())
+                                ->options(function(){
+
+                                    if($this->action == CrudAction::Create){
+                                        $current = Address::where('account_id', accountId())->pluck('address_type', 'address_type')->toArray();
+                                        $array = AddressType::asSameArray();
+                                        $types = [];
+
+                                        foreach($array as $type)
+                                        {
+                                            if(!in_array($type, $current)){
+                                                $types[] = $type;
+                                            }
+                                        }
+
+                                        return $types;
+                                    }
+
+                                    return AddressType::asSameArray();
+                                    
+                                })
                                 ->required(),
                             TextInput::make('phone_number')
                                 ->label('Phone at Location')

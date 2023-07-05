@@ -181,7 +181,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->email()
                             ->required(),
                         TextInput::make('mobile_phone')
-                            ->label('Mobile Phone')
+                            ->label('Mobile Phone (For Parents Mobile Phone)')
                             ->required()
                             ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                             ->placeholder('(000) 000-0000')

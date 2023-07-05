@@ -124,7 +124,7 @@ class ParentInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Parent/Guardian Information yet';
+        return 'No Parent/Guardian Information';
     }
  
     protected function getTableEmptyStateDescription(): ?string

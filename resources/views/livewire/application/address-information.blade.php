@@ -10,7 +10,7 @@
     <div x-data="{ enable: $wire.entangle('enable_form') }" 
         x-show="enable" 
         x-cloak 
-        class="pb-32 mt-8">
+        class="pt-8 pb-32 mt-8 border-t">
         <form wire:submit.prevent="save" class="p-8 bg-gray-100 border rounded-md " novalidate>
 
             {{ $this->form }}

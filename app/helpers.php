@@ -8,17 +8,82 @@ if (! function_exists('accountId')) {
 
 if (! function_exists('us_states')) {
     function us_states() {
-        $file = public_path('data/states.json');
-        $json = file_get_contents($file);
-        $data = json_decode($json, true);
-        $array = [];
 
-        foreach($data as $state)
-        {
-            $array[$state] = $state;
-        }
+        $array = [
+            "Alabama",
+            "Alaska",
+            "Arizona",
+            "Arkansas",
+            "California",
+            "Colorado",
+            "Connecticut",
+            "Delaware",
+            "District of Columbia",
+            "Florida",
+            "Georgia",
+            "Hawaii",
+            "Idaho",
+            "Illinois",
+            "Indiana",
+            "Iowa",
+            "Kansas",
+            "Kentucky",
+            "Louisiana",
+            "Maine",
+            "Maryland",
+            "Massachusetts",
+            "Michigan",
+            "Minnesota",
+            "Mississippi",
+            "Missouri",
+            "Montana",
+            "Nebraska",
+            "Nevada",
+            "New Hampshire",
+            "New Jersey",
+            "New Mexico",
+            "New York",
+            "North Carolina",
+            "North Dakota",
+            "Ohio",
+            "Oklahoma",
+            "Oregon",
+            "Pennsylvania",
+            "Rhode Island",
+            "South Carolina",
+            "South Dakota",
+            "Tennessee",
+            "Texas",
+            "Utah",
+            "Vermont",
+            "Virginia",
+            "Washington",
+            "West Virginia",
+            "Wisconsin",
+            "Wyoming",
+            "American Samoa",
+            "Federated States of Micronesia",
+            "Guam",
+            "Marshall Islands",
+            "Northern Mariana Islands",
+            "Palau",
+            "Puerto Rico",
+            "U.S. Minor Outlying Islands",
+            "U.S. Virgin Islands"
+        ];
 
-        return $array;
+        return array_combine($array, $array);
+        // $file = public_path('data/states.json');
+        // $json = file_get_contents($file);
+        // $data = json_decode($json, true);
+        // $array = [];
+
+        // foreach($data as $state)
+        // {
+        //     $array[$state] = $state;
+        // }
+
+        // return $array;
     }
 }
 
