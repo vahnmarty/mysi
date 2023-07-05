@@ -30,6 +30,7 @@ trait ParentFormTrait{
         return [
             Repeater::make('parents')
                 ->createItemButtonLabel('Add Parent/Guardian')
+                ->disableItemMovement()
                 ->schema([
                     Hidden::make('id')
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){

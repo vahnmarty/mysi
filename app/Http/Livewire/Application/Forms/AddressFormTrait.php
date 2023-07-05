@@ -23,6 +23,9 @@ trait AddressFormTrait{
     {
         return [
             Repeater::make('addresses')
+                ->label('')
+                ->disableItemMovement()
+                ->maxItems(4)
                 ->registerListeners([
                     'repeater::deleteItem' => [
                         function (Component $component, string $statePath, string $uuidToDelete): void {
@@ -42,7 +45,22 @@ trait AddressFormTrait{
                 ->schema([
                     Hidden::make('id'),
                     Select::make('address_type')
-                        ->options(AddressType::asSameArray())
+                        ->label('Address Type')
+                        ->options(function(Closure $get){
+                            $current = Address::where('account_id', accountId())->where('id', '!=', $get('id'))->pluck('address_type', 'address_type')->toArray();
+                            $array = AddressType::asSameArray();
+                            $types = [];
+
+                            foreach($array as $type)
+                            {
+                                if(!in_array($type, $current)){
+                                    $types[] = $type;
+                                }
+                            }
+
+
+                            return array_combine($types, $types);
+                        })
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(function(Closure $get, Closure $set, $state){
