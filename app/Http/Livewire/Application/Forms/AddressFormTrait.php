@@ -80,6 +80,7 @@ trait AddressFormTrait{
                             $this->autoSaveAddress($id, 'address_type', $state);
                         }),
                     TextInput::make('address')
+                        ->label('Address')
                         ->disabled(fn(Closure $get) => !$get('address_type') )
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
@@ -87,6 +88,7 @@ trait AddressFormTrait{
                         })
                         ->required(),
                     TextInput::make('city')
+                        ->label('City')
                         ->disabled(fn(Closure $get) => !$get('address_type') )
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
@@ -94,6 +96,7 @@ trait AddressFormTrait{
                         })
                         ->required(),
                     Select::make('state')
+                        ->label('State')
                         ->options(us_states())
                         //->disabled(fn(Closure $get) => !$get('address_type') )
                         ->required()
@@ -110,6 +113,7 @@ trait AddressFormTrait{
                             }
                         }),
                     TextInput::make('zip_code')
+                        ->label('ZIP Code')
                         ->disabled(fn(Closure $get) => !$get('address_type') )
                         ->numeric()
                         ->minLength(4)
@@ -120,6 +124,7 @@ trait AddressFormTrait{
                             $this->autoSaveAddress($get('id'), 'zip_code', $state);
                         }),
                     TextInput::make('phone_number')
+                        ->label('Phone Number')
                         ->disabled(fn(Closure $get) => !$get('address_type') )
                         ->label('Primary Phone Number at Location:')
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
