@@ -73,10 +73,15 @@ class AdmissionApplication extends Component implements HasTable, HasForms
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('student_name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
-            TextColumn::make('application.record_type')->label('Type'),
-            TextColumn::make('current_school')->label('Current School'),
-            TextColumn::make('current_grade')->label('Current Grade'),
+            TextColumn::make('student_name')
+                ->label('Student Name')
+                ->formatStateUsing(fn(Child $record) => $record->getFullName() ),
+            TextColumn::make('application.record_type')
+                ->label('Type'),
+            TextColumn::make('current_school')
+                ->label('Current School'),
+            TextColumn::make('current_grade')
+                ->label('Current Grade'),
         ];
     }
 
@@ -162,6 +167,11 @@ class AdmissionApplication extends Component implements HasTable, HasForms
     protected function getFormStatePath(): string
     {
         return 'data';
+    }
+
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
     }
 
     protected function getFormSchema(): array

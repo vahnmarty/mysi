@@ -134,6 +134,11 @@ class ChildrenInformation extends Component implements HasTable, HasForms
         return 'data';
     }
 
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
+    }
+
     protected function getFormSchema(): array
     {
         return [
@@ -188,6 +193,12 @@ class ChildrenInformation extends Component implements HasTable, HasForms
             ])
             
         ];
+    }
+
+    public function cancel()
+    {
+        $this->enable_form = false;
+        $this->form->fill();
     }
 
     public function save()

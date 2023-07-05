@@ -72,9 +72,13 @@ class AddressInformation extends Component implements HasTable, HasForms
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('address_type'),
-            TextColumn::make('address')->formatStateUsing(fn(Address $record) => $record->getFullAddress() ),
-            TextColumn::make('phone_number')->label('Phone'),
+            TextColumn::make('address_type')
+                ->label('Address Type'),
+            TextColumn::make('address')
+                ->label('Address')
+                ->formatStateUsing(fn(Address $record) => $record->getFullAddress() ),
+            TextColumn::make('phone_number')
+            ->label('Phone'),
         ];
     }
 

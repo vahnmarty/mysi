@@ -12,6 +12,7 @@ use App\Enums\CrudAction;
 use App\Enums\ParentType;
 use App\Enums\Salutation;
 use App\Enums\AddressLocation;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Hidden;
@@ -84,14 +85,15 @@ class ParentInformation extends Component implements HasTable, HasForms
     {
         return [ 
             Action::make('edit')
+                ->color('primary-blue')
+                ->label(new HtmlString('<span class="text-link">Edit</span>'))
                 ->action(function(Parents $record){
                     $this->model_id = $record->id;
                     $this->action = CrudAction::Update;
                     $this->enable_form = true;
                     $this->form->fill($record->toArray());
-                    
                 }),
-            DeleteAction::make()->icon(''),
+            DeleteAction::make()->icon('')->color('danger'),
         ];
     }
 
@@ -134,6 +136,11 @@ class ParentInformation extends Component implements HasTable, HasForms
     {
         return 'data';
     }
+    
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
+    }
 
     protected function getFormSchema(): array
     {
@@ -154,26 +161,26 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->label('Legal First Name')
                                 ->required(),
                             TextInput::make('middle_name')
-                                ->label('Legal Middle Name')
-                                ->required(),
+                                ->label('Legal Middle Name'),
                             TextInput::make('last_name')
                                 ->label('Legal Last Name')
                                 ->required(),
                             Select::make('suffix')
                                 ->label('Suffix')
                                 ->options(Suffix::asSelectArray()),
-                            TextInput::make('preferred_first_name')
-                                ->label('Preferred First Name (must be different from Legal First Name)')
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)
                         ->schema([
-                            Select::make('relationship_type')
-                                ->label('Relationship Type')
-                                ->options(ParentType::asSelectArray())->required(),
-                            Select::make('address_location')
-                                ->label('Address Location')
-                                ->options(AddressLocation::asSelectArray())->required(),
+                            // Select::make('relationship_type')
+                            //     ->label('Relationship Type')
+                            //     ->options(ParentType::asSelectArray())->required(),
+                            // Select::make('address_location')
+                            //     ->label('Address Location')
+                            //     ->options(AddressLocation::asSelectArray())->required(),
+
+                            TextInput::make('preferred_first_name')
+                                ->label('Preferred First Name (Must be different from Legal First Name)'),
                             TextInput::make('mobile_phone')
                                 ->label('Mobile Phone')
                                 ->required()
@@ -186,14 +193,18 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->required(),
                             // TextInput::make('alternate_email')->label('Alternate Email')->email(),
                             TextInput::make('employer')
-                                ->label('Employer')
-                                ->required(),
+                                ->label('Employer'),
                             TextInput::make('job_title')
-                                ->label('Job Title')
-                                ->required(),
+                                ->label('Job Title'),
                         ])
                 ]),
         ];
+    }
+
+    public function cancel()
+    {
+        $this->enable_form = false;
+        $this->form->fill();
     }
 
     public function save()

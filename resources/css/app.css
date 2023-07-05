@@ -50,3 +50,11 @@ sup{
 .filament-forms-field-wrapper-label span:has(> sup) {
     color: #800 !important;
 }
+
+.filament-tables-link-action{
+    @apply text-link hover:text-link;
+}
+
+.filament-tables-header-cell span{
+    @apply font-bold;
+}
