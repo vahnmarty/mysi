@@ -167,7 +167,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->required(),
                             Select::make('suffix')
                                 ->label('Suffix')
-                                ->options(Suffix::asSelectArray()),
+                                ->options(Suffix::asSameArray()),
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)

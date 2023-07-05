@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use App\Enums\Traits\EnumCustomTrait;
 
 /**
  * @method static static OptionOne()
@@ -11,6 +12,11 @@ use BenSampo\Enum\Enum;
  */
 final class Suffix extends Enum
 {
-    const Jr = 'Jr';
-    const Sr = 'Sr';
+    use EnumCustomTrait;
+    
+    const Jr = 'Jr.';
+    const II = 'II';
+    const III = 'III';
+    const IV = 'IV';
+    const V = 'V';
 }

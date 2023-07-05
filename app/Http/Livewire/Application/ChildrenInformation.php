@@ -73,7 +73,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
         return [
             TextColumn::make('student_name')->label('Student Name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone')->label('Mobile Phone'),
-            TextColumn::make('personal_email')->label('Email'),
+            TextColumn::make('personal_email')->label('Personal Email'),
             TextColumn::make('current_school')->label('Current School'),
             TextColumn::make('current_grade')->label('Current Grade'),
         ];
@@ -121,12 +121,12 @@ class ChildrenInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Children Data yet';
+        return 'No Child information';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a child information using the form below.';
+        return 'Create a child record using the form below.';
     }
 
     protected function getFormStatePath(): string
@@ -164,10 +164,10 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->required(),
                         Select::make('suffix')
                             ->label('Suffix')
-                            ->options(Suffix::asSelectArray()),
+                            ->options(Suffix::asSameArray()),
                         TextInput::make('preferred_first_name')
                             ->label('Preferred First Name')
-                            ->helperText('(must be different from First Name)')
+                            ->helperText('(Must be different from Legal First Name)')
                             ->required(),
                     ]),
                 Grid::make(1)
@@ -177,7 +177,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->options(Gender::asSelectArray())
                             ->required(),
                         TextInput::make('personal_email')
-                            ->label('Preferred Email')
+                            ->label('Personal Email')
                             ->email()
                             ->required(),
                         TextInput::make('mobile_phone')
@@ -189,7 +189,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
                         Select::make('current_school')
                             ->label('Current School')
-                            ->options(School::active()->get()->pluck('name', 'name')->toArray())
+                            ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                             ->preload()
                             ->searchable()
                             ->required(),

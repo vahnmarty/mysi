@@ -67,7 +67,7 @@ trait ParentFormTrait{
                             $this->autoSaveParent($get('id'),'last_name', $state);
                         }),
                     Select::make('suffix')
-                        ->options(Suffix::asSelectArray())
+                        ->options(Suffix::asSameArray())
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'suffix', $state);

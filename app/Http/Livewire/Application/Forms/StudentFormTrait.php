@@ -41,7 +41,7 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('middle_name', $state);
                 }),
             Select::make('student.suffix')
-                ->options(Suffix::asSelectArray())
+                ->options(Suffix::asSameArray())
                 ->label('Suffix')
                 ->lazy()
                 ->afterStateUpdated(function($state){
