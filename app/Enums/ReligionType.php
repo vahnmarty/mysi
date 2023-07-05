@@ -16,5 +16,10 @@ final class ReligionType extends Enum
     
     const Catholic = 'Catholic';
     const Christian = 'Christian';
+    const Buddhist = 'Buddhist';
+    const Hindu = 'Hindu';
+    const Jewish = 'Jewish';
+    const Muslim = 'Muslim';
+    const NoReligion = 'No Religion';
     const Other = 'Other';
 }

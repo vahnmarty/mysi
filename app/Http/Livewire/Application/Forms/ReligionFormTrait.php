@@ -33,7 +33,7 @@ trait ReligionFormTrait{
             
             Select::make('student.religion')
                 ->options(ReligionType::asSelectArray())
-                ->label("Applicant(s)'s Religion")
+                ->label("Applicant's Religion")
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
@@ -62,11 +62,11 @@ trait ReligionFormTrait{
                 }),
             TextInput::make('student.baptism_year')
                 ->label('Baptism Year')
-                ->numeric()
                 ->integer()
                 ->minLength(4)
                 ->maxLength(4)
                 ->maxValue(date('Y'))
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                 ->lazy()
                 ->afterStateUpdated(function(Livewire $livewire, Closure $get, $state){
                     $livewire->validateOnly('data.student.baptism_year');
@@ -79,6 +79,7 @@ trait ReligionFormTrait{
                 ->minLength(4)
                 ->maxLength(4)
                 ->maxValue(date('Y'))
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                 ->lazy()
                 ->afterStateUpdated(function(Livewire $livewire, Closure $get, $state){
                     $livewire->validateOnly('data.student.confirmation_year');
@@ -86,7 +87,7 @@ trait ReligionFormTrait{
                 }),
             Textarea::make('impact_to_community')
                 ->label("What impact does community have in your life and how do you best support your child's school community?")
-                ->helperText("Up to 500 characters only.")
+                ->helperText("Please limit your answer to 75 words.")
                 ->required()
                 ->rows(5)
                 ->maxLength(500)
@@ -94,7 +95,7 @@ trait ReligionFormTrait{
                     $this->autoSave('impact_to_community', $state);
                 }),
             CheckboxList::make('describe_family_spirituality')
-                ->label("How would you describe your family's spirituality? ")
+                ->label("How would you describe your family's spirituality? Check all that apply ")
                 ->options(FamilySpiritualityType::asSameArray())
                 ->columns(3)
                 ->lazy()
@@ -112,8 +113,8 @@ trait ReligionFormTrait{
                     $this->autoSave('describe_family_spirituality', $input);
                 }),
             Textarea::make('describe_family_spirituality_in_detail')
-                ->label("What impact does community have in your life and how do you best support your child's school community?")
-                ->helperText("Up to 500 characters only.")
+                ->label("Describe the practice(s) checked above in more detail")
+                ->helperText("Please limit your answer to 75 words.")
                 ->required()
                 ->rows(5)
                 ->maxLength(500)
@@ -135,7 +136,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
-                        ->required(fn (Closure $get) => $get('religious_studies_classes') == CommonOption::No || $get('religious_studies_classes')  == CommonOption::Unsure)
+                        //->required(fn (Closure $get) => $get('religious_studies_classes') == CommonOption::No || $get('religious_studies_classes')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('religious_studies_classes')) || $get('religious_studies_classes') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('religious_studies_classes_explanation', $state);
@@ -152,7 +153,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
-                        ->required(fn (Closure $get) => $get('school_liturgies') == CommonOption::No || $get('school_liturgies')  == CommonOption::Unsure)
+                        //->required(fn (Closure $get) => $get('school_liturgies') == CommonOption::No || $get('school_liturgies')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('school_liturgies')) || $get('school_liturgies') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('school_liturgies_explanation', $state);
@@ -169,7 +170,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
-                        ->required(fn (Closure $get) => $get('retreats') == CommonOption::No || $get('retreats')  == CommonOption::Unsure)
+                        //->required(fn (Closure $get) => $get('retreats') == CommonOption::No || $get('retreats')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('retreats')) || $get('retreats') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('retreats_explanation', $state);
@@ -186,7 +187,7 @@ trait ReligionFormTrait{
                         ->label('If No/Unsure, please explain')
                         ->columnSpan(2)
                         ->lazy()
-                        ->required(fn (Closure $get) => $get('community_service_explanation') == CommonOption::No || $get('community_service_explanation')  == CommonOption::Unsure)
+                        //->required(fn (Closure $get) => $get('community_service_explanation') == CommonOption::No || $get('community_service_explanation')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('community_service')) || $get('community_service') == CommonOption::Yes)
                         ->afterStateUpdated(function($state){
                             $this->autoSave('community_service_explanation', $state);
@@ -201,7 +202,7 @@ trait ReligionFormTrait{
                         $this->autoSave('religious_statement_by', $state);
                     }),
                 Select::make('religious_relationship_to_student')
-                    ->label('Relationship to Student')
+                    ->label('Relationship to Applicant')
                     ->options(ParentType::asSameArray())
                     ->required()
                     ->lazy()
