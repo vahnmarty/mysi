@@ -86,11 +86,11 @@ class ApplicationForm extends Component implements HasForms
         $data['siblings_matrix'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
         $data['legacy'] = $account->legacies->toArray();
         $data['activities'] = $this->app->activities->toArray();
-        $data['billing'] = [
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email,
-        ];
+        // $data['billing'] = [
+        //     'first_name' => $user->first_name,
+        //     'last_name' => $user->last_name,
+        //     'email' => $user->email,
+        // ];
         $data['autosave'] = true;
 
         if($this->app->payment){

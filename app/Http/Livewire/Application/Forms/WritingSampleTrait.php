@@ -44,7 +44,6 @@ trait WritingSampleTrait{
                     </div>'))
                 ->helperText('Please limit your answer to 250 words.')
                 ->maxLength(1750)
-                ->placeholder('Start writing here ...')
                 ->rows(15)
                 ->lazy()
                 ->required()
