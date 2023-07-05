@@ -7,6 +7,7 @@ use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
 use App\Enums\RacialType;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
@@ -26,19 +27,19 @@ trait StudentFormTrait{
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('first_name', $state);
                 }),
-            TextInput::make('student.last_name')
-                ->label('Legal Last Name')
-                ->lazy()
-                ->required()
-                ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('last_name', $state);
-                }),
             TextInput::make('student.middle_name')
                 ->label('Legal Middle Name')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('middle_name', $state);
+                }),
+            TextInput::make('student.last_name')
+                ->label('Legal Last Name')
+                ->lazy()
+                ->required()
+                ->afterStateUpdated(function($state){
+                    $this->autoSaveStudent('last_name', $state);
                 }),
             Select::make('student.suffix')
                 ->options(Suffix::asSameArray())
@@ -87,11 +88,10 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('mobile_phone', $state);
                 }),
             CheckboxList::make('student.race')
-                ->label('How do you identify racially?')
+                ->label(new HtmlString('<legend>How do you identify racially?</legend><div class="text-xs">*Select all that apply to you</div>'))
                 ->options(RacialType::asSameArray())
                 ->columns(3)
                 ->lazy()
-                ->required()
                 ->afterStateHydrated(function (CheckboxList $component, $state) {
                     if(is_string($state)){
                         $component->state(explode(',', $state));
@@ -111,10 +111,9 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
             TagsInput::make('student.ethnicity')
-                ->label('What is your ethnicity?')
-                ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Middle Eastern, Salvadorian"')
+                ->label(new HtmlString('<legend>What is your ethnicity?</legend><div class="text-xs">*If more than one, separate ethnicities with a comma.</div>'))
+                ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
-                ->required()
                 ->placeholder('Enter ethnicity then Press Comma or Enter')
                 ->afterStateHydrated(function (TagsInput $component, $state) {
                     if(is_string($state)){
@@ -147,32 +146,44 @@ trait StudentFormTrait{
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('current_school_not_listed', $state);
                 }),
-            TextInput::make('other_high_school_1')
+            Select::make('other_high_school_1')
                 ->label('Other High School #1')
+                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->preload()
+                ->searchable()
                 ->hint('(where you plan to apply)')
                 ->placeholder('Enter School Name')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('other_high_school_1', $state);
                 }),
-            TextInput::make('other_high_school_2')
+            Select::make('other_high_school_2')
                 ->label('Other High School #2')
+                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->preload()
+                ->searchable()
                 ->hint('(where you plan to apply)')
                 ->placeholder('Enter School Name')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('other_high_school_2', $state);
                 }),
-            TextInput::make('other_high_school_3')
+            Select::make('other_high_school_3')
                 ->label('Other High School #3')
+                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->preload()
+                ->searchable()
                 ->hint('(where you plan to apply)')
                 ->placeholder('Enter School Name')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('other_high_school_3', $state);
                 }),
-            TextInput::make('other_high_school_4')
+            Select::make('other_high_school_4')
                 ->label('Other High School #4')
+                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->preload()
+                ->searchable()
                 ->hint('(where you plan to apply)')
                 ->placeholder('Enter School Name')
                 ->lazy()
