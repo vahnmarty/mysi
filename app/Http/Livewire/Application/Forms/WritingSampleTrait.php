@@ -35,7 +35,7 @@ trait WritingSampleTrait{
                                 What is an obstacle you have overcome?
                             </h3>
                             <p>
-                                Explain how the obstacle impacted you and how you handled the situation (i.e., positive and/or negative attempts along the way or maybe how you are still working on it .
+                                Explain how the obstacle impacted you and how you handled the situation (i.e., positive and/or negative attempts along the way or maybe how you are still working on it).
                             </p>
                             <p>
                                 Include what you have learned from the experience and how you have applied (or might apply) this to another situation in your life.
