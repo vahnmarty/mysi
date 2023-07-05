@@ -143,53 +143,61 @@ class ChildrenInformation extends Component implements HasTable, HasForms
     {
         return [
             Grid::make(2)
-            ->schema([
-                Hidden::make('account_id')
-                ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
-                    if(!$state){
-                        $set('account_id', accountId());
-                    }
-                }),
-                TextInput::make('first_name')
-                    ->label('Legal First Name')
-                    ->required(),
-                TextInput::make('middle_name')
-                    ->label('Legal Middle Name')
-                    ->required(),
-                TextInput::make('last_name')
-                    ->label('Legal Last Name')
-                    ->required(),
-                Select::make('suffix')
-                    ->label('Suffix')
-                    ->options(Suffix::asSelectArray()),
-                TextInput::make('preferred_first_name')
-                    ->label('Preferred First Name')
-                    ->helperText('(must be different from First Name)')
-                    ->required(),
-                Select::make('gender')
-                    ->options(Gender::asSelectArray())
-                    ->required(),
-                TextInput::make('personal_email')
-                    ->label('Preferred Email')
-                    ->email()
-                    ->required(),
-                TextInput::make('mobile_phone')
-                    ->label('Mobile Phone')
-                    ->required()
-                    ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
-                    ->placeholder('(000) 000-0000')
-                    ->tel(),
-                    //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                Select::make('current_school')
-                    ->label('Current School')
-                    ->options(School::active()->get()->pluck('name', 'name')->toArray())
-                    ->preload()
-                    ->searchable()
-                    ->required(),
-                Select::make('current_grade')
-                    ->label('Current Grade')
-                    ->options(GradeLevel::asSameArray())
-                    ->required(),
+                ->schema([
+                Grid::make(1)
+                    ->columnSpan(1)
+                    ->schema([
+                        Hidden::make('account_id')
+                        ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
+                            if(!$state){
+                                $set('account_id', accountId());
+                            }
+                        }),
+                        TextInput::make('first_name')
+                            ->label('Legal First Name')
+                            ->required(),
+                        TextInput::make('middle_name')
+                            ->label('Legal Middle Name')
+                            ->required(),
+                        TextInput::make('last_name')
+                            ->label('Legal Last Name')
+                            ->required(),
+                        Select::make('suffix')
+                            ->label('Suffix')
+                            ->options(Suffix::asSelectArray()),
+                        TextInput::make('preferred_first_name')
+                            ->label('Preferred First Name')
+                            ->helperText('(must be different from First Name)')
+                            ->required(),
+                    ]),
+                Grid::make(1)
+                    ->columnSpan(1)
+                    ->schema([
+                        Select::make('gender')
+                            ->options(Gender::asSelectArray())
+                            ->required(),
+                        TextInput::make('personal_email')
+                            ->label('Preferred Email')
+                            ->email()
+                            ->required(),
+                        TextInput::make('mobile_phone')
+                            ->label('Mobile Phone')
+                            ->required()
+                            ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
+                            ->placeholder('(000) 000-0000')
+                            ->tel(),
+                            //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
+                        Select::make('current_school')
+                            ->label('Current School')
+                            ->options(School::active()->get()->pluck('name', 'name')->toArray())
+                            ->preload()
+                            ->searchable()
+                            ->required(),
+                        Select::make('current_grade')
+                            ->label('Current Grade')
+                            ->options(GradeLevel::asSameArray())
+                            ->required(),
+                    ])
             ])
             
         ];
