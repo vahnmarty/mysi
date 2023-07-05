@@ -76,8 +76,10 @@ class AdmissionApplication extends Component implements HasTable, HasForms
             TextColumn::make('student_name')
                 ->label('Student Name')
                 ->formatStateUsing(fn(Child $record) => $record->getFullName() ),
-            TextColumn::make('application.record_type')
-                ->label('Type'),
+            TextColumn::make('mobile_phone')
+                ->label('Mobile Phone'),
+            TextColumn::make('personal_email')
+                ->label('Email'),
             TextColumn::make('current_school')
                 ->label('Current School'),
             TextColumn::make('current_grade')
@@ -126,6 +128,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
 
                     return redirect()->route('application.form', $app->uuid);
                 }),
+            DeleteAction::make()->icon(''),
         ];
     }
 
@@ -156,12 +159,12 @@ class AdmissionApplication extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Student Data yet';
+        return 'No Child information';
     }
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'You may create a a child first before applying.';
+        return 'Create a child record first before applying.';
     }
 
     protected function getFormStatePath(): string
