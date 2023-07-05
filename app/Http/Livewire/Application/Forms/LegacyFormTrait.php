@@ -26,47 +26,51 @@ trait LegacyFormTrait{
     {
         return [
             Repeater::make('legacy')
-            ->createItemButtonLabel('Add Legacy Relative')
-            ->defaultItems(1)
-            ->schema([
-                Hidden::make('id')
-                    ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
-                        if(!$state){
-                            $legacy = Legacy::create(['account_id' => $this->app->account_id]);
-                            $set('id', $legacy->id);
-                        }
-                    }),
-                TextInput::make('first_name')
-                    ->label('First Name')
-                    ->lazy()
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveLegacy($get('id'), 'first_name', $state);
-                    }),
-                TextInput::make('last_name')
-                    ->label('Last Name')
-                    ->lazy()
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveLegacy($get('id'), 'last_name', $state);
-                    }),
-                Select::make('relationship_type')
-                    ->options(ParentType::asSameArray())
-                    ->required()
-                    ->afterStateUpdated(function(Closure $get, $state){
-                        $this->autoSaveLegacy($get('id'), 'relationship_type', $state);
-                    }),
-                TextInput::make('graduation_year')
-                    ->label('Graduation Year')
-                    ->lazy()
-                    ->numeric()
-                    ->minLength(4)
-                    ->maxLength(4)
-                    ->maxValue(date('Y'))
-                    ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
-                        $livewire->validateOnly($component->getStatePath());
-                        $this->autoSaveLegacy($get('id'), 'graduation_year', $state);
-                    }),
+                ->label('List up to 5 relatives who have attended SI.  Do not include siblings.')
+                ->createItemButtonLabel('Add Legacy Relative')
+                ->defaultItems(1)
+                ->disableItemMovement()
+                ->maxItems(5)
+                ->schema([
+                    Hidden::make('id')
+                        ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
+                            if(!$state){
+                                $legacy = Legacy::create(['account_id' => $this->app->account_id]);
+                                $set('id', $legacy->id);
+                            }
+                        }),
+                    TextInput::make('first_name')
+                        ->label('First Name')
+                        ->lazy()
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveLegacy($get('id'), 'first_name', $state);
+                        }),
+                    TextInput::make('last_name')
+                        ->label('Last Name')
+                        ->lazy()
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveLegacy($get('id'), 'last_name', $state);
+                        }),
+                    Select::make('relationship_type')
+                        ->label('Relationship to Applicant')
+                        ->options(ParentType::asSameArray())
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveLegacy($get('id'), 'relationship_type', $state);
+                        }),
+                    TextInput::make('graduation_year')
+                        ->label('Graduation Year')
+                        ->lazy()
+                        ->numeric()
+                        ->minLength(4)
+                        ->maxLength(4)
+                        ->maxValue(date('Y'))
+                        ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
+                            $livewire->validateOnly($component->getStatePath());
+                            $this->autoSaveLegacy($get('id'), 'graduation_year', $state);
+                        }),
             ])
             ->registerListeners([
                 'repeater::deleteItem' => [
