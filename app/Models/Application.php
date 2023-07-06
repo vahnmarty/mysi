@@ -77,6 +77,6 @@ class Application extends Model
             return 'Submitted';
         }
 
-        return '--';
+        return '';
     }
 }

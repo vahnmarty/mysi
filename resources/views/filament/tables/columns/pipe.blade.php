@@ -1,0 +1,1 @@
+<span class="-mx-2 opacity-50 text-link">|</span>

@@ -25,6 +25,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -89,6 +90,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                     $this->form->fill($record->toArray());
                     
                 }),
+            ViewColumn::make('pipe')->label('')->view('filament.tables.columns.pipe'),
             DeleteAction::make()->icon(''),
         ];
     }

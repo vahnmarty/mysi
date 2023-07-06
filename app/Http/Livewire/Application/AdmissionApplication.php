@@ -26,12 +26,14 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -128,6 +130,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
 
                     return redirect()->route('application.form', $app->uuid);
                 }),
+            ViewColumn::make('pipe')->label('')->view('filament.tables.columns.pipe'),
             DeleteAction::make()->icon(''),
         ];
     }
