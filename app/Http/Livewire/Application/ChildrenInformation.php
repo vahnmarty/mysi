@@ -55,9 +55,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
 
     public function mount()
     {
-        $this->form->fill([
-            'account_id' => accountId()
-        ]);
+        $this->form->fill();
 
         if($this->getTableQuery()->count() <= 0){
             $this->enable_form = true;
@@ -220,6 +218,9 @@ class ChildrenInformation extends Component implements HasTable, HasForms
         $data = $this->form->getState();
 
         if($this->action == CrudAction::Create){
+            
+            $data['account_id'] = accountId();
+
             Child::create($data);
 
             Notification::make()

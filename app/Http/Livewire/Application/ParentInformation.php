@@ -49,9 +49,7 @@ class ParentInformation extends Component implements HasTable, HasForms
 
     public function mount()
     {
-        $this->form->fill([
-            'account_id' => accountId()
-        ]);
+        $this->form->fill();
 
         if($this->getTableQuery()->count() <= 0){
             $this->enable_form = true;
@@ -185,8 +183,9 @@ class ParentInformation extends Component implements HasTable, HasForms
                             TextInput::make('mobile_phone')
                                 ->label('Mobile Phone')
                                 ->required()
-                                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
-                                ->rules([new PhoneNumberRule]),
+                                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                                ->rules([new PhoneNumberRule])
+                                ->default(''),
                             TextInput::make('personal_email')
                                 ->label('Preferred Email')
                                 ->email()
@@ -220,6 +219,7 @@ class ParentInformation extends Component implements HasTable, HasForms
         $data = $this->form->getState();
 
         if($this->action == CrudAction::Create){
+            $data['account_id'] = accountId();
             Parents::create($data);
 
             Notification::make()
