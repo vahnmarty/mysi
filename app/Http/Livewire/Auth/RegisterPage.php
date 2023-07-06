@@ -12,6 +12,7 @@ use Livewire\Component;
 use App\Rules\HasNumber;
 use App\Rules\HasLowercase;
 use App\Rules\HasUppercase;
+use App\Rules\PhoneNumberRule;
 use App\Rules\HasSpecialCharacter;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Auth\Events\Registered;
@@ -55,11 +56,10 @@ class RegisterPage extends Component implements HasForms
                 ->required(),
             TextInput::make('phone')
                 ->disableLabel()
-                ->validationAttribute('Parent/Guardian phone number')
                 ->label('Parent/Guardian Phone')
                 ->placeholder('Parent/Guardian Phone')
-                ->tel()
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
+                ->rules([new PhoneNumberRule])
                 ->required(),
             TextInput::make('email')
                 ->disableLabel()
@@ -71,7 +71,7 @@ class RegisterPage extends Component implements HasForms
                 ->required(),
             Password::make('password')
                 ->disableLabel()
-                ->validationAttribute('Password')
+                ->validationAttribute('password')
                 ->revealable()
                 ->reactive()
                 ->required()
@@ -99,8 +99,10 @@ class RegisterPage extends Component implements HasForms
 
     protected function onValidationError(ValidationException $exception): void
     {
+        
         Notification::make()
-            ->title($exception->getMessage())
+            //->title($exception->getMessage())
+            ->title('Error! Please check the form.')
             ->danger()
             ->send();
     }
