@@ -15,6 +15,7 @@ use App\Enums\GradeLevel;
 use App\Enums\ParentType;
 use App\Enums\RacialType;
 use App\Enums\Salutation;
+use App\Rules\PhoneNumberRule;
 use App\Enums\ConditionBoolean;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
@@ -157,8 +158,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->label('Legal First Name')
                             ->required(),
                         TextInput::make('middle_name')
-                            ->label('Legal Middle Name')
-                            ->required(),
+                            ->label('Legal Middle Name'),
                         TextInput::make('last_name')
                             ->label('Legal Last Name')
                             ->required(),
@@ -183,10 +183,8 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                         TextInput::make('mobile_phone')
                             ->label('Mobile Phone (For Parents Mobile Phone)')
                             ->required()
-                            ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
-                            ->placeholder('(000) 000-0000')
-                            ->tel(),
-                            //->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
+                            ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
+                            ->rules([new PhoneNumberRule]),
                         Select::make('current_school')
                             ->label('Current School')
                             ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
