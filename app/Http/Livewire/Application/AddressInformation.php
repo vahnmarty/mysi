@@ -16,6 +16,7 @@ use App\Enums\ParentType;
 use App\Enums\RacialType;
 use App\Enums\Salutation;
 use App\Enums\AddressType;
+use App\Rules\PhoneNumberRule;
 use App\Enums\ConditionBoolean;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
@@ -97,19 +98,19 @@ class AddressInformation extends Component implements HasTable, HasForms
         ];
     }
 
-    protected function getTableHeaderActions(): array
-    {
-        return [ 
-            CreateAction::make()
-                ->label('Add')
-                ->action(function(){
-                    $this->reset('model_id');
-                    $this->action = CrudAction::Create;
-                    $this->enable_form = true;
-                    $this->form->fill();
-                })
-        ];
-    }
+    // protected function getTableHeaderActions(): array
+    // {
+    //     return [ 
+    //         CreateAction::make()
+    //             ->label('Add')
+    //             ->action(function(){
+    //                 $this->reset('model_id');
+    //                 $this->action = CrudAction::Create;
+    //                 $this->enable_form = true;
+    //                 $this->form->fill();
+    //             })
+    //     ];
+    // }
 
 
     protected function isTablePaginationEnabled(): bool 
@@ -188,7 +189,7 @@ class AddressInformation extends Component implements HasTable, HasForms
                                         foreach($array as $type)
                                         {
                                             if(!in_array($type, $current)){
-                                                $types[] = $type;
+                                                $types[$type] = $type;
                                             }
                                         }
 
@@ -202,13 +203,25 @@ class AddressInformation extends Component implements HasTable, HasForms
                             TextInput::make('phone_number')
                                 ->label('Phone at Location')
                                 ->required()
-                                ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
-                                ->placeholder('(000) 000-0000')
-                                ->tel()
-                                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
+                                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
+                                ->rules([new PhoneNumberRule]),
                         ])
                 ]),
         ];
+    }
+
+    public function add()
+    {
+        $this->reset('model_id');
+        $this->action = CrudAction::Create;
+        $this->enable_form = true;
+        $this->form->fill();
+    }
+
+    public function cancel()
+    {
+        $this->enable_form = false;
+        $this->form->fill();
     }
 
     public function save()
