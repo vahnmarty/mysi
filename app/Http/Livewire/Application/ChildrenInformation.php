@@ -95,19 +95,19 @@ class ChildrenInformation extends Component implements HasTable, HasForms
         ];
     }
 
-    protected function getTableHeaderActions(): array
-    {
-        return [ 
-            CreateAction::make()
-                ->label('Add')
-                ->action(function(){
-                    $this->reset('model_id');
-                    $this->action = CrudAction::Create;
-                    $this->enable_form = true;
-                    $this->form->fill();
-                })
-        ];
-    }
+    // protected function getTableHeaderActions(): array
+    // {
+    //     return [ 
+    //         CreateAction::make()
+    //             ->label('Add')
+    //             ->action(function(){
+    //                 $this->reset('model_id');
+    //                 $this->action = CrudAction::Create;
+    //                 $this->enable_form = true;
+    //                 $this->form->fill();
+    //             })
+    //     ];
+    // }
 
 
     protected function isTablePaginationEnabled(): bool 
@@ -199,6 +199,14 @@ class ChildrenInformation extends Component implements HasTable, HasForms
             ])
             
         ];
+    }
+
+    public function add()
+    {
+        $this->reset('model_id');
+        $this->action = CrudAction::Create;
+        $this->enable_form = true;
+        $this->form->fill();
     }
 
     public function cancel()
