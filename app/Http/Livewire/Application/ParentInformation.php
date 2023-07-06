@@ -12,6 +12,7 @@ use App\Enums\CrudAction;
 use App\Enums\ParentType;
 use App\Enums\Salutation;
 use App\Enums\AddressLocation;
+use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
@@ -184,9 +185,8 @@ class ParentInformation extends Component implements HasTable, HasForms
                             TextInput::make('mobile_phone')
                                 ->label('Mobile Phone')
                                 ->required()
-                                ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
-                                ->tel()
-                                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
+                                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
+                                ->rules([new PhoneNumberRule]),
                             TextInput::make('personal_email')
                                 ->label('Preferred Email')
                                 ->email()
