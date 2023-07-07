@@ -123,7 +123,7 @@ trait SiblingFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'current_grade', $state);
                         }),
-                    TextInput::make('expected_graduation_year')
+                    TextInput::make('graduation_year')
                         ->label('High School Graduation Year')
                         ->lazy()
                         ->minLength(4)
