@@ -16,6 +16,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Placeholder;
 use Awcodes\FilamentTableRepeater\Components\TableRepeater;
 
 
@@ -72,13 +73,31 @@ trait FamilyMatrixTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'), 'living_situation', $state);
                         }),
-                    Toggle::make('status')
-                        ->label('Deceased?'),
+                    Toggle::make('deceased_flag')
+                        ->label('Deceased?')
+                        ->reactive()
+                        ->afterStateUpdated(function(Closure $get, Closure $set, $state){
+                            $this->autoSaveParent($get('id'), 'deceased_flag', $state);
+                            if($get('deceased_flag')){
+                                $set('is_primary', false);
+                            }
+                        }),
                     Toggle::make('is_primary')
                         ->label('Primary?')
                         ->reactive()
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->afterStateUpdated(function(Closure $get, Closure $set, Toggle $component, $state){
                             $this->autoSaveParent($get('id'), 'is_primary', $state);
+
+                            if($get('is_primary')){
+                                $set('deceased_flag', false);
+                                
+                                foreach($this->data['parents_matrix'] as $uuid => $item)
+                                {
+                                    if($item['id'] != $get('id')){
+                                        $this->data['parents_matrix'][$uuid]['is_primary'] = false;
+                                    }
+                                }
+                            }
                         }),
                 ]),
             TableRepeater::make('siblings_matrix')
@@ -129,12 +148,12 @@ trait FamilyMatrixTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'living_situation', $state);
                         }),
-                    Toggle::make('status')
-                        ->disabled()
-                        ->label(new HtmlString('<span class="invisible">Deceased?</span>')),
-                    Toggle::make('primary')
-                        ->disabled()
-                        ->label(new HtmlString('<span class="invisible">Primary?</span>')),
+                    // Placeholder::make('status')
+                    //     ->label('')
+                    //     ->content(new HtmlString('<div class="w-24"></div>')),
+                    // Placeholder::make('status2')
+                    //     ->label('')
+                    //     ->content(new HtmlString('<div class="w-24"></div>')),
                 ])
         ];
     }
