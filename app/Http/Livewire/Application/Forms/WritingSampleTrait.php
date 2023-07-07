@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
+use App\Rules\MaxWordCount;
 use Illuminate\Support\HtmlString;
 use Livewire\Component as Livewire;
+use App\Forms\Components\WordTextArea;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Placeholder;
@@ -18,7 +20,7 @@ trait WritingSampleTrait{
             Placeholder::make('section_writing_sample')
                 ->label('')
                 ->content(new HtmlString('*This section is to be completed by a the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
-            Textarea::make('writing_sample_essay')
+            WordTextArea::make('writing_sample_essay')
                 ->label(new HtmlString('<div class="font-medium text-gray-700">
 
                         <section class="mt-8 space-y-4">
@@ -43,11 +45,15 @@ trait WritingSampleTrait{
                         </section>
                     </div>'))
                 ->helperText('Please limit your answer to 250 words.')
-                ->maxLength(1750)
                 ->rows(15)
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
+                ->wordLimit(250)
+                ->rules([
+                    new MaxWordCount(250)
+                ])
+                ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
                     $this->autoSave('writing_sample_essay', $state);
                 }),
             Checkbox::make('writing_sample_essay_acknowledgement')

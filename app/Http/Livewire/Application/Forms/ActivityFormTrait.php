@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
+use Livewire\Component as Livewire;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\Child;
@@ -11,10 +12,12 @@ use App\Models\School;
 use App\Models\Activity;
 use App\Enums\ParentType;
 use App\Enums\RacialType;
+use App\Rules\MaxWordCount;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use App\Forms\Components\WordTextArea;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Component;
@@ -88,14 +91,18 @@ trait ActivityFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveActivity($get('id'), 'hours_per_week', $state);
                         }),
-                    Textarea::make('activity_information')
+                    WordTextArea::make('activity_information')
                         ->label("Explain your involvement in this activity.  For example, the team(s) you play on, position(s) you play, concert(s)/recital(s) you have performed in, and/or why you are involved in this activity.")
-                        ->helperText("Up to 500 characters only.")
+                        ->helperText("Please limit your answer to 75 words.")
                         ->lazy()
                         ->required()
                         ->rows(5)
-                        ->maxLength(500)
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->wordLimit(75)
+                        ->rules([
+                            new MaxWordCount(75)
+                        ])
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveActivity($get('id'), 'activity_information', $state);
                         }),
                     
@@ -103,24 +110,32 @@ trait ActivityFormTrait{
             Grid::make(1)
                 ->visible(fn() => count($this->data['activities']))
                 ->schema([
-                    Textarea::make('most_passionate_activity')
+                    WordTextArea::make('most_passionate_activity')
                         ->label("From the activities listed above, select the activity you are most passionate about continuing at SI and describe how you would contribute to this activity.")
-                        ->helperText("Up to 500 characters only.")
+                        ->helperText("Please limit your answer to 75 words.")
                         ->lazy()
                         ->required()
                         ->rows(5)
-                        ->maxLength(500)
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->wordLimit(75)
+                        ->rules([
+                            new MaxWordCount(75)
+                        ])
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSave('most_passionate_activity', $state);
                         }),
-                    Textarea::make('new_extracurricular_activities')
+                    WordTextArea::make('new_extracurricular_activities')
                         ->label("Select two new extracurricular activities that you would like to be involved in at SI.  Explain why these activities appeal to you.")
-                        ->helperText("Up to 500 characters only.")
+                        ->helperText("Please limit your answer to 75 words.")
                         ->lazy()
                         ->required()
                         ->rows(5)
-                        ->maxLength(500)
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->wordLimit(75)
+                        ->rules([
+                            new MaxWordCount(75)
+                        ])
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSave('new_extracurricular_activities', $state);
                         }),
                 ])
