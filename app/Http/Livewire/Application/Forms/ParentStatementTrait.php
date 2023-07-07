@@ -90,6 +90,7 @@ trait ParentStatementTrait{
             Select::make('parent_relationship_to_student')
                 ->label('Relationship to Applicant')
                 ->options(ParentType::asSameArray())
+                ->preload()
                 ->required()
                 ->lazy()
                 ->afterStateUpdated(function($state){

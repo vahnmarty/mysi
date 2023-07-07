@@ -57,6 +57,7 @@ trait LegacyFormTrait{
                         ->label('Relationship to Applicant')
                         ->options(ParentType::asSameArray())
                         ->required()
+                        ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveLegacy($get('id'), 'relationship_type', $state);
                         }),

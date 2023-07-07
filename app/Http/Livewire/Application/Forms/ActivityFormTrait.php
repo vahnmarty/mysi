@@ -78,6 +78,7 @@ trait ActivityFormTrait{
                     Select::make('number_of_years')
                         ->label('Number of Years')
                         ->options($this->getYearsOptions())
+                        ->preload()
                         ->lazy()
                         ->required()
                         ->afterStateUpdated(function(Closure $get, $state){
@@ -86,6 +87,7 @@ trait ActivityFormTrait{
                     Select::make('hours_per_week')
                         ->label('Hours per Week')
                         ->options($this->getHoursPerWeekOptions())
+                        ->preload()
                         ->lazy()
                         ->required()
                         ->afterStateUpdated(function(Closure $get, $state){
