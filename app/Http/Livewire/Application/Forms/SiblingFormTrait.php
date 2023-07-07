@@ -10,6 +10,7 @@ use App\Models\School;
 use App\Enums\GradeLevel;
 use App\Enums\RacialType;
 use Livewire\Component as Livewire;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
@@ -122,6 +123,17 @@ trait SiblingFormTrait{
                         ->required()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'current_grade', $state);
+                        }),
+                    Radio::make('attended_at_si')
+                        ->label('Attended high school at SI?')
+                        ->lazy()
+                        ->options([
+                            0 => 'No',
+                            1 => 'Yes'
+                        ])
+                        ->visible(fn(Closure $get) => $get('current_grade') == GradeLevel::College || $get('current_grade') == GradeLevel::PostCollege)
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'attended_at_si', $state);
                         }),
                     TextInput::make('graduation_year')
                         ->label('High School Graduation Year')
