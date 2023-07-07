@@ -167,8 +167,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->options(Suffix::asSameArray()),
                         TextInput::make('preferred_first_name')
                             ->label('Preferred First Name')
-                            ->helperText('(Must be different from Legal First Name)')
-                            ->required(),
+                            ->helperText('(Must be different from Legal First Name)'),
                     ]),
                 Grid::make(1)
                     ->columnSpan(1)
