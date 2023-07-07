@@ -67,6 +67,7 @@ trait LegacyFormTrait{
                         ->minLength(4)
                         ->maxLength(4)
                         ->maxValue(date('Y'))
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
                             $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveLegacy($get('id'), 'graduation_year', $state);

@@ -6,23 +6,25 @@ use Closure;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
-use Livewire\Component as Livewire;
 use App\Enums\ParentType;
 use App\Enums\RacialType;
 use App\Enums\CommonOption;
 use App\Enums\ReligionType;
+use App\Rules\MaxWordCount;
+use Livewire\Component as Livewire;
 use Filament\Forms\Components\Radio;
 use App\Enums\FamilySpiritualityType;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Fieldset;
 //use Filament\Forms\Components\Textarea;
+use App\Forms\Components\WordTextArea;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
+
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
-
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
 
 trait ReligionFormTrait{
@@ -85,13 +87,18 @@ trait ReligionFormTrait{
                     $livewire->validateOnly('data.student.confirmation_year');
                     $this->autoSaveStudent('confirmation_year', $state);
                 }),
-            Textarea::make('impact_to_community')
+            WordTextArea::make('impact_to_community')
                 ->label("What impact does community have in your life and how do you best support your child's school community?")
                 ->helperText("Please limit your answer to 75 words.")
                 ->required()
                 ->rows(5)
-                ->maxLength(500)
-                ->afterStateUpdated(function($state){
+                ->lazy()
+                ->wordLimit(75)
+                ->rules([
+                    new MaxWordCount(75)
+                ])
+                ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
                     $this->autoSave('impact_to_community', $state);
                 }),
             CheckboxList::make('describe_family_spirituality')
@@ -112,13 +119,18 @@ trait ReligionFormTrait{
                     $input = is_array($state) ? implode(',', $state) : $state;
                     $this->autoSave('describe_family_spirituality', $input);
                 }),
-            Textarea::make('describe_family_spirituality_in_detail')
+            WordTextArea::make('describe_family_spirituality_in_detail')
                 ->label("Describe the practice(s) checked above in more detail")
                 ->helperText("Please limit your answer to 75 words.")
                 ->required()
                 ->rows(5)
-                ->maxLength(500)
-                ->afterStateUpdated(function($state){
+                ->lazy()
+                ->wordLimit(75)
+                ->rules([
+                    new MaxWordCount(75)
+                ])
+                ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
                     $this->autoSave('describe_family_spirituality_in_detail', $state);
                 }),
             Fieldset::make('Will you encourage your child to proactively participate in the following activities?')
