@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Livewire\Component as Livewire;
+use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Checkbox;
@@ -20,21 +21,31 @@ trait PlacementFormTrait{
     public function getPlacementForm()
     {
         return [
-            Radio::make('upload_learning_documentation')
+            Radio::make('has_learning_disability')
                 ->label('Would you like to upload any learning difference documentation?')
                 ->options([
                     0 => 'No',
                     1 => 'Yes'
                 ])
-                ->reactive(),
-            Grid::make(1)
                 ->reactive()
-                ->visible(fn(Closure $get)  =>  $get('upload_learning_documentation') == 1  )
+                ->afterStateUpdated(function($state){
+                    $this->autoSave('has_learning_disability', $state);
+                }),
+            FileUpload::make('file_learning_documentation')
+                ->label('Upload your file here. You can attach multiple files.')
+                ->multiple()
+                ->maxSize(25000)
+                ->reactive()
+                ->enableOpen()
+                ->enableDownload()
+                ->directory("learning_docs/" . $this->app->id)
+                ->visible(fn(Closure $get)  =>  $get('has_learning_disability') == 1  )
+                ->preserveFilenames()
+                ->afterStateUpdated(function(Livewire $livewire, FileUpload $component, $state){
+                    // $this->autoSave('file_learning_documentation', $state);
+                }),
+            Grid::make(1)
                 ->schema([
-                    FileUpload::make('file_learning_documentation')
-                        ->label('Upload your file here.')
-                        ->multiple()
-                        ->maxSize(1024), 
                     Radio::make('entrance_exam_reservation')
                         ->label("Indicate the date and the high school where your child will take the entrance exam. If you submit your application after the November 15th (by midnight) deadline, we may not be able to accommodate you for the HSPT at SI on December 2nd.")
                         ->options([ 

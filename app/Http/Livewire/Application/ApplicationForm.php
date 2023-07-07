@@ -235,7 +235,8 @@ class ApplicationForm extends Component implements HasForms
         $payment = Payment::firstOrCreate([
             'application_id' => $this->app->id,
             'user_id' => Auth::id(),
-            'initial_amount' => 100
+            'initial_amount' => 100,
+            'final_amount' => 100
         ]);
     }
 
