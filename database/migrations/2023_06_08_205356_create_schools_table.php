@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 500);
             $table->boolean('active')->default(1);
             $table->string('address')->nullable();
             $table->string('details')->nullable();
