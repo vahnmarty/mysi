@@ -4,15 +4,18 @@ namespace App\Http\Livewire\Application\Forms;
 
 use Str;
 use Closure;
+use Livewire\Component as Livewire;
 use App\Enums\Suffix;
 use App\Models\School;
 use App\Enums\Salutation;
 use App\Enums\AddressType;
 use App\Enums\ParentSuffix;
+use App\Rules\MaxWordCount;
 use App\Enums\LivingSituationType;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use App\Forms\Components\WordTextArea;
 use App\Models\Parents as ParentModel;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
@@ -126,13 +129,17 @@ trait ParentFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_phone_ext', $state);
                         }),
-                    NewTextArea::make('schools_attended')
+                    WordTextArea::make('schools_attended')
                         ->label('List all high schools, colleges, or graduate schools you have attended')
                         ->lazy()
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveParent($get('id'),'schools_attended', $state);
                         })
-                        ->maxLength(500)
+                        ->wordLimit(75)
+                        ->rules([
+                            new MaxWordCount(75)
+                        ])
                         ->helperText('(Please limit answer to 75 words.)'),
                 ])
                 ->registerListeners([

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('salesforce_id', 18)->nullable();
             $table->string('record_type_id', 18)->nullable();
 
+            $table->boolean('is_primary')->nullable();
             $table->string('salutation', 5)->nullable();
             $table->string('first_name', 40)->nullable();
             $table->string('middle_name', 40)->nullable();

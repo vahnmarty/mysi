@@ -27,7 +27,7 @@ class RegisterPage extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $first_name, $last_name, $email, $password, $phone, $password_confirmation;
+    public $first_name, $last_name, $email, $password, $phone = '', $password_confirmation;
 
     public $status;
     protected $queryString = ['status'];
@@ -58,7 +58,7 @@ class RegisterPage extends Component implements HasForms
                 ->disableLabel()
                 ->label('Parent/Guardian Phone')
                 ->placeholder('Parent/Guardian Phone')
-                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule])
                 ->required(),
             TextInput::make('email')

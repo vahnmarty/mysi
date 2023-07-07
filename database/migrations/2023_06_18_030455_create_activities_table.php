@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('number_of_years', 3)->nullable();
             $table->string('hours_per_week', 10)->nullable();
             $table->string('activity_information', 750)->nullable();
-            $table->string('most_passionate_activity', 750)->nullable();
-            $table->string('new_extracurricular_activities', 750)->nullable();
 
             $table->timestamps();
         });

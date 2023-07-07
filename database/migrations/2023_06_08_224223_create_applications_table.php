@@ -56,6 +56,12 @@ return new class extends Migration
             $table->string('other_catholic_school_location', 255)->nullable();
             $table->date('other_catholic_school_date')->nullable();
 
+            $table->boolean('has_learning_disability')->nullable();
+            $table->json('file_learning_documentation')->nullable();
+
+            $table->string('most_passionate_activity', 750)->nullable();
+            $table->string('new_extracurricular_activities', 750)->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });

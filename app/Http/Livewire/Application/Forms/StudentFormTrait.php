@@ -7,6 +7,7 @@ use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
 use App\Enums\RacialType;
+use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
@@ -79,8 +80,8 @@ trait StudentFormTrait{
                 }),
             TextInput::make('student.mobile_phone')
                 ->label('Mobile Phone')
-                ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
-                ->tel()
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                ->rules([new PhoneNumberRule])
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){

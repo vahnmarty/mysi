@@ -75,7 +75,11 @@ trait FamilyMatrixTrait{
                     Toggle::make('status')
                         ->label('Deceased?'),
                     Toggle::make('is_primary')
-                        ->label('Primary?'),
+                        ->label('Primary?')
+                        ->reactive()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'), 'is_primary', $state);
+                        }),
                 ]),
             TableRepeater::make('siblings_matrix')
                 ->label('')

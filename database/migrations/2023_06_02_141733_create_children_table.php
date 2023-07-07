@@ -58,6 +58,8 @@ return new class extends Migration
             $table->year('expected_graduation_year')->nullable();
             $table->year('expected_enrollment_year')->nullable();
             $table->boolean('graduated_hs_flag')->nullable();
+            $table->year('graduation_year')->nullable();
+            $table->boolean('attended_at_si')->nullable();
                        
             $table->timestamps();
             $table->softDeletes();

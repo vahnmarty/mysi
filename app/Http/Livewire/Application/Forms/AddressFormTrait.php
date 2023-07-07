@@ -126,13 +126,16 @@ trait AddressFormTrait{
                     TextInput::make('phone_number')
                         ->label('Phone Number')
                         ->required()
-                        ->disabled(fn(Closure $get) => !$get('address_type') )
+                        //->disabled(fn(Closure $get) => !$get('address_type') )
                         ->label('Phone at Location:')
+                        ->default('')
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
-                        ->tel()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveAddress($get('id'), 'phone_number', $state);
+                            if($get('id')){
+                                $this->autoSaveAddress($get('id'), 'phone_number', $state);
+                            }
+                            
                         })
                 ])
                 ->createItemButtonLabel('Add Address')

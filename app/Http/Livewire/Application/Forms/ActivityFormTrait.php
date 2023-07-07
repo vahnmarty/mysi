@@ -111,7 +111,7 @@ trait ActivityFormTrait{
                         ->rows(5)
                         ->maxLength(500)
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveActivity($get('id'), 'most_passionate_activity', $state);
+                            $this->autoSave('most_passionate_activity', $state);
                         }),
                     Textarea::make('new_extracurricular_activities')
                         ->label("Select two new extracurricular activities that you would like to be involved in at SI.  Explain why these activities appeal to you.")
@@ -121,7 +121,7 @@ trait ActivityFormTrait{
                         ->rows(5)
                         ->maxLength(500)
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveActivity($get('id'), 'new_extracurricular_activities', $state);
+                            $this->autoSave('new_extracurricular_activities', $state);
                         }),
                 ])
             
