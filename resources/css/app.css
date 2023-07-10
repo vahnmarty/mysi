@@ -69,3 +69,14 @@ sup{
 .filament-tables-header-cell span{
     @apply font-bold;
 }
+
+
+.filament-forms-checkbox-list-component-option-label input:disabled{
+    opacity: 100;
+    background-color: #fff;
+}
+
+.filament-forms-checkbox-list-component-option-label input:checked{
+    opacity: 100;
+    @apply bg-primary-red;
+}

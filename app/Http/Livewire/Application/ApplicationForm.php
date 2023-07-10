@@ -130,6 +130,7 @@ class ApplicationForm extends Component implements HasForms
         return [
             Toggle::make('autosave')
                 ->extraAttributes(['class' => 'bg-blue-400'])
+                ->helperText('This form is always safe with our autosave feature. We save your progress every few seconds, so you can rest assured that nothing will be lost. ')
                 ->disabled(),
             Section::make('Applicant Information')
                 ->collapsible()
