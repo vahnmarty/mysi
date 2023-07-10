@@ -85,6 +85,11 @@ trait ParentFormTrait{
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->required()
                         ->lazy()
+                        ->afterStateHydrated(function(Closure $set, $state){
+                            if(!$state){
+                                $set('mobile_phone', '');
+                            }
+                        })
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'mobile_phone', $state);
                         }),
@@ -120,6 +125,11 @@ trait ParentFormTrait{
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->tel()
                         ->lazy()
+                        ->afterStateHydrated(function(Closure $set, $state){
+                            if(!$state){
+                                $set('work_phone', '');
+                            }
+                        })
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_phone', $state);
                         }),
