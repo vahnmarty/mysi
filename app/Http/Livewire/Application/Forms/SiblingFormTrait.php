@@ -142,7 +142,7 @@ trait SiblingFormTrait{
                         ->maxLength(4)
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveSibling($get('id'), 'current_school_not_listed', $state);
+                            $this->autoSaveSibling($get('id'), 'graduation_year', $state);
                         }),
                 ])
                 
