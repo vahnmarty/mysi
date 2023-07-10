@@ -158,12 +158,15 @@ class ParentInformation extends Component implements HasTable, HasForms
                             Select::make('salutation')->options(Salutation::asSameArray())->required(),
                             TextInput::make('first_name')
                                 ->label('Legal First Name')
-                                ->required(),
+                                ->required()
+                                ->maxLength(40),
                             TextInput::make('middle_name')
-                                ->label('Legal Middle Name'),
+                                ->label('Legal Middle Name')
+                                ->maxLength(40),
                             TextInput::make('last_name')
                                 ->label('Legal Last Name')
-                                ->required(),
+                                ->required()
+                                ->maxLength(40),
                             Select::make('suffix')
                                 ->label('Suffix')
                                 ->options(Suffix::asSameArray()),
@@ -171,30 +174,27 @@ class ParentInformation extends Component implements HasTable, HasForms
                     Grid::make(1)
                         ->columnSpan(1)
                         ->schema([
-                            // Select::make('relationship_type')
-                            //     ->label('Relationship Type')
-                            //     ->options(ParentType::asSelectArray())->required(),
-                            // Select::make('address_location')
-                            //     ->label('Address Location')
-                            //     ->options(AddressLocation::asSelectArray())->required(),
-
                             TextInput::make('preferred_first_name')
-                                ->label('Preferred First Name (Must be different from Legal First Name)'),
+                                ->label('Preferred First Name (Must be different from Legal First Name)')
+                                ->maxLength(40),
                             TextInput::make('mobile_phone')
                                 ->label('Mobile Phone')
                                 ->required()
                                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                                 ->rules([new PhoneNumberRule])
-                                ->default(''),
+                                ->default('')
+                                ->maxLength(14), // 14 for Mask, but 10 is for the actual Max
                             TextInput::make('personal_email')
                                 ->label('Preferred Email')
                                 ->email()
-                                ->required(),
-                            // TextInput::make('alternate_email')->label('Alternate Email')->email(),
+                                ->required()
+                                ->maxLength(255),
                             TextInput::make('employer')
-                                ->label('Employer'),
+                                ->label('Employer')
+                                ->maxLength(100),
                             TextInput::make('job_title')
-                                ->label('Job Title'),
+                                ->label('Job Title')
+                                ->maxLength(128),
                         ])
                 ]),
         ];

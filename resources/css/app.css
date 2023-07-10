@@ -34,6 +34,11 @@ html, body{
     @apply bg-gray-200;
 }
 
+.filament-forms-toggle-component:disabled{
+    @apply bg-primary-200;
+}
+
+
 
 .choices.is-disabled .choices__inner{
     @apply bg-gray-200;

@@ -128,7 +128,9 @@ class ApplicationForm extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            Toggle::make('autosave'),
+            Toggle::make('autosave')
+                ->extraAttributes(['class' => 'bg-blue-400'])
+                ->disabled(),
             Section::make('Applicant Information')
                 ->collapsible()
                 ->collapsed(true)
