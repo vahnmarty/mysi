@@ -32,4 +32,19 @@ final class GradeLevel extends Enum
     const College = 'College';
     const PostCollege = 'Post HS/College';
 
+    public static function gradeLevelValues()
+    {
+        $limit = range(1,12);
+        $arr = [];
+        $current = self::asSameArray();
+
+        foreach($current as $label => $value){
+            if(is_numeric($value)){
+                $arr[] = (int) $value;
+            }
+        }
+
+        return $arr;
+    }
+
 }

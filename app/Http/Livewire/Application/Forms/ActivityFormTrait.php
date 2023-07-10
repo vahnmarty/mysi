@@ -110,7 +110,7 @@ trait ActivityFormTrait{
                     
                     ]),
             Grid::make(1)
-                ->visible(fn() => count($this->data['activities']))
+                ->visible(fn() => count($this->data['activities'] ?? []))
                 ->schema([
                     WordTextArea::make('most_passionate_activity')
                         ->label("From the activities listed above, select the activity you are most passionate about continuing at SI and describe how you would contribute to this activity.")
