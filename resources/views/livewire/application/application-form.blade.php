@@ -5,6 +5,7 @@
         </h2>
     </div>
 
+    @livewire('autosave-indicator')
 
     <div class="pb-32 mt-8">
 

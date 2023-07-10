@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "92ba20ef31cdcc305f8b5dc714c2433f",
+    "content-hash": "2341d93b97412d163e0ed08395766bc2",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -623,6 +623,71 @@
                 }
             ],
             "time": "2022-11-17T09:50:14+00:00"
+        },
+        {
+            "name": "coringawc/filament-input-loading",
+            "version": "v0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CoringaWc/filament-input-loading.git",
+                "reference": "a81a1ae601612ae80af0d1ec2c6d8b9b075516e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CoringaWc/filament-input-loading/zipball/a81a1ae601612ae80af0d1ec2c6d8b9b075516e9",
+                "reference": "a81a1ae601612ae80af0d1ec2c6d8b9b075516e9",
+                "shasum": ""
+            },
+            "require": {
+                "filament/forms": "^2.9",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "CoringaWc\\FilamentInputLoading\\FilamentInputLoadingProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "CoringaWc\\FilamentInputLoading\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Argemiro D Neto",
+                    "email": "nt_170@hotmail.com"
+                }
+            ],
+            "description": "Input with loading spinner option",
+            "keywords": [
+                "cli",
+                "filament",
+                "fun",
+                "laravel",
+                "resource",
+                "ui",
+                "user",
+                "widget"
+            ],
+            "support": {
+                "issues": "https://github.com/CoringaWc/filament-input-loading/issues",
+                "source": "https://github.com/CoringaWc/filament-input-loading/tree/v0.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/coringawc",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-11-21T01:04:01+00:00"
         },
         {
             "name": "danharrin/date-format-converter",

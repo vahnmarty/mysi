@@ -51,6 +51,9 @@ export default {
                 },
                 success: colors.green,
                 warning: colors.yellow,
+            },
+            animation: {
+                'spin-slow': 'spin 2s linear infinite',
             }
         },
     },

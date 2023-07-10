@@ -137,7 +137,6 @@
                 </x-sidebar-item> -->
             </ul>
         </div>
-    
     </div>
     <div x-data="{ open: false }" 
         x-on:open-menu.window="open = !open"

@@ -34,7 +34,7 @@
 
         @include('includes.portal.sidebar')
 
-        <div class="flex-1">
+        <div class="flex-1 max-h-screen overflow-auto">
             <main class="px-4 py-3 lg:px-16 lg:py-6">
                 {{ $slot }}
             </main>

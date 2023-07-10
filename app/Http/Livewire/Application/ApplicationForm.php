@@ -52,6 +52,9 @@ class ApplicationForm extends Component implements HasForms
     public $is_validated = false;
     public $is_submitted = false;
     public $amount = 100;
+    public $active;
+
+    protected $queryString = ['active'];
 
     public function render()
     {
@@ -149,10 +152,11 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Matrix')
-                ->description(new HtmlString('Refresh the page if all family members are not listed. You can <a href="" class="underline text-link">click here</a> to refresh this page.'))
+                ->description(new HtmlString('Refresh the page if all family members are not listed. You can <a  href="?active=matrix#matrix" class="underline text-link">click here</a> to refresh this page.'))
                 ->schema($this->getFamilyMatrix())
                 ->collapsible()
-                ->collapsed(true),
+                ->collapsed(fn() => $this->active == 'matrix' ? false : true )
+                ->extraAttributes(['id' => 'matrix']),
             Section::make('Legacy Information')
                 ->schema($this->getLegacyForm())
                 ->collapsible()

@@ -11,9 +11,10 @@ use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
-use Filament\Forms\Components\TextInput;
+//use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\CheckboxList;
+use CoringaWc\FilamentInputLoading\TextInput;
 use Filament\Forms\Components\TextInput\Mask;
 
 trait StudentFormTrait{
@@ -80,7 +81,7 @@ trait StudentFormTrait{
                 }),
             TextInput::make('student.mobile_phone')
                 ->label('Mobile Phone')
-                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule])
                 ->lazy()
                 ->required()
