@@ -89,12 +89,8 @@ class ApplicationForm extends Component implements HasForms
         $data['siblings_matrix'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
         $data['legacy'] = $account->legacies->toArray();
         $data['activities'] = $this->app->activities->toArray();
-        // $data['billing'] = [
-        //     'first_name' => $user->first_name,
-        //     'last_name' => $user->last_name,
-        //     'email' => $user->email,
-        // ];
         $data['autosave'] = true;
+        $data['placement_test_date'] = settings('placement_test_date');
 
         if($this->app->payment){
             $this->amount = $this->app->payment?->final_amount;
@@ -103,30 +99,6 @@ class ApplicationForm extends Component implements HasForms
         $this->form->fill($data);
     }
 
-    public function createMatrix(Application $app, $parents, $siblings)
-    {
-        $matrix = [];
-
-        foreach($parents as $parent)
-        {
-            $parentMatrix = $app->matrix()->firstOrCreate([
-                'parent_id' => $parent['id']
-            ]);
-
-            $matrix[] = $parentMatrix->toArray();
-        }
-
-        foreach($siblings as $child)
-        {
-            $siblingMatrix = $app->matrix()->firstOrCreate([
-                'child_id' => $child['id']
-            ]);
-
-            $matrix[] = $siblingMatrix->toArray();
-        }
-
-        return $matrix;
-    }
 
     protected function getFormSchema(): array
     {
@@ -202,6 +174,13 @@ class ApplicationForm extends Component implements HasForms
         return 'data';
     } 
 
+    public function autoSaveFiles($column, $files)
+    {
+        $model = $this->app;
+        $model->$column = $files;
+        $model->save();
+    }
+
     public function autoSave($column, $value, $relationship = null)
     {
         if($relationship){
@@ -217,6 +196,8 @@ class ApplicationForm extends Component implements HasForms
         $model->$column = $value;
         $model->save();
     }
+
+    
 
     public function __autoSave($model, $column, $value)
     {

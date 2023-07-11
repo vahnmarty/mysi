@@ -83,6 +83,9 @@
                                     <a href="{{ url('admission') }}" class="sub-menu">Admission Application</a>
                                 </li>
                                 <li>
+                                    <a href="{{ url('admissions-video') }}" class="sub-menu">Admissions Video</a>
+                                </li>
+                                <li>
                                     <a href="{{ url('supplemental-recommendation') }}" class="sub-menu">Supplemental Recommendation</a>
                                 </li>
                             </ul>

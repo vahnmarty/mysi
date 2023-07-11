@@ -17,6 +17,10 @@ class Application extends Model
 
     protected $appends = ['status', 'record_type'];
 
+    protected $casts = [
+        'file_learning_documentation' => 'array'
+    ];
+
     public static function boot()
     {
         parent::boot();
