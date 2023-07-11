@@ -176,7 +176,17 @@ class ParentInformation extends Component implements HasTable, HasForms
                         ->schema([
                             TextInput::make('preferred_first_name')
                                 ->label('Preferred First Name (Must be different from Legal First Name)')
-                                ->maxLength(40),
+                                ->maxLength(40)
+                                ->lazy()
+                                ->rules([
+                                    function () {
+                                        return function (string $attribute, $value, Closure $fail) {
+                                            if ($value === $this->data['first_name']) {
+                                                $fail("Legal First Name is the same as Preferred First Name.  Please delete Preferred First Name");
+                                            }
+                                        };
+                                    },
+                                ]),
                             TextInput::make('mobile_phone')
                                 ->label('Mobile Phone')
                                 ->required()
