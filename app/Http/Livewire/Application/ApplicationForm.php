@@ -58,7 +58,8 @@ class ApplicationForm extends Component implements HasForms
 
     public function render()
     {
-        return view('livewire.application.application-form');
+        return view('livewire.application.application-form')
+                ->layoutData(['title' => 'Admission Application']);
     }
 
     public function mount($uuid)

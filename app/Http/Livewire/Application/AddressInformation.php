@@ -52,7 +52,8 @@ class AddressInformation extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.address-information');
+        return view('livewire.application.address-information')
+            ->layoutData(['title' => 'Address Information']);
     }
 
     public function mount()

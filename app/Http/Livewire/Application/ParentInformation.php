@@ -44,7 +44,8 @@ class ParentInformation extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.parent-information');
+        return view('livewire.application.parent-information')
+                ->layoutData(['title' => 'Parent/Guardian Information']);
     }
 
     public function mount()

@@ -51,7 +51,8 @@ class ChildrenInformation extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.children-information');
+        return view('livewire.application.children-information')
+            ->layoutData(['title' => 'Children Information']);
     }
 
     public function mount()

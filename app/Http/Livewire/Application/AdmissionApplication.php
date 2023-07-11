@@ -53,7 +53,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.application.admission-application');
+        return view('livewire.application.admission-application')
+                ->layoutData(['title' => 'Admission Application']);
     }
 
     public function mount()
