@@ -120,7 +120,7 @@
                         </li> -->
                     </x-slot>
                 </x-sidebar-menu>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('help') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-question-mark-circle class="w-4 h-4" />
                     </x-slot>
@@ -265,7 +265,7 @@
                         </li> -->
                     </x-slot>
                 </x-sidebar-menu>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('help') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-question-mark-circle class="w-4 h-4" />
                     </x-slot>
