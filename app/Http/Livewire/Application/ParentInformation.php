@@ -71,7 +71,8 @@ class ParentInformation extends Component implements HasTable, HasForms
                 ->label('Parent/Guardian Name')
                 ->formatStateUsing(fn(Parents $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone')
-                ->label('Mobile Phone'),
+                ->label('Mobile Phone')
+                ->formatStateUsing(fn(string $state) => format_phone($state)),
             TextColumn::make('personal_email')
                 ->label("Email"),
             TextColumn::make('employer')
@@ -191,6 +192,11 @@ class ParentInformation extends Component implements HasTable, HasForms
                             TextInput::make('mobile_phone')
                                 ->label('Mobile Phone')
                                 ->required()
+                                ->afterStateHydrated(function(Closure $set, $state){
+                                    if(!$state){
+                                        $set('mobile_phone', '');
+                                    }
+                                })
                                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                                 ->rules([new PhoneNumberRule])
                                 ->default('')

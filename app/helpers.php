@@ -92,3 +92,9 @@ if (! function_exists('settings')) {
         return \App\Models\Setting::where('config', $config)->first()?->value;
     }
 }
+
+if (! function_exists('format_phone')) {
+    function format_phone($phone, $pattern = '/(\d{3})(\d{3})(\d{4})/',  $replacement = '($1) $2-$3') {
+        return preg_replace($pattern, $replacement, $phone);
+    }
+}

@@ -79,7 +79,8 @@ class AddressInformation extends Component implements HasTable, HasForms
                 ->label('Address')
                 ->formatStateUsing(fn(Address $record) => $record->getFullAddress() ),
             TextColumn::make('phone_number')
-                ->label('Phone at Location'),
+                ->label('Phone at Location')
+                ->formatStateUsing(fn(string $state) => format_phone($state)),
         ];
     }
 
@@ -204,8 +205,14 @@ class AddressInformation extends Component implements HasTable, HasForms
                             TextInput::make('phone_number')
                                 ->label('Phone at Location')
                                 ->required()
-                                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000'))
-                                ->rules([new PhoneNumberRule]),
+                                ->afterStateHydrated(function(Closure $set, $state){
+                                    if(!$state){
+                                        $set('phone_number', '');
+                                    }
+                                })
+                                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                                ->rules([new PhoneNumberRule])
+                                
                         ])
                 ]),
         ];
