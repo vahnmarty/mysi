@@ -2,24 +2,23 @@
 
 namespace App\Notifications\Auth;
 
-use App\Models\EmailRequest;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ConfirmEmailRequest extends Notification
+class UsernameChanged extends Notification
 {
     use Queueable;
 
-    public EmailRequest $email;
-
+    public $oldEmail;
     /**
      * Create a new notification instance.
      */
-    public function __construct(EmailRequest $email)
+    public function __construct($oldEmail = null)
     {
-        $this->email = $email;
+        $this->oldEmail = $oldEmail;
     }
 
     /**
@@ -37,12 +36,19 @@ class ConfirmEmailRequest extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
-                    ->subject('Request for New Email/Username')
+        $mail = (new MailMessage)
+                    ->subject("Username Changed")
                     ->greeting('Hello ' . $notifiable->first_name . ',')
-                    ->line('Confirm the email by clicking the button below.')
-                    ->action('Confirm Email', route('email-request.verify', ['email' => $this->email->email , 'token' => $this->email->token]))
-                    ->line('Thank you for using our application!');
+                    ->line('Your MySI username/email has been changed.  If you did not make this change, please contact **admissions@siprep.org** for assistance.')
+                    ->line('If you made the change, please ignore this email.')
+                    ->salutation(new HtmlString("**Regards,** <br>" . 'MySI Portal Admin'));
+
+        if($this->oldEmail){
+            $mail->cc($this->oldEmail);
+        }
+        
+
+        return $mail;
     }
 
     /**

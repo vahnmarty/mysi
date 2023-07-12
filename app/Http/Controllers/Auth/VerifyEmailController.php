@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\RedirectResponse;
 use App\Providers\RouteServiceProvider;
+use App\Notifications\Auth\UsernameChanged;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class VerifyEmailController extends Controller
@@ -42,10 +43,14 @@ class VerifyEmailController extends Controller
         
 
         $user = $emailRequest->user;
+        $oldEmail = $user->email;
+
         $user->email = $request->email;
         $user->email_verified_at = now();
         $user->save();
 
-        return redirect('login')->withStatus('New email!');
+        $user->notify(new UsernameChanged($oldEmail));
+
+        return redirect('profile')->withStatus('New email!');
     }
 }
