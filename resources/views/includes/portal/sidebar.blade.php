@@ -73,14 +73,14 @@
                     Activities
                     <x-slot name="menu">
                         <li>
-                            <a href="" class="sub-menu">Eight Graders</a>
+                            <span class="cursor-pointer sub-menu">Eight Graders</span>
                             
                             <ul class="pl-4 list-[circle]">
                                 <li>
                                     <a href="{{ url('book-a-wildcat-experience') }}" class="sub-menu">Book a Wildcat Experience</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('admission') }}" class="sub-menu">Admission Application</a>
+                                    <a href="{{ url('admission') }}" class="sub-menu">Admissions Application</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('admissions-video') }}" class="sub-menu">Admissions Video</a>
@@ -226,7 +226,7 @@
                                     <a href="{{ url('book-a-wildcat-experience') }}" class="sub-menu">Book a Wildcat Experience</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('admission') }}" class="sub-menu">Admission Application</a>
+                                    <a href="{{ url('admission') }}" class="sub-menu">Admissions Application</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('admissions-video') }}" class="sub-menu">Admissions Video</a>
