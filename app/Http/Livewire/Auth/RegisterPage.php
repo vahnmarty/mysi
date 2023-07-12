@@ -15,11 +15,13 @@ use App\Rules\HasLowercase;
 use App\Rules\HasUppercase;
 use App\Rules\PhoneNumberRule;
 use App\Rules\HasSpecialCharacter;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Contracts\HasForms;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\Placeholder;
 use Filament\Notifications\Actions\Action;
 use Phpsa\FilamentPasswordReveal\Password;
 use Illuminate\Validation\ValidationException;
@@ -73,19 +75,25 @@ class RegisterPage extends Component implements HasForms
                 ->rules(['email:rfc,dns', new UniqueEmail()])
                 ->lazy()
                 ->afterStateUpdated(function(Closure $get){
-                    if(User::where('email', $get('email'))->exists()){
-                        Notification::make()
-                            ->title('Email taken')
-                            ->body('This email already exists.')
-                            ->actions([ 
-                                Action::make('Forgot Password?')
-                                    ->url(route('password.request'))
-                            ])
-                            ->danger()
-                            ->send();
-                    }
+                    // if(User::where('email', $get('email'))->exists()){
+                    //     Notification::make()
+                    //         ->title('Email taken')
+                    //         ->body('This email already exists.')
+                    //         ->actions([ 
+                    //             Action::make('Forgot Password?')
+                    //                 ->url(route('password.request'))
+                    //         ])
+                    //         ->danger()
+                    //         ->send();
+                    // }
                 })
                 ->required(),
+            Placeholder::make('existing_email')
+                ->label('')
+                ->dehydrated(false)
+                ->visible(fn(Closure $get) => User::where('email', $get('email'))->exists())
+                ->reactive()
+                ->content(fn() => new HtmlString('<p class="-my-2 text-sm">This email already exists. <a href="forgot-password" class="text-link">Forgot Password?</a></p>')),
             Password::make('password')
                 ->disableLabel()
                 ->validationAttribute('password')
