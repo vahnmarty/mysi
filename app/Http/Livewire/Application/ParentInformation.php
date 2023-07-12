@@ -11,6 +11,7 @@ use Livewire\Component;
 use App\Enums\CrudAction;
 use App\Enums\ParentType;
 use App\Enums\Salutation;
+use App\Enums\ParentSuffix;
 use App\Enums\AddressLocation;
 use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
@@ -193,7 +194,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->maxLength(40),
                             Select::make('suffix')
                                 ->label('Suffix')
-                                ->options(Suffix::asSameArray()),
+                                ->options(ParentSuffix::asSameArray()),
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)

@@ -14,10 +14,10 @@ final class ParentSuffix extends Enum
 {
     use EnumCustomTrait;
     
-    const Jr = 'Jr.';
+
     const Sr = 'Sr.';
+    const Jr = 'Jr.';
     const II = 'II';
     const III = 'III';
     const IV = 'IV';
-    const V = 'V';
 }
