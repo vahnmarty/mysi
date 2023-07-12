@@ -1,5 +1,5 @@
 @props(['url'])
-<tr>
+<tr style="visibility:hidden">
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
 @if (trim($slot) === 'Laravel')
