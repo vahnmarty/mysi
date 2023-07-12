@@ -53,9 +53,22 @@ class ParentInformation extends Component implements HasTable, HasForms
         $this->form->fill();
 
         if($this->getTableQuery()->count() <= 0){
-            $this->enable_form = true;
-            return;
+
+            $this->createDefaultParent();
         }
+    }
+
+    public function createDefaultParent()
+    {
+        $user = Auth::user();
+
+        Parents::create([
+            'account_id' => accountId(),
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'mobile_phone' => $user->phone,
+            'personal_email' => $user->email,
+        ]);
     }
 
     public function getTableQuery()
@@ -130,7 +143,7 @@ class ParentInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'Create a Parent/Guardian record using the form below.';
+        return 'Create a parent/guardian record using the form below.';
     }
 
     protected function getFormStatePath(): string

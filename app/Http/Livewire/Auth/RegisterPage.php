@@ -127,9 +127,21 @@ class RegisterPage extends Component implements HasForms
 
         event(new Registered($user));
 
+        $this->createParent($account, $data);
+
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function createParent(Account $account, $data)
+    {
+        $account->parents()->create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'mobile_phone' => $data['phone'],
+            'personal_email' => $data['email'],
+        ]);
     }
 
     public function createAccount()
