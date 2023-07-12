@@ -21,7 +21,9 @@
             <!-- Email Address -->
             <div>
                 <x-text-input id="email" class="block w-full mt-1" type="email" name="email" :value="old('email')" required autofocus placeholder="Email Address" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                @error('email')
+                <p class="mt-2">This email does not exist.   Please <a href="{{ route('register') }}" class="font-bold text-link">create an account</a>.</p>
+                @enderror
             </div>
     
             <div class="flex items-center justify-center mt-8">

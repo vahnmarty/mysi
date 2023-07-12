@@ -20,7 +20,7 @@
         </div>
         @elseif($multiple)
         <div class="px-3 py-3 mt-8 text-sm text-center text-yellow-700 border border-yellow-300 rounded-md bg-yellow-50">
-            <p>The name and phone number is associated with multiple accounts.  Please contact <a href="mailto:admissions@siprep.org" class="font-bold">admissions@siprep.org</a> for assistance.</p>
+            <p>The name and phone number is associated with multiple accounts.  Please contact <a href="mailto:admissions@siprep.org" class="font-bold text-link">admissions@siprep.org</a> for assistance.</p>
         </div>
         
         <div class="mt-8">

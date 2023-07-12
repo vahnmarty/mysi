@@ -16,7 +16,7 @@ class ForgotUsernamePage extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $first_name, $last_name, $email, $phone;
+    public $first_name, $last_name, $email, $phone = '';
 
     public $sent = false, $multiple;
     
@@ -51,7 +51,7 @@ class ForgotUsernamePage extends Component implements HasForms
                 ->placeholder("Phone")
                 ->required( fn() => empty($this->email) )
                 ->tel()
-                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('000-000-0000')),
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000')),
         ];
     }
 
