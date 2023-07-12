@@ -68,6 +68,7 @@ class RegisterPage extends Component implements HasForms
                 ->placeholder('Parent/Guardian Email')
                 ->email()
                 ->unique(User::class, 'email')
+                ->rules(['email:rfc,dns'])
                 ->required(),
             Password::make('password')
                 ->disableLabel()
