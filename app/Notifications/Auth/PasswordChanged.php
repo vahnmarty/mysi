@@ -3,9 +3,10 @@
 namespace App\Notifications\Auth;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class PasswordChanged extends Notification
 {
@@ -35,13 +36,11 @@ class PasswordChanged extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject("Password Changed successfully")
-                    ->line('You have successfully updated your password.')
-                    ->line('Login to MySI now.')
-                    ->action('Log In', url('/login'))
-                    ->line('If you did not make this change, please [Reset Password]('.url('reset-password').') to secure your account.')
-                    ->line("Either way, feel free to reach out with any questions you might have. We're here to help.")
-                    ->line('Thank you for using our application!');
+                    ->subject("Password Changed")
+                    ->greeting('Hello ' . $notifiable->first_name . ',')
+                    ->line('Your MySI password has been changed.  If you did not make this change, please contact **admissions@siprep.org** for assistance.')
+                    ->line('If you made the change, please ignore this email.')
+                    ->salutation(new HtmlString("**Regards,** <br>" . 'MySI Portal Admin'));
     }
 
     /**

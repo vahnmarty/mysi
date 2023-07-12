@@ -15,6 +15,7 @@ use App\Rules\HasSpecialCharacter;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Phpsa\FilamentPasswordReveal\Password;
 use App\Notifications\Auth\PasswordChanged;
 use Filament\Forms\Concerns\InteractsWithForms;
 
@@ -54,7 +55,7 @@ class ResetPasswordPage extends Component implements HasForms
                 ->disabled()
                 ->email()
                 ->rules(['email:rfc,dns']),
-            TextInput::make('password')
+            Password::make('password')
                 ->label('New Password')
                 ->validationAttribute('Password')
                 ->reactive()
@@ -74,14 +75,16 @@ class ResetPasswordPage extends Component implements HasForms
                 ->minLength(8)
                 ->maxLength(16)
                 ->password()
+                ->revealable()
                 ->required()
                 ->confirmed(),
-            TextInput::make('password_confirmation')
+            Password::make('password_confirmation')
                 ->label('Confirm Password')
                 ->validationAttribute('')
                 ->reactive()
                 ->required()
                 ->password()
+                ->revealable()
                 ->afterStateUpdated(function (Closure $get, $state) {
                     $this->validatePassword($get('password'));
                 })
@@ -166,9 +169,8 @@ class ResetPasswordPage extends Component implements HasForms
             $user->notify(new PasswordChanged);
 
             # Login
-            Auth::login($user);
 
-            return redirect('dashboard');
+            return redirect()->route('login')->with(['status' => 'You have successfully updated your password.']);
         }
 
         Notification::make()

@@ -10,17 +10,13 @@
             @csrf
 
             <div class="text-base">
-                <p class="font-bold">Your password must have:</p>											
-                <ul class="flex flex-col pl-4 text-sm list-disc">
-                    @foreach($password_validation as $item)
-                        @if($item['passed'])
-                        <li class="text-success-700">{{ $item['description'] }}</li>
-                        @elseif($item['passed'] == false)
-                        <li class="text-danger-700">{{ $item['description'] }}</li>
-                        @else
-                        <li class="">{{ $item['description'] }}</li>
-                        @endif
-                    @endforeach
+                <p class="font-bold">Your password must have: </p>
+                <ul class="pl-6 list-disc">
+                    <li>At least 1 uppercase letter</li>
+                    <li>At least 1 lowercase letter</li>
+                    <li>At least 1 number</li>
+                    <li>At least 1 special character (only use the following characters: ! @ # $ or %)</li>
+                    <li>Must be between 8 – 16 characters long</li>
                 </ul>
             </div>
             <div class="py-8">

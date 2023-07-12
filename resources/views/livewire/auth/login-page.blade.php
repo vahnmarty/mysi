@@ -8,7 +8,7 @@
     
     <div class="max-w-lg px-8 mx-auto">
         <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        <x-auth-session-status class="mt-2 mb-4 text-center" :status="session('status')" />
 
         <form 
              novalidate
