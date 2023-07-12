@@ -10,13 +10,21 @@
     
     <div>
 
+        
         @if($sent)
         <div class="py-3 mt-8 text-center text-green-700 border border-green-300 rounded-md bg-green-50">
             <p>Email sent to <strong>{{ $email }}</strong></p>
         </div>
-
         <div class="mt-8">
-            <p class="text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Log in</a>.</p>
+            <p class="text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Login</a>.</p>
+        </div>
+        @elseif($multiple)
+        <div class="px-3 py-3 mt-8 text-sm text-center text-yellow-700 border border-yellow-300 rounded-md bg-yellow-50">
+            <p>The name and phone number is associated with multiple accounts.  Please contact <a href="mailto:admissions@siprep.org" class="font-bold">admissions@siprep.org</a> for assistance.</p>
+        </div>
+        
+        <div class="mt-8">
+            <p class="text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Login</a>.</p>
         </div>
         @else
         <!-- Session Status -->

@@ -9,6 +9,7 @@ use App\Enums\AccountAction;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Phpsa\FilamentPasswordReveal\Password;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class LoginPage extends Component implements HasForms
@@ -46,13 +47,14 @@ class LoginPage extends Component implements HasForms
                     }
                 })
                 ->required(),
-            TextInput::make('password')
+            Password::make('password')
                 ->label('')
                 ->validationAttribute('Password')
                 ->placeholder('Password')
                 ->reactive()
                 ->password()
-                ->required(),
+                ->required()
+                ->revealable(),
         ];
     }
 

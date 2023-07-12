@@ -8,6 +8,7 @@ use Illuminate\Support\HtmlString;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
 use App\Notifications\Auth\EmailForgotUsername;
 use Filament\Forms\Concerns\InteractsWithForms;
 
@@ -17,7 +18,7 @@ class ForgotUsernamePage extends Component implements HasForms
 
     public $first_name, $last_name, $email, $phone;
 
-    public $sent = false;
+    public $sent = false, $multiple;
     
     public function render()
     {
@@ -67,18 +68,40 @@ class ForgotUsernamePage extends Component implements HasForms
             $query->where('phone', $data['phone']);
         }
 
-        $user = $query->first();
+        $users = $query->get();
 
-        if(!$user){
+        if($users->count() >= 2){
+
+            $this->multiple = true;
+
+            return;
+            
+            // return Notification::make()
+            //     ->title('Multiple Account')
+            //     ->warning()
+            //     ->body('The name and phone number is associated with multiple accounts.  Please contact **admissions@siprep.org** for assistance.')
+            //     ->actions([
+            //         Action::make('Contact')
+            //             ->button()
+            //             ->url('mailto:admissions@siprep.org') 
+            //     ])
+            //     ->send();
+        }
+
+        if(!$users->count()){
             return Notification::make()
                 ->title('User not found.')
                 ->danger()
                 ->send();
         }
 
+        $user = $users->first();
+
         $user->notify(new EmailForgotUsername);
 
         $this->sent = true;
+
+        $this->email = $user->email;
         
     }
 }

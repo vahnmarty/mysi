@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Account;
 use Livewire\Component;
 use App\Rules\HasNumber;
+use App\Rules\UniqueEmail;
 use App\Rules\HasLowercase;
 use App\Rules\HasUppercase;
 use App\Rules\PhoneNumberRule;
@@ -30,6 +31,7 @@ class RegisterPage extends Component implements HasForms
     public $first_name, $last_name, $email, $password, $phone = '', $password_confirmation;
 
     public $status;
+
     protected $queryString = ['status'];
     
     public function render()
@@ -67,8 +69,7 @@ class RegisterPage extends Component implements HasForms
                 ->label('Email Address')
                 ->placeholder('Parent/Guardian Email')
                 ->email()
-                ->unique(User::class, 'email')
-                ->rules(['email:rfc,dns'])
+                ->rules(['email:rfc,dns', new UniqueEmail()])
                 ->required(),
             Password::make('password')
                 ->disableLabel()
