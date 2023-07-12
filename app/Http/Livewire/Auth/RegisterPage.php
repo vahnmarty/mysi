@@ -20,6 +20,7 @@ use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
 use Phpsa\FilamentPasswordReveal\Password;
 use Illuminate\Validation\ValidationException;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -70,6 +71,20 @@ class RegisterPage extends Component implements HasForms
                 ->placeholder('Parent/Guardian Email')
                 ->email()
                 ->rules(['email:rfc,dns', new UniqueEmail()])
+                ->lazy()
+                ->afterStateUpdated(function(Closure $get){
+                    if(User::where('email', $get('email'))->exists()){
+                        Notification::make()
+                            ->title('Email taken')
+                            ->body('This email already exists.')
+                            ->actions([ 
+                                Action::make('Forgot Password?')
+                                    ->url(route('password.request'))
+                            ])
+                            ->danger()
+                            ->send();
+                    }
+                })
                 ->required(),
             Password::make('password')
                 ->disableLabel()
