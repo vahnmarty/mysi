@@ -187,6 +187,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                         TextInput::make('personal_email')
                             ->label('Personal Email')
                             ->email()
+                            ->rules(['email:rfc,dns'])
                             ->required(),
                         TextInput::make('mobile_phone')
                             ->label('Mobile Phone (For Parents Mobile Phone)')

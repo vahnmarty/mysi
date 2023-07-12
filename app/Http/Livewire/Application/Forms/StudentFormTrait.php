@@ -73,6 +73,7 @@ trait StudentFormTrait{
                 }),
             TextInput::make('student.personal_email')
                 ->email()
+                ->rules(['email:rfc,dns'])
                 ->label('Personal Email')
                 ->lazy()
                 ->required()

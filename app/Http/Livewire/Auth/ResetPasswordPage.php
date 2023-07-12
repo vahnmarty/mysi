@@ -52,7 +52,8 @@ class ResetPasswordPage extends Component implements HasForms
             TextInput::make('email')
                 ->required()
                 ->disabled()
-                ->email(),
+                ->email()
+                ->rules(['email:rfc,dns']),
             TextInput::make('password')
                 ->label('New Password')
                 ->validationAttribute('Password')

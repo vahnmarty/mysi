@@ -198,6 +198,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                             TextInput::make('personal_email')
                                 ->label('Preferred Email')
                                 ->email()
+                                ->rules(['email:rfc,dns'])
                                 ->required()
                                 ->maxLength(255),
                             TextInput::make('employer')

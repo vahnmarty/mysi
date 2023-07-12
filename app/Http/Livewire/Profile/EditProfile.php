@@ -77,6 +77,7 @@ class EditProfile extends Component implements HasForms
             TextInput::make('email')
                 ->unique(table: User::class)
                 ->email()
+                ->rules(['email:rfc,dns'])
                 ->required(),
         ];
     }

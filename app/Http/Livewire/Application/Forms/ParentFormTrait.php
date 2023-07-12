@@ -96,6 +96,7 @@ trait ParentFormTrait{
                     TextInput::make('personal_email')
                         ->label('Preferred Email')
                         ->email()
+                        ->rules(['email:rfc,dns'])
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
@@ -116,6 +117,7 @@ trait ParentFormTrait{
                     TextInput::make('work_email')
                         ->label('Work Email')
                         ->email()
+                        ->rules(['email:rfc,dns'])
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_email', $state);

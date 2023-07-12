@@ -78,6 +78,7 @@ trait FinalStepsTrait{
                     TextInput::make('billing.email')
                         ->label('Email')
                         ->email()
+                        ->rules(['email:rfc,dns'])
                         ->columnSpan('full')
                         ->required()
                         ->lazy(),
