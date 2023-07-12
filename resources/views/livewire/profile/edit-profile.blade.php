@@ -9,7 +9,8 @@
             <h3 class="mb-8 font-bold font-heading">Basic Details</h3>
             {{ $this->profileForm }}
 
-            <div class="flex justify-start mt-8">
+            <div class="flex justify-start gap-6 mt-8">
+                <a href="{{ url('profile') }}" class="btn-primary">Cancel</a>
                 <button type="submit" class="btn-primary">Save Changes</button>
             </div>
         </form>
@@ -26,7 +27,8 @@
                 {{ $this->emailForm }}
             </div>
 
-            <div class="flex justify-start mt-8">
+            <div class="flex justify-start gap-6 mt-8">
+                <a href="{{ url('profile') }}" class="btn-primary">Cancel</a>
                 <button type="submit" class="btn-primary">Save Changes</button>
             </div>
         </form>

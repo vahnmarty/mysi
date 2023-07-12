@@ -13,6 +13,7 @@ use App\Rules\HasSpecialCharacter;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Phpsa\FilamentPasswordReveal\Password;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class UpdatePassword extends Component implements HasForms
@@ -37,7 +38,7 @@ class UpdatePassword extends Component implements HasForms
     protected function getFormSchema()
     {
         return [
-            TextInput::make('old_password')
+            Password::make('old_password')
                 ->label('Old Password')
                 ->validationAttribute('Old Password')
                 ->rules([
@@ -50,8 +51,9 @@ class UpdatePassword extends Component implements HasForms
                     },
                 ])
                 ->password()
+                ->revealable()
                 ->required(),
-            TextInput::make('password')
+            Password::make('password')
                 ->rules([
                     new HasUppercase(),
                     new HasLowercase(),
@@ -68,11 +70,13 @@ class UpdatePassword extends Component implements HasForms
                 ->minLength(8)
                 ->maxLength(16)
                 ->password()
+                ->revealable()
                 ->required()
                 ->confirmed(),
-            TextInput::make('password_confirmation')
+            Password::make('password_confirmation')
                 ->label("Confirm Password")
                 ->password()
+                ->revealable()
                 ->required(),
         ];
     }

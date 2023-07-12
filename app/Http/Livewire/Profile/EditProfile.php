@@ -60,8 +60,10 @@ class EditProfile extends Component implements HasForms
     {
         return [
             TextInput::make('first_name')
+                ->label('First Name')
                 ->required(),
             TextInput::make('last_name')
+                ->label('Last Name')
                 ->required(),
             TextInput::make('phone')
                 ->placeholder('000-000-0000')

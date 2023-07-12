@@ -17,7 +17,8 @@
         {{ $this->form }}
     </div>
 
-    <div class="flex justify-start mt-8">
+    <div class="flex justify-start gap-6 mt-8">
+        <a href="{{ url('profile') }}" class="btn-primary">Cancel</a>
         <button type="submit" class="btn-primary">Save Changes</button>
     </div>
 </form>
