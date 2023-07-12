@@ -40,7 +40,15 @@ class ParentInformation extends Component implements HasTable, HasForms
     public $enable_form = false;
 
     public $action = CrudAction::Create; 
+
+    public $model;
+    
     public $model_id;
+
+    protected $messages = [
+        'data.personal_email.unique' => 'This email is already associated with the other parent.  Please use a different email.',
+        'data.mobile_phone.unique' => 'This phone is already associated with the other parent.  Please use a different phone.'
+    ];
     
     public function render()
     {
@@ -101,8 +109,9 @@ class ParentInformation extends Component implements HasTable, HasForms
             Action::make('edit')
                 ->color('primary-blue')
                 ->label(new HtmlString('<span class="text-link">Edit</span>'))
-                ->action(function(Parents $record){
+                ->action(function(Parents $record, $livewire){
                     $this->model_id = $record->id;
+                    $livewire->model = $record;
                     $this->action = CrudAction::Update;
                     $this->enable_form = true;
                     $this->form->fill($record->toArray());
@@ -212,12 +221,16 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 })
                                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                                 ->rules([new PhoneNumberRule])
+                                ->unique('parents','mobile_phone',  fn($livewire) => $livewire->model)
                                 ->default('')
                                 ->maxLength(14), // 14 for Mask, but 10 is for the actual Max
                             TextInput::make('personal_email')
                                 ->label('Preferred Email')
+                                ->validationAttribute('Preferred Email')
                                 ->email()
                                 ->rules(['email:rfc,dns'])
+                                // ->rules(['email:rfc,dns', 'unique:parents,personal_email,' . $this->model_id])
+                                ->unique('parents','personal_email',  fn($livewire) => $livewire->model)
                                 ->required()
                                 ->maxLength(255),
                             TextInput::make('employer')
