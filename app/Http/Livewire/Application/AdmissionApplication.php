@@ -93,26 +93,23 @@ class AdmissionApplication extends Component implements HasTable, HasForms
     protected function getTableActions(): array
     {
         return [ 
-            TextColumn::make('status')
-                ->formatStateUsing(function(Child $record){
-                    if($record->application){
-                        return $record->application?->status;
-                    }
+            Action::make('submitted')
+                ->label('Submitted')
+                ->visible(function(Child $record){
 
-                    return '';
-                }),
-            Action::make('apply')
-                ->label(function(Child $record){
-                    return $record->application ? 'Edit' : 'Apply';
-                })
-                ->hidden(function(Child $record){
                     if($record->application){
-                        if($record->application->appStatus->application_submitted){
+                        if($record->application->appStatus?->application_submitted){
                             return true;
                         }
                     }
 
                     return false;
+                })
+                ->disabled()
+                ->extraAttributes(['class' => 'app-status']),
+            Action::make('apply')
+                ->label(function(Child $record){
+                    return $record->application ? 'Edit' : 'Apply';
                 })
                 ->action(function(Child $record){
 
@@ -130,9 +127,15 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                     ]);
 
                     return redirect()->route('application.form', $app->uuid);
-                }),
-            ViewColumn::make('pipe')->label('')->view('filament.tables.columns.pipe'),
-            DeleteAction::make()->icon(''),
+                })
+                ->hidden(fn(Child $record) => $record->submitted()),
+            ViewColumn::make('pipe')
+                ->label('')
+                ->view('filament.tables.columns.pipe')
+                ->hidden(fn(Child $record) => $record->submitted() || !$record->application),
+            DeleteAction::make()
+                ->visible(fn(Child $record) => $record->application && !$record->submitted())
+                ->icon(''),
         ];
     }
 
@@ -163,7 +166,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Child information';
+        return 'No Child Information';
     }
  
     protected function getTableEmptyStateDescription(): ?string

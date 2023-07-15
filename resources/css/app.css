@@ -89,3 +89,7 @@ sup{
 .filament-tables-header-cell button{
     @apply justify-start;
 }
+
+.app-status{
+    @apply font-bold opacity-100 text-primary-red !important;
+}

@@ -22,4 +22,16 @@ class Child extends Model
     {
         return $this->hasOne(Application::class);
     }
+
+    public function submitted()
+    {
+        if($this->application)
+        {
+            if($this->application->appStatus?->application_submitted){
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
