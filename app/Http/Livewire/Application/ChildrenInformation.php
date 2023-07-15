@@ -174,7 +174,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                                 function () {
                                     return function (string $attribute, $value, Closure $fail) {
                                         if ($value === $this->data['first_name']) {
-                                            $fail("Legal First Name is the same as Preferred First Name.  Please delete Preferred First Name");
+                                            $fail("Legal First Name is the same as Preferred First Name.  Please delete Preferred First Name.");
                                         }
                                     };
                                 },
@@ -192,7 +192,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->rules(['email:rfc,dns'])
                             ->required(),
                         TextInput::make('mobile_phone')
-                            ->label('Mobile Phone (For Parents Mobile Phone)')
+                            ->label("Mobile Phone (Use a parent’s mobile phone, if none.)")
                             ->required()
                             ->afterStateHydrated(function(Closure $set, $state){
                                 if(!$state){
@@ -203,10 +203,17 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->rules([new PhoneNumberRule]),
                         Select::make('current_school')
                             ->label('Current School')
-                            ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                            ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray())
                             ->preload()
                             ->searchable()
+                            ->reactive()
                             ->required(),
+                        TextInput::make('current_school_not_listed')
+                            ->label('If not listed, add it here')
+                            ->lazy()
+                            ->required()
+                            ->placeholder('Enter School Name')
+                            ->hidden(fn (Closure $get) => $get('current_school') !== 'Not Listed'),
                         Select::make('current_grade')
                             ->label('Current Grade')
                             ->options(GradeLevel::asSameArray())
