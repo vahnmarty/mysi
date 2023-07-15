@@ -63,7 +63,7 @@ sup{
 }
 
 .filament-tables-link-action{
-    @apply text-link hover:text-link;
+    @apply text-link hover:text-link !important;
 }
 
 .filament-tables-header-cell span{
@@ -79,4 +79,13 @@ sup{
 .filament-forms-checkbox-list-component-option-label input:checked{
     opacity: 100;
     @apply bg-primary-red;
+}
+
+
+.filament-tables-link-action{
+    @apply text-link hover:text-link; 
+}
+
+.filament-tables-header-cell button{
+    @apply justify-start;
 }

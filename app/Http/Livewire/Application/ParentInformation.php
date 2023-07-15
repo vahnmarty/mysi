@@ -19,14 +19,18 @@ use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Actions\Position;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Forms\Components\TextInput\Mask;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -101,6 +105,18 @@ class ParentInformation extends Component implements HasTable, HasForms
                 ->label('Employer'),
             TextColumn::make('job_title')
                 ->label('Job Title'),
+            ToggleColumn::make('is_primary')
+                ->label('Primary')
+                ->updateStateUsing(function (Parents $record, $state): void {
+                    $record->is_primary = $state;
+                    $record->save();
+
+                    $parents = Parents::where('account_id', $record->account_id )
+                        ->where('id', '!=', $record->id)
+                        ->update([
+                            'is_primary' => !$state
+                        ]);
+                })
         ];
     }
 
@@ -117,7 +133,8 @@ class ParentInformation extends Component implements HasTable, HasForms
                     $this->enable_form = true;
                     $this->form->fill($record->toArray());
                 }),
-            DeleteAction::make()->icon('')->color('danger'),
+            ViewColumn::make('pipe')->label('')->view('filament.tables.columns.pipe'),
+            DeleteAction::make()->icon('')->color('primary'),
         ];
     }
 
@@ -195,6 +212,8 @@ class ParentInformation extends Component implements HasTable, HasForms
                             Select::make('suffix')
                                 ->label('Suffix')
                                 ->options(ParentSuffix::asSameArray()),
+                            Toggle::make('is_primary')
+                                ->label('Primary Parent')
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)
@@ -207,7 +226,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                     function () {
                                         return function (string $attribute, $value, Closure $fail) {
                                             if ($value === $this->data['first_name']) {
-                                                $fail("Legal First Name is the same as Preferred First Name.  Please delete Preferred First Name");
+                                                $fail("Legal First Name is the same as Preferred First Name.  Please delete Preferred First Name.");
                                             }
                                         };
                                     },
