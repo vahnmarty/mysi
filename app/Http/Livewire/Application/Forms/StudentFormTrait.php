@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
+use Livewire\Component as Livewire;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
@@ -50,10 +51,19 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('suffix', $state);
                 }),
             TextInput::make('student.preferred_first_name')
-                ->label('Preferred First Name')
+                ->label('Preferred First Name (Must be different from Legal First Name)')
                 ->lazy()
-                ->required()
-                ->afterStateUpdated(function($state){
+                ->rules([
+                    function () {
+                        return function (string $attribute, $value, Closure $fail) {
+                            if ($value === $this->data['student']['first_name']) {
+                                $fail("Legal First Name is the same as Preferred First Name.  Please delete Preferred First Name.");
+                            }
+                        };
+                    },
+                ])
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, $state){
+                    $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveStudent('preferred_first_name', $state);
                 }),
             DatePicker::make('student.birthdate')

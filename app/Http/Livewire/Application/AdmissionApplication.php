@@ -133,8 +133,12 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                 ->label('')
                 ->view('filament.tables.columns.pipe')
                 ->hidden(fn(Child $record) => $record->submitted() || !$record->application),
-            DeleteAction::make()
+            Action::make('delete')
                 ->visible(fn(Child $record) => $record->application && !$record->submitted())
+                ->requiresConfirmation()
+                ->action(function(Child $record){
+                    $record->application->delete();
+                })
                 ->icon(''),
         ];
     }
