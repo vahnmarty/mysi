@@ -125,7 +125,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Child information';
+        return 'No Child Information';
     }
  
     protected function getTableEmptyStateDescription(): ?string

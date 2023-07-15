@@ -127,7 +127,7 @@ class AddressInformation extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateHeading(): ?string
     {
-        return 'No Address information';
+        return 'No Address Information';
     }
  
     protected function getTableEmptyStateDescription(): ?string
