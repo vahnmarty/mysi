@@ -12,6 +12,7 @@ use App\Http\Livewire\Auth\ResetPasswordPage;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Application\ApplicationForm;
+use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\AddressInformation;
@@ -68,6 +69,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('emergency-contact', EmergencyContactInformation::class)->name('application.emergecy-contact');
     Route::get('admission', AdmissionApplication::class)->name('application.admission');
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
+    Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');

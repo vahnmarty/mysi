@@ -126,7 +126,6 @@ trait StudentFormTrait{
                 ->label(new HtmlString('<legend>What is your ethnicity?</legend><div class="text-xs">*If more than one, separate ethnicities with a comma.</div>'))
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
-                ->placeholder('Enter ethnicity then Press Comma or Enter')
                 ->afterStateHydrated(function (TagsInput $component, $state) {
                     if(is_string($state)){
                         $component->state(explode(',', $state));

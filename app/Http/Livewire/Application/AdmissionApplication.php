@@ -80,7 +80,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                 ->label('Student Name')
                 ->formatStateUsing(fn(Child $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone')
-                ->label('Mobile Phone'),
+                ->label('Mobile Phone')
+                ->formatStateUsing(fn(string $state) => format_phone($state)),
             TextColumn::make('personal_email')
                 ->label('Email'),
             TextColumn::make('current_school')
@@ -105,7 +106,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
 
                     return false;
                 })
-                ->disabled()
+                ->url(fn(Child $record) => route('application.show', $record->application->uuid))
                 ->extraAttributes(['class' => 'app-status']),
             Action::make('apply')
                 ->label(function(Child $record){
