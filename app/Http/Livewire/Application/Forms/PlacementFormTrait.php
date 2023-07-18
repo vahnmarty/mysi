@@ -93,6 +93,7 @@ trait PlacementFormTrait{
                                 ->label("Other Catholic School Date")
                                 ->required()
                                 ->lazy()
+                                ->closeOnDateSelection()
                                 ->afterStateUpdated(function($state){
                                     $this->autoSave('other_catholic_school_date', $state);
                                 }),

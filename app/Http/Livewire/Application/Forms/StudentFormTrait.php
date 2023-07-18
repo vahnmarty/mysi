@@ -70,6 +70,7 @@ trait StudentFormTrait{
                 ->label('Date of Birth')
                 ->lazy()
                 ->required()
+                ->closeOnDateSelection()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('birthdate', $state);
                 }),
@@ -140,7 +141,7 @@ trait StudentFormTrait{
                 }),
             Select::make('student.current_school')
                 ->label('Current School')
-                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray())
                 ->preload()
                 ->searchable()
                 ->reactive()
