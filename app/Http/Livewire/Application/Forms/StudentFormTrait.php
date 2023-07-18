@@ -153,7 +153,6 @@ trait StudentFormTrait{
                 ->label('If not listed, add it here')
                 ->lazy()
                 ->required()
-                ->placeholder('Enter School Name')
                 ->hidden(fn (Closure $get) => $get('student.current_school') !== self::NotListed)
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('current_school_not_listed', $state);
@@ -164,7 +163,6 @@ trait StudentFormTrait{
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
-                ->placeholder('Enter School Name')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('other_high_school_1', $state);
@@ -175,7 +173,6 @@ trait StudentFormTrait{
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
-                ->placeholder('Enter School Name')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('other_high_school_2', $state);
@@ -186,7 +183,6 @@ trait StudentFormTrait{
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
-                ->placeholder('Enter School Name')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('other_high_school_3', $state);
@@ -197,7 +193,6 @@ trait StudentFormTrait{
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
-                ->placeholder('Enter School Name')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('other_high_school_4', $state);

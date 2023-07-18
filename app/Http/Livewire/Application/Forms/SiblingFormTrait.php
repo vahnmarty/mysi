@@ -29,6 +29,7 @@ trait SiblingFormTrait{
                 ->label('')
                 ->createItemButtonLabel('Add Sibling')
                 ->disableItemMovement()
+                ->maxItems(10)
                 ->registerListeners([
                     'repeater::deleteItem' => [
                         function (Component $component, string $statePath, string $uuidToDelete): void {
@@ -141,6 +142,7 @@ trait SiblingFormTrait{
                             0 => 'No',
                             1 => 'Yes'
                         ])
+                        ->required()
                         ->visible(fn(Closure $get) => $get('current_grade') == GradeLevel::College || $get('current_grade') == GradeLevel::PostCollege)
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'attended_at_si', $state);
@@ -150,6 +152,7 @@ trait SiblingFormTrait{
                         ->lazy()
                         ->minLength(4)
                         ->maxLength(4)
+                        ->required()
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'graduation_year', $state);

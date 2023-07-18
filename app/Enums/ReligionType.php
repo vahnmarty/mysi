@@ -21,5 +21,6 @@ final class ReligionType extends Enum
     const Jewish = 'Jewish';
     const Muslim = 'Muslim';
     const NoReligion = 'No Religion';
+    const Spiritual = 'Spiritual';
     const Other = 'Other';
 }

@@ -11,18 +11,20 @@ use App\Enums\RacialType;
 use App\Enums\CommonOption;
 use App\Enums\ReligionType;
 use App\Rules\MaxWordCount;
+use Illuminate\Support\HtmlString;
 use Livewire\Component as Livewire;
 use Filament\Forms\Components\Radio;
 use App\Enums\FamilySpiritualityType;
-use Filament\Forms\Components\Select;
 //use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
 use App\Forms\Components\WordTextArea;
+use App\Forms\Components\WordTextInput;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
+
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
-
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
@@ -102,7 +104,7 @@ trait ReligionFormTrait{
                     $this->autoSave('impact_to_community', $state);
                 }),
             CheckboxList::make('describe_family_spirituality')
-                ->label("How would you describe your family's spirituality? Check all that apply ")
+                ->label(new HtmlString("How would you describe your family's spirituality? <p class='text-sm text-gray-900'>Check all that apply.</p> "))
                 ->options(FamilySpiritualityType::asSameArray())
                 ->columns(3)
                 ->lazy()
@@ -144,13 +146,17 @@ trait ReligionFormTrait{
                         ->afterStateUpdated(function($state){
                             $this->autoSave('religious_studies_classes', $state);
                         }),
-                    TextInput::make('religious_studies_classes_explanation')
-                        ->label('If No/Unsure, please explain')
+                    WordTextArea::make('religious_studies_classes_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
                         ->columnSpan(2)
                         ->lazy()
+                        ->wordLimit(30)
+                        ->maxLength(255)
+                        ->rules([ new MaxWordCount(50) ])
                         //->required(fn (Closure $get) => $get('religious_studies_classes') == CommonOption::No || $get('religious_studies_classes')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('religious_studies_classes')) || $get('religious_studies_classes') == CommonOption::Yes)
-                        ->afterStateUpdated(function($state){
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSave('religious_studies_classes_explanation', $state);
                         }),
                     Select::make('school_liturgies')
@@ -161,13 +167,17 @@ trait ReligionFormTrait{
                         ->afterStateUpdated(function($state){
                             $this->autoSave('school_liturgies', $state);
                         }),
-                    TextInput::make('school_liturgies_explanation')
-                        ->label('If No/Unsure, please explain')
+                    WordTextArea::make('school_liturgies_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
                         ->columnSpan(2)
                         ->lazy()
+                        ->wordLimit(30)
+                        ->maxLength(255)
+                        ->rules([ new MaxWordCount(50) ])
                         //->required(fn (Closure $get) => $get('school_liturgies') == CommonOption::No || $get('school_liturgies')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('school_liturgies')) || $get('school_liturgies') == CommonOption::Yes)
-                        ->afterStateUpdated(function($state){
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSave('school_liturgies_explanation', $state);
                     }),
                     Select::make('retreats')
@@ -178,13 +188,17 @@ trait ReligionFormTrait{
                         ->afterStateUpdated(function($state){
                             $this->autoSave('retreats', $state);
                         }),
-                    TextInput::make('retreats_explanation')
-                        ->label('If No/Unsure, please explain')
+                    WordTextArea::make('retreats_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
                         ->columnSpan(2)
                         ->lazy()
+                        ->wordLimit(30)
+                        ->maxLength(255)
+                        ->rules([ new MaxWordCount(50) ])
                         //->required(fn (Closure $get) => $get('retreats') == CommonOption::No || $get('retreats')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('retreats')) || $get('retreats') == CommonOption::Yes)
-                        ->afterStateUpdated(function($state){
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSave('retreats_explanation', $state);
                     }),
                     Select::make('community_service')
@@ -195,13 +209,17 @@ trait ReligionFormTrait{
                         ->afterStateUpdated(function($state){
                             $this->autoSave('community_service', $state);
                         }),
-                    TextInput::make('community_service_explanation')
-                        ->label('If No/Unsure, please explain')
+                    WordTextArea::make('community_service_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
                         ->columnSpan(2)
                         ->lazy()
+                        ->wordLimit(30)
+                        ->maxLength(255)
+                        ->rules([ new MaxWordCount(50) ])
                         //->required(fn (Closure $get) => $get('community_service_explanation') == CommonOption::No || $get('community_service_explanation')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('community_service')) || $get('community_service') == CommonOption::Yes)
-                        ->afterStateUpdated(function($state){
+                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSave('community_service_explanation', $state);
                         }),
                 ]),

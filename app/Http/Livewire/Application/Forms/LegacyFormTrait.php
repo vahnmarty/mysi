@@ -68,6 +68,7 @@ trait LegacyFormTrait{
                         ->minLength(4)
                         ->maxLength(4)
                         ->maxValue(date('Y'))
+                        ->required()
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
                             $livewire->validateOnly($component->getStatePath());

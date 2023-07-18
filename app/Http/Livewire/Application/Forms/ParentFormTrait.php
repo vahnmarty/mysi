@@ -75,6 +75,7 @@ trait ParentFormTrait{
                     Select::make('suffix')
                         ->label('Suffix')
                         ->options(ParentSuffix::asSameArray())
+                        ->preload()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'suffix', $state);
