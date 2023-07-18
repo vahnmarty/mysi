@@ -44,11 +44,16 @@ trait PlacementFormTrait{
                 ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->app->id)
                 ->visible(fn(Closure $get)  =>  $get('has_learning_disability') == 1  )
                 ->preserveFilenames()
+                ->afterStateHydrated(function(Closure $get, Closure $set, $state){
+                    if($state){
+                        $date = Carbon::parse($get('placement_test_date'))->addDays(7)->format('Y-m-d');
+                        $set('placement_test_date', $date);
+                    }
+                })
                 ->afterStateUpdated(function(Livewire $livewire, FileUpload $component, Closure $get, Closure $set, $state){
                     $component->saveUploadedFiles();
                     $files = Arr::flatten($component->getState());
                     $this->autoSaveFiles('file_learning_documentation', $files);
-
                     if(count($files)){
                         $date = Carbon::parse($get('placement_test_date'))->addDays(7)->format('Y-m-d');
                         $set('placement_test_date', $date);
@@ -63,7 +68,7 @@ trait PlacementFormTrait{
                         ->label("Indicate the date and the high school where your child will take the entrance exam. If you submit your application after the November 15th (by midnight) deadline, we may not be able to accommodate you for the HSPT at SI on December 2nd.")
                         ->options(function(Closure $get){
                             return [
-                                "si" => "At SI on " . date('F d, Y', strtotime( $get('placement_test_date') )),
+                                "si" => "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') )),
                                 "other" => "At Other Catholic High School"
                             ];
                         })
