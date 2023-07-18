@@ -2,17 +2,20 @@
 
 namespace App\Notifications\Admission;
 
+use App\Models\Payment;
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ApplicationSubmitted extends Notification
+class PaymentReceipt extends Notification
 {
     use Queueable;
 
     public Application $app;
+    public Payment $payment;
 
     /**
      * Create a new notification instance.
@@ -20,6 +23,7 @@ class ApplicationSubmitted extends Notification
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->payment = $app->payment;
     }
 
     /**
@@ -38,10 +42,10 @@ class ApplicationSubmitted extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->greeting('Hello ' . $notifiable->first_name . ', ')
-                    ->line('Congratulations! Your application for **' . $this->app->student->first_name . ' ' . $this->app->student->last_name . '** has been successfully submitted.')
-                    ->line('You payment transaction receipt will come right after.')
-                    ->line('Thank you for using MySI');
+                    ->subject('SI Admissions Application Receipt')
+                    ->greeting('Hi ' . $notifiable->first_name . ', ')
+                    ->line('Thank you for your payment of **$'. number_format($this->payment->final_amount,2). '**. Your transaction confirmation code is: **'. $this->payment->auth_id.'**. Please keep this information for your records.')
+                    ->salutation(new HtmlString("**Regards**, <br>" . 'SI Admissions'));
     }
 
     /**

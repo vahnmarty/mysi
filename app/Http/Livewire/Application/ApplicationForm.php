@@ -17,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use net\authorize\api\contract\v1 as AnetAPI;
 use App\Forms\Components\WritingSampleSection;
+use App\Notifications\Admission\PaymentReceipt;
 use Filament\Forms\Concerns\InteractsWithForms;
 use net\authorize\api\controller as AnetController;
 use App\Notifications\Admission\ApplicationSubmitted;
@@ -394,13 +395,22 @@ class ApplicationForm extends Component implements HasForms
             
 
             Auth::user()->notify( new ApplicationSubmitted($app));
+            Auth::user()->notify( new PaymentReceipt($app));
 
             Mail::to(config('settings.si.admissions.email'))->send(new NewApplicationSubmitted($app));
 
             $this->is_submitted = true;
 
             $this->dispatchBrowserEvent('page-loading-close');
+        }else{
+
+            Notification::make()
+                ->title('Payment failed.')
+                ->danger()
+                ->send();
         }
+
+
 
         
     }

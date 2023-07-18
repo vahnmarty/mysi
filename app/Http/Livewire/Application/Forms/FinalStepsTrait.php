@@ -53,17 +53,22 @@ trait FinalStepsTrait{
                 ->visible(fn(Closure $get) => $get('agree_to_release_record') && $get('agree_academic_record_is_true') )
                 ->content(new HtmlString('
                     <div class="flex justify-center">
-                        <button type="button" wire:click="validateForm" class="btn-primary">Continue</button>
+                        <button type="button" wire:click="validateForm" class="flex btn-primary">
+                        <span class="mr-3 text-white animate-spin" wire:loading wire:target="validateForm">*</span>
+                        Continue
+                        </button>
                 </div>')),
-            Fieldset::make('Billing & Payment')
+            Fieldset::make('Payment Information')
+                ->label(new HtmlString('<strong>Payment Information</strong>'))
                 ->visible(fn(Closure $get) => $this->is_validated && $get('agree_to_release_record') && $get('agree_academic_record_is_true') )
                 ->columns(3)
                 ->schema([
                     Placeholder::make('amount')
                         ->columnSpan('full')
+                        ->label('')
                         ->content(new HtmlString('
                             <div>
-                                <h4>Your Payable Amount is: <strong class="font-bold text-primary-red">$'. number_format($this->amount, 2).'</strong></h4>
+                                <h4>Amount Due: <strong class="font-bold text-primary-red">$'. number_format($this->amount, 2).'</strong></h4>
                             </div>    
                         '))
                         ->reactive(),
@@ -85,7 +90,9 @@ trait FinalStepsTrait{
                     TextInput::make('billing.card_number')
                         ->label('Credit Card Number')
                         ->required()
-                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{0000}-{0000}-{0000}-{0000}')),
+                        ->minLength(13)
+                        ->maxLength(16),
+                        //->mask(fn (TextInput\Mask $mask) => $mask->pattern('{0000}-{0000}-{0000}-{0000}')),
                     TextInput::make('billing.card_cvv')
                         ->maxLength(3)
                         ->minLength(3)
@@ -93,8 +100,9 @@ trait FinalStepsTrait{
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{000}'))
                         ->label('CVV'),
                     TextInput::make('billing.card_expiration')
-                        ->label('Expiration (MM/YYYY)')
+                        ->label(new HtmlString('Expiration <strong>(MM/YYYY)</strong>'))
                         ->placeholder('e.g. 06/2030')
+                        ->required()
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{00}/{0000}')),
                     TextInput::make('billing.address')
                         ->label('Billing Address')
@@ -108,20 +116,20 @@ trait FinalStepsTrait{
                     TextInput::make('billing.zip_code')
                         ->label('Billing Zip Code')
                         ->required(),
-                    Placeholder::make('note')
-                        ->label('')
-                        ->columnSpan('full')
-                        ->content(new HtmlString('
-                            <p class="text-sm">
-                            <strong class="text-primary-red">NOTE:</strong>  
-                            Before you click on the Pay button, please make
-                            sure your information is correct.  You will not
-                            be able to edit payment information after you
-                            click the Pay button because SI does not store
-                            your credit information.  If you are not ready
-                            to make a payment, click on the Close button.
-                            </p>
-                        '))
+                    // Placeholder::make('note')
+                    //     ->label('')
+                    //     ->columnSpan('full')
+                    //     ->content(new HtmlString('
+                    //         <p class="text-sm">
+                    //         <strong class="text-primary-red">NOTE:</strong>  
+                    //         Before you click on the Pay button, please make
+                    //         sure your information is correct.  You will not
+                    //         be able to edit payment information after you
+                    //         click the Pay button because SI does not store
+                    //         your credit information.  If you are not ready
+                    //         to make a payment, click on the Close button.
+                    //         </p>
+                    //     '))
                 ])
         ];
     }
