@@ -50,7 +50,7 @@ trait WritingSampleTrait{
                 ->required()
                 ->wordLimit(250)
                 ->rules([
-                    new MaxWordCount(250)
+                    new MaxWordCount(300)
                 ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
@@ -58,10 +58,12 @@ trait WritingSampleTrait{
                 }),
             Checkbox::make('writing_sample_essay_acknowledgement')
                 ->columnSpan('full')
+                ->validationAttribute('checkbox')
                 ->label('By clicking this box, I (applicant) declare that to
                 the best of my knowledge, the information provided in the application submitted to
                 St. Ignatius College Preparatory on this online application is true and complete.
                 ')
+                ->rules(['accepted'])
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){

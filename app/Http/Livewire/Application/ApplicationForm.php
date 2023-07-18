@@ -56,6 +56,10 @@ class ApplicationForm extends Component implements HasForms
 
     protected $queryString = ['active'];
 
+    protected $messages = [
+        'data.writing_sample_essay_acknowledgement.accepted' => 'This field is required.'
+    ];
+
     public function render()
     {
         return view('livewire.application.application-form')
