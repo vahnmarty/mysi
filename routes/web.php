@@ -74,3 +74,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
 Route::get('sample-form', SampleForm::class);
+
+Route::get('ping', function(){
+    return 'Hello!';
+});
