@@ -94,7 +94,8 @@ if (! function_exists('settings')) {
 }
 
 if (! function_exists('format_phone')) {
-    function format_phone($phone, $pattern = '/(\d{3})(\d{3})(\d{4})/',  $replacement = '($1) $2-$3') {
+    function format_phone($phone = null, $pattern = '/(\d{3})(\d{3})(\d{4})/',  $replacement = '($1) $2-$3') {
+        if($phone)
         return preg_replace($pattern, $replacement, $phone);
     }
 }
