@@ -75,7 +75,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
             TextColumn::make('student_name')->label('Student Name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone')
                 ->label('Mobile Phone')
-                ->formatStateUsing(fn(string $state) => format_phone($state)),
+                ->formatStateUsing(fn($state) => format_phone($state)),
             TextColumn::make('personal_email')->label('Personal Email'),
             TextColumn::make('current_school')->label('Current School'),
             TextColumn::make('current_grade')->label('Current Grade'),
