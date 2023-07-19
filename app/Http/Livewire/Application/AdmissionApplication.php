@@ -81,7 +81,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                 ->formatStateUsing(fn(Child $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone')
                 ->label('Mobile Phone')
-                ->formatStateUsing(fn(string $state) => format_phone($state)),
+                ->formatStateUsing(fn($state) => format_phone($state)),
             TextColumn::make('personal_email')
                 ->label('Email'),
             TextColumn::make('current_school')

@@ -80,7 +80,7 @@ class AddressInformation extends Component implements HasTable, HasForms
                 ->formatStateUsing(fn(Address $record) => $record->getFullAddress() ),
             TextColumn::make('phone_number')
                 ->label('Phone at Location')
-                ->formatStateUsing(fn(string $state) => format_phone($state)),
+                ->formatStateUsing(fn($state) => format_phone($state)),
         ];
     }
 
