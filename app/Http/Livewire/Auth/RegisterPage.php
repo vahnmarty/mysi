@@ -72,7 +72,7 @@ class RegisterPage extends Component implements HasForms
                 ->label('Email Address')
                 ->placeholder('Parent/Guardian Email')
                 ->email()
-                ->rules(['email:rfc,dns', new UniqueEmail()])
+                ->rules(['email:rfc,dns'])
                 ->lazy()
                 ->afterStateUpdated(function(Closure $get){
                     // if(User::where('email', $get('email'))->exists()){

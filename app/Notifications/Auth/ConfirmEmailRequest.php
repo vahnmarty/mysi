@@ -4,6 +4,7 @@ namespace App\Notifications\Auth;
 
 use App\Models\EmailRequest;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -42,7 +43,7 @@ class ConfirmEmailRequest extends Notification
                     ->greeting('Hello ' . $notifiable->first_name . ',')
                     ->line('Confirm the email by clicking the button below.')
                     ->action('Confirm Email', route('email-request.verify', ['email' => $this->email->email , 'token' => $this->email->token]))
-                    ->line('Thank you for using our application!');
+                    ->salutation(new HtmlString("**Regards**, <br>" . 'MySI Portal Admin'));
     }
 
     /**
