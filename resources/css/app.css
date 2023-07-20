@@ -90,9 +90,6 @@ sup{
     @apply justify-start;
 }
 
-.app-status{
-    @apply font-bold opacity-100 text-primary-red !important;
-}
 
 .filament-forms-field-wrapper-label span{
     @apply font-bold;

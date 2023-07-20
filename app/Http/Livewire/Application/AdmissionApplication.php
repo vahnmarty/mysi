@@ -107,7 +107,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
                     return false;
                 })
                 ->url(fn(Child $record) => route('application.show', $record->application->uuid))
-                ->extraAttributes(['class' => 'app-status']),
+                ->extraAttributes(['class' => 'app-status'])
+                ->color(''),
             Action::make('apply')
                 ->label(function(Child $record){
                     return $record->application ? 'Edit' : 'Apply';

@@ -23,7 +23,7 @@ class MaxWordCount implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ( str_word_count($value) > $this->max ) {
-            $fail("You have reached the maximum word count. Please limit answer to {$this->max} words.");
+            $fail("You have exceeded the number of words allowed for this field.  Please limit your answer to around {$this->max} words.");
         }
     }
 }
