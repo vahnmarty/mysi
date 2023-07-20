@@ -3,7 +3,7 @@
         Parent/Guardian Information
     </h2>
 
-    <div class="mt-8">
+    <div class="max-w-full mt-8 overflow-x-auto">
         {{ $this->table }}
     </div>
 

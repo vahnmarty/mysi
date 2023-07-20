@@ -136,7 +136,30 @@ class ParentInformation extends Component implements HasTable, HasForms
                     $this->form->fill($record->toArray());
                 }),
             ViewColumn::make('pipe')->label('')->view('filament.tables.columns.pipe'),
-            DeleteAction::make()->icon('')->color('primary'),
+            Action::make('delete')
+                ->requiresConfirmation()
+                ->modalHeading('Delete record')
+                ->modalSubheading('Are you sure you want to delete this record?')
+                ->action(function(Parents $record){
+                    $parents = Parents::where('account_id', accountId())->count();
+                    if($parents > 1){
+
+                        // This is to fix unique rule
+                        $record->mobile_phone = null;
+                        $record->personal_email = null;
+                        $record->save();
+
+                        $record->delete();
+                    }else{
+                        Notification::make()
+                            ->title('The parent record cannot be deleted.')
+                            ->danger()
+                            ->send();
+                        return;
+                    }
+                })
+                ->icon('')
+                ->color('primary'),
         ];
     }
 
@@ -243,7 +266,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 })
                                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                                 ->rules([new PhoneNumberRule])
-                                ->unique('parents','mobile_phone',  fn($livewire) => $livewire->model)
+                                //->unique('parents','mobile_phone',  fn($livewire) => $livewire->model)
                                 ->default('')
                                 ->maxLength(14), // 14 for Mask, but 10 is for the actual Max
                             TextInput::make('personal_email')
@@ -252,7 +275,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->email()
                                 ->rules(['email:rfc,dns'])
                                 // ->rules(['email:rfc,dns', 'unique:parents,personal_email,' . $this->model_id])
-                                ->unique('parents','personal_email',  fn($livewire) => $livewire->model)
+                                //->unique(Parents::class, 'personal_email',  fn($livewire) => $livewire->model)
                                 ->required()
                                 ->maxLength(255),
                             TextInput::make('employer')

@@ -192,7 +192,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->rules(['email:rfc,dns'])
                             ->required(),
                         TextInput::make('mobile_phone')
-                            ->label("Mobile Phone (Use a parent’s mobile phone, if none.)")
+                            ->label("Mobile Phone (If none, use a parent’s mobile phone.)")
                             ->required()
                             ->afterStateHydrated(function(Closure $set, $state){
                                 if(!$state){
@@ -249,7 +249,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
             Child::create($data);
 
             Notification::make()
-                ->title('Parent created successfully')
+                ->title('Child record is created.')
                 ->success()
                 ->send();
 
@@ -261,7 +261,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
             $model->update($data);
 
             Notification::make()
-                ->title('Parent updated successfully')
+                ->title('Child record is created.')
                 ->success()
                 ->send();
 
