@@ -101,7 +101,7 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('mobile_phone', $state);
                 }),
             CheckboxList::make('student.race')
-                ->label(new HtmlString('<legend>How do you identify racially?</legend><div class="text-xs">*Select all that apply to you</div>'))
+                ->label(new HtmlString('<legend>How do you identify racially?</legend><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
                 ->options(RacialType::asSameArray())
                 ->columns(3)
                 ->lazy()
@@ -124,9 +124,10 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
             TagsInput::make('student.ethnicity')
-                ->label(new HtmlString('<legend>What is your ethnicity?</legend><div class="text-xs">*If more than one, separate ethnicities with a comma.</div>'))
+                ->label(new HtmlString('<legend>What is your ethnicity?</legend><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
+                ->placeholder('')
                 ->afterStateHydrated(function (TagsInput $component, $state) {
                     if(is_string($state)){
                         $component->state(explode(',', $state));
@@ -159,7 +160,7 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_1')
                 ->label('Other High School #1')
-                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
@@ -169,7 +170,7 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_2')
                 ->label('Other High School #2')
-                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
@@ -179,7 +180,7 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_3')
                 ->label('Other High School #3')
-                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
@@ -189,7 +190,7 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_4')
                 ->label('Other High School #4')
-                ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->searchable()
                 ->hint('(where you plan to apply)')
