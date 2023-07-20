@@ -31,6 +31,7 @@ trait PlacementFormTrait{
                     1 => 'Yes'
                 ])
                 ->reactive()
+                ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSave('has_learning_disability', $state);
                 }),

@@ -50,7 +50,7 @@ trait WritingSampleTrait{
                 ->required()
                 ->wordLimit(250)
                 ->rules([
-                    new MaxWordCount(300)
+                    new MaxWordCount(250,300)
                 ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());

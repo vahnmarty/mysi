@@ -38,10 +38,11 @@ class ApplicationSubmitted extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->greeting('Hello ' . $notifiable->first_name . ', ')
-                    ->line('Congratulations! Your application for **' . $this->app->student->first_name . ' ' . $this->app->student->last_name . '** has been successfully submitted.')
-                    ->line('You payment transaction receipt will come right after.')
-                    ->line('Thank you for using MySI');
+                    ->greeting('Hi ' . $notifiable->first_name . ', ')
+                    ->line('**Applicant Name:** ' . $this->app->student->first_name . ' ' . $this->app->student->last_name )
+                    ->line('Thank you for submitting your application to St. Ignatius College Preparatory.')
+                    ->line('If you have any questions regarding the Admission process, please visit our website at https://www.siprep.org/admissions or email us at admissions@siprep.org')
+                    ->salutation(new HtmlString("**Regards**, <br>" . 'SI Admissions'));
     }
 
     /**
