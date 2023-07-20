@@ -12,7 +12,7 @@
         @if(session('status'))
         <div class="mt-8">
             <p>Check your email for instructions on how to reset your password.</p>
-            <p class="mt-8 text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Log in</a>.</p>
+            <p class="mt-8 text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Login</a>.</p>
         </div>
         @else
         <form method="POST" action="{{ route('password.email') }}" class="mt-8" novalidate>

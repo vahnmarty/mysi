@@ -102,9 +102,11 @@ class ParentInformation extends Component implements HasTable, HasForms
             TextColumn::make('personal_email')
                 ->label("Email"),
             TextColumn::make('employer')
-                ->label('Employer'),
+                ->label('Employer')
+                ->wrap(),
             TextColumn::make('job_title')
-                ->label('Job Title'),
+                ->label('Job Title')
+                ->wrap(),
             ToggleColumn::make('is_primary')
                 ->label('Primary')
                 ->updateStateUsing(function (Parents $record, $state): void {
