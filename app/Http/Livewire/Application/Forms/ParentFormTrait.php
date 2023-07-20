@@ -151,7 +151,7 @@ trait ParentFormTrait{
                         })
                         ->wordLimit(75)
                         ->rules([
-                            new MaxWordCount(75)
+                            new MaxWordCount(75, 100)
                         ])
                         ->helperText('(Please limit answer to 75 words.)'),
                 ])

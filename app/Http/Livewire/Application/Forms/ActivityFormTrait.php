@@ -101,7 +101,7 @@ trait ActivityFormTrait{
                         ->rows(5)
                         ->wordLimit(75)
                         ->rules([
-                            new MaxWordCount(75)
+                            new MaxWordCount(75, 100)
                         ])
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                             $livewire->validateOnly($component->getStatePath());
@@ -120,7 +120,7 @@ trait ActivityFormTrait{
                         ->rows(5)
                         ->wordLimit(75)
                         ->rules([
-                            new MaxWordCount(75)
+                            new MaxWordCount(75, 100)
                         ])
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                             $livewire->validateOnly($component->getStatePath());
@@ -134,7 +134,7 @@ trait ActivityFormTrait{
                         ->rows(5)
                         ->wordLimit(75)
                         ->rules([
-                            new MaxWordCount(75)
+                            new MaxWordCount(75, 100)
                         ])
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                             $livewire->validateOnly($component->getStatePath());
