@@ -51,7 +51,7 @@ class ApplicationForm extends Component implements HasForms
     # Form
     public $data = [];
     public $is_validated = false;
-    public $is_submitted = false;
+    public $is_submitted = true;
     public $amount = 100;
     public $active;
 
