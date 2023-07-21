@@ -85,7 +85,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
             TextColumn::make('personal_email')
                 ->label('Email'),
             TextColumn::make('current_school')
-                ->label('Current School'),
+                ->label('Current School')
+                ->formatStateUsing(fn(Child $record) => $record->getCurrentSchool()),
             TextColumn::make('current_grade')
                 ->label('Current Grade'),
         ];

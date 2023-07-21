@@ -78,8 +78,14 @@ class ViewApplication extends Component implements HasForms
 
         if($this->app->payment){
             $this->amount = $this->app->payment?->final_amount;
-            $data['billing'] = $this->app->payment->toArray();
+            $billing = $this->app->payment->toArray();
+
+            // $billing_name = explode(' ' , $billing['name_on_card']);
+            // $data['billing']['first_name'] = $billing_name[0];
+            // $data['billing']['last_name'] = $billing_name[1];
         }
+
+        
 
 
         $this->form->fill($data);
