@@ -6,19 +6,43 @@ use Closure;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
+use App\Models\Address;
 use Livewire\Component;
+use App\Enums\GradeLevel;
+use App\Enums\ParentType;
 use App\Enums\RacialType;
+use App\Enums\Salutation;
+use App\Enums\AddressType;
+use App\Enums\SiblingType;
+use App\Enums\CommonOption;
+use App\Enums\ParentSuffix;
+use App\Enums\ReligionType;
 use App\Models\Application;
+use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\FamilySpiritualityType;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use App\Forms\Components\WordTextArea;
+use App\Models\Parents as ParentModel;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Awcodes\FilamentTableRepeater\Components\TableRepeater;
+use Carbon\Carbon;
 
 class ViewApplication extends Component implements HasForms
 {   
@@ -54,7 +78,9 @@ class ViewApplication extends Component implements HasForms
 
         if($this->app->payment){
             $this->amount = $this->app->payment?->final_amount;
+            $data['billing'] = $this->app->payment->toArray();
         }
+
 
         $this->form->fill($data);
     }
@@ -212,84 +238,740 @@ class ViewApplication extends Component implements HasForms
     public function getAddressForm()
     {
         return [
+            Repeater::make('addresses')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemMovement()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->schema([
+                    Select::make('address_type')
+                        ->label('Address Type')
+                        ->options(function(Closure $get){
+                            $current = Address::where('account_id', accountId())->where('id', '!=', $get('id'))->pluck('address_type', 'address_type')->toArray();
+                            $array = AddressType::asSameArray();
+                            $types = [];
 
+                            foreach($array as $type)
+                            {
+                                if(!in_array($type, $current)){
+                                    $types[] = $type;
+                                }
+                            }
+                            return array_combine($types, $types);
+                        })
+                        ->disabled(),
+                    TextInput::make('address')
+                        ->label('Address')
+                        ->disabled(),
+                    TextInput::make('city')
+                        ->label('City')
+                        ->disabled(),
+                    Select::make('state')
+                        ->label('State')
+                        ->options(us_states())
+                        ->disabled(),
+                    TextInput::make('zip_code')
+                        ->label('ZIP Code')
+                        ->disabled(),
+                    TextInput::make('phone_number')
+                        ->label('Phone Number')
+                        ->disabled(),
+                ])
         ];
     }
 
     public function getParentForm()
     {
         return [
-
+            Repeater::make('parents')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemMovement()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->schema([
+                    Select::make('salutation')
+                        ->options(Salutation::asSameArray())
+                        ->disabled(),
+                    TextInput::make('first_name')
+                        ->label('Legal First Name')
+                        ->disabled(),
+                    TextInput::make('middle_name')
+                        ->label('Legal Middle Name')
+                        ->disabled(),
+                    TextInput::make('last_name')
+                        ->label('Legal Last Name')
+                        ->disabled(),
+                    Select::make('suffix')
+                        ->label('Suffix')
+                        ->options(ParentSuffix::asSameArray())
+                        ->preload()
+                        ->disabled(),
+                    TextInput::make('mobile_phone')
+                        ->label('Mobile Phone')
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                        ->afterStateHydrated(function(Closure $set, $state){
+                            if(!$state){
+                                $set('mobile_phone', '');
+                            }
+                        })
+                        ->disabled(),
+                    TextInput::make('personal_email')
+                        ->label('Preferred Email')
+                        ->disabled(),
+                    TextInput::make('employer')
+                        ->label('Employer')
+                        ->disabled(),
+                    TextInput::make('job_title')
+                        ->label('Job Title')
+                        ->disabled(),
+                    TextInput::make('work_email')
+                        ->label('Work Email')
+                        ->disabled(),
+                    TextInput::make('work_phone')
+                        ->label('Work Phone')
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                        ->afterStateHydrated(function(Closure $set, $state){
+                            if(!$state){
+                                $set('work_phone', '');
+                            }
+                        })
+                        ->disabled(),
+                    TextInput::make('work_phone_ext')
+                        ->label('Work Phone Extension')
+                        ->disabled(),
+                    WordTextArea::make('schools_attended')
+                        ->label('List all high schools, colleges, or graduate schools you have attended')
+                        ->disabled(),
+                ])
         ];
     }
 
     public function getSiblingForm()
     {
         return [
-
+            Repeater::make('siblings')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemMovement()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->schema([
+                    TextInput::make('first_name')
+                        ->label('Legal First Name')
+                        ->disabled(),
+                    TextInput::make('middle_name')
+                        ->label('Legal Middle Name')
+                        ->disabled(),
+                    TextInput::make('last_name')
+                        ->label('Legal Last Name')
+                        ->disabled(),
+                    Select::make('suffix')
+                        ->options(Suffix::asSameArray())
+                        ->label('Suffix')
+                        ->preload()
+                        ->disabled(),
+                    Select::make('current_school')
+                        ->label('Current School')
+                        ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
+                        ->preload()
+                        ->disabled(),
+                    TextInput::make('current_school_not_listed')
+                        ->label('If not listed, add it here')
+                        ->disabled(),
+                    Select::make('current_grade')
+                        ->label('Current Grade')
+                        ->options(GradeLevel::asSameArray())
+                        ->preload()
+                        ->disabled(),
+                    Radio::make('attended_at_si')
+                        ->label('Attended high school at SI?')
+                        ->options([
+                            0 => 'No',
+                            1 => 'Yes'
+                        ])
+                        ->disabled(),
+                    TextInput::make('graduation_year')
+                        ->label('High School Graduation Year')
+                        ->disabled(),
+                ])
+                
+            
         ];
     }
 
     public function getFamilyMatrix()
     {
         return [
-
+            TableRepeater::make('parents_matrix')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->hideLabels()
+                ->columnSpan('full')
+                ->schema([
+                    Hidden::make('id')->reactive(),
+                    Hidden::make('first_name')->reactive(),
+                    Hidden::make('last_name')->reactive(),
+                    TextInput::make('full_name')
+                        ->label('Parent/Guardian')
+                        ->afterStateHydrated(function(Closure $get, Closure $set){
+                            $set('full_name', $get('first_name') . ' ' . $get('last_name'));
+                        })
+                        ->reactive()
+                        ->disabled()
+                        ->disableLabel(),   
+                    Select::make('relationship_type')
+                        ->label('Relationship to Applicant')
+                        ->disableLabel()
+                        ->options(ParentType::asSameArray())
+                        ->disabled(),
+                    Select::make('address_location')
+                        ->label('Address Location')
+                        ->disableLabel()
+                        ->options(function(){
+                            return Address::where('account_id', accountId())->pluck('address_type', 'address_type')->toArray();
+                        })
+                        ->disabled(),
+                    Select::make('living_situation')
+                        ->label('Living Situation')
+                        ->disableLabel()
+                        ->options(LivingSituationType::asSameArray())
+                        ->disabled(),
+                    Toggle::make('deceased_flag')
+                        ->label('Deceased?')
+                        ,
+                    Toggle::make('is_primary')
+                        ->label('Primary?')
+                        ,
+                ]),
+            TableRepeater::make('siblings_matrix')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->hideLabels()
+                ->columnSpan('full')
+                ->schema([
+                    Hidden::make('id')->reactive(),
+                    Hidden::make('first_name')->reactive(),
+                    Hidden::make('last_name')->reactive(),
+                    TextInput::make('full_name')
+                        ->label('Sibling')
+                        ->disabled()
+                        ->disableLabel()
+                        ->afterStateHydrated(function(Closure $get, Closure $set){
+                            $set('full_name', $get('first_name') . ' ' . $get('last_name'));
+                        }),
+                    Select::make('relationship_type')
+                        ->label('Relationship to Applicant')
+                        ->disableLabel()
+                        ->options(SiblingType::asSameArray())
+                        ->disabled(),
+                    Select::make('address_location')
+                        ->label('Address Location')
+                        ->disableLabel()
+                        ->options(function(){
+                            return Address::where('account_id', accountId())->pluck('address_type', 'address_type')->toArray();
+                        })
+                        ->disabled(),
+                    Select::make('living_situation')
+                        ->label('Living Situation')
+                        ->disableLabel()
+                        ->options(LivingSituationType::asSameArray())
+                        ->disabled(),
+                ])
         ];
     }
 
     public function getLegacyForm()
     {
         return [
-
+            Repeater::make('legacy')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->schema([
+                    TextInput::make('first_name')
+                        ->label('First Name')
+                        ->disabled(),
+                    TextInput::make('last_name')
+                        ->label('Last Name')
+                        ->disabled(),
+                    Select::make('relationship_type')
+                        ->label('Relationship to Applicant')
+                        ->options(ParentType::asSameArray())
+                        ->disabled(),
+                    TextInput::make('graduation_year')
+                        ->label('Graduation Year')
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                        ->disabled(),
+            ])
+            
         ];
     }
 
     public function getReligionForm()
     {
         return [
+            
+            Select::make('student.religion')
+                ->options(ReligionType::asSelectArray())
+                ->label("Applicant's Religion")
+                ->disabled(),
+            TextInput::make('student.religion_other')
+                ->label('If "Other," add it here')
+                ->disabled(),
+            TextInput::make('student.religious_community')
+                ->label('Church/Faith Community')
+                ->disabled(),
+            TextInput::make('student.religious_community_location')
+                ->label('Church/Faith Community Location')
+                ->disabled(),
+            TextInput::make('student.baptism_year')
+                ->label('Baptism Year')
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                ->disabled(),
+            TextInput::make('student.confirmation_year')
+                ->label('Confirmation Year')
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                ->disabled(),
+            WordTextArea::make('impact_to_community')
+                ->label("What impact does community have in your life and how do you best support your child's school community?")
+                ->rows(5)
+                ->disabled(),
+            CheckboxList::make('describe_family_spirituality')
+                ->label(new HtmlString("How would you describe your family's spirituality? <p class='text-sm text-gray-900'>Check all that apply.</p> "))
+                ->options(FamilySpiritualityType::asSameArray())
+                ->columns(3)
+                ->afterStateHydrated(function (CheckboxList $component, $state) {
+                    if(is_string($state)){
+                        $component->state(explode(',', $state));
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
+                    }
+                })
+                ->disabled(),
+            WordTextArea::make('describe_family_spirituality_in_detail')
+                ->label("Describe the practice(s) checked above in more detail")
+                ->helperText("Please limit your answer to 75 words.")
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            Fieldset::make('Will you encourage your child to proactively participate in the following activities?')
+                ->columns(3)
+                ->schema([
+                    Select::make('religious_studies_classes')
+                        ->options(CommonOption::asSelectArray())
+                        ->label("Religious Studies Classes")
+                        ->disabled(),
+                    WordTextArea::make('religious_studies_classes_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
+                        ->columnSpan(2)
+                        ->rows(3)
+                        ->disabled(),
+                    Select::make('school_liturgies')
+                        ->options(CommonOption::asSelectArray())
+                        ->label("School Liturgies")
+                        ->disabled(),
+                    WordTextArea::make('school_liturgies_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
+                        ->columnSpan(2)
+                        ->rows(3)
+                        ->disabled(),
+                    Select::make('retreats')
+                        ->options(CommonOption::asSelectArray())
+                        ->label("Retreats")
+                        ->disabled(),
+                    WordTextArea::make('retreats_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
+                        ->columnSpan(2)
+                        ->rows(3)
+                        ->disabled(),
+                    Select::make('community_service')
+                        ->options(CommonOption::asSelectArray())
+                        ->label("Community Service")
+                        ->disabled(),
+                    WordTextArea::make('community_service_explanation')
+                        ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
+                        ->columnSpan(2)
+                        ->rows(3)
+                        ->disabled(),
+                ]),
 
+                TextInput::make('religious_statement_by')
+                    ->label('Religious Form Submitted By')
+                    ->required()
+                    ->disabled(),
+                Select::make('religious_relationship_to_student')
+                    ->label('Relationship to Applicant')
+                    ->options(ParentType::asSameArray())
+                    ->required()
+                    ->disabled()
+            
         ];
     }
 
     public function getParentStatement()
     {
         return [
-
+            Placeholder::make('section_parent_statement')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
+            WordTextArea::make('why_si_for_your_child')
+                ->label("Why do you want your child to attend St. Ignatius College Preparatory?")
+                ->helperText("Please limit your answer to 75 words.")
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            WordTextArea::make('childs_quality_and_area_of_growth')
+                ->label("Explain your child's most endearing quality and an area of growth.")
+                ->helperText("Please limit your answer to 75 words.")
+                ->lazy()
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            WordTextArea::make('something_about_child')
+                ->label("Please tell us something about your child that does not appear on this application.")
+                ->helperText("Please limit your answer to 75 words.")
+                ->lazy()
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            TextInput::make('parent_statement_by')
+                ->label('Parent/Guardian Statement Submitted By')
+                ->required()
+                ->disabled(),
+            Select::make('parent_relationship_to_student')
+                ->label('Relationship to Applicant')
+                ->options(ParentType::asSameArray())
+                ->preload()
+                ->required()
+                ->disabled(),
         ];
     }
 
     public function getStudentStatement()
     {
         return [
-
+            Placeholder::make('section_student_statement')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by the applicant only.')),
+            WordTextArea::make('why_did_you_apply')
+                ->label("Why do you want to attend St. Ignatius College Preparatory?")
+                ->helperText("Please limit your answer to 75 words.")
+                ->lazy()
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            WordTextArea::make('greatest_challenge')
+                ->label("What do you think will be your greatest challenge at SI and how do you plan to meet that challenge?")
+                ->helperText("Please limit your answer to 75 words.")
+                ->lazy()
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            WordTextArea::make('religious_activity_participation')
+                ->label("What religious activity or activities do you plan on participating in at SI as part of your spiritual growth and why?")
+                ->helperText("Please limit your answer to 75 words.")
+                ->lazy()
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            WordTextArea::make('favorite_and_difficult_subjects')
+                ->label("What is your favorite subject in school and why? What subject do you find the most difficult and why?")
+                ->helperText("Please limit your answer to 75 words.")
+                ->lazy()
+                ->required()
+                ->rows(5)
+                ->disabled(),
+            
         ];
     }
 
     public function getActivityForm()
     {
         return [
-
+            Placeholder::make('section_school_activity')
+                ->label('')
+                ->content(new HtmlString('
+                <p>*This section is to be completed by the applicant only.</p>
+                <p>List up to four current extracurricular activities that you are most passionate about.</p>
+            ')),
+            Repeater::make('activities')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->schema([
+                    TextInput::make('activity_name')
+                        ->label('Activity Name')
+                        ->lazy()
+                        ->required()
+                        ->disabled(),
+                    Select::make('number_of_years')
+                        ->label('Number of Years')
+                        ->options($this->getYearsOptions())
+                        ->preload()
+                        ->required()
+                        ->disabled(),
+                    Select::make('hours_per_week')
+                        ->label('Hours per Week')
+                        ->options($this->getHoursPerWeekOptions())
+                        ->preload()
+                        ->lazy()
+                        ->required()
+                        ->disabled(),
+                    WordTextArea::make('activity_information')
+                        ->label("Explain your involvement in this activity.  For example, the team(s) you play on, position(s) you play, concert(s)/recital(s) you have performed in, and/or why you are involved in this activity.")
+                        ->helperText("Please limit your answer to 75 words.")
+                        ->lazy()
+                        ->required()
+                        ->rows(5)
+                        ->disabled(),
+                    
+                    ]),
+            Grid::make(1)
+                ->schema([
+                    WordTextArea::make('most_passionate_activity')
+                        ->label("From the activities listed above, select the activity you are most passionate about continuing at SI and describe how you would contribute to this activity.")
+                        ->lazy()
+                        ->required()
+                        ->rows(5)
+                        ->disabled(),
+                    WordTextArea::make('new_extracurricular_activities')
+                        ->label("Select two new extracurricular activities that you would like to be involved in at SI.  Explain why these activities appeal to you.")
+                        ->helperText("Please limit your answer to 75 words.")
+                        ->lazy()
+                        ->required()
+                        ->rows(5)
+                        ->disabled(),
+                ])
+            
         ];
     }
 
     public function getWritingSampleForm()
     {
         return [
+            Placeholder::make('section_writing_sample')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
+            WordTextArea::make('writing_sample_essay')
+                ->label(new HtmlString('<div class="font-medium text-gray-700">
 
+                        <section class="mt-8 space-y-4">
+                            <h3 class="font-bold font-heading text-primary-red">What matters to you? How does that motivate you, impact your life, your outlook, and/or your identity?</h3>
+                            <p class="font-medium">What matters to you might be an activity, an idea, a goal, a place, and/or a thing.</p>
+                            <p class="font-medium"> <strong>PLEASE NOTE:</strong> This essay should be about you and your thoughts. It should not be about the life of another person you admire.</p>
+                        </section>
+                        <section class="mt-8">
+                            <h3 class="text-xl font-bold text-center text-gray-900 font-heading">--OR--</h3>
+                        </section>
+                        
+                        <section class="mt-8 space-y-4">
+                            <h3 class="font-bold font-heading text-primary-red">
+                                What is an obstacle you have overcome?
+                            </h3>
+                            <p>
+                                Explain how the obstacle impacted you and how you handled the situation (i.e., positive and/or negative attempts along the way or maybe how you are still working on it).
+                            </p>
+                            <p>
+                                Include what you have learned from the experience and how you have applied (or might apply) this to another situation in your life.
+                            </p>
+                        </section>
+                    </div>'))
+                ->helperText('Please limit your answer to 250 words.')
+                ->rows(15)
+                ->lazy()
+                ->required()
+                ->disabled(),
+            Checkbox::make('writing_sample_essay_acknowledgement')
+                ->columnSpan('full')
+                ->validationAttribute('checkbox')
+                ->label('By clicking this box, I (applicant) declare that to
+                the best of my knowledge, the information provided in the application submitted to
+                St. Ignatius College Preparatory on this online application is true and complete.
+                ')
+                ->required()
+                ->disabled(),
+            TextInput::make('writing_sample_essay_by')
+                ->label('Submitted By')
+                ->required()
+                ->disabled()
         ];
     }
 
     public function getPlacementForm()
     {
         return [
-
+            Radio::make('has_learning_disability')
+                ->label('Would you like to upload any learning difference documentation?')
+                ->options([
+                    0 => 'No',
+                    1 => 'Yes'
+                ])
+                ->required()
+                ->disabled(),
+            FileUpload::make('file_learning_documentation')
+                ->label('Upload your file here. You can attach multiple files.')
+                ->multiple()
+                ->maxSize(25000)
+                ->reactive()
+                ->enableOpen()
+                ->enableDownload()
+                ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->app->id)
+                ->visible(fn(Closure $get)  =>  $get('has_learning_disability') == 1  )
+                ->preserveFilenames()
+                ->afterStateHydrated(function(Closure $get, Closure $set, $state){
+                    if($state){
+                        $date = Carbon::parse($get('placement_test_date'))->addDays(7)->format('Y-m-d');
+                        $set('placement_test_date', $date);
+                    }
+                })
+                ->disabled(),
+            Grid::make(1)
+                ->schema([
+                    Radio::make('entrance_exam_reservation')
+                        ->label("Indicate the date and the high school where your child will take the entrance exam. If you submit your application after the November 15th (by midnight) deadline, we may not be able to accommodate you for the HSPT at SI on December 2nd.")
+                        ->options(function(Closure $get){
+                            return [
+                                "si" => "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') )),
+                                "other" => "At Other Catholic High School"
+                            ];
+                        })
+                        ->required()
+                        ->disabled(),
+                    Grid::make(1)
+                        ->visible(fn(Closure $get) => $get('entrance_exam_reservation') === 'other')
+                        ->schema([
+                            TextInput::make('other_catholic_school_name')
+                                ->label("Other Catholic School Name")
+                                ->required()
+                                ->disabled(),
+                            TextInput::make('other_catholic_school_location')
+                                ->label("Other Catholic School Location")
+                                ->required()
+                                ->disabled(),
+                            DatePicker::make('other_catholic_school_date')
+                                ->label("Other Catholic School Date")
+                                ->required()
+                                ->lazy()
+                                ->disabled(),
+                        ])
+                ])
+            
         ];
     }
 
     public function getFinalStepsForm()
     {
         return [
-
+            Placeholder::make('Documentation')
+                ->label('')
+                ->content(new HtmlString('
+                <div>
+                    <section>
+                        <h4 class="text-xl font-bold text-center font-heading text-primary-blue">Release Authorization</h4>
+                        <p class="mt-8 text-sm">
+                            I hereby consent to the release of my child`s academic records and test scores to St. Ignatius College Preparatory for the purpose of evaluating his or her application for admission. In authorizing this release, I acknowledge that I waive my right to read the Confidential School/Clergy Recommendations and my child`s application file. I further consent to St. Ignatius College Preparatory issuing academic progress reports to my child`s current school listed on this application during my child`s four years at St. Ignatius College Preparatory.
+                        </p>
+                    </section>
+                </div>
+            ')),
+            Checkbox::make('agree_to_release_record')
+                ->columnSpan('full')
+                ->label('By clicking this box, you acknowledge that you have read, understand and agree to the above.')
+                ->lazy()
+                ->required()
+                ->disabled(),
+            Checkbox::make('agree_academic_record_is_true')
+                ->columnSpan('full')
+                ->label('By clicking the box, I (parent(s)/guardian(s))
+                declare that to the best of my knowledge, the information provided in the
+                application submitted to St. Ignatius College Preparatory on this online application
+                is true and complete.')
+                ->lazy()
+                ->required()
+                ->disabled(),
+            Fieldset::make('Payment Information')
+                ->label(new HtmlString('<strong>Payment Information</strong>'))
+                ->columns(3)
+                ->schema([
+                    Placeholder::make('amount')
+                        ->columnSpan('full')
+                        ->label('')
+                        ->content(new HtmlString('
+                            <div>
+                                <h4>Amount Due: <strong class="font-bold text-primary-red">$'. number_format($this->amount, 2).'</strong></h4>
+                            </div>    
+                        '))
+                        ->reactive(),
+                    TextInput::make('billing.first_name')
+                        ->label('First Name')
+                        ->required()
+                        ->disabled(),
+                    TextInput::make('billing.last_name')
+                        ->label('Last Name')
+                        ->required()
+                        ->disabled(),
+                    TextInput::make('billing.email')
+                        ->label('Email')
+                        ->email()
+                        ->rules(['email:rfc,dns'])
+                        ->columnSpan('full')
+                        ->required()
+                        ->disabled(),
+                    TextInput::make('billing.card_number')
+                        ->label('Credit Card Number')
+                        ->required()
+                        ->disabled(),
+                    TextInput::make('billing.card_cvv')
+                        ->required()
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{000}'))
+                        ->label('CVV')
+                        ->disabled(),
+                    TextInput::make('billing.card_expiration')
+                        ->label(new HtmlString('Expiration <strong>(MM/YYYY)</strong>'))
+                        ->required()
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{00}/{0000}'))
+                        ->disabled(),
+                    TextInput::make('billing.address')
+                        ->label('Billing Address')
+                        ->required()
+                        ->disabled(),
+                    TextInput::make('billing.city')
+                        ->label('Billing City')
+                        ->required()
+                        ->disabled(),
+                    TextInput::make('billing.state')
+                        ->label('Billing State')
+                        ->required()
+                        ->disabled(),
+                    TextInput::make('billing.zip_code')
+                        ->label('Billing Zip Code')
+                        ->required()
+                        ->disabled(),
+                ])
         ];
+    }
+
+    public function getYearsOptions()
+    {
+        $arr = range(1, 9);
+        $arrs = array_combine($arr, $arr);
+
+        return $arrs + ['10+' => '10+'];
+    }
+
+    public function getHoursPerWeekOptions()
+    {
+        $arr = ['1 - 2', '3 - 5', '6 - 10', '11 - 15', '16+'];
+        $arrs = array_combine($arr, $arr);
+        return $arrs;
     }
 }
