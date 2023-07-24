@@ -32,7 +32,16 @@ trait PlacementFormTrait{
                 ])
                 ->reactive()
                 ->required()
-                ->afterStateUpdated(function($state){
+                ->afterStateUpdated(function(Closure $get, Closure $set, $state){
+                    if($state){
+                        if(count($get('file_learning_documentation'))){
+                            $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
+                            $set('placement_test_date', $date);
+                        }
+                    }
+                    else{
+                        $set('placement_test_date', settings('placement_test_date'));
+                    }
                     $this->autoSave('has_learning_disability', $state);
                 }),
             FileUpload::make('file_learning_documentation')
@@ -47,7 +56,7 @@ trait PlacementFormTrait{
                 ->preserveFilenames()
                 ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                     if($state){
-                        $date = Carbon::parse($get('placement_test_date'))->addDays(7)->format('Y-m-d');
+                        $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
                         $set('placement_test_date', $date);
                     }
                 })
@@ -56,7 +65,7 @@ trait PlacementFormTrait{
                     $files = Arr::flatten($component->getState());
                     $this->autoSaveFiles('file_learning_documentation', $files);
                     if(count($files)){
-                        $date = Carbon::parse($get('placement_test_date'))->addDays(7)->format('Y-m-d');
+                        $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
                         $set('placement_test_date', $date);
                     }
                 }),
@@ -75,6 +84,14 @@ trait PlacementFormTrait{
                         })
                         ->required()
                         ->reactive()
+                        ->afterStateHydrated(function(Closure $get, Closure $set, $state){
+                            if($get('has_learning_disability') &&  count($get('file_learning_documentation'))){
+                                $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
+                                $set('placement_test_date', $date);
+                            }else{
+                                $set('placement_test_date', settings('placement_test_date'));
+                            }
+                        })
                         ->afterStateUpdated(function($state){
                             $this->autoSave('entrance_exam_reservation', $state);
                         }),
