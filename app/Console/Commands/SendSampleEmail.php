@@ -27,8 +27,10 @@ class SendSampleEmail extends Command
      */
     public function handle()
     {
+        $message = $this->ask('Type message: (Optional)');
+
         $email = $this->argument('email');
 
-        Mail::to($email)->send(new SampleMail);
+        Mail::to($email)->send(new SampleMail($message));
     }
 }

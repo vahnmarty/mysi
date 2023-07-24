@@ -13,12 +13,14 @@ class SampleMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $content;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($content = null)
     {
-        //
+        $this->content = $content;
     }
 
     /**
