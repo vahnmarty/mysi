@@ -25,7 +25,7 @@
 
 
             <div class="flex justify-center">
-                <button type="submit" class="btn-primary">Submit</button>
+                <button type="submit" class="btn-primary-fixer">Submit</button>
             </div>
 
         </form>

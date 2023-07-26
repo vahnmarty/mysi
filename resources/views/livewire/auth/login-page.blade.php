@@ -40,7 +40,7 @@
             
             
             <div class="flex justify-center mt-8">
-                <button  type="submit" class="btn-primary">Log In</button>
+                <button  type="submit" class="btn-primary-fixer">Log In</button>
             </div>
 
             <p class="mt-8 text-sm text-center">Don't have an account? <a href="{{ route('register') }}" class="font-bold text-link hover:underline">Create account</a></p>

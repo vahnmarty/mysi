@@ -36,7 +36,7 @@
             {{ $this->form }}
 
             <div class="flex justify-center mt-8">
-                <button x-show="next" type="submit" class="btn-primary">Submit</button>
+                <button x-show="next" type="submit" class="btn-primary-fixer">Submit</button>
             </div>
 
             <p class="mt-8 text-sm text-center">To log in, click  <a href="{{ route('login') }}" class="font-bold text-link">here</a>.</p>

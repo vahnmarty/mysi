@@ -1,7 +1,7 @@
 <header class="relative">
     <div class="py-6 bg-primary-red">
         <div class="px-8 mx-auto">
-            <div class="flex">
+            <div class="flex transition-all duration-300 ease-in-out hover:opacity-80">
                 <a href="{{ url('/') }}">
                     <img src="{{ asset('img/logo-white.png') }}" class="w-auto h-16" alt="">
                 </a>
@@ -15,5 +15,7 @@
             </div>
         </div>
     </div>
+    @if(null)
     <img src="{{ asset('img/headerWave.png') }}" class="hidden w-full h-10"/>
+    @endif
 </header>
