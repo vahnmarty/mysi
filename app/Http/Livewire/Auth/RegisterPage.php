@@ -73,6 +73,7 @@ class RegisterPage extends Component implements HasForms
                 ->placeholder('Parent/Guardian Email')
                 ->email()
                 ->rules(['email:rfc,dns'])
+                //->unique(table:User::class, column: 'email')
                 ->lazy()
                 ->afterStateUpdated(function(Closure $get){
                     // if(User::where('email', $get('email'))->exists()){
@@ -135,6 +136,16 @@ class RegisterPage extends Component implements HasForms
     public function register()
     {
         $data = $this->form->getState();
+
+        if(User::where('email', $data['email'])->exists()){
+
+            Notification::make()
+            ->title('Error! This email already exists.')
+            ->danger()
+            ->send();
+
+            return;
+        }
 
         $account = $this->createAccount();
 
