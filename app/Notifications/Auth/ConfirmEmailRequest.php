@@ -41,6 +41,7 @@ class ConfirmEmailRequest extends Notification
         return (new MailMessage)
                     ->subject('Request for New Email/Username')
                     ->greeting('Hello ' . $notifiable->first_name . ',')
+                    ->line('We received a request to change your email/username to MySI Portal from *'. $notifiable->email .'* to **'. $this->email->email .'**.')
                     ->line('Confirm the email by clicking the button below.')
                     ->action('Confirm Email', route('email-request.verify', ['email' => $this->email->email , 'token' => $this->email->token]))
                     ->salutation(new HtmlString("**Regards**, <br>" . 'MySI Portal Admin'));
