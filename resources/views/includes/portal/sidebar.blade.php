@@ -5,13 +5,13 @@
             <ul>
                 <x-sidebar-item href="{{ route('dashboard') }}" :active="request()->is('dashboard')">
                     <x-slot name="icon">
-                        <x-heroicon-o-home class="w-4 h-4" />
+                        <x-heroicon-o-home class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Home
                 </x-sidebar-item>
                 <!-- <x-sidebar-menu  :active="request()->is('profile*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-user class="w-4 h-4" />
+                        <x-heroicon-o-user class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Profile
                     <x-slot name="menu">
@@ -25,38 +25,38 @@
                 </x-sidebar-menu> -->
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('parents*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-users class="w-4 h-4" />
+                        <x-heroicon-o-users class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Parent/Guardian
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('children') }}" :active="request()->is('children*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-academic-cap class="w-4 h-4" />
+                        <x-heroicon-o-academic-cap class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Children
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('address') }}" :active="request()->is('address*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-location-marker class="w-4 h-4" />
+                        <x-heroicon-o-location-marker class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Address
                 </x-sidebar-item>
                 @if(Auth::user()->account?->hasEnrolled())
                 <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-archive class="w-4 h-4" />
+                        <x-heroicon-o-archive class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Legacy
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('healthcare') }}" :active="request()->is('healthcare')">
                     <x-slot name="icon">
-                        <x-heroicon-o-hand class="w-4 h-4" />
+                        <x-heroicon-o-hand class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Healthcare
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('emergency-contact') }}" :active="request()->is('emergency-contact')">
                     <x-slot name="icon">
-                        <x-heroicon-o-identification class="w-4 h-4" />
+                        <x-heroicon-o-identification class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Emergency Contact
                 </x-sidebar-item>
@@ -66,9 +66,37 @@
 
         <div class="py-8">
             <ul>
-                <x-sidebar-menu  :active="request()->is('activities*')">
+                <x-sidebar-item align="start" href="https://www.siprep.org/admissions/visit/the-wildcat-experience" target="_blank">
                     <x-slot name="icon">
-                        <x-heroicon-o-presentation-chart-line class="w-4 h-4" />
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
+                    </x-slot>
+                    Book a Wildcat Experience
+                </x-sidebar-item>
+
+                <x-sidebar-item align="start" href="{{ url('admission') }}" :active="request()->is('admission*')">
+                    <x-slot name="icon">
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
+                    </x-slot>
+                    Admissions Application
+                </x-sidebar-item>
+
+                <x-sidebar-item align="start" href="https://www.siprep.org/admissions/apply/admissions-video" target="_blank">
+                    <x-slot name="icon">
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
+                    </x-slot>
+                    Admissions Video
+                </x-sidebar-item>
+
+                <x-sidebar-item align="start" href="{{ url('supplemental-recommendation') }}">
+                    <x-slot name="icon">
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
+                    </x-slot>
+                    Supplemental Recommendation
+                </x-sidebar-item>
+
+                <!-- <x-sidebar-menu  :active="request()->is('activities*')">
+                    <x-slot name="icon">
+                        <x-heroicon-o-presentation-chart-line class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Activities
                     <x-slot name="menu">
@@ -90,7 +118,7 @@
                                 </li>
                             </ul>
                         </li>
-<!--                         
+                      
                         <li>
                             <a href="" class="sub-menu">Existing Students</a>
                         </li>
@@ -117,24 +145,24 @@
                         </li>
                         <li>
                             <a href="" class="sub-menu">Donate to SI</a>
-                        </li> -->
+                        </li> 
                     </x-slot>
-                </x-sidebar-menu>
+                </x-sidebar-menu> -->
                 <x-sidebar-item href="{{ url('help') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-question-mark-circle class="w-4 h-4" />
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Contact Us
                 </x-sidebar-item>
                 <!-- <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-collection class="w-4 h-4" />
+                        <x-heroicon-o-collection class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Parent Directory
                 </x-sidebar-item> -->
                 <!-- <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-calendar class="w-4 h-4" />
+                        <x-heroicon-o-calendar class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Alumni Events
                 </x-sidebar-item> -->
@@ -151,13 +179,13 @@
             <ul>
                 <x-sidebar-item href="{{ route('dashboard') }}" :active="request()->is('dashboard')">
                     <x-slot name="icon">
-                        <x-heroicon-o-home class="w-4 h-4" />
+                        <x-heroicon-o-home class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Home
                 </x-sidebar-item>
                 <!-- <x-sidebar-menu  :active="request()->is('profile*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-user class="w-4 h-4" />
+                        <x-heroicon-o-user class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Profile
                     <x-slot name="menu">
@@ -171,38 +199,38 @@
                 </x-sidebar-menu> -->
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('parents*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-users class="w-4 h-4" />
+                        <x-heroicon-o-users class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Parent/Guardian
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('children') }}" :active="request()->is('children*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-academic-cap class="w-4 h-4" />
+                        <x-heroicon-o-academic-cap class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Children
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('address') }}" :active="request()->is('address*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-location-marker class="w-4 h-4" />
+                        <x-heroicon-o-location-marker class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Address
                 </x-sidebar-item>
                 @if(Auth::user()->account?->hasEnrolled())
                 <x-sidebar-item href="{{ url('legacy') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-archive class="w-4 h-4" />
+                        <x-heroicon-o-archive class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Legacy
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('healthcare') }}" :active="request()->is('healthcare')">
                     <x-slot name="icon">
-                        <x-heroicon-o-hand class="w-4 h-4" />
+                        <x-heroicon-o-hand class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Healthcare
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('emergency-contact') }}" :active="request()->is('emergency-contact')">
                     <x-slot name="icon">
-                        <x-heroicon-o-identification class="w-4 h-4" />
+                        <x-heroicon-o-identification class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Emergency Contact
                 </x-sidebar-item>
@@ -214,7 +242,7 @@
             <ul>
                 <x-sidebar-menu  :active="request()->is('activities*')">
                     <x-slot name="icon">
-                        <x-heroicon-o-presentation-chart-line class="w-4 h-4" />
+                        <x-heroicon-o-presentation-chart-line class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Activities
                     <x-slot name="menu">
@@ -267,19 +295,19 @@
                 </x-sidebar-menu>
                 <x-sidebar-item href="{{ url('help') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-question-mark-circle class="w-4 h-4" />
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Contact Us
                 </x-sidebar-item>
                 <!-- <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-collection class="w-4 h-4" />
+                        <x-heroicon-o-collection class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Parent Directory
                 </x-sidebar-item>
                 <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-calendar class="w-4 h-4" />
+                        <x-heroicon-o-calendar class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Alumni Events
                 </x-sidebar-item> -->
