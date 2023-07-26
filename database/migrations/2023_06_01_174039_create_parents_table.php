@@ -29,7 +29,8 @@ return new class extends Migration
             $table->boolean('si_alumni_flag')->nullable();
             $table->string('relationship_type', 20)->nullable();
             $table->string('address_location', 20)->nullable();
-            $table->string('alternate_email', 255)->nullable()->nullable();
+            $table->string('alternate_email', 255)->nullable();
+            $table->string('employment_status', 50)->nullable();
             $table->string('employer', 100)->nullable();
             $table->string('job_title', 128)->nullable();
             $table->string('work_email', 255)->nullable();

@@ -175,6 +175,8 @@ class RegisterPage extends Component implements HasForms
             'last_name' => $data['last_name'],
             'mobile_phone' => $data['phone'],
             'personal_email' => $data['email'],
+            'is_primary' => true, // default
+
         ]);
     }
 

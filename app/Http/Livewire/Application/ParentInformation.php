@@ -14,6 +14,7 @@ use App\Enums\Salutation;
 use App\Enums\ParentSuffix;
 use App\Enums\AddressLocation;
 use App\Rules\PhoneNumberRule;
+use App\Enums\EmploymentStatus;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
@@ -108,7 +109,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                 ->label('Job Title')
                 ->wrap(),
             ToggleColumn::make('is_primary')
-                ->label('Primary')
+                ->label('Primary Owner')
                 ->updateStateUsing(function (Parents $record, $state): void {
                     $record->is_primary = $state;
                     $record->save();
@@ -159,6 +160,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                     }
                 })
                 ->icon('')
+                ->disabled(fn(Parents $record) => $record->is_primary)
                 ->color('primary'),
         ];
     }
@@ -238,7 +240,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->label('Suffix')
                                 ->options(ParentSuffix::asSameArray()),
                             Toggle::make('is_primary')
-                                ->label('Primary Parent')
+                                ->label('Primary Account Owner')
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)
@@ -278,11 +280,20 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 //->unique(Parents::class, 'personal_email',  fn($livewire) => $livewire->model)
                                 ->required()
                                 ->maxLength(255),
+                            Select::make('employment_status')
+                                ->label('What is your employment status?')
+                                ->required()
+                                ->reactive()
+                                ->options(EmploymentStatus::asSameArray()),
                             TextInput::make('employer')
-                                ->label('Employer')
+                                ->label(fn(Closure $get) => $get('employment_status') === EmploymentStatus::Retired ? 'Last Employer' : 'Employer')
+                                ->lazy()
+                                ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                                 ->maxLength(100),
                             TextInput::make('job_title')
-                                ->label('Job Title')
+                                ->label(fn(Closure $get) => $get('employment_status') === EmploymentStatus::Retired ? 'Last Job Title' : 'Job Title')
+                                ->lazy()
+                                ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                                 ->maxLength(128),
                         ])
                 ]),
