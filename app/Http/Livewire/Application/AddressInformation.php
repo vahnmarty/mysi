@@ -208,7 +208,6 @@ class AddressInformation extends Component implements HasTable, HasForms
                                 ->required(),
                             TextInput::make('phone_number')
                                 ->label('Phone at Location')
-                                ->required()
                                 ->afterStateHydrated(function(Closure $set, $state){
                                     if(!$state){
                                         $set('phone_number', '');

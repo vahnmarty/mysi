@@ -15,9 +15,8 @@
 
 
     <div x-data="{ enable: $wire.entangle('enable_form') }" 
-        x-show="enable" 
-        x-cloak 
-        class="pt-8 pb-32 border-t">
+            class="invisible pt-8 pb-32 border-t"
+            :class="{ 'visible' : enable, 'invisible' : !enable }">
         <form wire:submit.prevent="save" class="p-8 bg-gray-100 border rounded-md " novalidate>
 
             {{ $this->form }}

@@ -193,7 +193,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->options(Gender::asSelectArray())
                             ->required(),
                         TextInput::make('personal_email')
-                            ->label('Personal Email')
+                            ->label('Personal Email (If none, use a parent’s email address.)')
                             ->email()
                             ->rules(['email:rfc,dns'])
                             ->required(),
