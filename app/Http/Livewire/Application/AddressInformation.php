@@ -96,7 +96,11 @@ class AddressInformation extends Component implements HasTable, HasForms
                     
                 }),
             ViewColumn::make('pipe')->label('')->view('filament.tables.columns.pipe'),
-            DeleteAction::make()->icon(''),
+            DeleteAction::make()
+                ->requiresConfirmation()
+                ->modalHeading('Delete record')
+                ->modalSubheading('Are you sure you want to delete this record?')
+                ->icon('')
         ];
     }
 
