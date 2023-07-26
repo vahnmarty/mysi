@@ -50,7 +50,9 @@
     <script>
 
         Livewire.on('leftAsterisk', event => {
-            leftAsterisk();
+            setTimeout(() => {
+                leftAsterisk();
+            }, 100);
         })
 
 

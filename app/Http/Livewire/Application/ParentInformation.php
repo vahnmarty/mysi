@@ -135,6 +135,8 @@ class ParentInformation extends Component implements HasTable, HasForms
                     $this->action = CrudAction::Update;
                     $this->enable_form = true;
                     $this->form->fill($record->toArray());
+
+                    $this->emit('leftAsterisk');
                 }),
             ViewColumn::make('pipe')->label('')->view('filament.tables.columns.pipe'),
             Action::make('delete')
