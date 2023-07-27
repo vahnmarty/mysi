@@ -4,6 +4,7 @@ namespace App\Notifications\Admission;
 
 use App\Models\Application;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\HtmlString;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
