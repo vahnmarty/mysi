@@ -19,7 +19,7 @@ trait WritingSampleTrait{
         return [
             Placeholder::make('section_writing_sample')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by a the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
+                ->content(new HtmlString('* This section is to be completed by a the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
             WordTextArea::make('writing_sample_essay')
                 ->label(new HtmlString('<div class="font-medium text-gray-700">
 

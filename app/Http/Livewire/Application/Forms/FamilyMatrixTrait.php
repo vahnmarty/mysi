@@ -27,7 +27,7 @@ trait FamilyMatrixTrait{
         return [
             Placeholder::make('matrix_form_description')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
             TableRepeater::make('parents_matrix')
                 ->label('')
                 ->disableItemCreation()

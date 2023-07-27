@@ -26,7 +26,7 @@ trait StudentFormTrait{
         return [
             Placeholder::make('student_form_description')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
             TextInput::make('student.first_name')
                 ->label('Legal First Name')
                 ->lazy()

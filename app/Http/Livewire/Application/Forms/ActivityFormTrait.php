@@ -35,7 +35,7 @@ trait ActivityFormTrait{
             Placeholder::make('section_school_activity')
                 ->label('')
                 ->content(new HtmlString('
-                <p>*This section is to be completed by the applicant only.</p>
+                <p>* This section is to be completed by the applicant only.</p>
                 <p>List up to four current extracurricular activities that you are most passionate about.</p>
             ')),
             Repeater::make('activities')

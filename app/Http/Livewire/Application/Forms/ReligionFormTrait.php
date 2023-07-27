@@ -36,7 +36,7 @@ trait ReligionFormTrait{
         return [
             Placeholder::make('religion_form_description')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
             Select::make('student.religion')
                 ->options(ReligionType::asSelectArray())
                 ->label("Applicant's Religion")

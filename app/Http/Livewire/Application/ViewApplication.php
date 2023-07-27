@@ -627,7 +627,7 @@ class ViewApplication extends Component implements HasForms
         return [
             Placeholder::make('section_parent_statement')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
             WordTextArea::make('why_si_for_your_child')
                 ->label("Why do you want your child to attend St. Ignatius College Preparatory?")
                 ->helperText("Please limit your answer to 75 words.")
@@ -666,7 +666,7 @@ class ViewApplication extends Component implements HasForms
         return [
             Placeholder::make('section_student_statement')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by the applicant only.')),
+                ->content(new HtmlString('* This section is to be completed by the applicant only.')),
             WordTextArea::make('why_did_you_apply')
                 ->label("Why do you want to attend St. Ignatius College Preparatory?")
                 ->helperText("Please limit your answer to 75 words.")
@@ -705,7 +705,7 @@ class ViewApplication extends Component implements HasForms
             Placeholder::make('section_school_activity')
                 ->label('')
                 ->content(new HtmlString('
-                <p>*This section is to be completed by the applicant only.</p>
+                <p>* This section is to be completed by the applicant only.</p>
                 <p>List up to four current extracurricular activities that you are most passionate about.</p>
             ')),
             Repeater::make('activities')
@@ -766,7 +766,7 @@ class ViewApplication extends Component implements HasForms
         return [
             Placeholder::make('section_writing_sample')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by a the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
+                ->content(new HtmlString('* This section is to be completed by a the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
             WordTextArea::make('writing_sample_essay')
                 ->label(new HtmlString('<div class="font-medium text-gray-700">
 

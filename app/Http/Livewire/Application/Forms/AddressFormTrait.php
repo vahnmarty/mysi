@@ -26,7 +26,7 @@ trait AddressFormTrait{
         return [
             Placeholder::make('address_form_description')
                 ->label('')
-                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
             Repeater::make('addresses')
                 ->label('')
                 ->disableItemMovement()
