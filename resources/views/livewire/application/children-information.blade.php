@@ -19,6 +19,10 @@
         x-cloak>
         <form wire:submit.prevent="save" class="p-8 bg-gray-100 border rounded-md" novalidate>
 
+            <p class="mb-8 ">
+                All required fields are color <span class="font-bold color-red-800">red</span> and have an asterisk (<span class="font-bold color-red-800">*</span>).
+            </p>
+            
             {{ $this->form }}
 
             <div class="flex justify-end gap-8 mt-8">
