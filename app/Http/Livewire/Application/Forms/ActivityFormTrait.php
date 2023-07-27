@@ -42,6 +42,7 @@ trait ActivityFormTrait{
                 ->label('')
                 ->createItemButtonLabel('Add Activity')
                 ->defaultItems(1)
+                ->minItems(1)
                 ->maxItems(4)
                 ->disableItemMovement()
                 ->registerListeners([
@@ -107,7 +108,6 @@ trait ActivityFormTrait{
                             $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveActivity($get('id'), 'activity_information', $state);
                         }),
-                    
                     ]),
             Grid::make(1)
                 ->visible(fn() => count($this->data['activities'] ?? []))
