@@ -19,7 +19,7 @@ trait WritingSampleTrait{
         return [
             Placeholder::make('section_writing_sample')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
+                ->content(new HtmlString('* This section is to be completed by the applicant only. Select one of the topics below.  Write a complete essay with a maximum of 250 words.')),
             WordTextArea::make('writing_sample_essay')
                 ->label(new HtmlString('<div class="font-medium text-gray-700">
 
@@ -59,7 +59,7 @@ trait WritingSampleTrait{
             Checkbox::make('writing_sample_essay_acknowledgement')
                 ->columnSpan('full')
                 ->validationAttribute('checkbox')
-                ->label('By clicking this box, I (applicant) declare that to
+                ->label('By checking this box, I (applicant) declare that to
                 the best of my knowledge, the information provided in the application submitted to
                 St. Ignatius College Preparatory on this online application is true and complete.
                 ')

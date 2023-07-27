@@ -60,9 +60,9 @@ input::-ms-clear {
 display: none;
 }
 
-sup{
+/* sup{
     display: none;
-}
+} */
 
 .color-red-800{
     color: #800;;
@@ -136,4 +136,12 @@ sup{
 #table-sibling-matrix th:nth-child(5):before {
     content: '';
     display: none !important;
+}
+
+.filament-forms-field-wrapper-label span:has(> sup){
+    @apply relative pl-3;
+}
+
+.filament-forms-field-wrapper-label .whitespace-nowrap {
+    @apply absolute left-0 z-10 top-2;
 }

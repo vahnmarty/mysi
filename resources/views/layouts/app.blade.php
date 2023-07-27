@@ -60,14 +60,15 @@
 
         function leftAsterisk()
         {
-            const labels = document.querySelectorAll('.filament-forms-field-wrapper-label');
+            
+            //const labels = document.querySelectorAll('.filament-forms-field-wrapper-label');
         
-            labels.forEach(label => {
-                const domSpan = label.querySelector('span');
-                if(domSpan.querySelector('sup') !== null){
-                    label.innerHTML = `<span class="-mr-2 font-medium text-primary-red">*</span>${label.innerHTML}`;
-                }
-            });
+            //labels.forEach(label => {
+            //    const domSpan = label.querySelector('span');
+            //    if(domSpan.querySelector('sup') !== null){
+            //        label.innerHTML = `<span class="-mr-2 font-medium text-primary-red">*</span>${label.innerHTML}`;
+            //    }
+            //});
         }
         
     </script>
