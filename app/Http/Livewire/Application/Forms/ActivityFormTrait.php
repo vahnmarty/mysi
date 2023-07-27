@@ -40,6 +40,7 @@ trait ActivityFormTrait{
             ')),
             Repeater::make('activities')
                 ->label('')
+                ->validationAttribute('School Activities')
                 ->createItemButtonLabel('Add Activity')
                 ->defaultItems(1)
                 ->minItems(1)
