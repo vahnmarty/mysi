@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
-use Livewire\Component as Livewire;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\Child;
@@ -11,6 +10,8 @@ use App\Models\Legacy;
 use App\Models\School;
 use App\Enums\ParentType;
 use App\Enums\RacialType;
+use Illuminate\Support\HtmlString;
+use Livewire\Component as Livewire;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
@@ -18,6 +19,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 
 trait LegacyFormTrait{
@@ -25,6 +27,9 @@ trait LegacyFormTrait{
     public function getLegacyForm()
     {
         return [
+            Placeholder::make('legacy_form_description')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
             Repeater::make('legacy')
                 ->label('List up to 5 relatives who have attended SI.  Do not include siblings.')
                 ->createItemButtonLabel('Add Legacy Relative')

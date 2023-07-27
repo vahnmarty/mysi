@@ -64,6 +64,10 @@ sup{
     display: none;
 }
 
+.color-red-800{
+    color: #800;;
+}
+
 .filament-forms-field-wrapper-label span:has(> sup) {
     color: #800 !important;
     @apply font-bold;
@@ -103,7 +107,7 @@ sup{
 }
 
 #table-parent-matrix th{
-    @apply font-bold text-primary-red;
+    @apply font-bold color-red-800;
 }
 
 #table-parent-matrix th::before{
@@ -121,7 +125,7 @@ sup{
 }
 
 #table-sibling-matrix th{
-    @apply font-bold text-primary-red;
+    @apply font-bold color-red-800;
 }
 
 #table-sibling-matrix th::before{

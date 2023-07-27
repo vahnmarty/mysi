@@ -22,9 +22,9 @@ use App\Forms\Components\WordTextInput;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
-
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
@@ -34,7 +34,9 @@ trait ReligionFormTrait{
     public function getReligionForm()
     {
         return [
-            
+            Placeholder::make('religion_form_description')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
             Select::make('student.religion')
                 ->options(ReligionType::asSelectArray())
                 ->label("Applicant's Religion")
@@ -136,6 +138,7 @@ trait ReligionFormTrait{
                     $this->autoSave('describe_family_spirituality_in_detail', $state);
                 }),
             Fieldset::make('Will you encourage your child to proactively participate in the following activities?')
+                ->label(new HtmlString('<span class="font-bold color-red-800">* Will you encourage your child to proactively participate in the following activities?</span>'))
                 ->columns(3)
                 ->schema([
                     Select::make('religious_studies_classes')
