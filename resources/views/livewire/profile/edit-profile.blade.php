@@ -4,6 +4,11 @@
     </h2>
 
     <div class="pb-32 mt-8 space-y-8">
+        
+        <p class="mb-8 ">
+            All required fields are color <span class="font-bold color-red-800">red</span> and have an asterisk (<span class="font-bold color-red-800">*</span>).
+        </p>
+
         <form wire:submit.prevent="updateProfile" class="p-8 bg-gray-100 border rounded-md" novalidate>
 
             <h3 class="mb-8 font-bold font-heading">Basic Details</h3>
