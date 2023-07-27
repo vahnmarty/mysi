@@ -19,17 +19,17 @@ class Account extends Model
 
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasMany(Address::class)->withTrashed();
     }
 
     public function parents()
     {
-        return $this->hasMany(Parents::class);
+        return $this->hasMany(Parents::class)->withTrashed();
     }
 
     public function guardians()
     {
-        return $this->hasMany(Parents::class);
+        return $this->hasMany(Parents::class)->withTrashed();
     }
 
     public function applications()
@@ -39,7 +39,7 @@ class Account extends Model
 
     public function children()
     {
-        return $this->hasMany(Child::class);
+        return $this->hasMany(Child::class)->withTrashed();
     }
 
     public function siblings()
