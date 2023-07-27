@@ -243,6 +243,15 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->options(ParentSuffix::asSameArray()),
                             Toggle::make('is_primary')
                                 ->label('Primary Account Owner')
+                                ->rules([
+                                    function () {
+                                        return function (string $attribute, $value, Closure $fail) {
+                                            if(!$value && Parents::where('account_id', accountId())->count() <= 1){
+                                                $fail("You can't disable this primary account owner.");
+                                            }
+                                        };
+                                    },
+                                ])
                         ]),
                     Grid::make(1)
                         ->columnSpan(1)
