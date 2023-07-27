@@ -42,7 +42,7 @@ html, body{
 }
 
 .filament-forms-toggle-component:disabled{
-    @apply bg-primary-200;
+    @apply opacity-0 bg-primary-200;
 }
 
 
@@ -144,4 +144,8 @@ display: none;
 
 .filament-forms-field-wrapper-label .whitespace-nowrap {
     @apply absolute left-0 z-10 top-2;
+}
+
+.input-toggle{
+    opacity: 1 !important;
 }

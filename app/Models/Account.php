@@ -16,41 +16,64 @@ class Account extends Model
     {
         return Auth::user()->account_id;
     }
-
-    public function addresses()
-    {
-        return $this->hasMany(Address::class)->withTrashed();
-    }
-
-    public function parents()
-    {
-        return $this->hasMany(Parents::class)->withTrashed();
-    }
-
-    public function guardians()
-    {
-        return $this->hasMany(Parents::class)->withTrashed();
-    }
-
     public function applications()
     {
         return $this->hasMany(Application::class);
     }
 
-    public function children()
+
+    public function addresses()
     {
-        return $this->hasMany(Child::class)->withTrashed();
+        return $this->hasMany(Address::class);
     }
 
-    public function siblings()
+    public function parents()
     {
+        return $this->hasMany(Parents::class);
+    }
 
+    public function guardians()
+    {
+        return $this->hasMany(Parents::class);
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Child::class);
     }
 
     public function legacies()
     {
         return $this->hasMany(Legacy::class);
     }
+
+    // With Trashed
+
+    public function all_addresses()
+    {
+        return $this->hasMany(Address::class)->withTrashed();
+    }
+
+    public function all_parents()
+    {
+        return $this->hasMany(Parents::class)->withTrashed();
+    }
+
+    public function all_guardians()
+    {
+        return $this->hasMany(Parents::class)->withTrashed();
+    }
+
+    public function all_children()
+    {
+        return $this->hasMany(Child::class)->withTrashed();
+    }
+
+    public function all_legacies()
+    {
+        return $this->hasMany(Legacy::class)->withTrashed();
+    }
+
 
     public function hasEnrolled()
     {

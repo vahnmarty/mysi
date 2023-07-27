@@ -63,17 +63,17 @@ class ViewApplication extends Component implements HasForms
     {
         $this->app = Application::where('uuid', $uuid)->firstOrFail();
 
-        $account = $this->app->account->load('addresses', 'guardians', 'parents', 'children', 'legacies');
+        $account = $this->app->account->load('all_addresses', 'all_guardians', 'all_parents', 'all_children', 'all_legacies');
         $user = Auth::user();
 
         $data = $this->app->toArray();
         $data['student'] = $this->app->student->toArray();
-        $data['addresses'] = $account->addresses->toArray();
-        $data['parents'] = $account->guardians->toArray();
-        $data['parents_matrix'] = $account->parents->toArray();
-        $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
-        $data['siblings_matrix'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
-        $data['legacy'] = $account->legacies->toArray();
+        $data['addresses'] = $account->all_addresses->toArray();
+        $data['parents'] = $account->all_guardians->toArray();
+        $data['parents_matrix'] = $account->all_parents->toArray();
+        $data['siblings'] = $account->all_children()->where('id', '!=', $this->app->child_id)->get()->toArray();
+        $data['siblings_matrix'] = $account->all_children()->where('id', '!=', $this->app->child_id)->get()->toArray();
+        $data['legacy'] = $account->all_legacies->toArray();
         $data['activities'] = $this->app->activities->toArray();
         $data['autosave'] = true;
         $data['placement_test_date'] = settings('placement_test_date');

@@ -80,6 +80,7 @@ trait FamilyMatrixTrait{
                     Toggle::make('deceased_flag')
                         ->label('Deceased?')
                         ->reactive()
+                        ->extraAttributes(['class' => 'disabled:opacity-100 input-toggle'])
                         ->afterStateUpdated(function(Closure $get, Closure $set, $state){
                             $this->autoSaveParent($get('id'), 'deceased_flag', $state);
                             if($get('deceased_flag')){

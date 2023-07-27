@@ -23,6 +23,7 @@ return new class extends Migration
             $table->year('graduation_year')->nullable();
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
