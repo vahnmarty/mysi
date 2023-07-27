@@ -46,7 +46,7 @@ trait StudentStatementTrait{
                 ->rows(5)
                 ->wordLimit(75)
                 ->rules([
-                    new MaxWordCount(75)
+                    new MaxWordCount(75, 100)
                 ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
@@ -58,8 +58,12 @@ trait StudentStatementTrait{
                 ->lazy()
                 ->required()
                 ->rows(5)
-                ->maxLength(500)
-                ->afterStateUpdated(function($state){
+                ->wordLimit(75)
+                ->rules([
+                    new MaxWordCount(75, 100)
+                ])
+                ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
                     $this->autoSave('greatest_challenge', $state);
                 }),
             WordTextArea::make('religious_activity_participation')
@@ -68,6 +72,10 @@ trait StudentStatementTrait{
                 ->lazy()
                 ->required()
                 ->rows(5)
+                ->wordLimit(75)
+                ->rules([
+                    new MaxWordCount(75, 100)
+                ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSave('religious_activity_participation', $state);
@@ -78,6 +86,10 @@ trait StudentStatementTrait{
                 ->lazy()
                 ->required()
                 ->rows(5)
+                ->wordLimit(75)
+                ->rules([
+                    new MaxWordCount(75, 100)
+                ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSave('favorite_and_difficult_subjects', $state);

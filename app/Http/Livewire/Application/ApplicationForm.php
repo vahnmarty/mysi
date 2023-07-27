@@ -201,8 +201,19 @@ class ApplicationForm extends Component implements HasForms
             $value = implode(',', $value);
         }
 
-        $model->$column = $value;
-        $model->save();
+        try {
+            $model->$column = $value;
+            $model->save();
+        } catch (\Exception $e) {
+            
+            Notification::make()
+                ->title('System Error!')
+                ->body('Please check error message (s) below the field.')
+                ->danger()
+                ->send();
+        }
+
+        
     }
 
     
