@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application;
 
 use Closure;
+use Carbon\Carbon;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
@@ -18,6 +19,7 @@ use App\Enums\CommonOption;
 use App\Enums\ParentSuffix;
 use App\Enums\ReligionType;
 use App\Models\Application;
+use App\Enums\EmploymentStatus;
 use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
@@ -34,6 +36,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -42,7 +45,6 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Awcodes\FilamentTableRepeater\Components\TableRepeater;
-use Carbon\Carbon;
 
 class ViewApplication extends Component implements HasForms
 {   
@@ -106,7 +108,7 @@ class ViewApplication extends Component implements HasForms
             Section::make('Sibling Information')
                 ->schema($this->getSiblingForm())
                 ->collapsible(),
-            Section::make('Family Matrix')
+            Section::make('Family Dynamics')
                 ->schema($this->getFamilyMatrix())
                 ->collapsible()
                 ->extraAttributes(['id' => 'matrix']),
@@ -326,6 +328,11 @@ class ViewApplication extends Component implements HasForms
                     TextInput::make('personal_email')
                         ->label('Preferred Email')
                         ->disabled(),
+                    Select::make('employment_status')
+                        ->label('What is your employment status?')
+                        ->required()
+                        ->disabled()
+                        ->options(EmploymentStatus::asSameArray()),
                     TextInput::make('employer')
                         ->label('Employer')
                         ->disabled(),
@@ -447,11 +454,7 @@ class ViewApplication extends Component implements HasForms
                         ->options(LivingSituationType::asSameArray())
                         ->disabled(),
                     Toggle::make('deceased_flag')
-                        ->label('Deceased?')
-                        ,
-                    Toggle::make('is_primary')
-                        ->label('Primary?')
-                        ,
+                        ->label('Deceased?'),
                 ]),
             TableRepeater::make('siblings_matrix')
                 ->label('')
@@ -488,6 +491,10 @@ class ViewApplication extends Component implements HasForms
                         ->disableLabel()
                         ->options(LivingSituationType::asSameArray())
                         ->disabled(),
+                    Placeholder::make('blank_deceased')
+                        ->label(new HtmlString('<span class="invisible">*Deceased</span>'))
+                        ->content('')
+                        ->disabled()
                 ])
         ];
     }
@@ -575,7 +582,7 @@ class ViewApplication extends Component implements HasForms
                         ->options(CommonOption::asSelectArray())
                         ->label("Religious Studies Classes")
                         ->disabled(),
-                    WordTextArea::make('religious_studies_classes_explanation')
+                    Textarea::make('religious_studies_classes_explanation')
                         ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
                         ->columnSpan(2)
                         ->rows(3)
@@ -891,13 +898,13 @@ class ViewApplication extends Component implements HasForms
             ')),
             Checkbox::make('agree_to_release_record')
                 ->columnSpan('full')
-                ->label('By clicking this box, you acknowledge that you have read, understand and agree to the above.')
+                ->label('By checking this box, you acknowledge that you have read, understand and agree to the above.')
                 ->lazy()
                 ->required()
                 ->disabled(),
             Checkbox::make('agree_academic_record_is_true')
                 ->columnSpan('full')
-                ->label('By clicking the box, I (parent(s)/guardian(s))
+                ->label('By checking the box, I (parent(s)/guardian(s))
                 declare that to the best of my knowledge, the information provided in the
                 application submitted to St. Ignatius College Preparatory on this online application
                 is true and complete.')
