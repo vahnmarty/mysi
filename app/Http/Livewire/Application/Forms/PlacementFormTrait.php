@@ -34,9 +34,11 @@ trait PlacementFormTrait{
                 ->required()
                 ->afterStateUpdated(function(Closure $get, Closure $set, $state){
                     if($state){
-                        if(count($get('file_learning_documentation'))){
-                            $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
-                            $set('placement_test_date', $date);
+                        if($get('file_learning_documentation')){
+                            if(count($get('file_learning_documentation'))){
+                                $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
+                                $set('placement_test_date', $date);
+                            }
                         }
                     }
                     else{
@@ -77,10 +79,18 @@ trait PlacementFormTrait{
                     Radio::make('entrance_exam_reservation')
                         ->label("Indicate the date and the high school where your child will take the entrance exam. If you submit your application after the November 15th (by midnight) deadline, we may not be able to accommodate you for the HSPT at SI on December 2nd.")
                         ->options(function(Closure $get){
-                            return [
-                                "si" => "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') )),
-                                "other" => "At Other Catholic High School"
-                            ];
+
+                            $array = [];
+                            $array[] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
+
+                            if($get('has_learning_disability')){
+                                $array[] =  "At SI on December 9, 2023 (this date is only for those who qualify for Extended Time)";
+                            }
+                            
+                            $array[] = "At Other Catholic High School";
+
+
+                            return array_combine($array, $array);
                         })
                         ->required()
                         ->reactive()

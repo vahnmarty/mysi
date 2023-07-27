@@ -31,7 +31,7 @@ trait FinalStepsTrait{
             ')),
             Checkbox::make('agree_to_release_record')
                 ->columnSpan('full')
-                ->label('By clicking this box, you acknowledge that you have read, understand and agree to the above.')
+                ->label('By checking this box, you acknowledge that you have read, understand and agree to the above.')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function(Closure $get, $state){
@@ -39,7 +39,7 @@ trait FinalStepsTrait{
                 }),
             Checkbox::make('agree_academic_record_is_true')
                 ->columnSpan('full')
-                ->label('By clicking the box, I (parent(s)/guardian(s))
+                ->label('By checking the box, I (parent(s)/guardian(s))
                 declare that to the best of my knowledge, the information provided in the
                 application submitted to St. Ignatius College Preparatory on this online application
                 is true and complete.')
