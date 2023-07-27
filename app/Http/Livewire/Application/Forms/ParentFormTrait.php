@@ -4,14 +4,16 @@ namespace App\Http\Livewire\Application\Forms;
 
 use Str;
 use Closure;
-use Livewire\Component as Livewire;
 use App\Enums\Suffix;
 use App\Models\School;
 use App\Enums\Salutation;
 use App\Enums\AddressType;
 use App\Enums\ParentSuffix;
 use App\Rules\MaxWordCount;
+use App\Enums\EmploymentStatus;
 use App\Enums\LivingSituationType;
+use Illuminate\Support\HtmlString;
+use Livewire\Component as Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -23,6 +25,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea as NewTextArea;
@@ -32,6 +35,9 @@ trait ParentFormTrait{
     public function getParentForm()
     {
         return [
+            Placeholder::make('parent_form_description')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
             Repeater::make('parents')
                 ->label('')
                 ->createItemButtonLabel('Add Parent/Guardian')
@@ -103,6 +109,11 @@ trait ParentFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'personal_email', $state);
                         }),
+                    Select::make('employment_status')
+                        ->label('What is your employment status?')
+                        ->required()
+                        ->reactive()
+                        ->options(EmploymentStatus::asSameArray()),
                     TextInput::make('employer')
                         ->label('Employer')
                         ->lazy()

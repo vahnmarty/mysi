@@ -113,6 +113,7 @@ class ApplicationForm extends Component implements HasForms
                 ->label('AutoSave')
                 ->extraAttributes(['class' => 'bg-blue-400'])
                 //->helperText('This form is always safe with our autosave feature. We save your progress every few seconds, so you can rest assured that nothing will be lost. ')
+                ->helperText(new HtmlString('All required fields are color <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).'))
                 ->disabled(),
             Section::make('Applicant Information')
                 ->collapsible()

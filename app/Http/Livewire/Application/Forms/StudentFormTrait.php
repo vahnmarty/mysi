@@ -3,17 +3,18 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
-use Livewire\Component as Livewire;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
 use App\Enums\RacialType;
 use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
+use Livewire\Component as Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 //use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use CoringaWc\FilamentInputLoading\TextInput;
 use Filament\Forms\Components\TextInput\Mask;
@@ -23,6 +24,9 @@ trait StudentFormTrait{
     public function getStudentForm()
     {
         return [
+            Placeholder::make('student_form_description')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
             TextInput::make('student.first_name')
                 ->label('Legal First Name')
                 ->lazy()

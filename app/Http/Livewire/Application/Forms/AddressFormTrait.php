@@ -6,6 +6,7 @@ use Closure;
 use App\Models\School;
 use App\Models\Address;
 use App\Enums\AddressType;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
@@ -14,6 +15,7 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
 
@@ -22,6 +24,9 @@ trait AddressFormTrait{
     public function getAddressForm()
     {
         return [
+            Placeholder::make('address_form_description')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
             Repeater::make('addresses')
                 ->label('')
                 ->disableItemMovement()
@@ -125,7 +130,7 @@ trait AddressFormTrait{
                         }),
                     TextInput::make('phone_number')
                         ->label('Phone Number')
-                        ->required()
+                        //->required()
                         //->disabled(fn(Closure $get) => !$get('address_type') )
                         ->label('Phone at Location:')
                         ->default('')
