@@ -131,7 +131,7 @@ class ApplicationForm extends Component implements HasForms
                 ->schema($this->getSiblingForm())
                 ->collapsible()
                 ->collapsed(true),
-            Section::make('Family Matrix')
+            Section::make('Family Dynamics')
                 ->description(new HtmlString('Refresh the page if all family members are not listed. You can <a  href="?active=matrix#matrix" class="underline text-link">click here</a> to refresh this page.'))
                 ->schema($this->getFamilyMatrix())
                 ->collapsible()

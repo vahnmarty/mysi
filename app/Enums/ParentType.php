@@ -23,6 +23,7 @@ final class ParentType extends Enum
     const Grandfather = 'Grandfather';
     const Uncle = 'Uncle';
     const Aunt = 'Aunt';
-    const MaleGuardian = 'Male Guardian';
-    const FemaleGuardian = 'Female Guardian';
+    const Guardian = 'Guardian';
+    // const MaleGuardian = 'Male Guardian';
+    // const FemaleGuardian = 'Female Guardian';
 }

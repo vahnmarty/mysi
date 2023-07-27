@@ -9,6 +9,7 @@ use App\Models\Child;
 use App\Models\School;
 use App\Enums\GradeLevel;
 use App\Enums\RacialType;
+use Illuminate\Support\HtmlString;
 use Livewire\Component as Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
@@ -18,6 +19,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 
 trait SiblingFormTrait{
@@ -25,6 +27,9 @@ trait SiblingFormTrait{
     public function getSiblingForm()
     {
         return [
+            Placeholder::make('sibling_form_description')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
             Repeater::make('siblings')
                 ->label('')
                 ->createItemButtonLabel('Add Sibling')

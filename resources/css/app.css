@@ -101,3 +101,35 @@ sup{
 .filament-forms-field-wrapper-label span{
     @apply font-bold;
 }
+
+#table-parent-matrix th{
+    @apply font-bold text-primary-red;
+}
+
+#table-parent-matrix th::before{
+    content: '*';
+    @apply inline-block;
+}
+
+#table-parent-matrix th:nth-child(5):before {
+    content: '';
+    display: none !important;
+}
+
+#table-parent-matrix th:nth-child(5) {
+    @apply text-gray-700;
+}
+
+#table-sibling-matrix th{
+    @apply font-bold text-primary-red;
+}
+
+#table-sibling-matrix th::before{
+    content: '*';
+    @apply inline-block;
+}
+
+#table-sibling-matrix th:nth-child(5):before {
+    content: '';
+    display: none !important;
+}

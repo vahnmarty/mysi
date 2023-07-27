@@ -25,12 +25,16 @@ trait FamilyMatrixTrait{
     public function getFamilyMatrix()
     {
         return [
+            Placeholder::make('matrix_form_description')
+                ->label('')
+                ->content(new HtmlString('*This section is to be completed by a parent/guardian only.')),
             TableRepeater::make('parents_matrix')
                 ->label('')
                 ->disableItemCreation()
                 ->disableItemDeletion()
                 ->disableItemMovement()
                 ->hideLabels()
+                ->extraAttributes(['id' => 'table-parent-matrix'])
                 ->columnSpan('full')
                 ->schema([
                     Hidden::make('id')->reactive(),
@@ -42,8 +46,8 @@ trait FamilyMatrixTrait{
                             $set('full_name', $get('first_name') . ' ' . $get('last_name'));
                         })
                         ->reactive()
-                        ->disabled()
-                        ->disableLabel(),
+                        ->required()
+                        ->disabled(),
                     Select::make('relationship_type')
                         ->label('Relationship to Applicant')
                         ->disableLabel()
@@ -82,23 +86,23 @@ trait FamilyMatrixTrait{
                                 $set('is_primary', false);
                             }
                         }),
-                    Toggle::make('is_primary')
-                        ->label('Primary?')
-                        ->reactive()
-                        ->afterStateUpdated(function(Closure $get, Closure $set, Toggle $component, $state){
-                            $this->autoSaveParent($get('id'), 'is_primary', $state);
+                    // Toggle::make('is_primary')
+                    //     ->label('Primary?')
+                    //     ->reactive()
+                    //     ->afterStateUpdated(function(Closure $get, Closure $set, Toggle $component, $state){
+                    //         $this->autoSaveParent($get('id'), 'is_primary', $state);
 
-                            if($get('is_primary')){
-                                $set('deceased_flag', false);
+                    //         if($get('is_primary')){
+                    //             $set('deceased_flag', false);
                                 
-                                foreach($this->data['parents_matrix'] as $uuid => $item)
-                                {
-                                    if($item['id'] != $get('id')){
-                                        $this->data['parents_matrix'][$uuid]['is_primary'] = false;
-                                    }
-                                }
-                            }
-                        }),
+                    //             foreach($this->data['parents_matrix'] as $uuid => $item)
+                    //             {
+                    //                 if($item['id'] != $get('id')){
+                    //                     $this->data['parents_matrix'][$uuid]['is_primary'] = false;
+                    //                 }
+                    //             }
+                    //         }
+                    //     }),
                 ]),
             TableRepeater::make('siblings_matrix')
                 ->label('')
@@ -107,6 +111,7 @@ trait FamilyMatrixTrait{
                 ->disableItemMovement()
                 ->hideLabels()
                 ->columnSpan('full')
+                ->extraAttributes(['id' => 'table-sibling-matrix'])
                 ->schema([
                     Hidden::make('id')->reactive(),
                     Hidden::make('first_name')->reactive(),
@@ -117,6 +122,7 @@ trait FamilyMatrixTrait{
                             $set('full_name', $get('first_name') . ' ' . $get('last_name'));
                         })
                         ->reactive()
+                        ->required()
                         ->disabled()
                         ->disableLabel(),
                     Select::make('relationship_type')
@@ -148,6 +154,10 @@ trait FamilyMatrixTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'living_situation', $state);
                         }),
+                    Placeholder::make('blank_deceased')
+                        ->label(new HtmlString('<span class="invisible">*Deceased</span>'))
+                        ->content('')
+                        ->disabled()
                     // Placeholder::make('status')
                     //     ->label('')
                     //     ->content(new HtmlString('<div class="w-24"></div>')),
