@@ -113,16 +113,21 @@ trait ParentFormTrait{
                         ->label('What is your employment status?')
                         ->required()
                         ->reactive()
-                        ->options(EmploymentStatus::asSameArray()),
+                        ->options(EmploymentStatus::asSameArray())
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'employment_status', $state);
+                        }),
                     TextInput::make('employer')
-                        ->label('Employer')
+                        ->label(fn(Closure $get) => $get('employment_status') === EmploymentStatus::Retired ? 'Last Employer' : 'Employer')
                         ->lazy()
+                        ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'employer', $state);
                         }),
                     TextInput::make('job_title')
-                        ->label('Job Title')
+                        ->label(fn(Closure $get) => $get('employment_status') === EmploymentStatus::Retired ? 'Last Job Title' : 'Job Title')
                         ->lazy()
+                        ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'job_title', $state);
                         }),
@@ -131,6 +136,7 @@ trait ParentFormTrait{
                         ->email()
                         ->rules(['email:rfc,dns'])
                         ->lazy()
+                        ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_email', $state);
                         }),
@@ -139,6 +145,7 @@ trait ParentFormTrait{
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->tel()
                         ->lazy()
+                        ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                         ->afterStateHydrated(function(Closure $set, $state){
                             if(!$state){
                                 $set('work_phone', '');
@@ -150,6 +157,7 @@ trait ParentFormTrait{
                     TextInput::make('work_phone_ext')
                         ->label('Work Phone Extension')
                         ->lazy()
+                        ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_phone_ext', $state);
                         }),
