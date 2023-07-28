@@ -212,6 +212,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray())
                             ->searchable()
                             ->optionsLimit(50)
+                            ->reactive()
                             ->required(),
                         TextInput::make('current_school_not_listed')
                             ->label('If not listed, add it here')
