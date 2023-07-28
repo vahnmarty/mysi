@@ -86,9 +86,9 @@ class AdminLogin extends Component implements HasForms
 
     public function render(): View
     {
-        return view('livewire.auth.admin-login')
-            ->layout('filament::components.layouts.card', [
-                'title' => __('filament::login.title'),
-            ]);
+        return view('livewire.auth.admin-login')->layout('layouts.admin');
+            // ->layout('filament::components.layouts.card', [
+            //     'title' => __('filament::login.title'),
+            // ]);
     }
 }
