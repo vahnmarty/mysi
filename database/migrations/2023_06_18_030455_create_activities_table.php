@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('activity_information', 750)->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

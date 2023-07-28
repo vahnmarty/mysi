@@ -13,9 +13,22 @@ return new class extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 500);
+            $table->string('cds_code', 50)->nullable();
+            $table->string('county', 50)->nullable();
+            $table->string('city', 50)->nullable();
+            $table->string('district', 200)->nullable();
+            $table->string('name', 300);
             $table->boolean('active')->default(1);
-            $table->string('address')->nullable();
+            $table->string('funding_type', 50)->nullable();
+            $table->string('educational_program_type', 100)->nullable();
+            $table->string('entity_type', 100)->nullable();
+            $table->string('education_level', 200)->nullable();
+            $table->string('low_grade', 50)->nullable();
+            $table->string('high_grade', 50)->nullable();
+            $table->string('charter_flag', 10)->nullable();
+            $table->string('magnet_flag', 10)->nullable();
+            $table->string('public_flag', 10)->nullable();
+            $table->string('catholic_flag', 10)->nullable();
             $table->string('details')->nullable();
             $table->timestamps();
         });
