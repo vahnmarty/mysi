@@ -106,7 +106,7 @@ trait SiblingFormTrait{
                         ->label('Current School')
                         ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                         ->preload()
-                        ->optionsLimit(1)
+                        ->optionsLimit(50)
                         ->searchable()
                         ->lazy()
                         ->required()
