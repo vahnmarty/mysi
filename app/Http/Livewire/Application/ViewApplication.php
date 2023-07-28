@@ -216,6 +216,7 @@ class ViewApplication extends Component implements HasForms
                 ->label('Current School')
                 ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray())
                 ->preload()
+                ->optionsLimit(1)
                 ->disabled(),
             TextInput::make('student.current_school_not_listed')
                 ->label('If not listed, add it here')
@@ -229,6 +230,7 @@ class ViewApplication extends Component implements HasForms
                 ->label('Other High School #2')
                 ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
                 ->preload()
+                ->optionsLimit(1)
                 ->disabled(),
             Select::make('other_high_school_3')
                 ->label('Other High School #3')
@@ -239,6 +241,7 @@ class ViewApplication extends Component implements HasForms
                 ->label('Other High School #4')
                 ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
                 ->preload()
+                ->optionsLimit(1)
                 ->disabled(),
         ];
     }
@@ -389,6 +392,7 @@ class ViewApplication extends Component implements HasForms
                         ->label('Current School')
                         ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                         ->preload()
+                        ->optionsLimit(1)
                         ->disabled(),
                     TextInput::make('current_school_not_listed')
                         ->label('If not listed, add it here')
