@@ -150,6 +150,6 @@ display: none;
     opacity: 1 !important;
 }
 
-.filament-forms-toggle-component:disabled{
+/* .filament-forms-toggle-component:disabled{
     @apply opacity-100 bg-gray-50;
-}
+} */

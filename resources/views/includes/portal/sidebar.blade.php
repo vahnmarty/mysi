@@ -65,31 +65,34 @@
         </div>
 
         <div class="py-8">
-            <ul>
+            <ul class="font-medium text-gray-900">
+
+                <x-sidebar-item align="start" href="{{ url('admission') }}" :active="request()->is('admission*')">
+                    <x-slot name="icon">
+                        <x-heroicon-o-color-swatch class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Admissions Application
+                </x-sidebar-item>
+                
                 <x-sidebar-item align="start" href="https://www.siprep.org/admissions/visit/the-wildcat-experience" target="_blank">
                     <x-slot name="icon">
-                        <x-heroicon-o-calendar class="flex-shrink-0 w-4 h-4" />
+                        <x-heroicon-o-calendar class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
                     Book a Wildcat Experience
                 </x-sidebar-item>
 
-                <x-sidebar-item align="start" href="{{ url('admission') }}" :active="request()->is('admission*')">
-                    <x-slot name="icon">
-                        <x-heroicon-o-identification class="flex-shrink-0 w-4 h-4" />
-                    </x-slot>
-                    Admissions Application
-                </x-sidebar-item>
+                
 
                 <x-sidebar-item align="start" href="https://www.siprep.org/admissions/apply/admissions-video" target="_blank">
                     <x-slot name="icon">
-                        <x-heroicon-o-video-camera class="flex-shrink-0 w-4 h-4" />
+                        <x-heroicon-o-video-camera class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
                     Admissions Video
                 </x-sidebar-item>
 
                 <x-sidebar-item align="start" href="{{ url('supplemental-recommendation') }}">
                     <x-slot name="icon">
-                        <x-heroicon-o-gift class="flex-shrink-0 w-4 h-4" />
+                        <x-heroicon-o-gift class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
                     Supplemental Recommendation
                 </x-sidebar-item>
