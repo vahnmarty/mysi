@@ -70,6 +70,11 @@ class Application extends Model
         return $this->hasOne(ApplicationStatus::class);
     }
 
+    public function archive()
+    {
+        return $this->hasOne(ApplicationArchive::class);
+    }
+
     public function getRecordTypeAttribute()
     {
         return RecordType::fromValue($this->record_type_id)->description;

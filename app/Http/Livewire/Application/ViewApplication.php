@@ -62,33 +62,20 @@ class ViewApplication extends Component implements HasForms
 
     public function mount($uuid)
     {
-        $this->app = Application::where('uuid', $uuid)->firstOrFail();
+        $this->app = Application::with('archive')->where('uuid', $uuid)->firstOrFail();
 
-        $account = $this->app->account->load('all_addresses', 'all_guardians', 'all_parents', 'all_children', 'all_legacies');
-        $user = Auth::user();
+        $archive = $this->app->archive;
 
-        $data = $this->app->toArray();
-        $data['student'] = $this->app->student->toArray();
-        $data['addresses'] = $account->all_addresses->toArray();
-        $data['parents'] = $account->all_guardians->toArray();
-        $data['parents_matrix'] = $account->all_parents->toArray();
-        $data['siblings'] = $account->all_children()->where('id', '!=', $this->app->child_id)->get()->toArray();
-        $data['siblings_matrix'] = $account->all_children()->where('id', '!=', $this->app->child_id)->get()->toArray();
-        $data['legacy'] = $account->all_legacies->toArray();
-        $data['activities'] = $this->app->activities->toArray();
-        $data['autosave'] = true;
+        $data = $archive->application;
+        $data['student'] = $archive->student;
+        $data['addresses'] = $archive->addresses;
+        $data['parents'] = $archive->parents;
+        $data['parents_matrix'] = $archive->parents_matrix;
+        $data['siblings'] = $archive->siblings;
+        $data['siblings_matrix'] =$archive->siblings_matrix;
+        $data['legacy'] = $archive->legacy;
+        $data['activities'] = $archive->activities;
         $data['placement_test_date'] = settings('placement_test_date');
-
-        if($this->app->payment){
-            $this->amount = $this->app->payment?->final_amount;
-            $billing = $this->app->payment->toArray();
-
-            // $billing_name = explode(' ' , $billing['name_on_card']);
-            // $data['billing']['first_name'] = $billing_name[0];
-            // $data['billing']['last_name'] = $billing_name[1];
-        }
-
-        
 
 
         $this->form->fill($data);

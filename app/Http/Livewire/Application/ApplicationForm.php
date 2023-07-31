@@ -411,7 +411,8 @@ class ApplicationForm extends Component implements HasForms
                 'application_submitted' => true,
                 'application_submit_date' => now()
             ]);
-            
+
+            $this->saveAppArchive($app, $data);
 
             Auth::user()->notify( new ApplicationSubmitted($app));
             Auth::user()->notify( new PaymentReceipt($app));
@@ -428,10 +429,25 @@ class ApplicationForm extends Component implements HasForms
                 ->danger()
                 ->send();
         }
-
-
-
         
+    }
+
+    public function saveAppArchive(Application $app, $data)
+    {
+        $app->archive()->create([
+            'account_id'        => $app->account_id,
+            'user_id'           => Auth::id(),
+            'application_id'    => $app->id,
+            'application'       => $app->toArray(),
+            'student'           => $data['student'],
+            'addresses'         => $data['addresses'],
+            'parents'           => $data['parents'],
+            'parents_matrix'    => $data['parents_matrix'],
+            'siblings'          => $data['siblings'],
+            'siblings_matrix'   => $data['siblings_matrix'],
+            'legacy'            => $data['legacy'],
+            'activities'        => $data['activities']
+        ]);
     }
 
 }
