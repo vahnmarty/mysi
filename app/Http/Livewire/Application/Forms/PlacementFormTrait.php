@@ -106,7 +106,7 @@ trait PlacementFormTrait{
                             $this->autoSave('entrance_exam_reservation', $state);
                         }),
                     Grid::make(1)
-                        ->visible(fn(Closure $get) => $get('entrance_exam_reservation') === 'other')
+                        ->visible(fn(Closure $get) => $get('entrance_exam_reservation') === 'At Other Catholic High School')
                         ->schema([
                             TextInput::make('other_catholic_school_name')
                                 ->label("Other Catholic School Name")
