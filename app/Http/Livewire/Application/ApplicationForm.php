@@ -15,6 +15,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\Placeholder;
 use net\authorize\api\contract\v1 as AnetAPI;
 use App\Forms\Components\WritingSampleSection;
 use App\Notifications\Admission\PaymentReceipt;
@@ -109,12 +110,16 @@ class ApplicationForm extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            Toggle::make('autosave')
-                ->label('AutoSave')
-                ->extraAttributes(['class' => 'bg-blue-400'])
-                //->helperText('This form is always safe with our autosave feature. We save your progress every few seconds, so you can rest assured that nothing will be lost. ')
-                ->helperText(new HtmlString('All required fields are color <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).'))
-                ->disabled(),
+            // Toggle::make('autosave')
+            //     ->label('AutoSave')
+            //     ->extraAttributes(['class' => 'bg-blue-400'])
+            //     //->helperText('This form is always safe with our autosave feature. We save your progress every few seconds, so you can rest assured that nothing will be lost. ')
+            //     ->helperText(new HtmlString(''))
+
+            //     ->disabled(),
+            Placeholder::make('form_description')
+                ->label('')
+                ->content(new HtmlString('NOTE: This application form saves your work automatically after you enter your input and click out of it. All required fields are color <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).')),
             Section::make('Applicant Information')
                 ->collapsible()
                 ->collapsed(true)

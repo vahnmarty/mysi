@@ -139,6 +139,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
             Action::make('delete')
                 ->visible(fn(Child $record) => $record->application && !$record->submitted())
                 ->requiresConfirmation()
+                ->modalHeading('Delete application')
+                ->modalSubheading('Are you sure you want to delete this application?')
                 ->action(function(Child $record){
                     $record->application->delete();
                 })
