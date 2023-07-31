@@ -110,6 +110,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                 ->wrap(),
             ToggleColumn::make('is_primary')
                 ->label('Primary Owner')
+                ->disabled( fn() => Parents::where('account_id', accountId())->count() == 1)
                 ->updateStateUsing(function (Parents $record, $state): void {
                     $record->is_primary = $state;
                     $record->save();
@@ -153,6 +154,10 @@ class ParentInformation extends Component implements HasTable, HasForms
                         $record->save();
 
                         $record->delete();
+
+                        if(Parents::where('account_id', accountId())->count() <= 1){
+                            return redirect('parents');
+                        }
                     }else{
                         Notification::make()
                             ->title('The parent record cannot be deleted.')
@@ -246,9 +251,20 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->rules([
                                     function () {
                                         return function (string $attribute, $value, Closure $fail) {
-                                            if(!$value && Parents::where('account_id', accountId())->count() <= 1){
-                                                $fail("You can't disable this primary account owner.");
+                                            $not_primary = !$value;
+                                            $no_parents = Parents::where('account_id', accountId())->count() <= 1;
+                                            $no_primary = Parents::where('account_id', accountId())->where('is_primary', true)->count();
+
+                                            if($this->action == CrudAction::Create){
+                                                if($not_primary &&  !$no_primary){
+                                                    $fail("You can't disable this primary account owner.");
+                                                }
+                                            }else{
+                                                if($not_primary && $no_parents){
+                                                    $fail("You can't disable this primary account owner.");
+                                                }
                                             }
+                                            
                                         };
                                     },
                                 ])
