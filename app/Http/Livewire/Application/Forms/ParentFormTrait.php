@@ -111,7 +111,6 @@ trait ParentFormTrait{
                         }),
                     Select::make('employment_status')
                         ->label('What is your employment status?')
-                        ->required()
                         ->reactive()
                         ->options(EmploymentStatus::asSameArray())
                         ->afterStateUpdated(function(Closure $get, $state){

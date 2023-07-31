@@ -309,7 +309,6 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->maxLength(255),
                             Select::make('employment_status')
                                 ->label('What is your employment status?')
-                                ->required()
                                 ->reactive()
                                 ->options(EmploymentStatus::asSameArray()),
                             TextInput::make('employer')
