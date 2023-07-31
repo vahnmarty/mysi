@@ -33,6 +33,7 @@ use App\Forms\Components\WordTextArea;
 use App\Models\Parents as ParentModel;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
+use App\Forms\Components\ReadonlyRadio;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
@@ -154,12 +155,14 @@ class ViewApplication extends Component implements HasForms
         return [
             TextInput::make('student.first_name')
                 ->label('Legal First Name')
+                ->required()
                 ->disabled(),
             TextInput::make('student.middle_name')
                 ->label('Legal Middle Name')
                 ->disabled(),
             TextInput::make('student.last_name')
                 ->label('Legal Last Name')
+                ->required()
                 ->disabled(),
             Select::make('student.suffix')
                 ->options(Suffix::asSameArray())
@@ -170,19 +173,23 @@ class ViewApplication extends Component implements HasForms
                 ->disabled(),
             DatePicker::make('student.birthdate')
                 ->label('Date of Birth')
+                ->required()
                 ->disabled(),
             Select::make('student.gender')
                 ->label('Gender')
                 ->options(Gender::asSelectArray())
+                ->required()
                 ->disabled(),
             TextInput::make('student.personal_email')
                 ->email()
                 ->rules(['email:rfc,dns'])
                 ->label('Personal Email')
+                ->required()
                 ->disabled(),
             TextInput::make('student.mobile_phone')
                 ->label('Mobile Phone')
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
+                ->required()
                 ->disabled(),
             CheckboxList::make('student.race')
                 ->label(new HtmlString('<legend>How do you identify racially?</legend><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
@@ -217,9 +224,11 @@ class ViewApplication extends Component implements HasForms
                 ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray())
                 ->preload()
                 ->optionsLimit(50)
+                ->required()
                 ->disabled(),
             TextInput::make('student.current_school_not_listed')
                 ->label('If not listed, add it here')
+                ->visible(fn(Closure $get) => $get('student.current_school') == 'Not Listed')
                 ->disabled(),
             Select::make('other_high_school_1')
                 ->label('Other High School #1')
@@ -271,19 +280,24 @@ class ViewApplication extends Component implements HasForms
                             }
                             return array_combine($types, $types);
                         })
+                        ->required()
                         ->disabled(),
                     TextInput::make('address')
                         ->label('Address')
+                        ->required()
                         ->disabled(),
                     TextInput::make('city')
                         ->label('City')
+                        ->required()
                         ->disabled(),
                     Select::make('state')
                         ->label('State')
                         ->options(us_states())
+                        ->required()
                         ->disabled(),
                     TextInput::make('zip_code')
                         ->label('ZIP Code')
+                        ->required()
                         ->disabled(),
                     TextInput::make('phone_number')
                         ->label('Phone Number')
@@ -304,15 +318,18 @@ class ViewApplication extends Component implements HasForms
                 ->schema([
                     Select::make('salutation')
                         ->options(Salutation::asSameArray())
+                        ->required()
                         ->disabled(),
                     TextInput::make('first_name')
                         ->label('Legal First Name')
+                        ->required()
                         ->disabled(),
                     TextInput::make('middle_name')
                         ->label('Legal Middle Name')
                         ->disabled(),
                     TextInput::make('last_name')
                         ->label('Legal Last Name')
+                        ->required()
                         ->disabled(),
                     Select::make('suffix')
                         ->label('Suffix')
@@ -327,13 +344,14 @@ class ViewApplication extends Component implements HasForms
                                 $set('mobile_phone', '');
                             }
                         })
+                        ->required()
                         ->disabled(),
                     TextInput::make('personal_email')
                         ->label('Preferred Email')
+                        ->required()
                         ->disabled(),
                     Select::make('employment_status')
                         ->label('What is your employment status?')
-                        ->required()
                         ->disabled()
                         ->options(EmploymentStatus::asSameArray()),
                     TextInput::make('employer')
@@ -376,12 +394,14 @@ class ViewApplication extends Component implements HasForms
                 ->schema([
                     TextInput::make('first_name')
                         ->label('Legal First Name')
+                        ->required()
                         ->disabled(),
                     TextInput::make('middle_name')
                         ->label('Legal Middle Name')
                         ->disabled(),
                     TextInput::make('last_name')
                         ->label('Legal Last Name')
+                        ->required()
                         ->disabled(),
                     Select::make('suffix')
                         ->options(Suffix::asSameArray())
@@ -393,14 +413,18 @@ class ViewApplication extends Component implements HasForms
                         ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                         ->preload()
                         ->optionsLimit(50)
+                        ->required()
                         ->disabled(),
                     TextInput::make('current_school_not_listed')
                         ->label('If not listed, add it here')
+                        ->hidden(fn (Closure $get) => $get('current_school') !== 'Not Listed')
+                        ->required()
                         ->disabled(),
                     Select::make('current_grade')
                         ->label('Current Grade')
                         ->options(GradeLevel::asSameArray())
                         ->preload()
+                        ->required()
                         ->disabled(),
                     Radio::make('attended_at_si')
                         ->label('Attended high school at SI?')
@@ -408,9 +432,12 @@ class ViewApplication extends Component implements HasForms
                             0 => 'No',
                             1 => 'Yes'
                         ])
+                        ->visible(fn(Closure $get) => $get('current_grade') == GradeLevel::College || $get('current_grade') == GradeLevel::PostCollege)
+                        ->required()
                         ->disabled(),
                     TextInput::make('graduation_year')
                         ->label('High School Graduation Year')
+                        ->required()
                         ->disabled(),
                 ])
                 
@@ -514,17 +541,21 @@ class ViewApplication extends Component implements HasForms
                 ->schema([
                     TextInput::make('first_name')
                         ->label('First Name')
+                        ->required()
                         ->disabled(),
                     TextInput::make('last_name')
                         ->label('Last Name')
+                        ->required()
                         ->disabled(),
                     Select::make('relationship_type')
                         ->label('Relationship to Applicant')
                         ->options(ParentType::asSameArray())
+                        ->required()
                         ->disabled(),
                     TextInput::make('graduation_year')
                         ->label('Graduation Year')
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                        ->required()
                         ->disabled(),
             ])
             
@@ -538,6 +569,7 @@ class ViewApplication extends Component implements HasForms
             Select::make('student.religion')
                 ->options(ReligionType::asSelectArray())
                 ->label("Applicant's Religion")
+                ->required()
                 ->disabled(),
             TextInput::make('student.religion_other')
                 ->label('If "Other," add it here')
@@ -559,6 +591,7 @@ class ViewApplication extends Component implements HasForms
             WordTextArea::make('impact_to_community')
                 ->label("What impact does community have in your life and how do you best support your child's school community?")
                 ->rows(5)
+                ->required()
                 ->disabled(),
             CheckboxList::make('describe_family_spirituality')
                 ->label(new HtmlString("How would you describe your family's spirituality? <p class='text-sm text-gray-900'>Check all that apply.</p> "))
@@ -572,12 +605,14 @@ class ViewApplication extends Component implements HasForms
                         $component->state($data);
                     }
                 })
+                ->required()
                 ->disabled(),
             WordTextArea::make('describe_family_spirituality_in_detail')
                 ->label("Describe the practice(s) checked above in more detail")
                 ->helperText("Please limit your answer to 75 words.")
                 ->required()
                 ->rows(5)
+                ->required()
                 ->disabled(),
             Fieldset::make('Will you encourage your child to proactively participate in the following activities?')
                 ->columns(3)
@@ -585,6 +620,7 @@ class ViewApplication extends Component implements HasForms
                     Select::make('religious_studies_classes')
                         ->options(CommonOption::asSelectArray())
                         ->label("Religious Studies Classes")
+                        ->required()
                         ->disabled(),
                     Textarea::make('religious_studies_classes_explanation')
                         ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
@@ -594,6 +630,7 @@ class ViewApplication extends Component implements HasForms
                     Select::make('school_liturgies')
                         ->options(CommonOption::asSelectArray())
                         ->label("School Liturgies")
+                        ->required()
                         ->disabled(),
                     WordTextArea::make('school_liturgies_explanation')
                         ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
@@ -603,6 +640,7 @@ class ViewApplication extends Component implements HasForms
                     Select::make('retreats')
                         ->options(CommonOption::asSelectArray())
                         ->label("Retreats")
+                        ->required()
                         ->disabled(),
                     WordTextArea::make('retreats_explanation')
                         ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
@@ -612,6 +650,7 @@ class ViewApplication extends Component implements HasForms
                     Select::make('community_service')
                         ->options(CommonOption::asSelectArray())
                         ->label("Community Service")
+                        ->required()
                         ->disabled(),
                     WordTextArea::make('community_service_explanation')
                         ->label('If No/Unsure, please explain. Please limit your answer to 30 words.')
@@ -781,7 +820,7 @@ class ViewApplication extends Component implements HasForms
             WordTextArea::make('writing_sample_essay')
                 ->label(new HtmlString('<div class="font-medium text-gray-700">
 
-                        <section class="mt-8 space-y-4">
+                        <section class="space-y-4">
                             <h3 class="font-bold font-heading text-primary-red">What matters to you? How does that motivate you, impact your life, your outlook, and/or your identity?</h3>
                             <p class="font-medium">What matters to you might be an activity, an idea, a goal, a place, and/or a thing.</p>
                             <p class="font-medium"> <strong>PLEASE NOTE:</strong> This essay should be about you and your thoughts. It should not be about the life of another person you admire.</p>
@@ -791,8 +830,9 @@ class ViewApplication extends Component implements HasForms
                         </section>
                         
                         <section class="mt-8 space-y-4">
-                            <h3 class="font-bold font-heading text-primary-red">
-                                What is an obstacle you have overcome?
+                            <h3 class="relative font-heading text-primary-red">
+                                <span class="absolute font-medium" style="left: -10px">*</span>
+                                <span class="font-bold">What is an obstacle you have overcome?</span>
                             </h3>
                             <p>
                                 Explain how the obstacle impacted you and how you handled the situation (i.e., positive and/or negative attempts along the way or maybe how you are still working on it).
@@ -814,6 +854,7 @@ class ViewApplication extends Component implements HasForms
                 the best of my knowledge, the information provided in the application submitted to
                 St. Ignatius College Preparatory on this online application is true and complete.
                 ')
+                ->extraAttributes(['class' => 'opacity-100'])
                 ->required()
                 ->disabled(),
             TextInput::make('writing_sample_essay_by')
@@ -826,7 +867,7 @@ class ViewApplication extends Component implements HasForms
     public function getPlacementForm()
     {
         return [
-            Radio::make('has_learning_disability')
+            ReadonlyRadio::make('has_learning_disability')
                 ->label('Would you like to upload any learning difference documentation?')
                 ->options([
                     0 => 'No',
@@ -853,13 +894,21 @@ class ViewApplication extends Component implements HasForms
                 ->disabled(),
             Grid::make(1)
                 ->schema([
-                    Radio::make('entrance_exam_reservation')
+                    ReadonlyRadio::make('entrance_exam_reservation')
                         ->label("Indicate the date and the high school where your child will take the entrance exam. If you submit your application after the November 15th (by midnight) deadline, we may not be able to accommodate you for the HSPT at SI on December 2nd.")
                         ->options(function(Closure $get){
-                            return [
-                                "si" => "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') )),
-                                "other" => "At Other Catholic High School"
-                            ];
+
+                            $array = [];
+                            $array[] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
+
+                            if($get('has_learning_disability')){
+                                $array[] =  "At SI on December 9, 2023 (this date is only for those who qualify for Extended Time)";
+                            }
+                            
+                            $array[] = "At Other Catholic High School";
+
+
+                            return array_combine($array, $array);
                         })
                         ->required()
                         ->disabled(),

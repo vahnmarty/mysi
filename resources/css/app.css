@@ -87,8 +87,8 @@ display: none;
     background-color: #fff;
 }
 
-.filament-forms-checkbox-list-component-option-label input:checked{
-    opacity: 100;
+.filament-forms-checkbox-list-component-option-label input:checked, [type=checkbox]:checked, [type='radio']:checked {
+    opacity: 100 !important;
     @apply bg-primary-red;
 }
 
