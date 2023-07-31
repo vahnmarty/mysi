@@ -96,7 +96,7 @@ class AdmissionApplication extends Component implements HasTable, HasForms
     {
         return [ 
             Action::make('submitted')
-                ->label('Submitted')
+                ->label('View Application')
                 ->visible(function(Child $record){
 
                     if($record->application){
