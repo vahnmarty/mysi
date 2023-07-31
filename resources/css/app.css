@@ -153,3 +153,7 @@ display: none;
 /* .filament-forms-toggle-component:disabled{
     @apply opacity-100 bg-gray-50;
 } */
+
+.filament-tables-link-action:disabled{
+    @apply text-gray-500 cursor-not-allowed !important;
+}

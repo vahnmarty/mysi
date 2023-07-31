@@ -347,7 +347,7 @@ class ParentInformation extends Component implements HasTable, HasForms
 
         if($this->action == CrudAction::Create){
             $data['account_id'] = accountId();
-            Parents::create($data);
+            $parent = Parents::create($data);
 
             Notification::make()
                 ->title('Parent created successfully')
@@ -359,6 +359,7 @@ class ParentInformation extends Component implements HasTable, HasForms
         }
         else{
             $model = Parents::find($this->model_id);
+            $parent = $model;
             $model->update($data);
 
             Notification::make()
@@ -368,6 +369,12 @@ class ParentInformation extends Component implements HasTable, HasForms
 
             $this->reset('data');
 
+        }
+
+        if($parent->is_primary){
+            Parents::fromAccount()
+                ->where('id', '!=' , $parent->id)
+                ->update([ 'is_primary' => false ]);
         }
 
         $this->enable_form = false;

@@ -17,4 +17,9 @@ class Parents extends Model
     {
         return $this->first_name . ' ' . $this->last_name;
     }
+
+    public function scopeFromAccount($query, $accountId = null){
+        $account_id = $accountId ?? accountId();
+        return $query->where('account_id', $account_id);
+    }
 }
