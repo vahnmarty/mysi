@@ -34,12 +34,12 @@ trait PlacementFormTrait{
                 ->required()
                 ->afterStateUpdated(function(Closure $get, Closure $set, $state){
                     if($state){
-                        if($get('file_learning_documentation')){
-                            if(count($get('file_learning_documentation'))){
-                                $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
-                                $set('placement_test_date', $date);
-                            }
-                        }
+                        // if($get('file_learning_documentation')){
+                        //     if(count($get('file_learning_documentation'))){
+                        //         $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
+                        //         $set('placement_test_date', $date);
+                        //     }
+                        // }
                     }
                     else{
                         $set('placement_test_date', settings('placement_test_date'));
@@ -57,19 +57,19 @@ trait PlacementFormTrait{
                 ->visible(fn(Closure $get)  =>  $get('has_learning_disability') == 1  )
                 ->preserveFilenames()
                 ->afterStateHydrated(function(Closure $get, Closure $set, $state){
-                    if($state){
-                        $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
-                        $set('placement_test_date', $date);
-                    }
+                    // if($state){
+                    //     $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
+                    //     $set('placement_test_date', $date);
+                    // }
                 })
                 ->afterStateUpdated(function(Livewire $livewire, FileUpload $component, Closure $get, Closure $set, $state){
                     $component->saveUploadedFiles();
                     $files = Arr::flatten($component->getState());
                     $this->autoSaveFiles('file_learning_documentation', $files);
-                    if(count($files)){
-                        $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
-                        $set('placement_test_date', $date);
-                    }
+                    // if(count($files)){
+                    //     $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
+                    //     $set('placement_test_date', $date);
+                    // }
                 }),
             Grid::make(1)
                 ->schema([
@@ -96,8 +96,8 @@ trait PlacementFormTrait{
                         ->reactive()
                         ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                             if($get('has_learning_disability') &&  count($get('file_learning_documentation'))){
-                                $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
-                                $set('placement_test_date', $date);
+                                //$date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
+                                //$set('placement_test_date', $date);
                             }else{
                                 $set('placement_test_date', settings('placement_test_date'));
                             }

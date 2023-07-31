@@ -51,7 +51,7 @@ return new class extends Migration
             $table->string('writing_sample_essay_by', 150)->nullable();
             $table->boolean('agree_to_release_record')->nullable();
             $table->boolean('agree_academic_record_is_true')->nullable();
-            $table->string('entrance_exam_reservation', 35)->nullable();
+            $table->string('entrance_exam_reservation', 100)->nullable();
             $table->string('other_catholic_school_name', 100)->nullable();
             $table->string('other_catholic_school_location', 255)->nullable();
             $table->date('other_catholic_school_date')->nullable();

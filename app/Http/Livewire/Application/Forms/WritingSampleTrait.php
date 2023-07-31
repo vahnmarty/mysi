@@ -23,7 +23,7 @@ trait WritingSampleTrait{
             WordTextArea::make('writing_sample_essay')
                 ->label(new HtmlString('<div class="font-medium text-gray-700">
 
-                        <section class="mt-8 space-y-4">
+                        <section class="space-y-4">
                             <h3 class="font-bold font-heading text-primary-red">What matters to you? How does that motivate you, impact your life, your outlook, and/or your identity?</h3>
                             <p class="font-medium">What matters to you might be an activity, an idea, a goal, a place, and/or a thing.</p>
                             <p class="font-medium"> <strong>PLEASE NOTE:</strong> This essay should be about you and your thoughts. It should not be about the life of another person you admire.</p>
@@ -33,8 +33,9 @@ trait WritingSampleTrait{
                         </section>
                         
                         <section class="mt-8 space-y-4">
-                            <h3 class="font-bold font-heading text-primary-red">
-                                What is an obstacle you have overcome?
+                            <h3 class="relative font-heading text-primary-red">
+                                <span class="absolute font-medium" style="left: -10px">*</span>
+                                <span class="font-bold">What is an obstacle you have overcome?</span>
                             </h3>
                             <p>
                                 Explain how the obstacle impacted you and how you handled the situation (i.e., positive and/or negative attempts along the way or maybe how you are still working on it).
