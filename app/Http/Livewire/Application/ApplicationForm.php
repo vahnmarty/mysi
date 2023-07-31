@@ -59,7 +59,8 @@ class ApplicationForm extends Component implements HasForms
     protected $queryString = ['active'];
 
     protected $messages = [
-        'data.writing_sample_essay_acknowledgement.accepted' => 'This field is required.'
+        'data.writing_sample_essay_acknowledgement.accepted' => 'This field is required.',
+        'data.activities.min' => 'There must be at least 1 school activity listed.'
     ];
 
     public function render()

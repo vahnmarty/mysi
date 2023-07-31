@@ -98,12 +98,12 @@ trait ActivityFormTrait{
                     WordTextArea::make('activity_information')
                         ->label("Explain your involvement in this activity.  For example, the team(s) you play on, position(s) you play, concert(s)/recital(s) you have performed in, and/or why you are involved in this activity.")
                         ->helperText("Please limit your answer to 75 words.")
-                        ->lazy()
                         ->required()
                         ->rows(5)
+                        ->lazy()
                         ->wordLimit(75)
                         ->rules([
-                            new MaxWordCount(75, 100)
+                            new MaxWordCount(75)
                         ])
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                             $livewire->validateOnly($component->getStatePath());
