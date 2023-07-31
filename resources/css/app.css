@@ -115,12 +115,12 @@ display: none;
     @apply inline-block;
 }
 
-#table-parent-matrix th:nth-child(5):before {
+#table-parent-matrix th:nth-child(5):before, #table-parent-matrix th:nth-child(1):before {
     content: '';
     display: none !important;
 }
 
-#table-parent-matrix th:nth-child(5) {
+#table-parent-matrix th:nth-child(5), #table-parent-matrix th:nth-child(1) {
     @apply text-gray-700;
 }
 
@@ -128,12 +128,16 @@ display: none;
     @apply font-bold color-red-800;
 }
 
+#table-sibling-matrix th:nth-child(1){
+    @apply text-gray-700;
+}
+
 #table-sibling-matrix th::before{
     content: '*';
     @apply inline-block;
 }
 
-#table-sibling-matrix th:nth-child(5):before {
+#table-sibling-matrix th:nth-child(5):before, #table-sibling-matrix th:nth-child(1):before {
     content: '';
     display: none !important;
 }
