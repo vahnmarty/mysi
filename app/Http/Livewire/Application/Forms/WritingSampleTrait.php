@@ -33,8 +33,8 @@ trait WritingSampleTrait{
                         </section>
                         
                         <section class="mt-8 space-y-4">
-                            <h3 class="relative font-heading text-primary-red">
-                                <span class="absolute font-medium" style="left: -10px">*</span>
+                            <h3 class="relative text-primary-red ">
+                                <sup class="absolute font-medium text-danger-700 whitespace-nowrap" style="left: -10px; top: 7px">*</sup>
                                 <span class="font-bold">What is an obstacle you have overcome?</span>
                             </h3>
                             <p>
