@@ -37,7 +37,7 @@ trait ParentFormTrait{
         return [
             Placeholder::make('parent_form_description')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             Repeater::make('parents')
                 ->label('')
                 ->createItemButtonLabel('Add Parent/Guardian')

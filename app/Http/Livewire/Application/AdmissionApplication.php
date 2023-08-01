@@ -18,6 +18,7 @@ use App\Enums\RecordType;
 use App\Enums\Salutation;
 use App\Enums\AddressType;
 use App\Enums\ConditionBoolean;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Radio;
@@ -180,8 +181,19 @@ class AdmissionApplication extends Component implements HasTable, HasForms
  
     protected function getTableEmptyStateDescription(): ?string
     {
-        return 'Create a child record first before applying.';
+        return 'Create a child record here before you apply.';
     }
+
+    protected function getTableEmptyStateActions()
+    {
+        return [
+            CreateAction::make()
+                ->label('Create Child')
+                ->url('children')
+                ->icon('heroicon-o-plus')
+        ];
+    }
+
 
     protected function getFormStatePath(): string
     {

@@ -37,7 +37,7 @@ trait ParentStatementTrait{
         return [
             Placeholder::make('section_parent_statement')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             WordTextArea::make('why_si_for_your_child')
                 ->label("Why do you want your child to attend St. Ignatius College Preparatory?")
                 ->helperText("Please limit your answer to 75 words.")

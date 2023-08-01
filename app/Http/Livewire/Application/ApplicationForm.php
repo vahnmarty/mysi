@@ -120,7 +120,7 @@ class ApplicationForm extends Component implements HasForms
             //     ->disabled(),
             Placeholder::make('form_description')
                 ->label('')
-                ->content(new HtmlString('NOTE: This application form saves your work automatically after you enter your input and click out of it. All required fields are color <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).')),
+                ->content(new HtmlString('NOTE:  This application form saves your work automatically after you enter your information and click out of the text box. All required fields are color <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).')),
             Section::make('Applicant Information')
                 ->collapsible()
                 ->collapsed(true)

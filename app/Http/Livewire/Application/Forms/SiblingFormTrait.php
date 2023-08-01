@@ -29,7 +29,7 @@ trait SiblingFormTrait{
         return [
             Placeholder::make('sibling_form_description')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             Repeater::make('siblings')
                 ->label('')
                 ->createItemButtonLabel('Add Sibling')

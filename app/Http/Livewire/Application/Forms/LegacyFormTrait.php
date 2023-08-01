@@ -29,7 +29,7 @@ trait LegacyFormTrait{
         return [
             Placeholder::make('legacy_form_description')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian only.')),
+                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             Repeater::make('legacy')
                 ->label('List up to 5 relatives who have attended SI.  Do not include siblings.')
                 ->createItemButtonLabel('Add Legacy Relative')
