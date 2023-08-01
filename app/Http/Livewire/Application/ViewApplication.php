@@ -703,7 +703,7 @@ class ViewApplication extends Component implements HasForms
         return [
             Placeholder::make('section_student_statement')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by the applicant only.')),
+                ->content(new HtmlString('* This section is to be completed by the applicant.')),
             WordTextArea::make('why_did_you_apply')
                 ->label("Why do you want to attend St. Ignatius College Preparatory?")
                 ->helperText("Please limit your answer to 75 words.")
@@ -742,7 +742,7 @@ class ViewApplication extends Component implements HasForms
             Placeholder::make('section_school_activity')
                 ->label('')
                 ->content(new HtmlString('
-                <p>* This section is to be completed by the applicant only.</p>
+                <p>* This section is to be completed by the applicant.</p>
                 <p>List up to four current extracurricular activities that you are most passionate about.</p>
             ')),
             Repeater::make('activities')
