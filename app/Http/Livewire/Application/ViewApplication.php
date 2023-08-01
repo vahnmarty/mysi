@@ -20,6 +20,7 @@ use App\Enums\ParentSuffix;
 use App\Enums\ReligionType;
 use App\Models\Application;
 use App\Enums\EmploymentStatus;
+use App\Enums\LegacyParentType;
 use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
@@ -536,7 +537,7 @@ class ViewApplication extends Component implements HasForms
                         ->disabled(),
                     Select::make('relationship_type')
                         ->label('Relationship to Applicant')
-                        ->options(ParentType::asSameArray())
+                        ->options(LegacyParentType::asSameArray())
                         ->required()
                         ->disabled(),
                     TextInput::make('graduation_year')

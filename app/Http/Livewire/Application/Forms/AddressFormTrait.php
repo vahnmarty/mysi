@@ -30,6 +30,7 @@ trait AddressFormTrait{
             Repeater::make('addresses')
                 ->label('')
                 ->disableItemMovement()
+                ->minItems(1)
                 ->maxItems(4)
                 ->registerListeners([
                     'repeater::deleteItem' => [

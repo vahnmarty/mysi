@@ -10,6 +10,7 @@ use App\Models\Legacy;
 use App\Models\School;
 use App\Enums\ParentType;
 use App\Enums\RacialType;
+use App\Enums\LegacyParentType;
 use Illuminate\Support\HtmlString;
 use Livewire\Component as Livewire;
 use Filament\Forms\Components\Hidden;
@@ -60,7 +61,7 @@ trait LegacyFormTrait{
                         }),
                     Select::make('relationship_type')
                         ->label('Relationship to Applicant')
-                        ->options(ParentType::asSameArray())
+                        ->options(LegacyParentType::asSameArray())
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
