@@ -102,14 +102,35 @@ trait SiblingFormTrait{
                     //         $livewire->validateOnly($component->getStatePath());
                     //         $this->autoSaveSibling($get('id'), 'personal_email', $state);
                     //     }),
+                    Select::make('current_grade')
+                        ->label('Current Grade')
+                        ->options(GradeLevel::asSameArray())
+                        ->preload()
+                        ->lazy()
+                        ->required()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveSibling($get('id'), 'current_grade', $state);
+
+
+                            if(is_numeric($state)){
+                                $current_grade = (int) $state;
+                                $extra_year = date('Y') + 1 + 1; // +1 because in the sample docs it's 2025. 
+
+                                $expected_graduation_year = 12 - $current_grade + 1 + $extra_year;
+
+                                $this->autoSaveSibling($get('id'), 'expected_graduation_year', $expected_graduation_year);
+                            }
+                            
+                        }),
                     Select::make('current_school')
                         ->label('Current School')
                         ->options(School::active()->get()->pluck('name', 'name')->toArray() + ['Not Listed' => 'Not Listed'])
                         ->preload()
                         ->optionsLimit(50)
-                        ->searchable()
-                        ->lazy()
-                        ->required()
+                        ->required(fn(Closure $get) => $get('current_grade') != GradeLevel::PostCollege)
+                        ->reactive()
+                        ->searchable(fn (Select $component) => !$component->isDisabled())
+                        ->disabled(fn(Closure $get) => $get('current_grade') == GradeLevel::PostCollege)
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'current_school', $state);
                         }),
@@ -122,25 +143,7 @@ trait SiblingFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'current_school_not_listed', $state);
                         }),
-                    Select::make('current_grade')
-                        ->label('Current Grade')
-                        ->options(GradeLevel::asSameArray())
-                        ->preload()
-                        ->lazy()
-                        ->required()
-                        ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveSibling($get('id'), 'current_grade', $state);
-
-                            if(is_numeric($state)){
-                                $current_grade = (int) $state;
-                                $extra_year = date('Y') + 1 + 1; // +1 because in the sample docs it's 2025. 
-
-                                $expected_graduation_year = 12 - $current_grade + 1 + $extra_year;
-
-                                $this->autoSaveSibling($get('id'), 'expected_graduation_year', $expected_graduation_year);
-                            }
-                            
-                        }),
+                    
                     Radio::make('attended_at_si')
                         ->label('Attended high school at SI?')
                         ->lazy()
