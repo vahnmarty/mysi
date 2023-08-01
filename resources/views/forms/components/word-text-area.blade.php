@@ -27,7 +27,7 @@
                 }
         }">
         <div class="bg-white dark:bg-gray-700 absolute right-1 rtl:!left-1 rtl:!right-auto px-2 bottom-1 pb-1 text-sm" @if($getWordLimit()) :class="{'text-danger-500': wordCount > {{ $getWordLimit() }}}" @endif>
-            <span x-text="wordCount" id="wordCount"></span>@if($getWordLimit())/{{ $getWordLimit() }}@endif
+            <span x-text="wordCount"></span>@if($getWordLimit())/{{ $getWordLimit() }}@endif
         </div>
 
         <textarea
