@@ -148,8 +148,8 @@ trait SiblingFormTrait{
                         ->label('Attended high school at SI?')
                         ->lazy()
                         ->options([
+                            1 => 'Yes',
                             0 => 'No',
-                            1 => 'Yes'
                         ])
                         ->required()
                         ->visible(fn(Closure $get) => $get('current_grade') == GradeLevel::College || $get('current_grade') == GradeLevel::PostCollege)

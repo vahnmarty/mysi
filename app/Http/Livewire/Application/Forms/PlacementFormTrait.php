@@ -27,8 +27,8 @@ trait PlacementFormTrait{
             Radio::make('has_learning_disability')
                 ->label('Would you like to upload any learning difference documentation?')
                 ->options([
+                    1 => 'Yes',
                     0 => 'No',
-                    1 => 'Yes'
                 ])
                 ->reactive()
                 ->required()
