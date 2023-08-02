@@ -33,7 +33,7 @@ class ImportSchoolExcel extends Command
             School::truncate();
             
             Excel::import(new SchoolsImport, 'schools_sheet1.xlsx');
-            Excel::import(new SchoolsImport, 'schools_sheet2.xlsx');
+            //Excel::import(new SchoolsImport, 'schools_sheet2.xlsx');
 
             $this->info('Schools: ' .  School::count() . ' records.');
         }

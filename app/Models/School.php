@@ -12,4 +12,14 @@ class School extends Model
     use GeneralModelTrait;
 
     protected $guarded = [];
+
+    public function scopeMiddleSchool($query)
+    {
+        return $query->where('education_level' , 'LIKE' , '%Middle%' );
+    }
+
+    public function scopeHighSchool($query)
+    {
+        return $query->where('education_level' , 'LIKE' , '%High%' );
+    }
 }

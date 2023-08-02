@@ -288,7 +288,8 @@ class ViewApplication extends Component implements HasForms
                         ->required()
                         ->disabled(),
                     TextInput::make('phone_number')
-                        ->label('Phone Number')
+                        ->label('Phone at Location')
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                         ->disabled(),
                 ])
         ];
