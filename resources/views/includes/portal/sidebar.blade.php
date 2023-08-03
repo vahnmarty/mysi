@@ -71,9 +71,16 @@
                     <x-slot name="icon">
                         <x-heroicon-o-color-swatch class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
-                    Admissions Application
+                    <strong>Admissions Application</strong>
                 </x-sidebar-item>
                 
+                <x-sidebar-item align="start" href="https://www.siprep.org/admissions/timeline" target="_blank">
+                    <x-slot name="icon">
+                        <x-heroicon-o-presentation-chart-line class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Admission Timeline
+                </x-sidebar-item>
+
                 <x-sidebar-item align="start" href="https://www.siprep.org/admissions/visit/the-wildcat-experience" target="_blank">
                     <x-slot name="icon">
                         <x-heroicon-o-calendar class="flex-shrink-0 w-5 h-5" />
@@ -81,7 +88,12 @@
                     Book a Wildcat Experience
                 </x-sidebar-item>
 
-                
+                <x-sidebar-item align="start" href=" https://www.siprep.org/admissions/apply/entrance-exam" target="_blank">
+                    <x-slot name="icon">
+                        <x-heroicon-o-clipboard-list class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Entrance Exam (HSPT)
+                </x-sidebar-item>
 
                 <x-sidebar-item align="start" href="https://www.siprep.org/admissions/apply/admissions-video" target="_blank">
                     <x-slot name="icon">

@@ -2,10 +2,13 @@
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Forgot Username</h1>
     <div class="mt-8 text-base">
-        <p>
-            Enter your first and last name and either your email address or your phone number and click "Submit" to get your username. Please note, your email may be
-            associated with your spouse’s/partner’s email address. If so, you will need access to the email account to reset the password.
-        </p>
+        <p class="font-bold">To retrieve your username, you must enter:</p>
+        <p>1) Your first name and last name</p>
+        <p>AND</p>
+        <p>2) Either your email address or phone number</p>
+
+        <p class="mt-4"><strong>NOTE: </strong> You will need access to your registered email address to reset the password.</p>
+        
     </div>
     
     <div>

@@ -59,13 +59,17 @@ class ForgotUsernamePage extends Component implements HasForms
     {
         $data = $this->form->getState();
 
+        $type = '';
+
         $query =  User::where('first_name', 'LIKE', '%' . $data['first_name'] . '%')
             ->where('last_name', 'LIKE', '%' . $data['last_name'] . '%');
 
         if($data['email']){
             $query->where('email', $data['email']);
+            $type = 'email';
         }elseif($data['phone']) {
             $query->where('phone', $data['phone']);
+            $type = 'phone';
         }
 
         $users = $query->get();
@@ -97,7 +101,7 @@ class ForgotUsernamePage extends Component implements HasForms
 
         $user = $users->first();
 
-        $user->notify(new EmailForgotUsername);
+        $user->notify(new EmailForgotUsername($type));
 
         $this->sent = true;
 

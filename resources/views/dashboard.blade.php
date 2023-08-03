@@ -1,9 +1,15 @@
 <x-app-layout>
 
     <div class="px-4 py-12">
-        <h2 class="text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to the MySI Portal</h2>
+
+        <h3 class="text-xl font-bold text-gray-700 font-heading">September 9, 2023</h3>
+
+        <h2 class="hidden mt-8 text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to the MySI Portal</h2>
 
         <div class="mt-8 space-y-8">
+            <p>
+                Welcome to MySI, your gateway to St. Ignatius College Preparatory.
+            </p>
             <p>
                 Currently, this is where our prospective students and families will share important information with SI.  You will create and complete your Admissions Application here and submit it to SI by midnight on Wednesday, November 15, 2023.
             </p>
