@@ -111,6 +111,11 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'reply_to' => [
+        'address' => env('MAIL_REPLY_TO_ADDRESS', 'admin@my.siprep.org'),
+        'name' => env('MAIL__REPLY_TO_NAME', 'SI Admin')
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
