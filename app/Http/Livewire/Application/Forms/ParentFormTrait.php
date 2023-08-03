@@ -45,6 +45,35 @@ trait ParentFormTrait{
                 ->disableItemMovement()
                 ->minItems(1)
                 ->maxItems(4)
+                ->registerListeners([
+                    'repeater::deleteItem' => [
+                        function (Component $component, string $statePath, string $uuidToDelete): void {
+                            if($statePath == 'data.parents')
+                            {
+                                $items = $component->getState();
+                                $parents = ParentModel::where('account_id', $this->app->account_id)->get();
+                                
+                                if(count($parents) > 1){
+                                    foreach($parents as $parent){
+                                        $existing = collect($items)->where('id', $parent->id)->first();
+        
+                                        if(!$existing){
+                                            $parent->forceDelete();
+                                        }
+                                    }
+                                }else{
+                                    Notification::make()
+                                        ->title('Unable to delete this parent')
+                                        ->body('The application must have at least 1 parent.')
+                                        ->danger()
+                                        ->send();
+                                }
+                            }
+                            
+                            
+                        },
+                    ],
+                ])
                 ->schema([
                     Hidden::make('id')
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
@@ -175,31 +204,7 @@ trait ParentFormTrait{
                         ])
                         ->helperText('(Please limit answer to 75 words.)'),
                 ])
-                ->registerListeners([
-                    'repeater::deleteItem' => [
-                        function (Component $component, string $statePath, string $uuidToDelete): void {
-                            $items = $component->getState();
-                            $parents = ParentModel::where('account_id', $this->app->account_id)->get();
-                            
-                            if(count($parents) > 1){
-                                foreach($parents as $parent){
-                                    $existing = collect($items)->where('id', $parent->id)->first();
-    
-                                    if(!$existing){
-                                        $parent->forceDelete();
-                                    }
-                                }
-                            }else{
-                                // Notification::make()
-                                //     ->title('Unable to delete this parent')
-                                //     ->body('The application must have at least 1 parent.')
-                                //     ->danger()
-                                //     ->send();
-                            }
-                            
-                        },
-                    ],
-                ])
+                
         ];
     }
 

@@ -37,6 +37,26 @@ trait LegacyFormTrait{
                 ->defaultItems(1)
                 ->disableItemMovement()
                 ->maxItems(5)
+                ->registerListeners([
+                    'repeater::deleteItem' => [
+                        function (Component $component, string $statePath, string $uuidToDelete): void {
+                            if($statePath == 'data.legacy')
+                            {
+                                $items = $component->getState();
+                                $legacies = Legacy::where('account_id', $this->app->account_id)->get();
+        
+                                foreach($legacies as $index => $legacy){
+                                    $existing = collect($items)->where('id', $legacy->id)->first();
+        
+                                    if(!$existing){
+                                        $legacy->delete();
+                                    }
+                                }
+                            }
+                            
+                        },
+                    ],
+                ])
                 ->schema([
                     Hidden::make('id')
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
@@ -81,22 +101,7 @@ trait LegacyFormTrait{
                             $this->autoSaveLegacy($get('id'), 'graduation_year', $state);
                         }),
             ])
-            ->registerListeners([
-                'repeater::deleteItem' => [
-                    function (Component $component, string $statePath, string $uuidToDelete): void {
-                        $items = $component->getState();
-                        $legacies = Legacy::where('account_id', $this->app->account_id)->get();
-
-                        foreach($legacies as $index => $legacy){
-                            $existing = collect($items)->where('id', $legacy->id)->first();
-
-                            if(!$existing){
-                                $legacy->delete();
-                            }
-                        }
-                    },
-                ],
-            ])
+            
             
         ];
     }

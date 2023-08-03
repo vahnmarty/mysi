@@ -35,16 +35,21 @@ trait AddressFormTrait{
                 ->registerListeners([
                     'repeater::deleteItem' => [
                         function (Component $component, string $statePath, string $uuidToDelete): void {
-                            $items = $component->getState();
-                            $addresses = Address::where('account_id', $this->app->account_id)->get();
 
-                            foreach($addresses as $index => $address){
-                                $existing = collect($items)->where('id', $address->id)->first();
+                            if($statePath == 'data.addresses')
+                            {
+                                $items = $component->getState();
+                                $addresses = Address::where('account_id', $this->app->account_id)->get();
 
-                                if(!$existing){
-                                    $address->delete();
+                                foreach($addresses as $index => $address){
+                                    $existing = collect($items)->where('id', $address->id)->first();
+
+                                    if(!$existing){
+                                        $address->delete();
+                                    }
                                 }
                             }
+                            
                         },
                     ],
                 ])

@@ -49,16 +49,20 @@ trait ActivityFormTrait{
                 ->registerListeners([
                     'repeater::deleteItem' => [
                         function (Component $component, string $statePath, string $uuidToDelete): void {
-                            $items = $component->getState();
-                            $activities = Activity::where('application_id', $this->app->id)->get();
+                            if($statePath == 'data.activities')
+                            {
+                                $items = $component->getState();
+                                $activities = Activity::where('application_id', $this->app->id)->get();
 
-                            foreach($activities as $index => $activity){
-                                $existing = collect($items)->where('id', $activity->id)->first();
+                                foreach($activities as $index => $activity){
+                                    $existing = collect($items)->where('id', $activity->id)->first();
 
-                                if(!$existing){
-                                    $activity->delete();
+                                    if(!$existing){
+                                        $activity->delete();
+                                    }
                                 }
                             }
+                            
                         },
                     ],
                 ])

@@ -38,16 +38,21 @@ trait SiblingFormTrait{
                 ->registerListeners([
                     'repeater::deleteItem' => [
                         function (Component $component, string $statePath, string $uuidToDelete): void {
-                            $items = $component->getState();
-                            $siblings = Child::where('account_id', $this->app->account_id)->where('id', '!=', $this->app->child_id)->get();
 
-                            foreach($siblings as $index => $child){
-                                $existing = collect($items)->where('id', $child->id)->first();
+                            if($statePath == 'data.siblings')
+                            {
+                                $items = $component->getState();
+                                $siblings = Child::where('account_id', $this->app->account_id)->where('id', '!=', $this->app->child_id)->get();
 
-                                if(!$existing){
-                                    $child->delete();
+                                foreach($siblings as $index => $child){
+                                    $existing = collect($items)->where('id', $child->id)->first();
+
+                                    if(!$existing){
+                                        $child->delete();
+                                    }
                                 }
                             }
+                            
                         },
                     ],
                 ])
