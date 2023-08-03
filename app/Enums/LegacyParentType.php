@@ -19,7 +19,7 @@ final class LegacyParentType extends Enum
     const Grandfather = 'Grandfather';
     const Uncle = 'Uncle';
     const Aunt = 'Aunt';
-    const GreatGrandfather = 'Great Grandfather';
+    const GreatGrandfather = 'Great grandfather';
     const Stepfather = 'Stepfather';
     const Stepmother = 'Stepmother';
     const Cousin = 'Cousin';

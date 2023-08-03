@@ -190,11 +190,11 @@ trait ParentFormTrait{
                                     }
                                 }
                             }else{
-                                Notification::make()
-                                    ->title('Unable to delete this parent')
-                                    ->body('The application must have at least 1 parent.')
-                                    ->danger()
-                                    ->send();
+                                // Notification::make()
+                                //     ->title('Unable to delete this parent')
+                                //     ->body('The application must have at least 1 parent.')
+                                //     ->danger()
+                                //     ->send();
                             }
                             
                         },

@@ -22,6 +22,7 @@ use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Radio;
+use Illuminate\View\View;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
@@ -164,35 +165,35 @@ class AdmissionApplication extends Component implements HasTable, HasForms
     // }
 
 
-    protected function isTablePaginationEnabled(): bool 
+    public function isTablePaginationEnabled(): bool 
     {
         return false;
     }
 
-    protected function getTableEmptyStateIcon(): ?string 
+    public function getTableEmptyStateIcon(): ?string 
     {
         return 'heroicon-o-collection';
     }
  
-    protected function getTableEmptyStateHeading(): ?string
+    public function getTableEmptyStateHeading(): ?string
     {
         return 'No Child Information';
     }
- 
-    protected function getTableEmptyStateDescription(): ?string
-    {
-        return 'Create a child record here before you apply.';
-    }
 
-    protected function getTableEmptyStateActions()
+    public function getTableEmptyState(): ?View
     {
-        return [
-            CreateAction::make()
-                ->label('Create Child')
-                ->url('children')
-                ->icon('heroicon-o-plus')
-        ];
+        return view('filament.tables.empty-state');
     }
+ 
+    // protected function getTableEmptyStateActions()
+    // {
+    //     return [
+    //         CreateAction::make()
+    //             ->label('Create Child')
+    //             ->url('children')
+    //             ->icon('heroicon-o-plus')
+    //     ];
+    // }
 
 
     protected function getFormStatePath(): string

@@ -139,7 +139,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Dynamics')
-                ->description(new HtmlString('Refresh the page if all family members are not listed. You can <a  href="?active=matrix#matrix" class="underline text-link">click here</a> to refresh this page.'))
+                ->description(new HtmlString('If all family members are not listed, <a  href="?active=matrix#matrix" class="underline text-link">click here</a> to refresh this tab.'))
                 ->schema($this->getFamilyMatrix())
                 ->collapsible()
                 ->collapsed(fn() => $this->active == 'matrix' ? false : true )
