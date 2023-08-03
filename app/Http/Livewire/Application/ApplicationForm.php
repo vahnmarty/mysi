@@ -418,7 +418,7 @@ class ApplicationForm extends Component implements HasForms
             Auth::user()->notify( new ApplicationSubmitted($app));
             Auth::user()->notify( new PaymentReceipt($app));
 
-            Mail::to(config('settings.si.admissions.email'))->send(new NewApplicationSubmitted($app));
+            //Mail::to(config('settings.si.admissions.email'))->send(new NewApplicationSubmitted($app));
 
             $this->is_submitted = true;
 

@@ -3,7 +3,6 @@
     <h1 class="text-4xl text-center font-base text-primary-blue">Login</h1>
     <div class="mt-8 text-base text-center">
         <p>Welcome to St. Ignatius College Preparatory’s MySI portal.</p>
-        <p>Log in or create an account to interact with SI.</p>
     </div>
     
     <div class="max-w-lg px-8 mx-auto">

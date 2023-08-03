@@ -5,16 +5,20 @@
 
         <div class="mt-8 space-y-8">
             <p>
-                St. Ignatius College Preparatory is more than merely a high school. It is a community of lifelong learners that has served students in the San Francisco Bay Area for 160 years. We are also part of a tradition of Catholic, Jesuit education spanning five centuries and six continents.
+                Currently, this is where our prospective students and families will share important information with SI.  You will create and complete your Admissions Application here and submit it to SI by midnight on Wednesday, November 15, 2023.
             </p>
             <p>
-                Our roots, wide and deep, help our students grow into men and women committed to faith & justice, leadership & service, academic excellence & compassion. We invite you to see for yourself the difference an SI education can make.
+                In March, you will receive your Admissions decision and will be able to register all in one system.  We will continue to expand MySI's capabilities, so be sure to log in frequently.
             </p>
             <p>
-                St. Ignatius College Preparatory is a Catholic, Jesuit school serving the San Francisco Bay Area since 1855. Through a rigorous and integrated program of academic, spiritual, and co-curricular activities, St. Ignatius challenges its students to lead lives of faith, integrity, and compassion. Students are enriched by a diverse and loving Christian community and are called to become life-long learners who develop their individual talents for the greater glory of God.
+                Use the navigation links to explore MySI.
             </p>
             <p>
-                With a commitment to intellectual excellence, leadership, service, and justice, we strive to be men and women for and with others, responding courageously to the opportunities and challenges of our time.
+                If you have any questions about applying to SI, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link">admissions@siprep.org</a> or <a href="tel:(415) 731-7500 ext. 5274" class="underline text-link">(415) 731-7500 ext. 5274</a>.
+            </p>
+
+            <p>
+                If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="underline text-link">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are seeing.  A screenshot will help a lot to resolving your technical issue.
             </p>
         </div>
     </div>
