@@ -65,14 +65,14 @@
         </div>
 
         <div class="py-8">
-            <ul class="font-medium text-gray-900">
+            <ul class="font-medium text-gray-700">
 
-                <x-sidebar-item align="start" href="{{ url('admission') }}" :active="request()->is('admission*')">
-                    <x-slot name="icon">
+                <li class="px-8 py-1 mb-3 text-sm transition {{ request()->is('admission*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                    <a href="{{ url('admission') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                         <x-heroicon-o-color-swatch class="flex-shrink-0 w-5 h-5" />
-                    </x-slot>
-                    <strong>Admissions Application</strong>
-                </x-sidebar-item>
+                        <strong>Admissions Application</strong>
+                    </a>
+                </li>
                 
                 <x-sidebar-item align="start" href="https://www.siprep.org/admissions/timeline" target="_blank">
                     <x-slot name="icon">
