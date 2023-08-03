@@ -29,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             return (new MailMessage)
+                ->replyTo( config('mail.reply_to.address') )
                 ->greeting('Hello ' . $notifiable->first_name . ', ')
                 ->subject('Verify Email Address')
                 ->line('Thank you for creating a MySI account.')
@@ -45,6 +46,7 @@ class AuthServiceProvider extends ServiceProvider
                 ]);
 
             return (new MailMessage)
+                ->replyTo( config('mail.reply_to.address') )
                 ->greeting('Hello ' . $notifiable->first_name . ',')
                 ->subject('Reset MySI Portal Password')
                 ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
