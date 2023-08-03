@@ -2,7 +2,9 @@
 
     <div class="px-4 py-12">
 
-        <h3 class="text-xl font-bold text-gray-700 font-heading">September 9, 2023</h3>
+        <h2 class="text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to the MySI Portal</h2>
+        
+        <h3 class="mt-8 font-bold text-gray-700 font-heading">September 9, 2023</h3>
 
         <h2 class="hidden mt-8 text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to the MySI Portal</h2>
 

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\School;
 use Illuminate\Console\Command;
 
 class ProductionChecklist extends Command
@@ -30,6 +31,9 @@ class ProductionChecklist extends Command
         $this->checkConfigs();
         $this->newLine();
         $this->checkSettings();
+        $this->newLine();
+
+        $this->line('Schools: ' . School::count());
 
         $this->newLine(3);
     }
@@ -77,6 +81,8 @@ class ProductionChecklist extends Command
             $this->error($this->getFailedIcon() . " {$config}: " . settings($config));
         }
     }
+
+    
 
     public function getSuccessIcon()
     {
