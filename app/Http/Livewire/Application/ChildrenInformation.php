@@ -207,23 +207,27 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             })
                             ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                             ->rules([new PhoneNumberRule]),
+                        Select::make('current_grade')
+                            ->label('Current Grade')
+                            ->options(GradeLevel::asSameArray())
+                            ->reactive()
+                            ->required(),
                         Select::make('current_school')
                             ->label('Current School')
                             ->options(['Not Listed' => 'Not Listed'] + School::active()->orderBy('name')->get()->pluck('name', 'name')->toArray())
-                            ->searchable()
+                            ->searchable(fn (Select $component) => !$component->isDisabled())
+                            ->getSearchResultsUsing(fn (string $search) => School::search($search)->orderBy('name')->limit(50)->pluck('name', 'id'))
                             ->optionsLimit(50)
                             ->reactive()
-                            ->required(),
+                            ->disabled(fn(Closure $get) => $get('current_grade') == GradeLevel::PostCollege)
+                            ->required(fn(Closure $get) => $get('current_grade') != GradeLevel::PostCollege),
                         TextInput::make('current_school_not_listed')
                             ->label('If not listed, add it here')
                             ->lazy()
                             ->required()
                             ->placeholder('Enter School Name')
                             ->hidden(fn (Closure $get) => $get('current_school') !== 'Not Listed'),
-                        Select::make('current_grade')
-                            ->label('Current Grade')
-                            ->options(GradeLevel::asSameArray())
-                            ->required(),
+                        
                     ])
             ])
             

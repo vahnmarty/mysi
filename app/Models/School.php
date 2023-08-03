@@ -22,4 +22,9 @@ class School extends Model
     {
         return $query->where('education_level' , 'LIKE' , '%High%' );
     }
+
+    public function scopeSearch($query, $keyword)
+    {
+        return $query->where('name', 'LIKE', '%' . $keyword . '%');
+    }
 }

@@ -150,6 +150,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->middleSchool()->orderBy('name')->limit(50)->pluck('name', 'id'))
                 ->reactive()
                 ->required()
                 ->afterStateUpdated(function($state){
@@ -169,6 +170,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->limit(50)->pluck('name', 'id'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -180,6 +182,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->limit(50)->pluck('name', 'id'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -191,6 +194,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->limit(50)->pluck('name', 'id'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -202,6 +206,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->limit(50)->pluck('name', 'id'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
