@@ -473,8 +473,9 @@ class ViewApplication extends Component implements HasForms
                         ->disableLabel()
                         ->options(LivingSituationType::asSameArray())
                         ->disabled(),
-                    Toggle::make('deceased_flag')
-                        ->label('Deceased?'),
+                    TextInput::make('deceased_flag')
+                        ->label('Deceased?')
+                        ->formatStateUsing(fn($state) =>  $state ? 'Yes' : 'No'),
                 ]),
             TableRepeater::make('siblings_matrix')
                 ->label('')

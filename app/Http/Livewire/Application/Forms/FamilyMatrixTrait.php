@@ -11,6 +11,7 @@ use App\Models\FamilyMatrix;
 use App\Enums\AddressLocation;
 use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -77,8 +78,12 @@ trait FamilyMatrixTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'), 'living_situation', $state);
                         }),
-                    Toggle::make('deceased_flag')
+                    Select::make('deceased_flag')
                         ->label('Deceased?')
+                        ->options([
+                            0 => 'No',
+                            1 => 'Yes'
+                        ])
                         ->reactive()
                         ->extraAttributes(['class' => 'disabled:opacity-100 input-toggle'])
                         ->afterStateUpdated(function(Closure $get, Closure $set, $state){
@@ -155,10 +160,10 @@ trait FamilyMatrixTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'living_situation', $state);
                         }),
-                    Placeholder::make('blank_deceased')
-                        ->label(new HtmlString('<span class="invisible">*Deceased</span>'))
-                        ->content('')
-                        ->disabled()
+                    // Placeholder::make('blank_deceased')
+                    //     ->label(new HtmlString('<span class="invisible">*Deceased</span>'))
+                    //     ->content('')
+                    //     ->disabled()
                     // Placeholder::make('status')
                     //     ->label('')
                     //     ->content(new HtmlString('<div class="w-24"></div>')),
