@@ -32,7 +32,7 @@ trait SiblingFormTrait{
                 ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             Repeater::make('siblings')
                 ->label('')
-                ->createItemButtonLabel('Add Sibling')
+                ->createItemButtonLabel(fn(Closure $get) => count($get('siblings')) ? 'Add Another Sibling' : 'Add Sibling')
                 ->disableItemMovement()
                 ->maxItems(10)
                 ->registerListeners([

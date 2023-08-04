@@ -41,7 +41,7 @@ trait ActivityFormTrait{
             Repeater::make('activities')
                 ->label('')
                 ->validationAttribute('School Activities')
-                ->createItemButtonLabel('Add Activity')
+                ->createItemButtonLabel(fn(Closure $get) => count($get('activities')) ? 'Add Another Activity' : 'Add Activity')
                 ->defaultItems(1)
                 ->minItems(1)
                 ->maxItems(4)

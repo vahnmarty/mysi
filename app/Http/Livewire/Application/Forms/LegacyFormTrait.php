@@ -33,7 +33,7 @@ trait LegacyFormTrait{
                 ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             Repeater::make('legacy')
                 ->label('List up to 5 relatives who have attended SI.  Do not include siblings.')
-                ->createItemButtonLabel('Add Legacy Relative')
+                ->createItemButtonLabel(fn(Closure $get) => count($get('legacy')) ? 'Add Another Legacy Relative' : 'Add Legacy Relative')
                 ->defaultItems(1)
                 ->disableItemMovement()
                 ->maxItems(5)
