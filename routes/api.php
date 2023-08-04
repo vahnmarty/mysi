@@ -20,4 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('parents', [ParentController::class, 'index']);
+Route::group( ['middleware' => 'auth.basic'], function(){
+
+    Route::get('parents', [ParentController::class, 'index']);
+
+});
+
