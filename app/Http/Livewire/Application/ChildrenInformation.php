@@ -216,7 +216,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             ->label('Current School')
                             ->options(['Not Listed' => 'Not Listed'] + School::active()->orderBy('name')->get()->pluck('name', 'name')->toArray())
                             ->searchable(fn (Select $component) => !$component->isDisabled())
-                            ->getSearchResultsUsing(fn (string $search) => School::search($search)->orderBy('name')->limit(50)->pluck('name', 'id'))
+                            ->getSearchResultsUsing(fn (string $search) => School::search($search)->orderBy('name')->limit(50)->pluck('name', 'name'))
                             ->optionsLimit(50)
                             ->reactive()
                             ->disabled(fn(Closure $get) => $get('current_grade') == GradeLevel::PostCollege)

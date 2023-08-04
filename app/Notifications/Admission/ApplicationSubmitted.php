@@ -39,7 +39,7 @@ class ApplicationSubmitted extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->cc('admissions@siprep.org')
+                    ->bcc('admissions@siprep.org')
                     ->markdown('emails.admission.application-submitted', [
                             'user' => $notifiable,
                             'app' => $this->app
