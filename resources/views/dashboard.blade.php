@@ -4,7 +4,7 @@
 
         <h2 class="text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to the MySI Portal</h2>
         
-        <h3 class="mt-8 font-bold text-gray-700 font-heading">September 9, 2023</h3>
+        <h3 class="mt-8 font-bold text-gray-700 font-heading">September 6, 2023</h3>
 
         <h2 class="hidden mt-8 text-2xl font-semibold text-center font-heading text-primary-blue">Welcome to the MySI Portal</h2>
 
@@ -13,16 +13,13 @@
                 Welcome to MySI, your gateway to St. Ignatius College Preparatory.
             </p>
             <p>
-                Currently, this is where our prospective students and families will share important information with SI.  You will create and complete your Admissions Application here and submit it to SI by midnight on Wednesday, November 15, 2023.
+                “Currently, this is where our prospective students and families will share important information with SI. You will create and complete your Admissions Application here and submit it to SI by midnight on Wednesday, November 15, 2023.  In March, you will receive your Admissions decision using this system. 
             </p>
             <p>
-                In March, you will receive your Admissions decision and will be able to register all in one system.  We will continue to expand MySI's capabilities, so be sure to log in frequently.
+                Use the navigation links to explore MySI.  Note that this system will continue to evolve.
             </p>
             <p>
-                Use the navigation links to explore MySI.
-            </p>
-            <p>
-                If you have any questions about applying to SI, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link">admissions@siprep.org</a> or <a href="tel:(415) 731-7500 ext. 5274" class="underline text-link">(415) 731-7500 ext. 5274</a>.
+                If you have any questions about applying to SI, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link">admissions@siprep.org</a> or (415) 731-7500 ext. 5274.
             </p>
 
             <p>

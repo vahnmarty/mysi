@@ -4,8 +4,11 @@
     .text-center{
         text-align: center;
     }
+
+    #appLogo{
+        margin: 0 auto;
+    }
 </style>
-<img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin: 0 auto; display: block">
 
 
 <p class="text-center">Hi {{ $user->first_name}},</p>

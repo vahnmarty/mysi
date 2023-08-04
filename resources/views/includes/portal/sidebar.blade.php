@@ -78,7 +78,7 @@
                     <x-slot name="icon">
                         <x-heroicon-o-presentation-chart-line class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
-                    Admission Timeline
+                    Admissions Timeline
                 </x-sidebar-item>
 
                 <x-sidebar-item align="start" href="https://www.siprep.org/admissions/visit/the-wildcat-experience" target="_blank">
