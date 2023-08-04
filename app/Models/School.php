@@ -27,4 +27,9 @@ class School extends Model
     {
         return $query->where('name', 'LIKE', '%' . $keyword . '%');
     }
+
+    public function getSchoolLevelAttribute()
+    {
+        return $this->name . ' (' . $this->education_level . ')';
+    }
 }
