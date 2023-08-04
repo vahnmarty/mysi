@@ -1,9 +1,10 @@
 <x-mail::layout>
 {{-- Header --}}
+
 <x-slot:header>
-<x-mail::header :url="config('app.url')">
-{{ config('app.name') }}
-</x-mail::header>
+<div style="margin-top: 15px; margin-bottom: 15px; width: 570px;">
+    <img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin-top: 15px; margin-bottom: 15px; margin-right: auto; display: block">
+</div>
 </x-slot:header>
 
 {{-- Body --}}
