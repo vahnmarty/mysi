@@ -146,11 +146,11 @@ trait StudentFormTrait{
                 }),
             Select::make('student.current_school')
                 ->label('Current School')
-                ->options(['Not Listed' => 'Not Listed'] + School::middleSchool()->orderBy('name')->get()->pluck('school_level', 'name')->toArray())
+                ->options(['Not Listed' => 'Not Listed'] + School::middleSchool()->orderBy('name')->get()->pluck('name', 'name')->toArray())
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->middleSchool()->orderBy('name')->get()->take(50)->pluck('school_level', 'name'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->middleSchool()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
                 ->reactive()
                 ->required()
                 ->afterStateUpdated(function($state){
@@ -166,11 +166,11 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_1')
                 ->label('Other High School #1')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('school_level', 'school_level')->toArray() )
+                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('school_level', 'school_level'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -178,11 +178,11 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_2')
                 ->label('Other High School #2')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('school_level', 'school_level')->toArray() )
+                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('school_level', 'school_level'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -190,11 +190,11 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_3')
                 ->label('Other High School #3')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('school_level', 'school_level')->toArray() )
+                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('school_level', 'school_level'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -202,11 +202,11 @@ trait StudentFormTrait{
                 }),
             Select::make('other_high_school_4')
                 ->label('Other High School #4')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('school_level', 'school_level')->toArray() )
+                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('school_level', 'school_level'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){

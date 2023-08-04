@@ -135,6 +135,7 @@ trait SiblingFormTrait{
                         ->required(fn(Closure $get) => $get('current_grade') != GradeLevel::PostCollege)
                         ->reactive()
                         ->searchable(fn (Select $component) => !$component->isDisabled())
+                        ->getSearchResultsUsing(fn (string $search) => School::search($search)->orderBy('name')->get()->take(50)->pluck('name', 'name'))
                         ->disabled(fn(Closure $get) => $get('current_grade') == GradeLevel::PostCollege)
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'current_school', $state);
@@ -166,7 +167,6 @@ trait SiblingFormTrait{
                         ->lazy()
                         ->minLength(4)
                         ->maxLength(4)
-                        ->required()
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'graduation_year', $state);
