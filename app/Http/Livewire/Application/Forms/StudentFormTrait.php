@@ -182,7 +182,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->limit(50)->pluck('school_level', 'school_level'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->limit(50)->pluck('school_level', 'school_level'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -194,7 +194,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->limit(50)->pluck('school_level', 'school_level'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->limit(50)->pluck('school_level', 'school_level'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
@@ -206,7 +206,7 @@ trait StudentFormTrait{
                 ->preload()
                 ->optionsLimit(50)
                 ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->limit(50)->pluck('school_level', 'school_level'))
+                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->orderBy('name')->get()->limit(50)->pluck('school_level', 'school_level'))
                 ->hint('(where you plan to apply)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
