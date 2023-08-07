@@ -5,7 +5,7 @@
 @isset($logo)
 {{ $logo }}
 @else
-<img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin-top: 15px; margin-bottom: 15px; margin-right: auto; display: block">
+<img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin-top: 15px; margin-bottom: 45px; margin-right: auto; display: block">
 @endisset
 
 {{ $slot }}

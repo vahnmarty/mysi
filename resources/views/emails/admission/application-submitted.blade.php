@@ -1,7 +1,7 @@
 <x-mail::message>
 
 <x-slot:logo>
-<img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin:0 auto; display: block">
+<img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin:0 auto; margin-bottom: 30px; display: block">
 </x-slot:logo>
 
 <style>
