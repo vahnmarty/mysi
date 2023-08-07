@@ -101,11 +101,11 @@ Route::get('/redirect', function (Request $request) {
 Route::get('/callback', function (Request $request) {
     $state = $request->session()->pull('state');
  
-    throw_unless(
-        strlen($state) > 0 && $state === $request->state,
-        InvalidArgumentException::class,
-        'Invalid state value.'
-    );
+    // throw_unless(
+    //     strlen($state) > 0 && $state === $request->state,
+    //     InvalidArgumentException::class,
+    //     'Invalid state value.'
+    // );
  
     $response = Http::asForm()->post('http://passport-app.test/oauth/token', [
         'grant_type' => 'authorization_code',

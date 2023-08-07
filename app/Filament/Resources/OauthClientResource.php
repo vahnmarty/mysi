@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OauthClientResource\Pages;
 use App\Filament\Resources\OauthClientResource\RelationManagers;
+use Str;
 
 class OauthClientResource extends Resource
 {
@@ -45,6 +46,23 @@ class OauthClientResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('authorize')
+                    ->action(function(Client $record){
+
+                        session()->put('state', $state = Str::random(40));
+ 
+                        $query = http_build_query([
+                            'client_id' => $record->id,
+                            'redirect_uri' => $record->redirect,
+                            'response_type' => 'code',
+                            'scope' => '',
+                            'state' => $state,
+                            // 'prompt' => '', // "none", "consent", or "login"
+                        ]);
+                        
+                        return redirect(url('oauth/authorize') . '?'.$query);
+
+                    }),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

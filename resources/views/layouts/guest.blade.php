@@ -26,6 +26,7 @@
 
             <main class="relative flex-1 py-8">
                 {{ $slot ?? '' }}
+                @yield('content')
             </main>
 
             @include('includes.guest.footer')
