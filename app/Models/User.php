@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\Auth\ForgotUsername as ForgotUsernameNotification;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements FilamentUser,MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
