@@ -21,6 +21,10 @@ use App\Http\Livewire\Application\AdmissionApplication;
 use App\Http\Livewire\Application\HealthcareInformation;
 use App\Http\Livewire\Application\EmergencyContactInformation;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -77,4 +81,39 @@ Route::get('sample-form', SampleForm::class);
 
 Route::get('ping', function(){
     return 'Hello!';
+});
+
+Route::get('/redirect', function (Request $request) {
+    $request->session()->put('state', $state = Str::random(40));
+ 
+    $query = http_build_query([
+        'client_id' => '99d55d5d-46b3-4f71-8e6e-d35361ef7bb5',
+        'redirect_uri' => 'https://test.salesforce.com/services/oauth2/authorize',
+        'response_type' => 'code',
+        'scope' => '',
+        'state' => $state,
+        // 'prompt' => '', // "none", "consent", or "login"
+    ]);
+    
+    return redirect(url('oauth/authorize') . '?'.$query);
+});
+
+Route::get('/callback', function (Request $request) {
+    $state = $request->session()->pull('state');
+ 
+    throw_unless(
+        strlen($state) > 0 && $state === $request->state,
+        InvalidArgumentException::class,
+        'Invalid state value.'
+    );
+ 
+    $response = Http::asForm()->post('http://passport-app.test/oauth/token', [
+        'grant_type' => 'authorization_code',
+        'client_id' => 'client-id',
+        'client_secret' => 'client-secret',
+        'redirect_uri' => 'http://third-party-app.com/callback',
+        'code' => $request->code,
+    ]);
+ 
+    return $response->json();
 });
