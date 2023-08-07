@@ -36,8 +36,7 @@ trait ActivityFormTrait{
                 ->label('')
                 ->content(new HtmlString('
                 <p>* This section is to be completed by the applicant.</p>
-                <p>List up to four current extracurricular activities that you are most passionate about.</p>
-                <p>You must list at least one activity.</p>
+                <p>List up to four current extracurricular activities that you are most passionate about. You must list at least one activity.</p>
             ')),
             Repeater::make('activities')
                 ->label('')

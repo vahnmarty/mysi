@@ -1,13 +1,13 @@
 <x-mail::layout>
 {{-- Header --}}
 
-<x-slot:header>
-<div style="margin-top: 15px; margin-bottom: 15px; width: 570px;">
-    <img id="appLogo" src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin-top: 15px; margin-bottom: 15px; margin-right: auto; display: block">
-</div>
-</x-slot:header>
-
 {{-- Body --}}
+@isset($logo)
+{{ $logo }}
+@else
+<img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin-top: 15px; margin-bottom: 15px; margin-right: auto; display: block">
+@endisset
+
 {{ $slot }}
 
 {{-- Subcopy --}}

@@ -42,6 +42,7 @@ trait ParentFormTrait{
             Repeater::make('parents')
                 ->label('')
                 ->createItemButtonLabel('Add Parent/Guardian')
+                ->createItemButtonLabel(fn(Closure $get) => count($get('parents')) ? 'Add Another Parent/Guardian' : 'Add Parent/Guardian')
                 ->disableItemMovement()
                 ->minItems(1)
                 ->maxItems(4)

@@ -1,12 +1,16 @@
 <x-mail::message>
 
+<x-slot:logo>
+<img src="{{ asset('img/logo.png') }}" style="width: 64px; height: auto; margin:0 auto; display: block">
+</x-slot:logo>
+
 <style>
     .text-center{
         text-align: center;
     }
 
     #appLogo{
-        margin: 0 auto;
+        margin: 0 auto !important;
     }
 </style>
 
