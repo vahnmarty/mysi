@@ -3,13 +3,14 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
+
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
-use Illuminate\Support\Facades\Lang;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -55,5 +56,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->line(Lang::get('If you did not request a password reset, no further action is required.'))
                 ->salutation(new HtmlString("**Regards**, <br>" . 'MySI Portal Admin'));
         });
+
+        //Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
     }
 }

@@ -20,6 +20,7 @@
         "maatwebsite/excel": "^3.1",
         "phpsa/filament-password-reveal": "^1.1",
         "spatie/laravel-permission": "^5.10",
+        "webbingbrasil/filament-copyactions": "^1.1",
         "wiebenieuwenhuis/filament-char-counter": "^1.1"
     },
     "require-dev": {
