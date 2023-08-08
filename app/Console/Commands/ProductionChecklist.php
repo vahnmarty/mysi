@@ -56,7 +56,11 @@ class ProductionChecklist extends Command
         $this->line('Config/Environment');
         $this->newLine();
 
-        $array = ['settings.si.admissions.email', 'settings.payment.application_fee', 'services.authorize.login_id', 'services.authorize.transaction_key'];
+        $array = [
+                'settings.si.admissions.email', 'settings.payment.application_fee', 
+                'services.authorize.login_id', 'services.authorize.transaction_key',
+                'services.salesforce.key', 'services.salesforce.secret'
+            ];
 
         foreach($array as $path)
         {

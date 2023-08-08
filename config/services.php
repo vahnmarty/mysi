@@ -34,6 +34,12 @@ return [
     'authorize' => [
         'login_id' => env("AUTHORIZE_LOGIN_ID"),
         'transaction_key' => env('AUTHORIZE_TRANSACTION_KEY')
+    ],
+
+    'salesforce' => [
+        'key' => env('SALESFORCE_CONSUMER_KEY'),
+        'secret' => env('SALESFORCE_CONSUMER_SECRET'),
+        'callback' => env('SALESFORCE_CONSUMER_CALLBACK')
     ]
 
 ];

@@ -98,6 +98,25 @@ Route::get('/redirect', function (Request $request) {
     return redirect(url('oauth/authorize') . '?'.$query);
 });
 
+Route::get('salesforce/callback', function (Request $request) {
+    $state = $request->session()->pull('state');
+
+    $url = url('oauth/token');
+    $clientId = config('services.salesforce.key');
+    $clientSecret = config('services.salesforce.secret');
+    $callbackUrl = config('services.salesforce.callback');
+ 
+    $response = Http::asForm()->post($url, [
+        'grant_type' => 'authorization_code',
+        'client_id' => $clientId,
+        'client_secret' => $clientSecret,
+        'redirect_uri' => $callbackUrl,
+        'code' => $request->code,
+    ]);
+ 
+    return $response->json();
+});
+
 Route::get('/callback', function (Request $request) {
     $state = $request->session()->pull('state');
  
