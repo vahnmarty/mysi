@@ -59,9 +59,8 @@ class PaymentRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('name_on_card'),
                 Tables\Columns\TextColumn::make('initial_amount'),
                 Tables\Columns\TextColumn::make('promo_code'),
-                Tables\Columns\TextColumn::make('promo_amount'),
                 Tables\Columns\TextColumn::make('final_amount'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()   ,
+                Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
                 //
