@@ -33,14 +33,9 @@ class PaymentRelationManager extends RelationManager
 
                         if($promoCode){
                             $set('promo_amount', $promoCode->amount);
-                            $set('final_amount', $get('initial_amount') - $get('promo_amount'));
+                            $set('final_amount', $get('promo_amount'));
                         }
                     }),
-                Forms\Components\TextInput::make('promo_amount')
-                    ->reactive()
-                    ->label('Promo Amount')
-                    ->disabled()
-                    ->required(),
                 Forms\Components\TextInput::make('initial_amount')
                     ->reactive()
                     ->label('Initial Amount')
@@ -52,7 +47,7 @@ class PaymentRelationManager extends RelationManager
                     ->disabled()
                     ->required()
                     ->afterStateHydrated(function(Closure $get, Closure $set, $state){
-                        $set('final_amount', $get('initial_amount') - $get('promo_amount'));
+                        $set('final_amount', $get('promo_amount'));
                     }),
             ]);
     }
