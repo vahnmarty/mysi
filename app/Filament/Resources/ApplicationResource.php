@@ -33,7 +33,7 @@ class ApplicationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make("student.first_name")
                     ->label("Student's Name")
-                    ->formatStateUsing(fn(Application $record) => $record->student->getFullName())
+                    ->formatStateUsing(fn(Application $record) => $record->student?->getFullName())
                     ->searchable(),
                 Tables\Columns\TextColumn::make("record_type"),
                 Tables\Columns\TextColumn::make("appStatus.application_start_date")

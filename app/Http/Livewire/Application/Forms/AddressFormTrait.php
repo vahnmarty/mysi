@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
+use Livewire\Component as Livewire;
 use App\Models\School;
 use App\Models\Address;
 use App\Enums\AddressType;
@@ -125,13 +126,15 @@ trait AddressFormTrait{
                         }),
                     TextInput::make('zip_code')
                         ->label('ZIP Code')
+                        ->validationAttribute('ZIP Code')
                         ->disabled(fn(Closure $get) => !$get('address_type') )
                         ->numeric()
                         ->minLength(4)
                         ->maxLength(5)
                         ->required()
                         ->lazy()
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveAddress($get('id'), 'zip_code', $state);
                         }),
                     TextInput::make('phone_number')
@@ -156,8 +159,10 @@ trait AddressFormTrait{
     private function autoSaveAddress($id, $column, $value)
     {
         $address = Address::find($id);
-        $address->$column = $value;
-        $address->save();
+        $this->__autoSave($address, $column, $value);
+        
+        // $address->$column = $value;
+        // $address->save();
     }
 
 }

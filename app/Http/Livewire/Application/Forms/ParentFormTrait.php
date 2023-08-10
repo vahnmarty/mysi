@@ -138,7 +138,8 @@ trait ParentFormTrait{
                         ->rules(['email:rfc,dns'])
                         ->required()
                         ->lazy()
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveParent($get('id'),'personal_email', $state);
                         }),
                     Select::make('employment_status')
