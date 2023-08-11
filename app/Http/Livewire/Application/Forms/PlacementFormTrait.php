@@ -95,7 +95,7 @@ trait PlacementFormTrait{
                         ->required()
                         ->reactive()
                         ->afterStateHydrated(function(Closure $get, Closure $set, $state){
-                            if($get('has_learning_disability') &&  count($get('file_learning_documentation'))){
+                            if($get('has_learning_disability') &&  $get('file_learning_documentation')) {
                                 //$date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
                                 //$set('placement_test_date', $date);
                             }else{
