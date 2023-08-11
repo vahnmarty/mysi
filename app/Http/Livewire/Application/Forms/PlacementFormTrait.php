@@ -84,7 +84,7 @@ trait PlacementFormTrait{
                             $array[] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
 
                             if($get('has_learning_disability')){
-                                $array[] =  "At SI on December 9, 2023 (this date is only for those who qualify for Extended Time)";
+                                $array[] =  "At SI on December 9, 2023 (this date is only for applicants who submit an application for Extended Time)";
                             }
                             
                             $array[] = "At Other Catholic High School";

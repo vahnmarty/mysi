@@ -26,7 +26,7 @@ trait WritingSampleTrait{
                         <section class="space-y-4">
                             <h3 class="font-bold font-heading text-primary-red">What matters to you? How does that motivate you, impact your life, your outlook, and/or your identity?</h3>
                             <p class="font-medium">What matters to you might be an activity, an idea, a goal, a place, and/or a thing.</p>
-                            <p class="font-medium"> <strong>PLEASE NOTE:</strong> This essay should be about you and your thoughts. It should not be about the life of another person you admire.</p>
+                            <p class="font-medium"> This essay should be about you and your thoughts. It should not be about the life of another person you admire.</p>
                         </section>
                         <section class="mt-8">
                             <h3 class="text-xl font-bold text-center text-gray-900 font-heading">--OR--</h3>
