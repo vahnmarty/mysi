@@ -142,7 +142,7 @@ trait ReligionFormTrait{
                 ->columns(3)
                 ->schema([
                     Select::make('religious_studies_classes')
-                        ->options(CommonOption::asSelectArray())
+                        ->options(CommonOption::asSameArray())
                         ->label("Religious Studies Classes")
                         ->lazy()
                         ->required()
@@ -165,7 +165,7 @@ trait ReligionFormTrait{
                             $this->autoSave('religious_studies_classes_explanation', $state);
                         }),
                     Select::make('school_liturgies')
-                        ->options(CommonOption::asSelectArray())
+                        ->options(CommonOption::asSameArray())
                         ->label("School Liturgies")
                         ->lazy()
                         ->required()
@@ -187,7 +187,7 @@ trait ReligionFormTrait{
                             $this->autoSave('school_liturgies_explanation', $state);
                     }),
                     Select::make('retreats')
-                        ->options(CommonOption::asSelectArray())
+                        ->options(CommonOption::asSameArray())
                         ->label("Retreats")
                         ->lazy()
                         ->required()
@@ -209,7 +209,7 @@ trait ReligionFormTrait{
                             $this->autoSave('retreats_explanation', $state);
                     }),
                     Select::make('community_service')
-                        ->options(CommonOption::asSelectArray())
+                        ->options(CommonOption::asSameArray())
                         ->label("Community Service")
                         ->lazy()
                         ->required()

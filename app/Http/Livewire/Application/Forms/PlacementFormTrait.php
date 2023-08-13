@@ -51,6 +51,9 @@ trait PlacementFormTrait{
                 ->multiple()
                 ->maxSize(25000)
                 ->reactive()
+                ->required(function(Closure $get){
+                    return $get('has_learning_disability');
+                })
                 ->enableOpen()
                 ->enableDownload()
                 ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->app->id)
@@ -80,17 +83,19 @@ trait PlacementFormTrait{
                         ->label("Indicate the date and the high school where your child will take the entrance exam. If you submit your application after the November 15th (by midnight) deadline, we may not be able to accommodate you for the HSPT at SI on December 2nd.")
                         ->options(function(Closure $get){
 
+                            $array =
+
                             $array = [];
-                            $array[] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
+                            $array["At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ))] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
 
                             if($get('has_learning_disability')){
-                                $array[] =  "At SI on December 9, 2023 (this date is only for applicants who submit an application for Extended Time)";
+                                $array['At SI on December 9, 2023'] =  "At SI on December 9, 2023 (this date is only for applicants who submit an application for Extended Time)";
                             }
                             
-                            $array[] = "At Other Catholic High School";
+                            $array["At Other Catholic High School"] = "At Other Catholic High School";
 
 
-                            return array_combine($array, $array);
+                            return $array;
                         })
                         ->required()
                         ->reactive()
@@ -102,7 +107,8 @@ trait PlacementFormTrait{
                                 $set('placement_test_date', settings('placement_test_date'));
                             }
                         })
-                        ->afterStateUpdated(function($state){
+                        ->afterStateUpdated(function(Livewire $livewire, Radio $component, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSave('entrance_exam_reservation', $state);
                         }),
                     Grid::make(1)

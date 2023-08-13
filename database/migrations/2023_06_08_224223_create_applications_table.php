@@ -26,13 +26,13 @@ return new class extends Migration
             $table->string('impact_to_community', 750)->nullable();
             $table->string('describe_family_spirituality', 75)->nullable();
             $table->string('describe_family_spirituality_in_detail', 750)->nullable();
-            $table->boolean('religious_studies_classes')->nullable();
+            $table->string('religious_studies_classes', 5)->nullable();
             $table->string('religious_studies_classes_explanation', 500)->nullable();
-            $table->boolean('school_liturgies')->nullable();
+            $table->string('school_liturgies', 5)->nullable();
             $table->string('school_liturgies_explanation', 500)->nullable();
-            $table->boolean('retreats')->nullable();
+            $table->string('retreats', 5)->nullable();
             $table->string('retreats_explanation', 500)->nullable();
-            $table->string('community_service')->nullable();
+            $table->string('community_service', 5)->nullable();
             $table->string('community_service_explanation', 500)->nullable();
             $table->string('religious_statement_by', 150)->nullable();
             $table->string('religious_relationship_to_student', 20)->nullable();

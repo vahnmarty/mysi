@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use BenSampo\Enum\Enum;
+use App\Enums\Traits\EnumCustomTrait;
 
 /**
  * @method static static OptionOne()
@@ -11,7 +12,9 @@ use BenSampo\Enum\Enum;
  */
 final class CommonOption extends Enum
 {
-    const Yes = 1;
-    const No = 2;
-    const Unsure = 3;
+    use EnumCustomTrait;
+    
+    const Yes = 'Yes';
+    const No = 'No';
+    const Unsure = 'Unsure';
 }

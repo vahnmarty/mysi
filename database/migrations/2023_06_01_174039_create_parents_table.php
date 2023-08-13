@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('work_phone_ext', 20)->nullable();
             $table->string('schools_attended', 1000)->nullable();
             $table->string('living_situation', 30)->nullable();
-            $table->boolean('deceased_flag')->nullable();
+            $table->string('deceased_flag')->nullable();
             $table->string('communication_preferences', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();

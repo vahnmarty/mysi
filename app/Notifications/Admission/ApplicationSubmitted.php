@@ -38,12 +38,19 @@ class ApplicationSubmitted extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        $mail = (new MailMessage)
                     ->bcc('admissions@siprep.org')
                     ->markdown('emails.admission.application-submitted', [
-                            'user' => $notifiable,
-                            'app' => $this->app
-                        ]);
+                        'user' => $notifiable,
+                        'app' => $this->app
+                    ]);
+
+        if($this->app->file_learning_documentation){
+            $mail->cc('ggalletta@siprep.org')
+                 ->cc('pcollins@siprep.org');
+        }
+        
+        return $mail;
 
                     // ->greeting('Hi ' . $notifiable->first_name . ', ')
                     // ->line('**Applicant Name:** ' . $this->app->student->first_name . ' ' . $this->app->student->last_name )

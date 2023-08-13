@@ -81,8 +81,8 @@ trait FamilyMatrixTrait{
                     Select::make('deceased_flag')
                         ->label('Deceased?')
                         ->options([
+                            1 => 'Yes',
                             0 => 'No',
-                            1 => 'Yes'
                         ])
                         ->reactive()
                         ->extraAttributes(['class' => 'disabled:opacity-100 input-toggle'])

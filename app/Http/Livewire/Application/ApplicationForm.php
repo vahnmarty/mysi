@@ -61,7 +61,8 @@ class ApplicationForm extends Component implements HasForms
     protected $messages = [
         'data.writing_sample_essay_acknowledgement.accepted' => 'This field is required.',
         'data.activities.min' => 'There must be at least 1 school activity listed.',
-        'data.addresses.min' => 'There must be at least 1 address listed.'
+        'data.addresses.min' => 'There must be at least 1 address listed.',
+        'data.file_learning_documentation.required' => 'There is no file attached to the application.  Please upload your documentation.'
     ];
 
     public function render()
@@ -212,6 +213,8 @@ class ApplicationForm extends Component implements HasForms
             $model->$column = $value;
             $model->save();
         } catch (\Exception $e) {
+
+            throw $e;
             
             Notification::make()
                 ->title('System Error!')
