@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use Illuminate\Http\Request;
+use Validator;
 
 class AccountController extends Controller
 {
@@ -37,7 +38,29 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'phone' => 'nullable',
+            'salesforce_id' => 'required',
+            'record_type_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                    'success' => false,
+                    'message' => 'Validation Error',
+                    'data' => $validator->errors()
+                ], 
+            400);
+        }
+        $data = $validator->validated();
+
+        $account = Account::firstOrCreate($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $account
+        ]);
     }
 
     /**
@@ -45,7 +68,7 @@ class AccountController extends Controller
      */
     public function show(Account $account)
     {
-        //
+        return response()->json($account);
     }
 
     /**
@@ -61,7 +84,29 @@ class AccountController extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'phone' => 'nullable',
+            'salesforce_id' => 'required',
+            'record_type_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                    'success' => false,
+                    'message' => 'Validation Error',
+                    'data' => $validator->errors()
+                ], 
+            400);
+        }
+        $data = $validator->validated();
+
+        $account = $account->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $account
+        ]);
     }
 
     /**
@@ -69,6 +114,11 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        //
+        $account->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Record deleted'
+        ]);
     }
 }
