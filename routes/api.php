@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group( ['middleware' => [] ], function(){
 
     Route::resource('parents', ParentController::class);
-    Route::get('accounts', [AccountController::class, 'index']);
+    Route::resource('accounts', AccountController::class);
     Route::get('activities', [ActivityController::class, 'index']);
     Route::get('addresses', [AddressController::class, 'index']);
     Route::get('applications', [ApplicationController::class, 'index']);
