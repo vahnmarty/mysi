@@ -1,5 +1,5 @@
 <section>
-    <div class="hidden lg:flex flex-col  w-64 h-full min-h-[90vh] bg-gray-100 border-r">
+    <div class="hidden lg:flex flex-col  w-81 h-full min-h-[90vh] bg-gray-100 border-r">
 
         <div class="py-8">
             <ul>
@@ -109,6 +109,13 @@
                     Supplemental Recommendation
                 </x-sidebar-item>
 
+                <x-sidebar-item align="start" href="{{ url('upload-accommodations-documents') }}">
+                    <x-slot name="icon">
+                        <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Upload Accommodations Documents
+                </x-sidebar-item>
+
                 <!-- <x-sidebar-menu  :active="request()->is('activities*')">
                     <x-slot name="icon">
                         <x-heroicon-o-presentation-chart-line class="flex-shrink-0 w-4 h-4" />
@@ -165,7 +172,7 @@
                 </x-sidebar-menu> -->
                 <x-sidebar-item href="{{ url('help') }}" :active="request()->is('test')">
                     <x-slot name="icon">
-                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
                     Contact Us
                 </x-sidebar-item>

@@ -1,7 +1,11 @@
 <?php
 
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Livewire\SampleForm;
+use App\Http\Livewire\ContactPage;
 use App\Http\Livewire\SamplePayment;
+use Illuminate\Support\Facades\Http;
 use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\RegisterPage;
@@ -16,14 +20,11 @@ use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\AddressInformation;
+
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
 use App\Http\Livewire\Application\HealthcareInformation;
 use App\Http\Livewire\Application\EmergencyContactInformation;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,10 +75,13 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('admission', AdmissionApplication::class)->name('application.admission');
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
+
+    Route::get('help', ContactPage::class)->name('help');
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
 Route::get('sample-form', SampleForm::class);
+
 
 Route::get('ping', function(){
     return 'Hello!';

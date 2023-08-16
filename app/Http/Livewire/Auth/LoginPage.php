@@ -39,13 +39,14 @@ class LoginPage extends Component implements HasForms
                 ->placeholder('Username or email address')
                 ->lazy()
                 ->autofocus()
-                ->afterStateUpdated(function($state){
-                    if($this->checkInternal($state)){
-                        $this->showPassword();
-                        $this->proceedLogin();
-                        $this->show_password = true;
-                    }
-                })
+                // ->afterStateUpdated(function($state){
+                //     if($this->checkInternal($state)){
+                //         dd($state);
+                //         $this->showPassword();
+                //         $this->proceedLogin();
+                //         $this->show_password = true;
+                //     }
+                // })
                 ->required(),
             Password::make('password')
                 ->label('')
@@ -54,12 +55,15 @@ class LoginPage extends Component implements HasForms
                 ->reactive()
                 ->password()
                 ->required()
-                ->revealable(),
+                ->revealable()
+                ->visible(fn() => $this->show_password),
         ];
     }
 
     public function next()
     {
+        $form  = $this->form->getState();
+
         if( $this->checkInternal($this->email) ){
             return $this->proceedLogin();
         }
@@ -84,7 +88,8 @@ class LoginPage extends Component implements HasForms
 
     public function proceedLogin()
     {
-        $this->dispatchBrowserEvent('showpassword');
+        $this->show_password = true;
+
         return $this->action = AccountAction::Login;
     }
 
@@ -107,6 +112,10 @@ class LoginPage extends Component implements HasForms
     public function login()
     {
         $data = $this->form->getState();
+
+        if(!isset($data['password'])){
+            return $this->next();
+        }
         
         if(Auth::attempt([ 'email' => $data['email'] , 'password' => $data['password']]) ){
             return redirect('dashboard');

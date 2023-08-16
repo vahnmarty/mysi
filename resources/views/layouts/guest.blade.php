@@ -20,6 +20,11 @@
         @livewireScripts
         @stack('scripts')
         
+        <style>
+            [x-cloak]{
+                display: none;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased text-gray-900">
 

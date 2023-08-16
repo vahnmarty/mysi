@@ -14,6 +14,9 @@
                 Currently, this is where our prospective students and families will share important information with SI. You will create and complete your Admissions Application here and submit it to SI by midnight on Wednesday, November 15, 2023.  In March, you will receive your Admissions decision using this system. 
             </p>
             <p>
+                Make sure to save your username and password in a secure location.
+            </p>
+            <p>
                 Use the navigation links to explore MySI.  Note that this system will continue to evolve.
             </p>
             <p>

@@ -1,8 +1,10 @@
 <div>
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Login</h1>
-    <div class="mt-8 text-base text-center">
+    <div class="max-w-lg mx-auto mt-8 text-base text-center">
         <p>Welcome to St. Ignatius College Preparatory’s MySI portal.</p>
+
+        <p class="mt-8">Enter your email address and click “Continue.”  If the system finds your email, you will need to set a password.  If it does not find your password, you will need to create an account.</p>
     </div>
     
     <div class="max-w-lg px-8 mx-auto">
@@ -38,8 +40,9 @@
 
             
             
-            <div class="flex justify-center mt-8">
-                <button  type="submit" class="btn-primary-fixer">Log In</button>
+            <div x-data="{ show: $wire.entangle('show_password') }" class="flex justify-center mt-8">
+                <button x-show="!show" type="button" wire:click="next" class="btn-primary-fixer">Continue</button>
+                <button x-show="show" x-cloak type="submit" class="btn-primary-fixer">Log In</button>
             </div>
 
             <p class="mt-8 text-sm text-center">Don't have an account? <a href="{{ route('register') }}" class="font-bold text-link hover:underline">Create account</a></p>
