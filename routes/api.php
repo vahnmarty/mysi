@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::group( ['middleware' => ['client'] ], function(){
+Route::group( ['middleware' => [] ], function(){
 
     Route::resource('parents', ParentController::class);
     Route::get('accounts', [AccountController::class, 'index']);
