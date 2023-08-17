@@ -151,7 +151,7 @@ trait SiblingFormTrait{
                         }),
                     
                     Radio::make('attended_at_si')
-                        ->label('Attended high school at SI?')
+                        ->label('Graduated high school from SI?')
                         ->lazy()
                         ->options([
                             1 => 'Yes',

@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
+            $table->string('sf_account_id', 18)->nullable();
+            $table->string('sf_residence_id', 18)->nullable();
+            $table->string('record_type_id', 18)->nullable();
             $table->string('address_type', 20)->nullable();
             $table->string('address', 75)->nullable();
             $table->string('city', 75)->nullable();

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
+            $table->string('account_name', 255);
             $table->string('phone', 10)->nullable();
-            $table->string('salesforce_id', 18)->nullable();
+            $table->string('sf_account_id', 18)->nullable();
             $table->string('record_type_id', 18)->nullable();
             $table->timestamps();
         });

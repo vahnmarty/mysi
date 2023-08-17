@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('children', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
-            $table->string('salesforce_id', 18)->nullable();
+            $table->string('sf_contact_id', 18)->nullable();
+            $table->string('sf_account_id', 18)->nullable();
             $table->string('record_type_id', 18)->nullable();
 
             $table->string('first_name', 40)->nullable();
@@ -30,7 +31,7 @@ return new class extends Migration
             $table->string('living_situation', 30)->nullable();
             $table->string('address_location', 20)->nullable();
 
-            $table->boolean('si_alumni_flag')->nullable();
+            
             $table->date('birthdate')->nullable();
             $table->string('gender', 10)->nullable();
             $table->string('race', 255)->nullable();
@@ -59,7 +60,7 @@ return new class extends Migration
             $table->year('expected_enrollment_year')->nullable();
             $table->boolean('graduated_hs_flag')->nullable();
             $table->year('graduation_year')->nullable();
-            $table->boolean('attended_at_si')->nullable();
+            $table->boolean('graduated_at_si')->nullable();
                        
             $table->timestamps();
             $table->softDeletes();

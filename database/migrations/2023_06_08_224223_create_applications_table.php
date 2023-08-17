@@ -16,7 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->uuid('uuid');
             $table->unsignedBigInteger('child_id');
-            $table->string('salesforce_id', 18)->nullable();
+            $table->string('sf_application_id', 18)->nullable();
+            $table->string('sf_contact_id', 18)->nullable();
+            $table->string('hspt_id', 9)->nullable();
             $table->string('record_type_id', 18)->nullable();
 
             $table->string('other_high_school_1', 100)->nullable();
@@ -26,13 +28,13 @@ return new class extends Migration
             $table->string('impact_to_community', 750)->nullable();
             $table->string('describe_family_spirituality', 75)->nullable();
             $table->string('describe_family_spirituality_in_detail', 750)->nullable();
-            $table->string('religious_studies_classes', 5)->nullable();
+            $table->string('religious_studies_classes', 6)->nullable();
             $table->string('religious_studies_classes_explanation', 500)->nullable();
-            $table->string('school_liturgies', 5)->nullable();
+            $table->string('school_liturgies', 6)->nullable();
             $table->string('school_liturgies_explanation', 500)->nullable();
-            $table->string('retreats', 5)->nullable();
+            $table->string('retreats', 6)->nullable();
             $table->string('retreats_explanation', 500)->nullable();
-            $table->string('community_service', 10)->nullable();
+            $table->string('community_service', 6)->nullable();
             $table->string('community_service_explanation', 500)->nullable();
             $table->string('religious_statement_by', 150)->nullable();
             $table->string('religious_relationship_to_student', 20)->nullable();
@@ -56,7 +58,7 @@ return new class extends Migration
             $table->string('other_catholic_school_location', 255)->nullable();
             $table->date('other_catholic_school_date')->nullable();
 
-            $table->boolean('has_learning_disability')->nullable();
+            $table->boolean('has_learning_difference')->nullable();
             $table->json('file_learning_documentation')->nullable();
 
             $table->string('most_passionate_activity', 750)->nullable();

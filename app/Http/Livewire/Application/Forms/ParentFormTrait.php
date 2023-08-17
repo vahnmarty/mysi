@@ -194,7 +194,7 @@ trait ParentFormTrait{
                             $this->autoSaveParent($get('id'),'work_phone_ext', $state);
                         }),
                     WordTextArea::make('schools_attended')
-                        ->label('List all high schools, colleges, or graduate schools you have attended')
+                        ->label('List all high schools, colleges, or graduate schools you have attended.')
                         ->lazy()
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                             $livewire->validateOnly($component->getStatePath());
@@ -205,6 +205,29 @@ trait ParentFormTrait{
                             new MaxWordCount(75, 100)
                         ])
                         ->helperText('(Please limit answer to 75 words.)'),
+                    Select::make('si_alumni_flag')
+                        ->label('Graduated from SI?')
+                        ->options([
+                            'Yes' => 'Yes',
+                            'No' => 'No'
+                        ])
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'si_alumni_flag', $state);
+                        }),
+                    TextInput::make('graduation_year')
+                        ->label('Graduation Year')
+                        ->integer()
+                        ->minLength(4)
+                        ->maxLength(4)
+                        ->maxValue(date('Y'))
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                        ->lazy()
+                        ->visible(fn(Closure $get) => $get('si_alumni_flag') === 'Yes')
+                        ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                            $livewire->validateOnly($component->getStatePath());
+                            $this->autoSaveParent($get('id'),'graduation_year', $state);
+                        }),
                 ])
                 
         ];

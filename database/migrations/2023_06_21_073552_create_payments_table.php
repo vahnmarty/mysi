@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('application_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('sf_application_id', 18)->nullable();
             $table->string('name_on_card',100)->nullable();
             $table->string('payment_type', 20)->nullable();
             $table->string('transaction_id', 20)->nullable();

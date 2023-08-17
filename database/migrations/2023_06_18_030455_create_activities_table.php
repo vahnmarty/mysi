@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('application_id');
-            $table->string('salesforce_id', 18)->nullable();
-            $table->string('record_type_id', 18)->nullable();
-
+            $table->string('sf_activity_id', 18)->nullable();
+            $table->string('sf_application_id', 18)->nullable();
             $table->string('activity_name', 50)->nullable();
             $table->string('number_of_years', 3)->nullable();
             $table->string('hours_per_week', 10)->nullable();
