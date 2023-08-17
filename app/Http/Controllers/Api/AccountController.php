@@ -66,9 +66,13 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Account $account)
+    public function show(Request $request, Account $account)
     {
-        return response()->json($account);
+        $data = $account->load('parents', 'applications.student', 'applications.activities', 'applications.payment', 'applications.appStatus',  'guardians', 'children', 'legacies');
+
+        return response()->json([
+            'account' => $account
+        ]);
     }
 
     /**

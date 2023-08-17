@@ -1,5 +1,5 @@
 <section>
-    <div class="hidden lg:flex flex-col  w-81 h-full min-h-[90vh] bg-gray-100 border-r">
+    <div class="hidden lg:flex flex-col w-80 h-full min-h-[90vh] bg-gray-100 border-r">
 
         <div class="py-8">
             <ul>
@@ -67,7 +67,7 @@
         <div class="py-8">
             <ul class="font-medium text-gray-700">
 
-                <li class="px-8 py-1 mb-3 text-sm transition {{ request()->is('admission*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                <li class="px-8 py-1 text-sm transition {{ request()->is('admission*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                     <a href="{{ url('admission') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                         <x-heroicon-o-color-swatch class="flex-shrink-0 w-5 h-5" />
                         <strong>Admissions Application</strong>

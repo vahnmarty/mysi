@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('school_liturgies_explanation', 500)->nullable();
             $table->string('retreats', 5)->nullable();
             $table->string('retreats_explanation', 500)->nullable();
-            $table->string('community_service', 5)->nullable();
+            $table->string('community_service', 10)->nullable();
             $table->string('community_service_explanation', 500)->nullable();
             $table->string('religious_statement_by', 150)->nullable();
             $table->string('religious_relationship_to_student', 20)->nullable();

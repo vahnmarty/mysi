@@ -34,12 +34,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // ['middleware' => [ 'client' ] 
 Route::group( ['middleware' => [] ], function(){
 
-    Route::resource('parents', ParentController::class);
-    Route::resource('accounts', AccountController::class);
-    Route::get('activities', [ActivityController::class, 'index']);
-    Route::get('addresses', [AddressController::class, 'index']);
-    Route::get('applications', [ApplicationController::class, 'index']);
-    Route::get('children', [ChildController::class, 'index']);
+    // Route::resource('parents', ParentController::class);
+    // Route::resource('accounts', AccountController::class);
+    Route::get('accounts/{account}', [AccountController::class, 'show']);
+
+    // Route::get('activities', [ActivityController::class, 'index']);
+    // Route::get('addresses', [AddressController::class, 'index']);
+    // Route::get('applications', [ApplicationController::class, 'index']);
+    // Route::get('children', [ChildController::class, 'index']);
 
 });
 
