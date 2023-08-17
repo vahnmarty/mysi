@@ -36,6 +36,7 @@ Route::group( ['middleware' => [] ], function(){
 
     // Route::resource('parents', ParentController::class);
     // Route::resource('accounts', AccountController::class);
+    Route::get('accounts', [AccountrController::class, 'index']);
     Route::get('accounts/{account}', [AccountController::class, 'show']);
 
     // Route::get('activities', [ActivityController::class, 'index']);
