@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application\Forms;
 
 use Closure;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
@@ -16,16 +17,19 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
-use Carbon\Carbon;
 
 trait PlacementFormTrait{
 
     public function getPlacementForm()
     {
         return [
+            Placeholder::make('si_placement_description')
+                ->label('')
+                ->content(new HtmlString('Saint Ignatius celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
             Radio::make('has_learning_disability')
-                ->label('Would you like to upload any learning difference documentation?')
+                ->label('Would you like to upload any documents?')
                 ->options([
                     1 => 'Yes',
                     0 => 'No',
@@ -89,7 +93,7 @@ trait PlacementFormTrait{
                             $array["At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ))] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
 
                             if($get('has_learning_disability')){
-                                $array['At SI on December 9, 2023'] =  "At SI on December 9, 2023 (this date is only for applicants who submit an application for Extended Time)";
+                                $array['At SI on December 9, 2023'] =  "At SI on December 9, 2023 (this date is only for applicants who submit documents for Extended Time)";
                             }
                             
                             $array["At Other Catholic High School"] = "At Other Catholic High School";
