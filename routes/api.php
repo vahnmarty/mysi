@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ParentController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\ActivityController;
+use App\Http\Controllers\Api\SalesforceController;
 use App\Http\Controllers\Api\ApplicationController;
 
 /*
@@ -33,6 +34,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // ['middleware' => [ 'client' ] 
 Route::group( ['middleware' => [] ], function(){
+
+    Route::get('salesforce', [SalesforceController::class, 'index']);
 
     // Route::resource('parents', ParentController::class);
     // Route::resource('accounts', AccountController::class);

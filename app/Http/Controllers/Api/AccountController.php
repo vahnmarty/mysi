@@ -71,7 +71,7 @@ class AccountController extends Controller
         $data = $account->load('parents', 'applications.student', 'applications.activities', 'applications.payment', 'applications.appStatus', 'addresses',  'guardians', 'children', 'legacies');
 
         return response()->json([
-            'account' => $account
+            'account' => $data
         ]);
     }
 
