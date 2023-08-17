@@ -109,7 +109,7 @@
                     Supplemental Recommendation
                 </x-sidebar-item>
 
-                <x-sidebar-item align="start" href="{{ url('upload-accommodations-documents') }}">
+                <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
                     <x-slot name="icon">
                         <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
                     </x-slot>

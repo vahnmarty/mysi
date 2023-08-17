@@ -46,8 +46,8 @@ class ApplicationSubmitted extends Notification
                     ]);
 
         if($this->app->file_learning_documentation){
-            $mail->cc('ggalletta@siprep.org')
-                 ->cc('pcollins@siprep.org');
+            $mail->bcc('ggalletta@siprep.org')
+                 ->bcc('pcollins@siprep.org');
         }
         
         return $mail;

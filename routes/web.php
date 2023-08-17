@@ -24,7 +24,9 @@ use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
 use App\Http\Livewire\Application\HealthcareInformation;
+use App\Http\Livewire\Application\AccommodationDocuments;
 use App\Http\Livewire\Application\EmergencyContactInformation;
+use App\Http\Livewire\Application\UploadAccommodationDocuments;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +77,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('admission', AdmissionApplication::class)->name('application.admission');
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
+    Route::get('accommodation-documents', AccommodationDocuments::class)->name('application.accommodation-documents');
 
     Route::get('help', ContactPage::class)->name('help');
 });

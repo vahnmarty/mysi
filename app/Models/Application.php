@@ -88,4 +88,11 @@ class Application extends Model
 
         return '';
     }
+
+    public function scopeSubmitted($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->where('application_submitted', true);
+        });
+    }
 }
