@@ -83,7 +83,7 @@ class AccommodationDocuments extends Livewire implements HasTable
             Placeholder::make('si_placement_description')
                 ->label('')
                 ->content(new HtmlString('Saint Ignatius celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
-            Radio::make('has_learning_disability')
+            Radio::make('has_learning_difference')
                 ->label('Would you like to upload any documents?')
                 ->options([
                     1 => 'Yes',
@@ -110,12 +110,12 @@ class AccommodationDocuments extends Livewire implements HasTable
                 ->maxSize(25000)
                 ->reactive()
                 ->required(function(Closure $get){
-                    return $get('has_learning_disability');
+                    return $get('has_learning_difference');
                 })
                 ->enableOpen()
                 ->enableDownload()
                 ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->model_id)
-                ->visible(fn(Closure $get)  =>  $get('has_learning_disability') == 1  )
+                ->visible(fn(Closure $get)  =>  $get('has_learning_difference') == 1  )
                 ->preserveFilenames(),
             Grid::make(1)
                 ->schema([
@@ -131,7 +131,7 @@ class AccommodationDocuments extends Livewire implements HasTable
                             $array = [];
                             $array["At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ))] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
 
-                            if($get('has_learning_disability')){
+                            if($get('has_learning_difference')){
                                 $array['At SI on December 9, 2023'] =  "At SI on December 9, 2023 (this date is only for applicants who submit documents for Extended Time)";
                             }
                             
@@ -143,7 +143,7 @@ class AccommodationDocuments extends Livewire implements HasTable
                         ->required()
                         ->reactive()
                         ->afterStateHydrated(function(Closure $get, Closure $set, $state){
-                            if($get('has_learning_disability') &&  $get('file_learning_documentation')) {
+                            if($get('has_learning_difference') &&  $get('file_learning_documentation')) {
                             }else{
                                 $set('placement_test_date', settings('placement_test_date'));
                             }

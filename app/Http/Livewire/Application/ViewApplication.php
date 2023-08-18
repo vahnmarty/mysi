@@ -415,7 +415,7 @@ class ViewApplication extends Component implements HasForms
                         ->preload()
                         ->required()
                         ->disabled(),
-                    Radio::make('attended_at_si')
+                    Radio::make('graduated_at_si')
                         ->label('Attended high school at SI?')
                         ->options([
                             0 => 'No',
@@ -857,7 +857,7 @@ class ViewApplication extends Component implements HasForms
     public function getPlacementForm()
     {
         return [
-            ReadonlyRadio::make('has_learning_disability')
+            ReadonlyRadio::make('has_learning_difference')
                 ->label('Would you like to upload any learning difference documentation?')
                 ->options([
                     0 => 'No',
@@ -873,7 +873,7 @@ class ViewApplication extends Component implements HasForms
                 ->enableOpen()
                 ->enableDownload()
                 ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->app->id)
-                ->visible(fn(Closure $get)  =>  $get('has_learning_disability') == 1  )
+                ->visible(fn(Closure $get)  =>  $get('has_learning_difference') == 1  )
                 ->preserveFilenames()
                 ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                     if($state){
@@ -891,7 +891,7 @@ class ViewApplication extends Component implements HasForms
                             $array = [];
                             $array[] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
 
-                            if($get('has_learning_disability')){
+                            if($get('has_learning_difference')){
                                 $array[] =  "At SI on December 9, 2023 (this date is only for those who qualify for Extended Time)";
                             }
                             

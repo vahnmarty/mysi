@@ -188,7 +188,7 @@ class RegisterPage extends Component implements HasForms
 
         $name = $this->accountNameGenerator($data);
 
-        return Account::create(['name' => $name]);
+        return Account::create(['account_name' => $name]);
     }
 
     public function accountNameGenerator($data)

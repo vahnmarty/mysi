@@ -150,7 +150,7 @@ trait SiblingFormTrait{
                             $this->autoSaveSibling($get('id'), 'current_school_not_listed', $state);
                         }),
                     
-                    Radio::make('attended_at_si')
+                    Radio::make('graduated_at_si')
                         ->label('Graduated high school from SI?')
                         ->lazy()
                         ->options([
@@ -160,7 +160,7 @@ trait SiblingFormTrait{
                         ->required()
                         ->visible(fn(Closure $get) => $get('current_grade') == GradeLevel::College || $get('current_grade') == GradeLevel::PostCollege)
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveSibling($get('id'), 'attended_at_si', $state);
+                            $this->autoSaveSibling($get('id'), 'graduated_at_si', $state);
                         }),
                     TextInput::make('graduation_year')
                         ->label('High School Graduation Year')

@@ -28,7 +28,7 @@ trait PlacementFormTrait{
             Placeholder::make('si_placement_description')
                 ->label('')
                 ->content(new HtmlString('Saint Ignatius celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
-            Radio::make('has_learning_disability')
+            Radio::make('has_learning_difference')
                 ->label('Would you like to upload any documents?')
                 ->options([
                     1 => 'Yes',
@@ -48,7 +48,7 @@ trait PlacementFormTrait{
                     else{
                         $set('placement_test_date', settings('placement_test_date'));
                     }
-                    $this->autoSave('has_learning_disability', $state);
+                    $this->autoSave('has_learning_difference', $state);
                 }),
             FileUpload::make('file_learning_documentation')
                 ->label('Upload your file here. You can attach multiple files.')
@@ -56,12 +56,12 @@ trait PlacementFormTrait{
                 ->maxSize(25000)
                 ->reactive()
                 ->required(function(Closure $get){
-                    return $get('has_learning_disability');
+                    return $get('has_learning_difference');
                 })
                 ->enableOpen()
                 ->enableDownload()
                 ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->app->id)
-                ->visible(fn(Closure $get)  =>  $get('has_learning_disability') == 1  )
+                ->visible(fn(Closure $get)  =>  $get('has_learning_difference') == 1  )
                 ->preserveFilenames()
                 ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                     // if($state){
@@ -92,7 +92,7 @@ trait PlacementFormTrait{
                             $array = [];
                             $array["At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ))] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
 
-                            if($get('has_learning_disability')){
+                            if($get('has_learning_difference')){
                                 $array['At SI on December 9, 2023'] =  "At SI on December 9, 2023 (this date is only for applicants who submit documents for Extended Time)";
                             }
                             
@@ -104,7 +104,7 @@ trait PlacementFormTrait{
                         ->required()
                         ->reactive()
                         ->afterStateHydrated(function(Closure $get, Closure $set, $state){
-                            if($get('has_learning_disability') &&  $get('file_learning_documentation')) {
+                            if($get('has_learning_difference') &&  $get('file_learning_documentation')) {
                                 //$date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');
                                 //$set('placement_test_date', $date);
                             }else{
