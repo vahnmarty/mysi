@@ -31,7 +31,7 @@ class SchoolsImport implements ToModel, WithStartRow, SkipsOnFailure
             'city' => $row[2],
             'district' => $row[3],
             'name' => $row[4],
-            'active' => $row[5] == 'Active',
+            'status_flag' => $row[5] == 'Active',
             'funding_type' => $row[6],
             'educational_program_type' => $row[7],
             'entity_type' => $row[8],

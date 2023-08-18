@@ -14,7 +14,7 @@ final class EmploymentStatus extends Enum
 {
     use EnumCustomTrait;
 
-    const Employed = 'Employed';
+    const Employed = 'Employed/Self-Employed';
     const NotEmployed = 'Not Employed';
     const Retired = 'Retired';
     const StayAtHomeParentGuardian = 'Stay-At-Home Parent/Guardian';
