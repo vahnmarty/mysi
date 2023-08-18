@@ -101,7 +101,7 @@ class LoginPage extends Component implements HasForms
 
     public function noAccount()
     {
-        return redirect()->route('register', ['status' => 404]);
+        return redirect()->route('register', ['status' => 404, 'email' => $this->email]);
     }
 
     public function showPassword()

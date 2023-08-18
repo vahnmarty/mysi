@@ -35,7 +35,7 @@ class RegisterPage extends Component implements HasForms
 
     public $status;
 
-    protected $queryString = ['status'];
+    protected $queryString = ['status', 'email'];
     
     public function render()
     {
