@@ -22,4 +22,9 @@ class Parents extends Model
         $account_id = $accountId ?? accountId();
         return $query->where('account_id', $account_id);
     }
+    
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

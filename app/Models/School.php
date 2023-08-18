@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\GeneralModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class School extends Model
 {
     use HasFactory;
-    use GeneralModelTrait;
 
     protected $guarded = [];
 
@@ -31,5 +29,10 @@ class School extends Model
     public function getSchoolLevelAttribute()
     {
         return $this->name . ' (' . $this->education_level . ')';
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereNotNull('status_flag');
     }
 }

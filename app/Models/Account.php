@@ -12,6 +12,11 @@ class Account extends Model
 
     protected $guarded = [];
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function getAccountId()
     {
         return Auth::user()->account_id;
@@ -29,6 +34,11 @@ class Account extends Model
     public function parents()
     {
         return $this->hasMany(Parents::class);
+    }
+
+    public function primaryParent()
+    {
+        return $this->hasOne(Parents::class)->where('is_primary', true);
     }
 
     public function guardians()

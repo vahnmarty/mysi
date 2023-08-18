@@ -5,6 +5,7 @@
         <h4 class="text-lg font-semibold">Welcome to St. Ignatius College Preparatory’s MySI portal.</h4>
 
         <p class="mt-8">Enter your email address and click “Continue.”  If the system finds your email, you will enter your password or set up a new one (if logging in for the first time).  If it does not find your email, you will need to create an account.</p>
+
     </div>
     
     <div class="max-w-lg px-8 mx-auto">
@@ -18,12 +19,12 @@
 
             {{ $this->form }}
             <!-- Remember Me -->
-            <div x-show="next" class="block mt-4">
+            <!-- <div x-show="next" class="block mt-4">
                 <label for="remember_me" class="inline-flex items-center">
                     <input id="remember_me" type="checkbox" class="text-indigo-600 border-gray-300 rounded shadow-sm dark:bg-gray-900 dark:border-gray-700 focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
                     <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
                 </label>
-            </div>
+            </div> -->
 
             <div class="flex items-center justify-center mt-4 space-x-8 ">
                 <a class="text-sm rounded-md text-link dark:text-gray-400 hover:text-link hover:underline dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('forgot-username') }}">

@@ -4,11 +4,14 @@ namespace App\Http\Livewire\Auth;
 
 use Auth;
 use App\Models\User;
+use App\Models\Parents;
 use Livewire\Component;
 use App\Enums\AccountAction;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\Placeholder;
 use Phpsa\FilamentPasswordReveal\Password;
 use Filament\Forms\Concerns\InteractsWithForms;
 
@@ -17,6 +20,8 @@ class LoginPage extends Component implements HasForms
     use InteractsWithForms;
 
     public $email, $password, $show_password = false;
+    
+    public $has_primary_owner, $primary_parent_name;
 
     public $action;
 
@@ -48,6 +53,11 @@ class LoginPage extends Component implements HasForms
                 //     }
                 // })
                 ->required(),
+            Placeholder::make('account_existing')
+                ->label('')
+                ->reactive()
+                ->visible(fn() => $this->has_primary_owner )
+                ->content(fn() => new HtmlString('<p class="text-primary-red">* Your email is associated with an existing account. Please follow up with <strong>'.$this->primary_parent_name.'</strong> to access this account.</p>')),
             Password::make('password')
                 ->label('')
                 ->validationAttribute('Password')
@@ -64,20 +74,36 @@ class LoginPage extends Component implements HasForms
     {
         $form  = $this->form->getState();
 
-        if( $this->checkInternal($this->email) ){
+        if( $this->checkFromUsers($form['email']) ) {
             return $this->proceedLogin();
         }
 
-        if( $this->fetchCrm($this->email) ){
-            return $this->showCreateAccount();
+        if( $this->checkFromParents($form['email']) ){
+            $parent = Parents::with('account.users')->where('personal_email', $form['email'])->first();
+            $account = $parent->account;
+
+            if($account->parents()->count() > 1)
+            {
+                $primary_parent = $account->primaryParent;
+
+                $this->has_primary_owner = true;
+                $this->primary_parent_name = $primary_parent->getFullName();
+
+                return;
+            }
         }
 
         return $this->noAccount();
     }
 
-    public function checkInternal($email)
+    public function checkFromUsers($email)
     {
         return User::where('username', $email)->orWhere('email', $email)->exists();
+    }
+
+    public function checkFromParents($email)
+    {
+        return Parents::where('personal_email', $email)->exists();
     }
 
     public function fetchCrm($email)
