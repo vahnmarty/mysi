@@ -208,8 +208,8 @@ trait ParentFormTrait{
                     Select::make('si_alumni_flag')
                         ->label('Graduated from SI?')
                         ->options([
-                            'Yes' => 'Yes',
-                            'No' => 'No'
+                            1 => 'Yes',
+                            0 => 'No'
                         ])
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
@@ -223,7 +223,7 @@ trait ParentFormTrait{
                         ->maxValue(date('Y'))
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->lazy()
-                        ->visible(fn(Closure $get) => $get('si_alumni_flag') === 'Yes')
+                        ->visible(fn(Closure $get) => $get('si_alumni_flag'))
                         ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
                             $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveParent($get('id'),'graduation_year', $state);
