@@ -14,7 +14,7 @@ class ImportSchoolExcel extends Command
      *
      * @var string
      */
-    protected $signature = 'import:school';
+    protected $signature = 'import:school {--force}';
 
     /**
      * The console command description.
@@ -28,14 +28,23 @@ class ImportSchoolExcel extends Command
      */
     public function handle()
     {
-        if ($this->confirm('Do you wish to continue? This will clear the current schools list.')) {
- 
-            School::truncate();
-            
-            Excel::import(new SchoolsImport, 'schools_sheet1.xlsx');
-            //Excel::import(new SchoolsImport, 'schools_sheet2.xlsx');
-
-            $this->info('Schools: ' .  School::count() . ' records.');
+        if($this->option('force')){
+            $this->import();
         }
+        else{
+            if ($this->confirm('Do you wish to continue? This will clear the current schools list.')) {
+                $this->import();
+            }
+        }
+        
+    }
+
+    public function import()
+    {
+        School::truncate();
+            
+        Excel::import(new SchoolsImport, 'schools.xlsx');
+
+        $this->info('Schools: ' .  School::count() . ' records.');
     }
 }

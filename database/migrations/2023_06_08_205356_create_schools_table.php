@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
             $table->string('cds_code', 50)->nullable();
-            $table->string('county', 50)->nullable();
-            $table->string('city', 50)->nullable();
+            $table->string('county', 255)->nullable();
+            $table->string('city', 255)->nullable();
             $table->string('district', 200)->nullable();
             $table->string('name', 300);
             $table->boolean('status_flag')->default(1);
