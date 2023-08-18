@@ -12,9 +12,9 @@ class SalesforceImport implements WithMultipleSheets
     {
         return [
             'accounts' => new AccountsImport(),
-            // 'parents' => new ParentsImport(),
-            // 'children' => new ChildrenImport(),
-            // 'addresses' => new AddressesImport()
+            'parents' => new ParentsImport(),
+            'children' => new ChildrenImport(),
+            'addresses' => new AddressesImport()
         ];
     }
 }
