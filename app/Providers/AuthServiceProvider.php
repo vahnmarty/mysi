@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
                 ->greeting('Hello ' . $notifiable->first_name . ', ')
                 ->subject('Verify Email Address')
                 ->line('Thank you for creating a MySI account.')
-                ->line('Click the button below to verify your email address.')
+                ->line('Click the button to verify your email address.')
                 ->action('Verify Email Address', $url)
                 ->salutation(new HtmlString("**Regards**, <br>" . 'MySI Portal Admin'));
         });
