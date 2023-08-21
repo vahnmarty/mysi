@@ -89,7 +89,6 @@ class AccountController extends Controller
                 'applications.activities', 
                 'applications.payment', 
                 'applications.appStatus', 
-                'applications.family',
             'addresses', 
             'children', 
             'legacies'
