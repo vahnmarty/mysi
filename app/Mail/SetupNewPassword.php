@@ -3,26 +3,23 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use App\Models\AccountRequest;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
 
-class AccountRequested extends Mailable
+class SetupNewPassword extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public AccountRequest $account;
+    public $url;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(AccountRequest $account)
-    {
-        $this->account = $account;
-        $this->url = route('account.request', ['token' => $account->token, 'email' => $account->email]);
+    public function __construct($url){
+        $this->url = $url;
     }
 
     /**
@@ -31,7 +28,7 @@ class AccountRequested extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Set Up MySI Password',
+            subject: 'Setup New Password',
         );
     }
 
@@ -41,7 +38,7 @@ class AccountRequested extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.auth.account-requested',
+            markdown: 'emails.auth.setup-new-password',
             with: [
                 'url' => $this->url,
             ],

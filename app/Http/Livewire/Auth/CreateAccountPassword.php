@@ -6,10 +6,16 @@ use Str;
 use Auth;
 use Closure;
 use App\Models\User;
+use App\Models\Parents;
 use Livewire\Component;
+use App\Rules\HasNumber;
+use App\Rules\HasLowercase;
+use App\Rules\HasUppercase;
 use App\Models\AccountRequest;
+use App\Rules\HasSpecialCharacter;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
+use Phpsa\FilamentPasswordReveal\Password;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class CreateAccountPassword extends Component implements HasForms
@@ -21,6 +27,14 @@ class CreateAccountPassword extends Component implements HasForms
     public $valid_password;
     public $password_confirmation;
     public $password_validation = [];
+
+    protected $messages = [
+        'password.required' => 'Password is required',
+        'password.min' => 'The password must be at least 8 characters',
+        'password.max' => 'The password must not be greater than 16 characters',
+        'password.confirmed' => 'Password and confirm password do not match.  Please re-enter password and confirm',
+        'password_confirmation.required' => 'Confirm password is required',
+    ];
     
     public function render()
     {
@@ -36,95 +50,68 @@ class CreateAccountPassword extends Component implements HasForms
         }
 
         $this->email = $account->email;
-
-
-        $this->validatePassword($this->password);
     }
 
     protected function getFormSchema()
     {
         return [
-            TextInput::make('password')
-                ->reactive()
+            TextInput::make('email')
                 ->required()
+                ->disabled()
+                ->email()
+                ->rules(['email:rfc,dns']),
+            Password::make('password')
+                ->label('New Password')
+                ->validationAttribute('Password')
+                ->reactive()
+                ->rules([
+                    new HasUppercase(),
+                    new HasLowercase(),
+                    new HasNumber(),
+                    new HasSpecialCharacter(),
+                ])
+                ->minLength(8)
+                ->maxLength(16)
                 ->password()
-                ->afterStateUpdated(function (Closure $get, $state) {
-                    $this->validatePassword($state);
-                }),
-            TextInput::make('password_confirmation')
+                ->revealable()
+                ->required()
+                ->confirmed(),
+            Password::make('password_confirmation')
                 ->label('Confirm Password')
+                ->validationAttribute('')
                 ->reactive()
                 ->required()
                 ->password()
-                ->afterStateUpdated(function (Closure $get, $state) {
-                    $this->validatePassword($get('password'));
-                })
+                ->revealable()
         ];
     }
 
 
-    public function validatePassword($password = null)
-    {
-        $array = [
-            [
-                'key' => 'uppercase',
-                'passed' => preg_match('/[A-Z]/', $password),
-                'description' => 'At least 1 uppercase letter',
-            ],
-            [
-                'key' => 'lowercase',
-                'passed' =>  preg_match('/[a-z]/', $password),
-                'description' => 'At least 1 lowercase letter',
-            ],
-            [
-                'key' => 'number',
-                'passed' => preg_match('/[0-9]/', $password),
-                'description' => 'At least 1 number',
-            ],
-            [
-                'key' => 'special',
-                'passed' => preg_match('/[!@#$%]/', $password),
-                'description' => 'At least 1 special character (only use the following characters: ! @ # $ or %)',
-            ],
-            [
-                'key' => 'characters',
-                'passed' => (Str::length($password) >= 8 && Str::length($password) <= 16),
-                'description' => 'Must be between 8 – 16 characters long'
-            ],
-            [
-                'key' => 'confirmed',
-                'passed' => $this->password_confirmation == $password,
-                'description' => 'Password must match with confirm password.'
-            ]
-        ];
-
-        $this->valid_password = true;
-
-        foreach($array as $item)
-        {
-            if($item['passed'] == false){
-                $this->valid_password = false;
-                break;
-            }
-        }
-
-        $this->password_validation = $array;
-    }
+  
 
     public function submit()
     {
         $data = $this->form->getState();
 
-        // Fetch Salesforce: Name, Student Info
-        // Create User Model
+        $parent = Parents::with('account')->where('personal_email', $data['email'])->first();
 
-        $arr = explode('@', $this->email);
+        if(!$parent){
+            // TODO: Alert Error!
+            return;
+        }
+
+        if(!$parent->account){
+            // TODO: Alert Error
+            return;
+        }
 
         $user = new User;
-        $user->name = $arr[0];
-        $user->email = $this->email;
+        $user->account_id = $parent->account_id;
+        $user->first_name = $parent->first_name;
+        $user->last_name = $parent->last_name;
+        $user->email = $data['email'];
         $user->email_verified_at = now();
-        $user->password = bcrypt($this->password);
+        $user->password = $data['password'];
         $user->save();
 
         Auth::login($user);

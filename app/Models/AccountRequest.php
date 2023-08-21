@@ -24,10 +24,6 @@ class AccountRequest extends Model
         static::creating(function ($account) {
             $account->token = Str::uuid();
         });
-
-        static::created(function (AccountRequest $account) {
-            Mail::to($account->email)->send(new AccountRequested($account));
-        });
     }
 
     public function expired()

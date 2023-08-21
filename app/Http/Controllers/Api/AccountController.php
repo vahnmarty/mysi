@@ -68,7 +68,32 @@ class AccountController extends Controller
      */
     public function show(Request $request, Account $account)
     {
-        $data = $account->load('parents', 'applications.student', 'applications.activities', 'applications.payment', 'applications.appStatus', 'addresses',  'guardians', 'children', 'legacies');
+
+        // Account{
+        //     parents {}
+        //     applications{
+        //     app_status{
+        //     }
+        //     }
+        //     student{}
+        //     activities{}
+        //     payment{}
+        //     guardians{}
+        //     children{}
+        //     legacies{}
+        // }
+
+        $data = $account->load(
+            'parents', 
+                'applications.student', 
+                'applications.activities', 
+                'applications.payment', 
+                'applications.appStatus', 
+                'applications.family',
+            'addresses', 
+            'children', 
+            'legacies'
+        );
 
         return response()->json([
             'account' => $data

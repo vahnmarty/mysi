@@ -3,10 +3,15 @@
 namespace App\Http\Livewire\Auth;
 
 use Auth;
+use Mail;
 use App\Models\User;
+use App\Models\Account;
 use App\Models\Parents;
 use Livewire\Component;
 use App\Enums\AccountAction;
+use App\Mail\AccountRequested;
+use App\Mail\SetupNewPassword;
+use App\Models\AccountRequest;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
@@ -21,7 +26,9 @@ class LoginPage extends Component implements HasForms
 
     public $email, $password, $show_password = false;
     
-    public $has_primary_owner, $primary_parent_name;
+    public $display_message, $has_primary_owner, $primary_parent_name;
+
+    public $new_password = true;
 
     public $action;
 
@@ -53,11 +60,20 @@ class LoginPage extends Component implements HasForms
                 //     }
                 // })
                 ->required(),
-            Placeholder::make('account_existing')
+            Placeholder::make('alert_message')
                 ->label('')
                 ->reactive()
-                ->visible(fn() => $this->has_primary_owner )
-                ->content(fn() => new HtmlString('<p class="text-primary-red">* Your email is associated with an existing account. Please follow up with <strong>'.$this->primary_parent_name.'</strong> to access this account.</p>')),
+                ->visible(fn() => $this->display_message )
+                ->content(function(){
+                    
+                    if($this->action == 'primary_parent'){
+                        return new HtmlString('<p class="text-primary-red">* Your email is associated with an existing account. Please follow up with <strong>'.$this->primary_parent_name.'</strong> to access this account.</p>');
+                    }
+
+                    if($this->action == 'new_password'){
+                        return new HtmlString('<p class="text-primary-red">* To complete the account creation process, please click on the link in the verification email that we`ve sent to your email address.</p>');
+                    }
+                }),
             Password::make('password')
                 ->label('')
                 ->validationAttribute('Password')
@@ -86,10 +102,14 @@ class LoginPage extends Component implements HasForms
             {
                 $primary_parent = $account->primaryParent;
 
-                $this->has_primary_owner = true;
+                $this->display_message = true;
+                $this->action = 'primary_parent';
                 $this->primary_parent_name = $primary_parent->getFullName();
 
                 return;
+            }else{
+
+                return $this->setNewPassword();
             }
         }
 
@@ -106,12 +126,6 @@ class LoginPage extends Component implements HasForms
         return Parents::where('personal_email', $email)->exists();
     }
 
-    public function fetchCrm($email)
-    {
-        # Check Salesforce
-        return false;
-    }
-
     public function proceedLogin()
     {
         $this->show_password = true;
@@ -123,6 +137,17 @@ class LoginPage extends Component implements HasForms
     {
         return redirect()->route('account.pending', ['email' =>$this->email]);
         return $this->action = AccountAction::CreateAccount;
+    }
+
+    public function setNewPassword()
+    {
+        $this->display_message = true;
+
+        $this->action = 'new_password';
+
+        $account = AccountRequest::firstOrCreate(['email' =>  $this->email]);
+        
+        Mail::to($account->email)->send(new AccountRequested($account));
     }
 
     public function noAccount()

@@ -95,4 +95,11 @@ class Application extends Model
             $statusQuery->where('application_submitted', true);
         });
     }
+
+    public function familyMatrix()
+    {
+        return [
+
+        ];
+    }
 }
