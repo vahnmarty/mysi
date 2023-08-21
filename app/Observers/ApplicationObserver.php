@@ -11,7 +11,10 @@ class ApplicationObserver
      */
     public function created(Application $application): void
     {
-        //
+        $year = 2028;
+        $hspt_id = $year . str_pad($application->id, 5, '0', STR_PAD_LEFT);
+        $application->hspt_id = $hspt_id;
+        $application->save();
     }
 
     /**

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('child_id');
             $table->string('sf_application_id', 18)->nullable();
             $table->string('sf_contact_id', 18)->nullable();
-            $table->string('hspt_id', 9)->nullable();
+            $table->string('hspt_id', 10)->nullable();
             $table->string('record_type_id', 18)->nullable();
 
             $table->string('other_high_school_1', 100)->nullable();

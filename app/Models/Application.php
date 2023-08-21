@@ -82,7 +82,7 @@ class Application extends Model
 
     public function getStatusAttribute()
     {
-        if($this->appStatus->application_submitted){
+        if($this->appStatus?->application_submitted){
             return 'Submitted';
         }
 
