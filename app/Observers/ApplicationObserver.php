@@ -22,17 +22,7 @@ class ApplicationObserver
      */
     public function updated(Application $application): void
     {
-        /* expected_graduation_year
-         Calculated field; do not use if in college or beyond 
-         -- Difference between 12th grade and current grade plus 1 plus current year; 
-         
-         Ex. 8th grader in 2025 ((12 - 8) + 1 + 2025 = 4 + 1 + 2025 = 2030)
-
-        */
-        // if($application->current_grade){
-        //     $var = 
-        //     $application->
-        // }
+        
     }
 
     /**

@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\Child;
 use App\Models\Application;
 use App\Observers\UserObserver;
+use App\Observers\ChildObserver;
 use Illuminate\Support\Facades\Event;
 use App\Observers\ApplicationObserver;
 use Illuminate\Auth\Events\Registered;
@@ -31,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
         Application::observe(ApplicationObserver::class);
+        Child::observe(ChildObserver::class);
     }
 
     /**
