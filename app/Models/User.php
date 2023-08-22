@@ -132,4 +132,9 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
     {
         return $this->hasRole('admin');
     }
+
+    public function hasSubmittedApplications()
+    {
+        return $this->account?->applications()->submitted()->count();
+    }
 }

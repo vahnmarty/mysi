@@ -109,12 +109,14 @@
                     Supplemental Recommendation
                 </x-sidebar-item>
 
+                @if(Auth::user()->hasSubmittedApplications())
                 <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
                     <x-slot name="icon">
                         <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
                     Upload Accommodations Documents
                 </x-sidebar-item>
+                @endif
 
                 <!-- <x-sidebar-menu  :active="request()->is('activities*')">
                     <x-slot name="icon">

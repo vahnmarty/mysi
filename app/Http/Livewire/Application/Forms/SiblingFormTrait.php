@@ -117,14 +117,14 @@ trait SiblingFormTrait{
                             $this->autoSaveSibling($get('id'), 'current_grade', $state);
 
 
-                            if(is_numeric($state)){
-                                $current_grade = (int) $state;
-                                $extra_year = date('Y') + 1 + 1; // +1 because in the sample docs it's 2025. 
+                            // if(is_numeric($state)){
+                            //     $current_grade = (int) $state;
+                            //     $extra_year = date('Y') + 1 + 1; // +1 because in the sample docs it's 2025. 
 
-                                $expected_graduation_year = 12 - $current_grade + 1 + $extra_year;
+                            //     $expected_graduation_year = 12 - $current_grade + 1 + $extra_year;
 
-                                $this->autoSaveSibling($get('id'), 'expected_graduation_year', $expected_graduation_year);
-                            }
+                            //     $this->autoSaveSibling($get('id'), 'expected_graduation_year', $expected_graduation_year);
+                            // }
                             
                         }),
                     Select::make('current_school')
