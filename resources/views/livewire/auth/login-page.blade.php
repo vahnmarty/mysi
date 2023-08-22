@@ -2,9 +2,11 @@
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Login</h1>
     <div class="max-w-xl mx-auto mt-8 text-base text-center">
-        <h4 class="text-lg font-semibold">Welcome to St. Ignatius College Preparatory’s MySI portal.</h4>
+        <h4 class="text-2xl font-semibold">Welcome to St. Ignatius College Preparatory’s MySI portal.</h4>
 
-        <p class="mt-8">Enter your email address and click “Continue.”  If the system finds your email, you will enter your password or set up a new one (if logging in for the first time).  If it does not find your email, you will need to create an account.</p>
+        <p class="mt-8">
+            Enter your email address and click "Continue."  If you previously applied to SI, the system will try to find your email.  If it finds it, you will enter your password or set up a new one (if logging in to MySI for the first time).  If it does not find your email, you will need to create an account.
+        </p>
 
     </div>
     
