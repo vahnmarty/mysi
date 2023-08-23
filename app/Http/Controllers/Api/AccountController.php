@@ -90,7 +90,7 @@ class AccountController extends Controller
                 'applications.payment', 
                 'applications.appStatus', 
             'addresses', 
-            'children', 
+            'children.documents', 
             'legacies'
         );
 
