@@ -172,7 +172,7 @@
                         </li> 
                     </x-slot>
                 </x-sidebar-menu> -->
-                <x-sidebar-item href="{{ url('help') }}" :active="request()->is('test')">
+                <x-sidebar-item href="{{ url('help') }}" :active="request()->is('help')">
                     <x-slot name="icon">
                         <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-5 h-5" />
                     </x-slot>

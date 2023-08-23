@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Application;
 
 use Arr;
+use Mail;
 use Closure;
 use App\Models\Child;
 use App\Enums\GradeLevel;
@@ -16,9 +17,11 @@ use Filament\Forms\Components\Hidden;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
+use App\Mail\SubmittedApplicationDocuments;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 class AccommodationDocuments extends Livewire implements HasTable
@@ -36,35 +39,34 @@ class AccommodationDocuments extends Livewire implements HasTable
 
     public function getTableQuery()
     {
-        return Application::where('account_id', accountId())->submitted();
+        return Child::where('account_id', accountId())->has('submittedApplication');
     }
 
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('student_name')
-                ->label('Student Name')
-                ->formatStateUsing(fn(Application $record) => $record->student->getFullName() ),
+            TextColumn::make('student_name')->label('Student Name')->formatStateUsing(fn(Child $record) => $record->getFullName() ),
             TextColumn::make('mobile_phone')
                 ->label('Mobile Phone')
-                ->formatStateUsing(fn(Application $record, $state) => format_phone($record->student->mobile_phone)),
-            TextColumn::make('personal_email')
-                ->label('Email')
-                ->formatStateUsing(fn(Application $record, $state) => $record->student->personal_email),
-            TextColumn::make('date_submitted')
-                ->label('Application Submitted')
-                ->formatStateUsing(fn(Application $record, $state) => $record->appStatus->application_submit_date),
+                ->formatStateUsing(fn($state) => format_phone($state)),
+            TextColumn::make('personal_email')->label('Personal Email'),
+            TextColumn::make('current_school')
+                ->label('Current School')
+                ->wrap()
+                ->formatStateUsing(fn(Child $record) => $record->getCurrentSchool()),
+            TextColumn::make('current_grade')->label('Current Grade'),
         ];
     }
 
     protected function getTableActions(): array
     {
         return [ 
-            Action::make('view')
-                ->label('View')
-                ->action(function(Application $record){
+            Action::make('documents')
+                ->label(fn(Child $record) => $record->documents()->count() ? 'Documents Sent' : 'Send Documents')
+                ->disabled(fn(Child $record) => $record->documents()->count())
+                ->action(function(Child $record){
                     $this->model_id = $record->id;
-                    $this->form->fill($record->toArray());
+                    $this->form->fill();
                     $this->enable_form = true;
                     
                 })
@@ -85,6 +87,7 @@ class AccommodationDocuments extends Livewire implements HasTable
                 ->content(new HtmlString('Saint Ignatius celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
             Radio::make('has_learning_difference')
                 ->label('Would you like to upload any documents?')
+                ->default(1)
                 ->options([
                     1 => 'Yes',
                     0 => 'No',
@@ -117,57 +120,34 @@ class AccommodationDocuments extends Livewire implements HasTable
                 ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->model_id)
                 ->visible(fn(Closure $get)  =>  $get('has_learning_difference') == 1  )
                 ->preserveFilenames(),
-            Grid::make(1)
-                ->schema([
-                    Hidden::make('placement_test_date')
-                        ->dehydrated(false)
-                        ->reactive(),
-                    Radio::make('entrance_exam_reservation')
-                        ->label("Indicate the date and the high school where your child will take the entrance exam. If you submit your application after the November 15th (by midnight) deadline, we may not be able to accommodate you for the HSPT at SI on December 2nd.")
-                        ->options(function(Closure $get){
-
-                            $array =
-
-                            $array = [];
-                            $array["At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ))] = "At SI on " . date('F j, Y', strtotime( $get('placement_test_date') ));
-
-                            if($get('has_learning_difference')){
-                                $array['At SI on December 9, 2023'] =  "At SI on December 9, 2023 (this date is only for applicants who submit documents for Extended Time)";
-                            }
-                            
-                            $array["At Other Catholic High School"] = "At Other Catholic High School";
-
-
-                            return $array;
-                        })
-                        ->required()
-                        ->reactive()
-                        ->afterStateHydrated(function(Closure $get, Closure $set, $state){
-                            if($get('has_learning_difference') &&  $get('file_learning_documentation')) {
-                            }else{
-                                $set('placement_test_date', settings('placement_test_date'));
-                            }
-                        })
-                        ->afterStateUpdated(function(Livewire $livewire, Radio $component, $state){
-                            $livewire->validateOnly($component->getStatePath());
-                        }),
-                    Grid::make(1)
-                        ->visible(fn(Closure $get) => $get('entrance_exam_reservation') === 'At Other Catholic High School')
-                        ->schema([
-                            TextInput::make('other_catholic_school_name')
-                                ->label("Other Catholic School Name")
-                                ->required(),
-                            TextInput::make('other_catholic_school_location')
-                                ->label("Other Catholic School Location")
-                                ->required(),
-                            DatePicker::make('other_catholic_school_date')
-                                ->label("Other Catholic School Date")
-                                ->required()
-                                ->lazy()
-                                ->closeOnDateSelection()
-                        ])
-                ])
             
         ];
+    }
+
+    public function save()
+    {
+        $data = $this->form->getState();
+
+        if($data['has_learning_difference']){
+
+            if(count($data['file_learning_documentation']))
+            {
+                $child = Child::find($this->model_id);
+                $document = $child->documents()->create(['file' => $data['file_learning_documentation']]);
+
+                Mail::to('ggalletta@siprep.org,pcollins@siprep.org')
+                    ->bcc('admissions@siprep.org')
+                    ->send(new SubmittedApplicationDocuments($document));
+
+                Notification::make()
+                    ->title('Accommodation Documents sent!')
+                    ->success()
+                    ->send();
+
+                $this->reset('data');
+            }
+        }
+
+        $this->enable_form = false;
     }
 }

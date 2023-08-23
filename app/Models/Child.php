@@ -35,6 +35,16 @@ class Child extends Model
         return false;
     }
 
+    public function submittedApplication()
+    {
+        return $this->hasOne(Application::class)->submitted();
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(AccommodationDocument::class);
+    }
+
     public function getCurrentSchool()
     {
         return $this->current_school == 'Not Listed' ? $this->current_school_not_listed : $this->current_school;
