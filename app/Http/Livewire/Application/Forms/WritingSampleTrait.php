@@ -57,17 +57,28 @@ trait WritingSampleTrait{
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSave('writing_sample_essay', $state);
                 }),
+            // Checkbox::make('writing_sample_essay_acknowledgement')
+            //     ->columnSpan('full')
+            //     ->validationAttribute('checkbox')
+            //     ->label('By checking this box, I (applicant) declare that to
+            //     the best of my knowledge, the information provided in the application submitted to
+            //     St. Ignatius College Preparatory on this online application is true and complete.
+            //     ')
+            //     ->rules(['accepted'])
+            //     ->lazy()
+            //     ->required()
+            //     ->afterStateUpdated(function($state){
+            //         $this->autoSave('writing_sample_essay_acknowledgement', $state);
+            //     }),
             Checkbox::make('writing_sample_essay_acknowledgement')
                 ->columnSpan('full')
-                ->validationAttribute('checkbox')
                 ->label('By checking this box, I (applicant) declare that to
-                the best of my knowledge, the information provided in the application submitted to
-                St. Ignatius College Preparatory on this online application is true and complete.
-                ')
+                     the best of my knowledge, the information provided in the application submitted to
+                     St. Ignatius College Preparatory on this online application is true and complete.')
                 ->rules(['accepted'])
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
+                ->afterStateUpdated(function(Closure $get, $state){
                     $this->autoSave('writing_sample_essay_acknowledgement', $state);
                 }),
             TextInput::make('writing_sample_essay_by')
