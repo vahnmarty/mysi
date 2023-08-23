@@ -11,7 +11,7 @@ use BenSampo\Enum\Enum;
  */
 final class RecordType extends Enum
 {
-    const Student   = '0128a000000ii6qAAA';
+    const Student   = '0128a000000ii6nAAA';
     const Prospect  = '0128a000000ii6pAAA';
     const Parent    = '0128a000000ii6oAAA';
 

@@ -1,5 +1,6 @@
 <x-mail::message>
-# Subject: {{ $inquiry->subject }}
+## Subject: {{ $inquiry->subject }}
+## From: {{ $inquiry->subject }}
 
 {{ $inquiry->message }}
 

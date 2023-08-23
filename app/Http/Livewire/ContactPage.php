@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Auth;
 use Mail;
 use Closure;
+use App\Models\Child;
 use App\Models\Inquiry;
 use App\Models\Parents;
 use Livewire\Component;
@@ -46,9 +47,13 @@ class ContactPage extends Component implements HasForms
                 ->options($this->users)
                 ->lazy()
                 ->afterStateUpdated(function(Closure $set, $state){
-                    $parent = Parents::find($state);
+                    $arr = explode('-', $state);
+                    $model = $arr[0];
+                    $id = $arr[1];
+                    $record =  $model == 'parent' ? Parents::find($id) : Child::find($id);
 
-                    $set('email', $parent->personal_email);
+                    
+                    $set('email', $record->personal_email);
                 }),
             TextInput::make('email')
                 ->lazy()
@@ -80,10 +85,17 @@ class ContactPage extends Component implements HasForms
     public function getAccountUsers()
     {
         $account_id = accountId();
+        $users = [];
+        $parents = Parents::where('account_id', $account_id)->get();
+        $children = Child::where('account_id', $account_id)->get();
 
-        $parents = Parents::where('account_id', $account_id)->pluck('first_name', 'id');
+        foreach($parents as $parent)
+        $users['parent-' . $parent->id] = $parent->getFullName();
 
-        $this->users = $parents;
+        foreach($children as $child)
+        $users['child-' . $parent->id] = $child->getFullName();
+
+        $this->users = $users;
     }
 
     public function submit()
@@ -91,6 +103,13 @@ class ContactPage extends Component implements HasForms
         $data = $this->form->getState();
 
         $data['user_id'] = Auth::id();
+
+        $arr = explode('-', $data['account']);
+        $model = $arr[0];
+        $id = $arr[1];
+        $record =  $model == 'parent' ? Parents::find($id) : Child::find($id);
+        
+        $data['account'] = $record->getFullName();
 
         $inquiry = Inquiry::create($data);
 
@@ -100,10 +119,10 @@ class ContactPage extends Component implements HasForms
             $recipients[] = 'admissions@siprep.org';
         }
 
-        elseif($data['department'] == Departments::Academics){
-            $recipients[] = 'ggalletta@siprep.org';
-            $recipients[] = 'pcollins@siprep.org';
-        }
+        // elseif($data['department'] == Departments::Academics){
+        //     $recipients[] = 'ggalletta@siprep.org';
+        //     $recipients[] = 'pcollins@siprep.org';
+        // }
 
         elseif($data['department'] == Departments::TechSupport){
             $recipients[] = 'mysi_admin@siprep.org';
@@ -113,13 +132,11 @@ class ContactPage extends Component implements HasForms
             $recipients[] = 'mysi_admin@siprep.org';
         }
 
-        foreach ($recipients as $recipient) {
-            try {
-                Mail::to($recipient)->send(new ContactInquiry($inquiry));
-            } catch (\Throwable $th) {
-                throw $th;
-            }
-            
+        $tos = implode(',' , $recipients);
+        try {
+            Mail::to($tos)->send(new ContactInquiry($inquiry));
+        } catch (\Throwable $th) {
+            throw $th;
         }
 
         $this->form->fill();
