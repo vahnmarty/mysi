@@ -35,4 +35,9 @@ class School extends Model
     {
         return $query->whereNotNull('status_flag');
     }
+
+    public function scopeNotSi($query)
+    {
+        return $query->where('name', '!=' , 'St. Ignatius College Preparatory');
+    }
 }
