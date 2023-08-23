@@ -1,10 +1,10 @@
 <div>
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Login</h1>
-    <div class="max-w-xl mx-auto mt-8 text-base text-center">
-        <h4 class="text-2xl font-semibold">Welcome to St. Ignatius College Preparatory’s MySI portal.</h4>
+    <div class="max-w-xl px-4 mx-auto mt-8 text-base text-center lg:px-8">
+        <h4 class="text-xl font-semibold lg:text-2xl">Welcome to St. Ignatius College Preparatory’s MySI portal.</h4>
 
-        <p class="mt-8">
+        <p class="mt-8 text-sm lg:text-base">
             Enter your email address and click "Continue."  If you previously applied to SI, the system will try to find your email.  If it finds it, you will enter your password or set up a new one (if logging in to MySI for the first time).  If it does not find your email, you will need to create an account.
         </p>
 
@@ -28,7 +28,7 @@
                 </label>
             </div> -->
 
-            <div class="flex items-center justify-center mt-4 space-x-8 ">
+            <div class="flex items-center justify-center mt-4 space-x-2 lg:space-x-8 ">
                 <a class="text-sm rounded-md text-link dark:text-gray-400 hover:text-link hover:underline dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('forgot-username') }}">
                     {{ __('Forgot your username?') }}
                 </a>

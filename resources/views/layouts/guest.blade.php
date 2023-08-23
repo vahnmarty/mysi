@@ -31,7 +31,7 @@
         <div class="flex flex-col justify-between min-h-screen">
             @include('includes.guest.header')
 
-            <main class="relative flex-1 py-8">
+            <main class="relative flex-1 py-4 lg:py-8">
                 {{ $slot ?? '' }}
                 @yield('content')
             </main>

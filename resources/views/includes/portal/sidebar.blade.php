@@ -263,15 +263,67 @@
         </div>
 
         <div class="py-8">
-            <ul>
-                <x-sidebar-menu  :active="request()->is('activities*')">
+            <ul class="font-medium text-gray-700">
+
+                <li class="px-8 py-1 text-sm transition {{ request()->is('admission*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                    <a href="{{ url('admission') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                        <x-heroicon-o-color-swatch class="flex-shrink-0 w-5 h-5" />
+                        <strong>Admissions Application</strong>
+                    </a>
+                </li>
+                
+                <x-sidebar-item align="start" href="https://www.siprep.org/admissions/timeline" target="_blank">
+                    <x-slot name="icon">
+                        <x-heroicon-o-presentation-chart-line class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Admissions Timeline
+                </x-sidebar-item>
+
+                <x-sidebar-item align="start" href="https://www.siprep.org/admissions/visit/the-wildcat-experience" target="_blank">
+                    <x-slot name="icon">
+                        <x-heroicon-o-calendar class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Book a Wildcat Experience
+                </x-sidebar-item>
+
+                <x-sidebar-item align="start" href=" https://www.siprep.org/admissions/apply/entrance-exam" target="_blank">
+                    <x-slot name="icon">
+                        <x-heroicon-o-clipboard-list class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Entrance Exam (HSPT)
+                </x-sidebar-item>
+
+                <x-sidebar-item align="start" href="https://www.siprep.org/admissions/apply/admissions-video" target="_blank">
+                    <x-slot name="icon">
+                        <x-heroicon-o-video-camera class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Admissions Video
+                </x-sidebar-item>
+
+                <x-sidebar-item align="start" href="{{ url('supplemental-recommendation') }}">
+                    <x-slot name="icon">
+                        <x-heroicon-o-gift class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Supplemental Recommendation
+                </x-sidebar-item>
+
+                @if(Auth::user()->hasSubmittedApplications())
+                <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
+                    <x-slot name="icon">
+                        <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Upload Accommodations Documents
+                </x-sidebar-item>
+                @endif
+
+                <!-- <x-sidebar-menu  :active="request()->is('activities*')">
                     <x-slot name="icon">
                         <x-heroicon-o-presentation-chart-line class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Activities
                     <x-slot name="menu">
                         <li>
-                            <a href="" class="sub-menu">Eight Graders</a>
+                            <span class="cursor-pointer sub-menu">Eight Graders</span>
                             
                             <ul class="pl-4 list-[circle]">
                                 <li>
@@ -288,7 +340,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <!-- <li>
+                      
+                        <li>
                             <a href="" class="sub-menu">Existing Students</a>
                         </li>
                         <li>
@@ -314,12 +367,12 @@
                         </li>
                         <li>
                             <a href="" class="sub-menu">Donate to SI</a>
-                        </li> -->
+                        </li> 
                     </x-slot>
-                </x-sidebar-menu>
-                <x-sidebar-item href="{{ url('help') }}" :active="request()->is('test')">
+                </x-sidebar-menu> -->
+                <x-sidebar-item href="{{ url('help') }}" :active="request()->is('help')">
                     <x-slot name="icon">
-                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-4 h-4" />
+                        <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
                     Contact Us
                 </x-sidebar-item>
@@ -328,8 +381,8 @@
                         <x-heroicon-o-collection class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
                     Parent Directory
-                </x-sidebar-item>
-                <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
+                </x-sidebar-item> -->
+                <!-- <x-sidebar-item href="{{ url('parents') }}" :active="request()->is('test')">
                     <x-slot name="icon">
                         <x-heroicon-o-calendar class="flex-shrink-0 w-4 h-4" />
                     </x-slot>
