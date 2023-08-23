@@ -49,7 +49,7 @@ return new class extends Migration
             $table->string('religious_activity_participation', 750)->nullable();
             $table->string('favorite_and_difficult_subjects', 750)->nullable();
             $table->string('writing_sample_essay', 2250)->nullable();
-            $table->string('writing_sample_essay_acknowledgement')->nullable();
+            $table->boolean('writing_sample_essay_acknowledgement')->nullable();
             $table->string('writing_sample_essay_by', 150)->nullable();
             $table->boolean('agree_to_release_record')->nullable();
             $table->boolean('agree_academic_record_is_true')->nullable();
