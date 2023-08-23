@@ -71,7 +71,7 @@ class LoginPage extends Component implements HasForms
                     }
 
                     if($this->action == 'new_password'){
-                        return new HtmlString('<p class="text-primary-red">* To complete the account creation process, please click on the link in the verification email that we`ve sent to your email address.</p>');
+                        return new HtmlString('<p class="text-primary-red">* Your email address was found in our system.  Check your email account to set a password to MySI.</p>');
                     }
                 }),
             Password::make('password')
