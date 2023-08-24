@@ -145,7 +145,7 @@ class AccommodationDocuments extends Livewire implements HasTable
                 $child = Child::find($this->model_id);
                 $document = $child->documents()->create(['file' => $data['file_learning_documentation']]);
 
-                Mail::to('ggalletta@siprep.org,pcollins@siprep.org')
+                Mail::to(['ggalletta@siprep.org','pcollins@siprep.org'])
                     ->bcc('admissions@siprep.org')
                     ->send(new SubmittedApplicationDocuments($document));
 
