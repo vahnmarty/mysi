@@ -21,7 +21,9 @@ class ChildObserver
      */
     public function updated(Child $child): void
     {
-        //
+        $child->expected_graduation_year = $child->getExpectedGraduationYear();
+        $child->expected_enrollment_year = $child->getExpectedEnrollmentYear();
+        $child->save();
     }
 
     /**
