@@ -25,11 +25,9 @@ class ParentController extends Controller
 
     public function index(Request $request)
     {
-        $max = $request->n ?? $this->max;
+        $data = Parents::get();
 
-        $data = Parents::get()->take($max);
-
-        return $this->summary($data);
+        return response()->json($data);
     }
 
     /**

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ChildController;
+use App\Http\Controllers\Api\LegacyController;
 use App\Http\Controllers\Api\ParentController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AddressController;
@@ -37,15 +38,14 @@ Route::group( ['middleware' => [] ], function(){
 
     Route::get('salesforce', [SalesforceController::class, 'index']);
 
-    // Route::resource('parents', ParentController::class);
+    Route::resource('parents', ParentController::class);
     // Route::resource('accounts', AccountController::class);
     Route::get('accounts', [AccountController::class, 'index']);
-    Route::get('accounts/{account}', [AccountController::class, 'show']);
-
-    // Route::get('activities', [ActivityController::class, 'index']);
-    // Route::get('addresses', [AddressController::class, 'index']);
-    // Route::get('applications', [ApplicationController::class, 'index']);
-    // Route::get('children', [ChildController::class, 'index']);
+    Route::get('activities', [ActivityController::class, 'index']);
+    Route::get('addresses', [AddressController::class, 'index']);
+    Route::get('applications', [ApplicationController::class, 'index']);
+    Route::get('children', [ChildController::class, 'index']);
+    Route::get('legacies', [LegacyController::class, 'index']);
 
 });
 

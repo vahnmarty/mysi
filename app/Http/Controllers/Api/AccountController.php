@@ -14,15 +14,9 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
-        $max = $request->n ?? 10;
+        $data = Account::get();
 
-        $data = Account::get()->take($max);
-
-        return response()->json([
-            'success' => true,
-            'total' => count($data),
-            'data' => $data
-        ]);
+        return response()->json($data);
     }
 
     /**
