@@ -100,13 +100,17 @@ class LoginPage extends Component implements HasForms
 
             if($account->parents()->count() > 1)
             {
-                $primary_parent = $account->primaryParent;
+                if($account->users()->count()){
+                    $primary_parent = $account->primaryParent;
+                    $this->display_message = true;
+                    $this->action = 'primary_parent';
+                    $this->primary_parent_name = $primary_parent->getFullName();
 
-                $this->display_message = true;
-                $this->action = 'primary_parent';
-                $this->primary_parent_name = $primary_parent->getFullName();
-
-                return;
+                    return;
+                }else{
+                    return $this->setNewPassword();
+                }
+                
             }else{
 
                 return $this->setNewPassword();

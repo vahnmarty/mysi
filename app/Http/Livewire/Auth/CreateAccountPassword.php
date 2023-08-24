@@ -13,6 +13,7 @@ use App\Rules\HasLowercase;
 use App\Rules\HasUppercase;
 use App\Models\AccountRequest;
 use App\Rules\HasSpecialCharacter;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Phpsa\FilamentPasswordReveal\Password;
@@ -24,9 +25,9 @@ class CreateAccountPassword extends Component implements HasForms
 
     public $email;
     public $password;
-    public $valid_password;
+    public $primary_account;
     public $password_confirmation;
-    public $password_validation = [];
+    public $parents = [];
 
     protected $messages = [
         'password.required' => 'Password is required',
@@ -43,13 +44,20 @@ class CreateAccountPassword extends Component implements HasForms
 
     public function mount($token)
     {
-        $account = AccountRequest::where('token', $token)->firstOrFail();
+        $accountRequest = AccountRequest::where('token', $token)->firstOrFail();
 
-        if($account->expired()){
+        if($accountRequest->expired()){
             ## TODO
         }
 
-        $this->email = $account->email;
+        $this->email = $accountRequest->email;
+
+        $parents = Parents::where('personal_email', $this->email)->get();
+
+        foreach($parents as  $parent)
+        {
+            $this->parents[$parent->id] = $parent->getFullName();
+        }
     }
 
     protected function getFormSchema()
@@ -82,7 +90,12 @@ class CreateAccountPassword extends Component implements HasForms
                 ->reactive()
                 ->required()
                 ->password()
-                ->revealable()
+                ->revealable(),
+            Select::make('primary_account')
+                ->label('The email address is associated with multiple contacts.  Please select a user:')
+                ->required()
+                ->visible(fn() => count($this->parents) > 1)
+                ->options($this->parents)
         ];
     }
 
@@ -93,7 +106,15 @@ class CreateAccountPassword extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        $parent = Parents::with('account')->where('personal_email', $data['email'])->first();
+        if($data['primary_account']){
+            // Multiple Account having the same email address
+            $parent = Parents::find($data['primary_account']);
+            $parent->is_primary = true;
+            $parent->save();
+        }else{
+            // Unique Email
+            $parent = Parents::with('account')->where('personal_email', $data['email'])->first();
+        }
 
         if(!$parent){
             // TODO: Alert Error!

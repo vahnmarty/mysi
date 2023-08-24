@@ -25,7 +25,7 @@
 
 
             <div class="flex justify-center">
-                <button type="submit" class="btn-primary-fixer">Submit</button>
+                <button type="submit" class="btn-primary-fixer">Set Password</button>
             </div>
 
         </form>
