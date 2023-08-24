@@ -74,6 +74,16 @@ class AccommodationDocuments extends Livewire implements HasTable
         ];
     }
 
+    protected function isTablePaginationEnabled(): bool 
+    {
+        return false;
+    }
+
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
+    }
+
     protected function getFormStatePath(): string
     {
         return 'data';

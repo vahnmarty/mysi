@@ -89,11 +89,12 @@ class ContactPage extends Component implements HasForms
         $parents = Parents::where('account_id', $account_id)->get();
         $children = Child::where('account_id', $account_id)->get();
 
+
         foreach($parents as $parent)
         $users['parent-' . $parent->id] = $parent->getFullName();
 
         foreach($children as $child)
-        $users['child-' . $parent->id] = $child->getFullName();
+        $users['child-' . $child->id] = $child->getFullName();
 
         $this->users = $users;
     }
@@ -131,10 +132,9 @@ class ContactPage extends Component implements HasForms
         else{
             $recipients[] = 'mysi_admin@siprep.org';
         }
-
-        $tos = implode(',' , $recipients);
+        
         try {
-            Mail::to($tos)->send(new ContactInquiry($inquiry));
+            Mail::to($recipients)->send(new ContactInquiry($inquiry));
         } catch (\Throwable $th) {
             throw $th;
         }
