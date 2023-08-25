@@ -2,29 +2,37 @@
     <div class="py-2 lg:py-6 bg-primary-red">
         <div class="px-4 mx-auto lg:px-8">
             <div class="flex items-center justify-between">
+                
+
+                <div x-data="{ open: false }" 
+                    class="px-4 lg:hidden">
+                    <button x-on:click="open = !open; $dispatch('open-menu')"
+                        x-show="!open"
+                        type="button">
+                        <x-heroicon-s-menu class="w-5 h-5 text-gray-300"/>
+                    </button>
+                    <button x-on:click="open = !open; $dispatch('open-menu')"
+                        x-show="open"
+                        x-cloak
+                        type="button">
+                        <x-heroicon-s-x class="w-5 h-5 text-gray-300"/>
+                    </button>
+                </div>
+
                 <div class="flex items-center lg:items-start">
-                    <img src="{{ asset('img/logo-white.png') }}" class="object-cover w-auto h-8 lg:w-auto lg:h-16">
+
+                    <img src="{{ asset('img/logo-white.png') }}" class="object-cover w-auto h-10 lg:w-auto lg:h-16">
+
+
                     <div class="hidden pl-8 lg:block">
                         <a href="{{ url('/') }}">
                             <h4 class="text-4xl font-extrabold text-white font-heading">MySI Portal</h4>
                             <p class="text-xl text-white font-heading">St. Ignatius College Preparatory</p>
                         </a>
                     </div>
-                    <div x-data="{ open: false }" 
-                        class="px-4 lg:hidden">
-                        <button x-on:click="open = !open; $dispatch('open-menu')"
-                            x-show="!open"
-                            type="button">
-                            <x-heroicon-s-menu class="w-5 h-5 text-gray-300"/>
-                        </button>
-                        <button x-on:click="open = !open; $dispatch('open-menu')"
-                            x-show="open"
-                            x-cloak
-                            type="button">
-                            <x-heroicon-s-x class="w-5 h-5 text-gray-300"/>
-                        </button>
-                    </div>
+                    
                 </div>
+
                 <div class="flex items-center">
                     
                     <!-- <div class="relative flex-shrink-0 ml-5 rounded-md">
@@ -74,8 +82,8 @@
                                         <p class="text-sm text-white">{{ Auth::user()->account?->account_name }}</p>
                                         <p class="text-xs text-gray-100">{{ Auth::user()->username ? '@' . Auth::user()->username : Auth::user()->email }}</p>
                                     </div>
-                                    <div class="p-2 bg-gray-500 rounded-sm">
-                                        <x-heroicon-o-user class="w-5 h-5 text-white"/>
+                                    <div class="p-1.5 bg-gray-500 rounded-sm lg:p-2">
+                                        <x-heroicon-o-user class="w-4 h-4 text-white lg:w-5 lg:h-5"/>
                                     </div>
                                 </button>
                             </x-slot>
