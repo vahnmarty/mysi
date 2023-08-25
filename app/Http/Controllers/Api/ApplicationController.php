@@ -10,6 +10,7 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-        return response()->json(Application::get());
+        $data = Application::with('student','appStatus', 'payment')->get();
+        return response()->json($data);
     }
 }
