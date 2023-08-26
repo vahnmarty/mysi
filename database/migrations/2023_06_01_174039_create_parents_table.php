@@ -41,7 +41,7 @@ return new class extends Migration
             $table->string('living_situation', 30)->nullable();
             $table->string('deceased_flag', 3)->nullable();
             $table->string('communication_preferences', 255)->nullable();
-            $table->year('graduation_year')->nullable();
+            $table->int('graduation_year')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

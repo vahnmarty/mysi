@@ -78,7 +78,7 @@ trait FamilyMatrixTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'), 'living_situation', $state);
                         }),
-                    Select::make('deceased_flag')
+                    Radio::make('deceased_flag')
                         ->label('Deceased?')
                         ->options([
                             1 => 'Yes',
