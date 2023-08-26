@@ -8,21 +8,26 @@
 
         <div class="mt-8 space-y-8">
             <p>
-                Welcome to MySI, your gateway to St. Ignatius College Preparatory.
+                Welcome to MySI, your gateway to St. Ignatius College Preparatory!
             </p>
             <p>
-                Currently, this is where our prospective students and families will share important information with SI. You will create and complete your Admissions Application here and submit it to SI by midnight on Wednesday, November 15, 2023.  In March, you will receive your Admissions decision using this system. Make sure to save your username and password in a secure location.
+                You will create and complete your Admissions Application here and submit it by midnight on Wednesday, November 15, 2023. In March, you will receive your Admissions decision using this system. Make sure to save your username and password in a secure location.
+
             </p>
             <p>
-                Use the navigation links to explore MySI.  Note that this system will continue to evolve.
+                Use the navigation links located on the left hand side of your screen to explore MySI.
             </p>
-            <p>
+
+            <div class="flex justify-center">
+                <a href="{{ route('application.admission') }}" class="btn-primary">Start Application</a>
+            </div>
+            <!-- <p>
                 If you have any questions about applying to SI, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link">admissions@siprep.org</a> or (415) 731-7500 ext. 5274.
             </p>
 
             <p>
                 If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="underline text-link">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are seeing.  A screenshot will help a lot to resolving your technical issue.
-            </p>
+            </p> -->
         </div>
     </div>
 </x-app-layout>
