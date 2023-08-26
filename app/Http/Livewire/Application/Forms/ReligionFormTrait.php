@@ -158,7 +158,7 @@ trait ReligionFormTrait{
                         ->validationAttribute('field')
                         //->maxLength(255)
                         ->rules([ new MaxWordCount(30, 50) ])
-                        //->required(fn (Closure $get) => $get('religious_studies_classes') == CommonOption::No || $get('religious_studies_classes')  == CommonOption::Unsure)
+                        ->required(fn (Closure $get) => $get('religious_studies_classes') == CommonOption::No || $get('religious_studies_classes')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('religious_studies_classes')) || $get('religious_studies_classes') == CommonOption::Yes)
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
                             $livewire->validateOnly($component->getStatePath());
@@ -180,7 +180,7 @@ trait ReligionFormTrait{
                         ->wordLimit(30)
                         //->maxLength(255)
                         ->rules([ new MaxWordCount(30, 50) ])
-                        //->required(fn (Closure $get) => $get('school_liturgies') == CommonOption::No || $get('school_liturgies')  == CommonOption::Unsure)
+                        ->required(fn (Closure $get) => $get('school_liturgies') == CommonOption::No || $get('school_liturgies')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('school_liturgies')) || $get('school_liturgies') == CommonOption::Yes)
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
                             $livewire->validateOnly($component->getStatePath());
@@ -202,7 +202,7 @@ trait ReligionFormTrait{
                         ->wordLimit(30)
                         //->maxLength(255)
                         ->rules([ new MaxWordCount(30, 50) ])
-                        //->required(fn (Closure $get) => $get('retreats') == CommonOption::No || $get('retreats')  == CommonOption::Unsure)
+                        ->required(fn (Closure $get) => $get('retreats') == CommonOption::No || $get('retreats')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('retreats')) || $get('retreats') == CommonOption::Yes)
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
                             $livewire->validateOnly($component->getStatePath());
@@ -224,7 +224,7 @@ trait ReligionFormTrait{
                         ->wordLimit(30)
                         //->maxLength(255)
                         ->rules([ new MaxWordCount(30,50) ])
-                        //->required(fn (Closure $get) => $get('community_service_explanation') == CommonOption::No || $get('community_service_explanation')  == CommonOption::Unsure)
+                        ->required(fn (Closure $get) => $get('community_service_explanation') == CommonOption::No || $get('community_service_explanation')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('community_service')) || $get('community_service') == CommonOption::Yes)
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
                             $livewire->validateOnly($component->getStatePath());
