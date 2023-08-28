@@ -15,19 +15,21 @@
 
             </p>
             <p>
-                Use the navigation links located on the left hand side of your screen to explore MySI.
+                Use the navigation links located on the left-hand side of your screen to explore MySI.
             </p>
 
-            <div class="flex justify-center">
-                <a href="{{ route('application.admission') }}" class="btn-primary">Start Application</a>
-            </div>
-            <!-- <p>
+            <p>
                 If you have any questions about applying to SI, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link">admissions@siprep.org</a> or (415) 731-7500 ext. 5274.
             </p>
 
             <p>
                 If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="underline text-link">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are seeing.  A screenshot will help a lot to resolving your technical issue.
-            </p> -->
+            </p>
+            
+        </div>
+
+        <div class="flex justify-center mt-12">
+            <a href="{{ route('application.admission') }}" class="btn-primary">Start Application</a>
         </div>
     </div>
 </x-app-layout>
