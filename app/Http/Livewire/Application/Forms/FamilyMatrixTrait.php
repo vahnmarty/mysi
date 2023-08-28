@@ -78,14 +78,10 @@ trait FamilyMatrixTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'), 'living_situation', $state);
                         }),
-                    Radio::make('deceased_flag')
-                        ->label('Deceased?')
-                        ->options([
-                            1 => 'Yes',
-                            0 => 'No',
-                        ])
+                    Checkbox::make('deceased_flag')
+                        ->label('Deceased')
                         ->reactive()
-                        ->extraAttributes(['class' => 'disabled:opacity-100 input-toggle'])
+                        ->extraAttributes(['class' => 'hide-checkbox-label flex-1'])
                         ->afterStateUpdated(function(Closure $get, Closure $set, $state){
                             $this->autoSaveParent($get('id'), 'deceased_flag', $state);
                             if($get('deceased_flag')){

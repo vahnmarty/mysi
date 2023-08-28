@@ -165,3 +165,15 @@ display: none;
 .filament-tables-link-action:disabled{
     @apply text-gray-500 cursor-not-allowed !important;
 }
+
+.hide-checkbox-label + span {
+    display: none;
+  }
+
+#table-parent-matrix th:last-child:before{
+    content: 'hello';
+}
+
+.flex.items-center:has(.hide-checkbox-label){
+    @apply justify-center;
+}
