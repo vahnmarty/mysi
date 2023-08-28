@@ -14,6 +14,11 @@ class PromoCodeTableSeeder extends Seeder
     public function run(): void
     {
         PromoCode::firstOrCreate([
+            'code' => 'App100',
+            'amount' => 100
+        ]);
+
+        PromoCode::firstOrCreate([
             'code' => 'App75',
             'amount' => 75
         ]);
@@ -26,6 +31,11 @@ class PromoCodeTableSeeder extends Seeder
         PromoCode::firstOrCreate([
             'code' => 'App25',
             'amount' => 25
+        ]);
+
+        PromoCode::firstOrCreate([
+            'code' => 'App0',
+            'amount' => 0
         ]);
     }
 }
