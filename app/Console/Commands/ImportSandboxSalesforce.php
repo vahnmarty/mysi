@@ -34,23 +34,6 @@ class ImportSandboxSalesforce extends Command
 
     public function import()
     {
-        //$import = new SalesforceImport();
-        //$import->import('Salesforce_Data.xlsx');
-
         Excel::import(new SalesforceImport, 'Salesforce_Data.xlsx');
-
-
-        // foreach ($import->failures() as $failure) {
-        //     $this->error($failure->row());
-        //     $this->error($failure->attribute());
-        //     $this->error($failure->errors());
-        //     $this->error($failure->values());
-        //     // $failure->row(); // row that went wrong
-        //     // $failure->attribute(); // either heading key (if using heading row concern) or column index
-        //     // $failure->errors(); // Actual error messages from Laravel validator
-        //     // $failure->values(); // The values of the row that has failed.
-        // }
-
-        //Excel::import(new SalesforceImport, 'Salesforce_Data.xlsx');
     }
 }

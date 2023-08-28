@@ -11,9 +11,14 @@ class ChildObserver
      */
     public function created(Child $child): void
     {
-        $child->expected_graduation_year = $child->getExpectedGraduationYear();
-        $child->expected_enrollment_year = $child->getExpectedEnrollmentYear();
-        $child->save();
+        try {
+            $child->expected_graduation_year = $child->getExpectedGraduationYear();
+            $child->expected_enrollment_year = $child->getExpectedEnrollmentYear();
+            $child->save();
+        } catch (\Throwable $th) {
+            \Log::error($th);
+        }
+        
     }
 
     /**
@@ -21,9 +26,14 @@ class ChildObserver
      */
     public function updated(Child $child): void
     {
-        $child->expected_graduation_year = $child->getExpectedGraduationYear();
-        $child->expected_enrollment_year = $child->getExpectedEnrollmentYear();
-        $child->save();
+        // This is the reason why import child not working
+        // try {
+        //     $child->expected_graduation_year = $child->getExpectedGraduationYear();
+        //     $child->expected_enrollment_year = $child->getExpectedEnrollmentYear();
+        //     $child->save();
+        // } catch (\Throwable $th) {
+        //     \Log::error($th);
+        // }
     }
 
     /**
