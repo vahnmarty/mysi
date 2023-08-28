@@ -23,7 +23,8 @@ class PromoCodeResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('code'),
+                Forms\Components\TextInput::make('amount')->numeric(),
             ]);
     }
 
@@ -56,8 +57,8 @@ class PromoCodeResource extends Resource
     {
         return [
             'index' => Pages\ListPromoCodes::route('/'),
-            'create' => Pages\CreatePromoCode::route('/create'),
-            'edit' => Pages\EditPromoCode::route('/{record}/edit'),
+            //'create' => Pages\CreatePromoCode::route('/create'),
+            //'edit' => Pages\EditPromoCode::route('/{record}/edit'),
         ];
     }    
 }

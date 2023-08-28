@@ -43,8 +43,8 @@ return new class extends Migration
             $table->string('religion_other', 50)->nullable();
             $table->string('religious_community', 100)->nullable();
             $table->string('religious_community_location', 255)->nullable();
-            $table->int('baptism_year')->nullable();
-            $table->int('confirmation_year')->nullable();
+            $table->integer('baptism_year')->nullable();
+            $table->integer('confirmation_year')->nullable();
             $table->string('si_email', 255)->nullable();
             $table->string('si_email_password', 255)->nullable();
             $table->string('powerschool_id', 6)->nullable();
@@ -56,10 +56,10 @@ return new class extends Migration
             $table->string('allergies_information', 750)->nullable();
             $table->string('health_information', 750)->nullable();
             $table->boolean('multi_racial_flag')->nullable();
-            $table->int('expected_graduation_year')->nullable();
-            $table->int('expected_enrollment_year')->nullable();
+            $table->integer('expected_graduation_year')->nullable();
+            $table->integer('expected_enrollment_year')->nullable();
             $table->boolean('graduated_hs_flag')->nullable();
-            $table->int('graduation_year')->nullable();
+            $table->integer('graduation_year')->nullable();
             $table->boolean('graduated_at_si')->nullable();
                        
             $table->timestamps();

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('first_name', 50)->nullable();
             $table->string('last_name', 50)->nullable();
             $table->string('relationship_type', 20)->nullable();
-            $table->int('graduation_year')->nullable();
+            $table->integer('graduation_year')->nullable();
             
             $table->timestamps();
             $table->softDeletes();

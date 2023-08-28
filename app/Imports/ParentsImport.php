@@ -31,7 +31,7 @@ class ParentsImport implements ToCollection, WithStartRow
                 'suffix' => $row[10],
                 'preferred_first_name' => $row[11],
                 'personal_email' => $row[12],
-                'mobile_phone' => $row[13],
+                'mobile_phone' => (string) $row[13],
             ]);
         }
     }

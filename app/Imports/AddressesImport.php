@@ -25,7 +25,7 @@ class AddressesImport implements ToCollection, WithStartRow
                 'city' => $row[4],
                 'state' => $row[5],
                 'zip_code' => $row[6],
-                'phone_number' => $row[7],
+                'phone_number' => (string) $row[7],
                 'sf_account_id' => $row[8],
                 'sf_residence_id' => $row[9]
             ]);
