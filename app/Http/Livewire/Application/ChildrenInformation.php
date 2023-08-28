@@ -257,7 +257,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
             
             $data['account_id'] = accountId();
 
-            Child::create($data);
+            $child = Child::create($data);
 
             Notification::make()
                 ->title('Child record is created.')
@@ -270,6 +270,11 @@ class ChildrenInformation extends Component implements HasTable, HasForms
         else{
             $model = Child::find($this->model_id);
             $model->update($data);
+
+            $child = $model;
+            $child->expected_graduation_year = $child->getExpectedGraduationYear();
+            $child->expected_enrollment_year = $child->getExpectedEnrollmentYear();
+            $child->save();
 
             Notification::make()
                 ->title('Child record is created.')

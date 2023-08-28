@@ -114,17 +114,13 @@ trait SiblingFormTrait{
                         ->lazy()
                         ->required()
                         ->afterStateUpdated(function(Closure $get, $state){
+                            
                             $this->autoSaveSibling($get('id'), 'current_grade', $state);
 
-
-                            // if(is_numeric($state)){
-                            //     $current_grade = (int) $state;
-                            //     $extra_year = date('Y') + 1 + 1; // +1 because in the sample docs it's 2025. 
-
-                            //     $expected_graduation_year = 12 - $current_grade + 1 + $extra_year;
-
-                            //     $this->autoSaveSibling($get('id'), 'expected_graduation_year', $expected_graduation_year);
-                            // }
+                            $child = Child::find($get('id'));
+                            $child->expected_graduation_year = $child->getExpectedGraduationYear();
+                            $child->expected_enrollment_year = $child->getExpectedEnrollmentYear();
+                            $child->save();
                             
                         }),
                     Select::make('current_school')
