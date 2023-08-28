@@ -224,7 +224,7 @@ trait ReligionFormTrait{
                         ->wordLimit(30)
                         //->maxLength(255)
                         ->rules([ new MaxWordCount(30,50) ])
-                        ->required(fn (Closure $get) => $get('community_service_explanation') == CommonOption::No || $get('community_service_explanation')  == CommonOption::Unsure)
+                        ->required(fn (Closure $get) => $get('community_service') == CommonOption::No || $get('community_service')  == CommonOption::Unsure)
                         ->disabled(fn (Closure $get) => empty($get('community_service')) || $get('community_service') == CommonOption::Yes)
                         ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, $state){
                             $livewire->validateOnly($component->getStatePath());
