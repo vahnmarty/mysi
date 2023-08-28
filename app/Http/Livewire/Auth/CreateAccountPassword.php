@@ -105,8 +105,9 @@ class CreateAccountPassword extends Component implements HasForms
     public function submit()
     {
         $data = $this->form->getState();
+        
 
-        if($data['primary_account']){
+        if( isset($data['primary_account']) ){
             // Multiple Account having the same email address
             $parent = Parents::find($data['primary_account']);
             $parent->is_primary = true;
