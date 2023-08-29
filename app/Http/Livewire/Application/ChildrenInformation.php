@@ -277,7 +277,7 @@ class ChildrenInformation extends Component implements HasTable, HasForms
             $child->save();
 
             Notification::make()
-                ->title('Child record is created.')
+                ->title('Child record is updated.')
                 ->success()
                 ->send();
 

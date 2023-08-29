@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\GradeLevel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -52,9 +53,8 @@ class Child extends Model
 
     public function getExpectedGraduationYear()
     {
-        $current_grade = (int) $this->current_grade;
-
-        if(is_numeric($current_grade)){
+        if(is_numeric($this->current_grade)){
+            $current_grade = (int) $this->current_grade;
             return 12 - $current_grade + 1 + date('Y');
         }
 

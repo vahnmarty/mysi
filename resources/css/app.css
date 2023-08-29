@@ -177,3 +177,7 @@ display: none;
 .flex.items-center:has(.hide-checkbox-label){
     @apply justify-center;
 }
+
+#table-parent-matrix sup, #table-sibling-matrix sup{
+    display: none !important;
+}
