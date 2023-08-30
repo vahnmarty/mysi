@@ -3,9 +3,6 @@
         <h2 class="text-2xl font-semibold font-heading text-primary-blue">
             Application for {{ $app->student->getFullName() }}
         </h2>
-        @if(config('app.env') == 'local')
-        <button class="btn-primary" wire:click="faker">Faker</button>
-        @endif
     </div>
 
     @livewire('autosave-indicator')

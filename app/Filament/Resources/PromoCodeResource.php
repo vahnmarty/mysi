@@ -25,21 +25,22 @@ class PromoCodeResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('code'),
                 Forms\Components\TextInput::make('amount')->numeric(),
-            ]);
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('code'),
-                Tables\Columns\TextColumn::make('amount'),
+                Tables\Columns\TextColumn::make('code')->sortable(),
+                Tables\Columns\TextColumn::make('amount')->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
