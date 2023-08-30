@@ -28,7 +28,7 @@ class SchoolsImport implements ToCollection, WithStartRow, SkipsOnFailure
         foreach ($rows as $row) 
         {
             School::create([
-                'cds_code' => $row[1],
+                'cds_code' => (string) $row[1],
                 'county' => $row[2],
                 'city' => $row[3],
                 'district' => $row[4],
