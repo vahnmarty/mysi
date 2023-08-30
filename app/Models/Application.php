@@ -102,4 +102,15 @@ class Application extends Model
 
         ];
     }
+
+    // public function current_school()
+    // {
+    //     return $this->hasManyThrough(
+    //         School::class,
+    //         Child::class,
+    //         'current_school',
+    //         'name'
+    //     );
+        
+    // }
 }

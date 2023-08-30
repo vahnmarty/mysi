@@ -43,23 +43,27 @@ class ContactPage extends Component implements HasForms
     {
         return [
             Select::make('account')
-                ->label('Account')
+                ->label('Family Member')
                 ->options($this->users)
                 ->lazy()
                 ->afterStateUpdated(function(Closure $set, $state){
-                    $arr = explode('-', $state);
-                    $model = $arr[0];
-                    $id = $arr[1];
-                    $record =  $model == 'parent' ? Parents::find($id) : Child::find($id);
+                    if($state){
+                        $arr = explode('-', $state);
+                        $model = $arr[0];
+                        $id = $arr[1];
+                        $record =  $model == 'parent' ? Parents::find($id) : Child::find($id);
 
-                    
-                    $set('email', $record->personal_email);
-                }),
+                        
+                        $set('email', $record->personal_email);
+                    }
+                })->required(),
             TextInput::make('email')
                 ->lazy()
-                ->email(),
+                ->email()
+                ->required(),
             Select::make('department')
                 ->label('Department')
+                ->required()
                 ->options(Departments::asSameArray()),
             TextInput::make('subject')
                 ->required(),

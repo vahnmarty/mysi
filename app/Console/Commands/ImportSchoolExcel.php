@@ -28,14 +28,16 @@ class ImportSchoolExcel extends Command
      */
     public function handle()
     {
-        if($this->option('force')){
-            $this->import();
-        }
-        else{
-            if ($this->confirm('Do you wish to continue? This will clear the current schools list.')) {
-                $this->import();
-            }
-        }
+        $this->import();
+
+        // if($this->option('force')){
+        //     $this->import();
+        // }
+        // else{
+        //     if ($this->confirm('Do you wish to continue? This will clear the current schools list.')) {
+        //         $this->import();
+        //     }
+        // }
         
     }
 

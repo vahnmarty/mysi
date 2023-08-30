@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ChildController;
 use App\Http\Controllers\Api\LegacyController;
 use App\Http\Controllers\Api\ParentController;
+use App\Http\Controllers\Api\SchoolController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\ActivityController;
@@ -46,6 +47,7 @@ Route::group( ['middleware' => [] ], function(){
     Route::get('applications', [ApplicationController::class, 'index']);
     Route::get('children', [ChildController::class, 'index']);
     Route::get('legacies', [LegacyController::class, 'index']);
+    Route::resource('schools', SchoolController::class);
 
 });
 
