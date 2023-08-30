@@ -27,7 +27,7 @@ trait PlacementFormTrait{
         return [
             Placeholder::make('si_placement_description')
                 ->label('')
-                ->content(new HtmlString('Saint Ignatius celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
+                ->content(new HtmlString('Saint Ignatius College Preparatory celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS and/or receive accommodations on the High School Placement Test, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
             Radio::make('has_learning_difference')
                 ->label('Would you like to upload any documents?')
                 ->options([

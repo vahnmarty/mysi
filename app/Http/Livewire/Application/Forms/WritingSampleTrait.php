@@ -72,9 +72,7 @@ trait WritingSampleTrait{
             //     }),
             Checkbox::make('writing_sample_essay_acknowledgement')
                 ->columnSpan('full')
-                ->label('By checking this box, I (applicant) declare that to
-                     the best of my knowledge, the information provided in the application submitted to
-                     St. Ignatius College Preparatory on this online application is true and complete.')
+                ->label('By checking this box, I (applicant) declare that to the best of my knowledge, the information provided in the application submitted to St. Ignatius College Preparatory on this online application is true, complete and my own thoughts and words.')
                 ->rules(['accepted'])
                 ->lazy()
                 ->required()

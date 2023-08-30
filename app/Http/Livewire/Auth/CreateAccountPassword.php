@@ -134,6 +134,7 @@ class CreateAccountPassword extends Component implements HasForms
         $user->email = $data['email'];
         $user->email_verified_at = now();
         $user->password = $data['password'];
+        $user->phone = $parent->mobile_phone;
         $user->save();
 
         Auth::login($user);
