@@ -16,11 +16,15 @@ use Str;
 
 class OauthClientResource extends Resource
 {
+    protected static ?string $navigationGroup = 'Settings';
+
     protected static ?string $model = Client::class;
 
     protected static ?string $navigationLabel = 'OAuth Clients';
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

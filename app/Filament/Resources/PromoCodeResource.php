@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PromoCodeResource extends Resource
 {
+    protected static ?string $navigationGroup = 'Settings';
+    
     protected static ?string $model = PromoCode::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';

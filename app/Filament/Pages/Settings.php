@@ -14,6 +14,8 @@ class Settings extends Page implements HasForms
 {
     use InteractsWithForms;
     
+    protected static ?string $navigationGroup = 'Settings';
+    
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
     protected static string $view = 'filament.pages.settings';

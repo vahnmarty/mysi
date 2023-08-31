@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SchoolResource extends Resource
 {
+    protected static ?string $navigationGroup = 'Settings';
+
     protected static ?string $model = School::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-library';

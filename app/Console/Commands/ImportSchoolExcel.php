@@ -45,7 +45,7 @@ class ImportSchoolExcel extends Command
     {
         School::truncate();
             
-        Excel::import(new SchoolsImport, 'schools.xlsx');
+        Excel::import(new SchoolsImport, 'List_of_Bay_Area_Schools (4).xlsx');
 
         $this->info('Schools: ' .  School::count() . ' records.');
     }
