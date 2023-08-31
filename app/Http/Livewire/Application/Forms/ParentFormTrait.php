@@ -91,20 +91,20 @@ trait ParentFormTrait{
                             $this->autoSaveParent($get('id'),'salutation', $state);
                         }),
                     TextInput::make('first_name')
-                        ->label('Legal First Name')
+                        ->label('First Name')
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'first_name', $state);
                         }),
                     TextInput::make('middle_name')
-                        ->label('Legal Middle Name')
+                        ->label('Middle Name')
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'middle_name', $state);
                         }),
                     TextInput::make('last_name')
-                        ->label('Legal Last Name')
+                        ->label('Last Name')
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){

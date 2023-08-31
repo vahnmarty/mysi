@@ -142,14 +142,14 @@ class ViewApplication extends Component implements HasForms
     {
         return [
             TextInput::make('student.first_name')
-                ->label('Legal First Name')
+                ->label('First Name')
                 ->required()
                 ->disabled(),
             TextInput::make('student.middle_name')
-                ->label('Legal Middle Name')
+                ->label('Middle Name')
                 ->disabled(),
             TextInput::make('student.last_name')
-                ->label('Legal Last Name')
+                ->label('Last Name')
                 ->required()
                 ->disabled(),
             Select::make('student.suffix')
@@ -157,7 +157,7 @@ class ViewApplication extends Component implements HasForms
                 ->label('Suffix')
                 ->disabled(),
             TextInput::make('student.preferred_first_name')
-                ->label('Preferred First Name (Must be different from Legal First Name)')
+                ->label('Preferred First Name (Must be different from First Name)')
                 ->disabled(),
             DatePicker::make('student.birthdate')
                 ->label('Date of Birth')
@@ -310,14 +310,14 @@ class ViewApplication extends Component implements HasForms
                         ->required()
                         ->disabled(),
                     TextInput::make('first_name')
-                        ->label('Legal First Name')
+                        ->label('First Name')
                         ->required()
                         ->disabled(),
                     TextInput::make('middle_name')
-                        ->label('Legal Middle Name')
+                        ->label('Middle Name')
                         ->disabled(),
                     TextInput::make('last_name')
-                        ->label('Legal Last Name')
+                        ->label('Last Name')
                         ->required()
                         ->disabled(),
                     Select::make('suffix')

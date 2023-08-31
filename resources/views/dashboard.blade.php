@@ -4,7 +4,7 @@
 
         <h2 class="text-2xl font-semibold text-center lg:text-3xl font-heading text-primary-blue">Welcome to the MySI Portal</h2>
         
-        <h3 class="mt-8 text-lg font-bold text-gray-700 font-heading">September 6, 2023</h3>
+        <h3 class="hidden mt-8 text-lg font-bold text-gray-700 font-heading">September 6, 2023</h3>
 
         <div class="mt-8 space-y-8">
             <p>

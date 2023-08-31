@@ -165,23 +165,23 @@ class ChildrenInformation extends Component implements HasTable, HasForms
                             }
                         }),
                         TextInput::make('first_name')
-                            ->label('Legal First Name')
+                            ->label('First Name')
                             ->required(),
                         TextInput::make('middle_name')
-                            ->label('Legal Middle Name'),
+                            ->label('Middle Name'),
                         TextInput::make('last_name')
-                            ->label('Legal Last Name')
+                            ->label('Last Name')
                             ->required(),
                         Select::make('suffix')
                             ->label('Suffix')
                             ->options(Suffix::asSameArray()),
                         TextInput::make('preferred_first_name')
-                            ->label('Preferred First Name (Must be different from Legal First Name)')
+                            ->label('Preferred First Name (Must be different from First Name)')
                             ->rules([
                                 function () {
                                     return function (string $attribute, $value, Closure $fail) {
                                         if ($value === $this->data['first_name']) {
-                                            $fail("Legal First Name is the same as Preferred First Name.  Please delete Preferred First Name.");
+                                            $fail("First Name is the same as Preferred First Name.  Please delete Preferred First Name.");
                                         }
                                     };
                                 },
