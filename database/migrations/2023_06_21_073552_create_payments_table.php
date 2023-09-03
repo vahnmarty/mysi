@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('transaction_id', 20)->nullable();
             $table->string('auth_id', 10)->nullable();
             $table->float('initial_amount', 16, 2)->nullable();
-            $table->string('promo_code', 10)->nullable();
+            $table->string('promo_code', 100)->nullable();
             $table->float('promo_amount', 16, 2)->nullable();
             $table->float('final_amount', 16, 2)->nullable();
             $table->integer('quantity')->nullable();

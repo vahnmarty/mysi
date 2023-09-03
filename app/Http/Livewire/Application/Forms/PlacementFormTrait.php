@@ -25,10 +25,6 @@ trait PlacementFormTrait{
     public function getPlacementForm()
     {
         return [
-            Placeholder::make('si_placement_description')
-                ->label('')
-                ->content(new HtmlString('Saint Ignatius College Preparatory celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS and/or receive accommodations on the High School Placement Test, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
-
             Grid::make(1)
                 ->schema([
                     Hidden::make('placement_test_date')

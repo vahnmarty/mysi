@@ -269,7 +269,7 @@ class ApplicationForm extends Component implements HasForms
         // Create the payment data for a credit card
         $creditCard = new AnetAPI\CreditCardType();
         $creditCard->setCardNumber($data['card_number']);
-        $creditCard->setExpirationDate("2038-12");
+        $creditCard->setExpirationDate($data['card_expiration']);
         $creditCard->setCardCode($data['card_cvv']);
 
         // Add the payment data to a paymentType object
@@ -279,7 +279,7 @@ class ApplicationForm extends Component implements HasForms
         // Create order information
         $order = new AnetAPI\OrderType();
 
-        $invoice_number = PaymentType::AppFee .'-'. $this->app->id . '-' . date('s') ;
+        $invoice_number = PaymentType::AppFee .'-'. $this->app->id . '-' . date('Ymd') ;
 
         $order->setInvoiceNumber($invoice_number);
         $order->setDescription("Payment For Admission Application");
@@ -363,11 +363,25 @@ class ApplicationForm extends Component implements HasForms
                     // echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
 
                 } else {
-                    echo "Transaction Failed \n";
+                    Notification::make()
+                    ->title('Transaction Failed!')
+                    ->danger()
+                    ->send();
+
+                    // echo "Transaction Failed \n";
                     if ($tresponse->getErrors() != null) {
-                        echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
-                        echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
+
+                        Notification::make()
+                            ->title('Transaction Error: ' . $tresponse->getErrors()[0]->getErrorCode())
+                            ->body($tresponse->getErrors()[0]->getErrorText())
+                            ->danger()
+                            ->send();
+
+                        // echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
+                        // echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
                     }
+
+                    return false;
                 }
                 // Or, print errors if the API request wasn't successful
             } else {
