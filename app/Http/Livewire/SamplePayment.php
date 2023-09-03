@@ -11,6 +11,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Contracts\HasForms;
 
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\Placeholder;
 use net\authorize\api\contract\v1 as AnetAPI;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -37,6 +38,7 @@ class SamplePayment extends Component implements HasForms
     public function mount()
     {
         $this->form->fill([
+            'amount' => 1,
             'billing' => [
                 'first_name' => 'Vahn',
                 'last_name' => 'Marty',
@@ -57,6 +59,10 @@ class SamplePayment extends Component implements HasForms
         return [
             Grid::make(3)
                 ->schema([
+                    TextInput::make('amount')
+                        ->numeric()
+                        ->required()
+                        ->default(1),
                     TextInput::make('billing.first_name')
                         ->label('First Name')
                         ->required()
@@ -97,20 +103,7 @@ class SamplePayment extends Component implements HasForms
                     TextInput::make('billing.zip_code')
                         ->label('Billing Zip Code')
                         ->required(),
-                    Placeholder::make('note')
-                        ->label('')
-                        ->columnSpan('full')
-                        ->content(new HtmlString('
-                            <p class="text-sm">
-                            <strong class="text-primary-red">NOTE:</strong>  
-                            Before you click on the Pay button, please make
-                            sure your information is correct.  You will not
-                            be able to edit payment information after you
-                            click the Pay button because SI does not store
-                            your credit information.  If you are not ready
-                            to make a payment, click on the Close button.
-                            </p>
-                        '))
+                    
                 ])
         ];
     }
@@ -118,8 +111,8 @@ class SamplePayment extends Component implements HasForms
     function authorizeCreditCard($data)
     {
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-        $merchantAuthentication->setName($this->apiName);
-        $merchantAuthentication->setTransactionKey($this->apiKey);
+        $merchantAuthentication->setName(config('services.authorize.login_id'));
+        $merchantAuthentication->setTransactionKey(config('services.authorize.transaction_key'));
         
         // Set the transaction's refId
         $refId = 'ref' . time();
@@ -127,7 +120,7 @@ class SamplePayment extends Component implements HasForms
         // Create the payment data for a credit card
         $creditCard = new AnetAPI\CreditCardType();
         $creditCard->setCardNumber($data['card_number']);
-        $creditCard->setExpirationDate("2038-12");
+        $creditCard->setExpirationDate($data['card_expiration']);
         $creditCard->setCardCode($data['card_cvv']);
 
         // Add the payment data to a paymentType object
@@ -137,7 +130,7 @@ class SamplePayment extends Component implements HasForms
         // Create order information
         $order = new AnetAPI\OrderType();
 
-        $invoice_number = 'ApplicationFee-001' ;
+        $invoice_number = PaymentType::AppFee .'-'. date('s') ;
 
         $order->setInvoiceNumber($invoice_number);
         $order->setDescription("Payment For Admission Application");
@@ -146,7 +139,6 @@ class SamplePayment extends Component implements HasForms
         $customerAddress = new AnetAPI\CustomerAddressType();
         $customerAddress->setFirstName($data['first_name']);
         $customerAddress->setLastName($data['last_name']);
-        //$customerAddress->setCompany("Souveniropolis");
         $customerAddress->setAddress($data['address']);
         $customerAddress->setCity($data['city']);
         $customerAddress->setState($data['state']);
@@ -161,7 +153,7 @@ class SamplePayment extends Component implements HasForms
 
 
         # Variables
-        $amount = 100;
+        $amount = 1;
 
 
         // Create a TransactionRequestType object and add the previous objects to it
@@ -181,7 +173,16 @@ class SamplePayment extends Component implements HasForms
 
         // Create the controller and get the response
         $controller = new AnetController\CreateTransactionController($request);
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+
+
+        $environment = config('services.authorize.env');
+
+        if($environment == 'production'){
+            $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+        }else{
+            $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        }
+        
 
 
         if ($response != null) {
@@ -193,46 +194,68 @@ class SamplePayment extends Component implements HasForms
             
                 if ($tresponse != null && $tresponse->getMessages() != null) {
 
-                    $payment = Payment::create([
-                        'application_id' => 1,
-                        'user_id' => Auth::id(),
-                        'name_on_card' => $data['first_name'] . ' ' . $data['last_name'],
-                        'payment_type' => PaymentType::AppFee,
-                        'transaction_id' => $tresponse->getResponseCode(),
-                        'auth_id' => $tresponse->getAuthCode(),
-                        'initial_amount' => $amount,
-                        'final_amount' => $amount,
-                        'quantity' => 1,
-                        'total_amount' => $amount
-                    ]);
+                    Notification::make()
+                    ->title("Successfully created transaction with Transaction ID: " . $tresponse->getTransId())
+                    ->body($tresponse->getMessages()[0]->getDescription())
+                    ->success()
+                    ->send();
 
-                    echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
-                    echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
-                    echo " Message Code: " . $tresponse->getMessages()[0]->getCode() . "\n";
-                    echo " Auth Code: " . $tresponse->getAuthCode() . "\n";
-                    echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
+                    // echo " Successfully created transaction with Transaction ID: " . $tresponse->getTransId() . "\n";
+                    // echo " Transaction Response Code: " . $tresponse->getResponseCode() . "\n";
+                    // echo " Message Code: " . $tresponse->getMessages()[0]->getCode() . "\n";
+                    // echo " Auth Code: " . $tresponse->getAuthCode() . "\n";
+                    // echo " Description: " . $tresponse->getMessages()[0]->getDescription() . "\n";
+
                 } else {
-                    echo "Transaction Failed \n";
+                    Notification::make()
+                    ->title('Transaction Failed!')
+                    ->danger()
+                    ->send();
+
+                    // echo "Transaction Failed \n";
                     if ($tresponse->getErrors() != null) {
-                        echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
-                        echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
+
+                        Notification::make()
+                            ->title('Transaction Error: ' . $tresponse->getErrors()[0]->getErrorCode())
+                            ->body($tresponse->getErrors()[0]->getErrorText())
+                            ->danger()
+                            ->send();
+
+                        // echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
+                        // echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
                     }
                 }
                 // Or, print errors if the API request wasn't successful
             } else {
                 echo "Transaction Failed \n";
                 $tresponse = $response->getTransactionResponse();
-            
+                $code = '';
+                $message = '';
+                
                 if ($tresponse != null && $tresponse->getErrors() != null) {
-                    echo " Error Code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
-                    echo " Error Message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";
+                    $code = $tresponse->getErrors()[0]->getErrorCode();
+                    $message = $tresponse->getErrors()[0]->getErrorText() ;
                 } else {
-                    echo " Error Code  : " . $response->getMessages()->getMessage()[0]->getCode() . "\n";
-                    echo " Error Message : " . $response->getMessages()->getMessage()[0]->getText() . "\n";
+                    $code = $response->getMessages()->getMessage()[0]->getCode();
+                    $message = $response->getMessages()->getMessage()[0]->getText();
                 }
+
+                Notification::make()
+                    ->title('Transaction Failed! ' . $code)
+                    ->danger()
+                    ->send();
+
+                Notification::make()
+                    ->title('Transaction Failed! ' . $message)
+                    ->danger()
+                    ->send();
             }      
         } else {
-            echo  "No response returned \n";
+
+            Notification::make()
+                ->title('No response returned')
+                ->danger()
+                ->send();
         }
 
         return $response;

@@ -78,7 +78,6 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
     Route::get('accommodation-documents', AccommodationDocuments::class)->name('application.accommodation-documents');
-
     Route::get('help', ContactPage::class)->name('help');
 });
 
