@@ -38,8 +38,8 @@ class SamplePayment extends Component implements HasForms
     public function mount()
     {
         $this->form->fill([
-            'amount' => 1,
             'billing' => [
+                'amount' => 1.5,
                 'first_name' => 'Vahn',
                 'last_name' => 'Marty',
                 'email' => 'vahnmarty@gmail.com',
@@ -59,7 +59,7 @@ class SamplePayment extends Component implements HasForms
         return [
             Grid::make(3)
                 ->schema([
-                    TextInput::make('amount')
+                    TextInput::make('billing.amount')
                         ->numeric()
                         ->required()
                         ->default(1),
