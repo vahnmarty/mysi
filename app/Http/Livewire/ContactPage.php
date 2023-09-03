@@ -77,7 +77,11 @@ class ContactPage extends Component implements HasForms
                 ->enableDownload()
                 ->directory("attachments/" . date('Ymdhis'))
                 ->visibility('public')
-                ->preserveFilenames()
+                // ->preserveFilenames()
+                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                    // TODO: Clean Strings:
+                    return (string) str($file->getClientOriginalName());
+                })
         ];
     }
 

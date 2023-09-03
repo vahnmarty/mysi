@@ -9,5 +9,12 @@
     
     <h3 class="mt-8 text-2xl font-bold">Access Forbidden.</h3>
     <p class="mt-4 text-sm text-gray-700">{{  __($exception->getMessage() ?: 'Forbidden') }}</p>
+
+
+    <form action="{{ route('logout') }}" method="POST" class="block mt-8 text-center">
+        @csrf
+
+        <button type="submit" class="underline">Logout?</button>
+    </form>
 </div>
 @endsection

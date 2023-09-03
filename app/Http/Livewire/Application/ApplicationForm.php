@@ -322,7 +322,16 @@ class ApplicationForm extends Component implements HasForms
 
         // Create the controller and get the response
         $controller = new AnetController\CreateTransactionController($request);
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+
+
+        $environment = config('services.authorize.env');
+
+        if($environment == 'production'){
+            $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::PRODUCTION);
+        }else{
+            $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        }
+        
 
 
         if ($response != null) {

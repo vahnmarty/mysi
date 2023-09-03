@@ -94,6 +94,10 @@ trait PlacementFormTrait{
                         ])
             ]),
 
+            Placeholder::make('si_placement_description')
+                ->label('')
+                ->content(new HtmlString('Saint Ignatius College Preparatory celebrates neurodiversity and welcomes all kinds of learners. We offer additional support to students through our Center for Academics and Targeted Support (CATS). If your child has a learning difference or other diagnosis and you would like them to receive support from CATS and/or receive accommodations on the High School Placement Test, please upload their diagnostic report (IEP, 504 Plan, Psychological Evaluation, etc.) here.')),
+
             Radio::make('has_learning_difference')
                 ->label('Would you like to upload any documents?')
                 ->options([
@@ -117,7 +121,7 @@ trait PlacementFormTrait{
                     $this->autoSave('has_learning_difference', $state);
                 }),
             FileUpload::make('file_learning_documentation')
-                ->label('Upload your file here. You can attach multiple files.')
+                ->label('Upload your file here. You can attach multiple files. Please make sure to select the updated High School Placement test date of December 9th, 2023 above, if you would like to take the test at SI with accomodations.')
                 ->multiple()
                 ->maxSize(25000)
                 ->reactive()
@@ -128,7 +132,11 @@ trait PlacementFormTrait{
                 ->enableDownload()
                 ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->app->id)
                 ->visible(fn(Closure $get)  =>  $get('has_learning_difference') == 1  )
-                ->preserveFilenames()
+                //->preserveFilenames()
+                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                    // TODO: Clean Strings:
+                    return (string) str($file->getClientOriginalName());
+                })
                 ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                     // if($state){
                     //     $date = Carbon::parse(settings('placement_test_date'))->addDays(7)->format('Y-m-d');

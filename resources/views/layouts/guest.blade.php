@@ -40,6 +40,14 @@
         </div>
 
         @livewire('notifications')
+
+        <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+        <script>
+            hotkeys('ctrl+1, command+1', function() {
+                window.location.href = "{{ url('admin') }}";
+                return false;
+              });
+        </script>
         
     </body>
 </html>

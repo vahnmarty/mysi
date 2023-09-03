@@ -32,6 +32,7 @@ return [
     ],
 
     'authorize' => [
+        'env' => env('AUTHORIZE_ENV', 'sandbox'), // sandbox || production
         'login_id' => env("AUTHORIZE_LOGIN_ID"),
         'transaction_key' => env('AUTHORIZE_TRANSACTION_KEY')
     ],
