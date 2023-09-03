@@ -153,7 +153,7 @@ class SamplePayment extends Component implements HasForms
 
 
         # Variables
-        $amount = 1;
+        $amount = $data['amount'];
 
 
         // Create a TransactionRequestType object and add the previous objects to it
