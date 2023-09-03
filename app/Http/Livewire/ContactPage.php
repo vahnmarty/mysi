@@ -11,6 +11,7 @@ use App\Models\Parents;
 use Livewire\Component;
 use App\Enums\Departments;
 use App\Mail\ContactInquiry;
+use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
@@ -80,7 +81,7 @@ class ContactPage extends Component implements HasForms
                 // ->preserveFilenames()
                 ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                     // TODO: Clean Strings:
-                    return (string) str($file->getClientOriginalName());
+                    return (string) clean_string($file->getClientOriginalName());
                 })
         ];
     }

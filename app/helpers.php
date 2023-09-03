@@ -1,5 +1,16 @@
 <?php
 
+if (! function_exists('clean_string')) {
+    function clean_string($string){
+        // Remove special characters and replace spaces with underscores
+        $newString = preg_replace("/[^a-zA-Z0-9.]/", "_", $string);
+        // Trim any leading or trailing underscores
+        $newString = trim($newString, '_');
+
+        return $newString;
+    }
+}
+
 if (! function_exists('accountId')) {
     function accountId() {
         return auth()->user()->account_id;

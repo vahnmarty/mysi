@@ -131,7 +131,7 @@ trait PlacementFormTrait{
                 //->preserveFilenames()
                 ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                     // TODO: Clean Strings:
-                    return (string) str($file->getClientOriginalName());
+                    return (string) clean_string($file->getClientOriginalName());
                 })
                 ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                     // if($state){
