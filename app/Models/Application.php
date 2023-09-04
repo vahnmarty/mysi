@@ -103,6 +103,11 @@ class Application extends Model
         ];
     }
 
+    public function supplementalRecommendationRequest()
+    {
+        return $this->hasMany(SupplementalRecommendationRequest::class);
+    }
+
     // public function current_school()
     // {
     //     return $this->hasManyThrough(

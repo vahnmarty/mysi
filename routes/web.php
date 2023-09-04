@@ -27,6 +27,8 @@ use App\Http\Livewire\Application\HealthcareInformation;
 use App\Http\Livewire\Application\AccommodationDocuments;
 use App\Http\Livewire\Application\EmergencyContactInformation;
 use App\Http\Livewire\Application\UploadAccommodationDocuments;
+use App\Http\Livewire\Application\SupplementalRecommendationPage;
+use App\Http\Livewire\Application\SupplementalRecommendationRequestForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +81,8 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
     Route::get('accommodation-documents', AccommodationDocuments::class)->name('application.accommodation-documents');
     Route::get('help', ContactPage::class)->name('help');
+    Route::get('supplemental-recommendation', SupplementalRecommendationPage::class)->name('application.supplemental-recommendation');
+    Route::get('supplemental-recommendation/{uuid}', SupplementalRecommendationRequestForm::class)->name('application.supplemental-recommendation-request');
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
