@@ -12,6 +12,7 @@ use App\Imports\ChildrenImport;
 use Illuminate\Console\Command;
 use App\Imports\AddressesImport;
 use App\Imports\LiveAddressImport;
+use App\Imports\LiveParentsImport;
 use App\Imports\LiveChildrenImport;
 
 class ImportProdSalesforce extends Command
@@ -53,7 +54,7 @@ class ImportProdSalesforce extends Command
         $this->warn('Importing Parents...');
         Excel::import(new LiveParentsImport, 'Parents.xlsx');
         $this->info(Parents::count() . ' has been imported.');
-        $this->newLine(3);
+        $this->newLine(2);
 
         $this->info('Import Done!');
     }
