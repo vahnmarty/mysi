@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Application;
 
+use Closure;
 use App\Models\Parents;
 use Livewire\Component;
 use Filament\Forms\Components\Select;
@@ -31,14 +32,24 @@ class SupplementalRecommendationRequestForm extends Component implements HasForm
         return [
             Select::make('requester')
                 ->label('Requester')
-                ->options(Parents::where('account_id', accountId())->pluck('first_name', 'id'))
-                ->required(),
+                ->options(Parents::where('account_id', accountId())->get()->pluck('full_name', 'id'))
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Closure $set, $state){
+                    $parent = Parents::findOrFail($state);
+
+                    $set('requester_email', $parent->personal_email);
+                }),
             TextInput::make('requester_email')
                 ->label('Requester Email')
                 ->email()
+                ->lazy()
                 ->required(),
-            TextInput::make('recommender_name')
-                ->label('Name of Recommender')
+            TextInput::make('recommender_first_name')
+                ->label('First Name of Recommender')
+                ->required(),
+            TextInput::make('recommender_last_name')
+                ->label('Last Name of Recommender')
                 ->required(),
             TextInput::make('recommender_email')
                 ->label('Recommender Email')

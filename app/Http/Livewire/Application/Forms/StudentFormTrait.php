@@ -105,7 +105,7 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('mobile_phone', $state);
                 }),
             CheckboxList::make('student.race')
-                ->label(new HtmlString('<legend>How do you identify racially?</legend><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
+                ->label(new HtmlString('<div>How do you identify racially?</div><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
                 ->options(RacialType::asSameArray())
                 ->columns(3)
                 ->lazy()
@@ -128,7 +128,7 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
             TagsInput::make('student.ethnicity')
-                ->label(new HtmlString('<legend>What is your ethnicity?</legend><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
+                ->label(new HtmlString('<div>What is your ethnicity?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
                 ->placeholder('')

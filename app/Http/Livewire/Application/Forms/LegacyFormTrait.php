@@ -93,7 +93,7 @@ trait LegacyFormTrait{
                         ->numeric()
                         ->minLength(4)
                         ->maxLength(4)
-                        ->maxValue(date('Y'))
+                        ->maxValue(2027)
                         ->required()
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){

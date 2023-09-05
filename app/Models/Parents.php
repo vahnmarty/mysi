@@ -13,9 +13,16 @@ class Parents extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['full_name'];
+
     public function getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->getFullName();
     }
 
     public function scopeFromAccount($query, $accountId = null){

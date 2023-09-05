@@ -156,7 +156,7 @@ class LegacyInformation extends Component implements HasTable, HasForms
                     ->numeric()
                     ->minLength(4)
                     ->maxLength(4)
-                    ->maxValue(date('Y'))
+                    ->maxValue(2027)
                     ->required(),
             ])
             
