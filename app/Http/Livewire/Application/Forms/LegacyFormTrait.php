@@ -96,7 +96,7 @@ trait LegacyFormTrait{
                         ->maxValue(2027)
                         ->required()
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
-                        ->afterStateUpdated(function(Livewire $livewire, Closure $get, Component $component, $state){
+                        ->afterStateUpdated(function(Livewire $livewire, Closure $get, TextInput $component, $state){
                             $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveLegacy($get('id'), 'graduation_year', $state);
                         }),

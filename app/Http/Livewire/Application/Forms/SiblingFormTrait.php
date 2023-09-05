@@ -158,13 +158,28 @@ trait SiblingFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'graduated_at_si', $state);
                         }),
+                    // TextInput::make('graduation_year')
+                    //     ->label('High School Graduation Year')
+                    //     ->lazy()
+                    //     ->minLength(4)
+                    //     ->maxLength(4)
+                    //     ->maxValue(2027)
+                    //     ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                    //     ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    //         dd($component->getStatePath(), $livewire->validateOnly($component->getStatePath()));
+                    //         $this->autoSaveSibling($get('id'), 'graduation_year', $state);
+                    //     }),
                     TextInput::make('graduation_year')
                         ->label('High School Graduation Year')
+                        ->validationAttribute('High School Graduation Year')
                         ->lazy()
+                        ->numeric()
                         ->minLength(4)
                         ->maxLength(4)
+                        ->maxValue(2027)
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->afterStateUpdated(function(Livewire $livewire, Closure $get, TextInput $component, $state){
+                            $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveSibling($get('id'), 'graduation_year', $state);
                         }),
                 ])

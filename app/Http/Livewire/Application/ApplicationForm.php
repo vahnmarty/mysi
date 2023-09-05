@@ -62,7 +62,9 @@ class ApplicationForm extends Component implements HasForms
         'data.writing_sample_essay_acknowledgement.accepted' => 'This field is required.',
         'data.activities.min' => 'There must be at least 1 school activity listed.',
         'data.addresses.min' => 'There must be at least 1 address listed.',
-        'data.file_learning_documentation.required' => 'There is no file attached to the application.  Please upload your documentation.'
+        'data.file_learning_documentation.required' => 'There is no file attached to the application.  Please upload your documentation.',
+        'data.legacy.*.graduation_year.max' => 'The Graduation Year must not be greater than :max.',
+        //'data.siblings.*.graduation_year' => 'The Graduation Year must not be greater than :input.',
     ];
 
     public function render()
