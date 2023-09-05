@@ -20,26 +20,31 @@ class ApplicationSummary extends BaseWidget
         return [
             Card::make('Incomplete Applications', Application::incomplete()->count())
                 ->color('warning')
+                ->icon('heroicon-o-cube-transparent')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
                     'wire:click' => '$emitUp("goto", "admin/applications")',
                 ]),
             Card::make('Submitted Applications', Application::submitted()->count())
+                ->icon('heroicon-o-badge-check')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
                     'wire:click' => '$emitUp("goto", "admin/applications")',
                 ]),
             Card::make('Total Applications', Application::count())
+                ->icon('heroicon-o-cube')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
                     'wire:click' => '$emitUp("goto", "admin/applications")',
                 ]),
             Card::make('Total Users', User::count())
+                ->icon('heroicon-o-user-group')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
                     'wire:click' => '$emitUp("goto", "admin/users")',
                 ]),
             Card::make('Total Students', Child::student()->count())
+                ->icon('heroicon-o-academic-cap')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
                     'wire:click' => '$emitUp("goto", "admin/children")',
