@@ -96,6 +96,14 @@ class Application extends Model
         });
     }
 
+    public function scopeIncomplete($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->whereNull('application_submitted')->orWhere('application_submitted', false);
+        });
+    }
+
+
     public function familyMatrix()
     {
         return [

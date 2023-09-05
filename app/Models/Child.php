@@ -36,6 +36,11 @@ class Child extends Model
         return false;
     }
 
+    public function scopeStudent($query)
+    {
+        return $query->where('current_grade', GradeLevel::Grade8);
+    }
+
     public function submittedApplication()
     {
         return $this->hasOne(Application::class)->submitted();
