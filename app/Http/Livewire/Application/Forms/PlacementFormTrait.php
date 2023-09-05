@@ -117,7 +117,7 @@ trait PlacementFormTrait{
                     $this->autoSave('has_learning_difference', $state);
                 }),
             FileUpload::make('file_learning_documentation')
-                ->label('Upload your file here. You can attach multiple files. Please make sure to select the updated High School Placement test date of December 9th, 2023 above, if you would like to take the test at SI with accomodations.')
+                ->label('Upload your file here. You can attach multiple files. Please make sure to select the updated High School Placement test date of December 9th, 2023 above, if you would like to take the test at SI with accommodations.')
                 ->multiple()
                 ->maxSize(25000)
                 ->reactive()

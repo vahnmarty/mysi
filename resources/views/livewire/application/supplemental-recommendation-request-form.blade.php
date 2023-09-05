@@ -9,9 +9,8 @@
 
     <div class="pb-32 mt-8">
 
-        <p><strong>DUE DATE</strong>: St. Ignatius College Preparatory must receive all supplemental recommendations by the end of the day on Thursday, December 15, 2022.</p>
-        <p class="mt-8"> <strong>PLEASE NOTE</strong>: Once you submit your Supplemental Recommendation request, we cannot cancel it. Please make sure you are entering the correct information for your recommender.
-        </p>
+        <p><strong>DUE DATE</strong>: St. Ignatius College Preparatory must receive all supplemental recommendations by the end of the day on Wednesday, January 10, 2024 at 11:59 PT</p>
+        
         <form wire:submit.prevent="submit" novalidate class="mt-8">
 
             {{ $this->form }}
