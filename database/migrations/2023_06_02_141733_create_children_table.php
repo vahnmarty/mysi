@@ -40,8 +40,8 @@ return new class extends Migration
             $table->string('current_school', 100)->nullable();
             $table->string('current_school_not_listed', 100)->nullable();
             $table->string('religion', 15)->nullable();
-            $table->string('religion_other', 255)->nullable();
-            $table->string('religious_community', 255)->nullable();
+            $table->string('religion_other', 50)->nullable();
+            $table->string('religious_community', 100)->nullable();
             $table->string('religious_community_location', 255)->nullable();
             $table->integer('baptism_year')->nullable();
             $table->integer('confirmation_year')->nullable();
