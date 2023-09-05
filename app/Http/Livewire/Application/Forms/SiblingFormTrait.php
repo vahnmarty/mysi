@@ -176,7 +176,7 @@ trait SiblingFormTrait{
                         ->numeric()
                         ->minLength(4)
                         ->maxLength(4)
-                        ->maxValue(2027)
+                        ->maxValue(date('Y'))
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                         ->afterStateUpdated(function(Livewire $livewire, Closure $get, TextInput $component, $state){
                             $livewire->validateOnly($component->getStatePath());
