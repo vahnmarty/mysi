@@ -29,8 +29,9 @@ class LiveAddressImport implements ToCollection, WithStartRow
                 'state' => (string) $row[8],
                 'zip_code' => (string) $row[9],
                 'phone_number' => (string) $row[10],
-                'created_at' => (string) $row[11],
-                'updated_at' => (string) $row[12],
+                'created_at' => $row[11],
+                'updated_at' => $row[12],
+                'deleted_at' => $row[13],
             ]);
         }
     }

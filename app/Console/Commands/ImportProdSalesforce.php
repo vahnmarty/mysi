@@ -6,11 +6,13 @@ use Excel;
 use App\Models\Child;
 use App\Models\Account;
 use App\Models\Address;
+use App\Models\Parents;
 use App\Imports\AccountsImport;
 use App\Imports\ChildrenImport;
 use Illuminate\Console\Command;
 use App\Imports\AddressesImport;
 use App\Imports\LiveAddressImport;
+use App\Imports\LiveParentsImport;
 use App\Imports\LiveChildrenImport;
 
 class ImportProdSalesforce extends Command
@@ -48,5 +50,12 @@ class ImportProdSalesforce extends Command
         Excel::import(new LiveChildrenImport, 'live/Children.xlsx');
         $this->info(Child::count() . ' has been imported.');
         $this->newLine();
+
+        $this->warn('Importing Parents...');
+        Excel::import(new LiveParentsImport, 'live/Parents.xlsx');
+        $this->info(Parents::count() . ' has been imported.');
+        $this->newLine(2);
+
+        $this->info('Import Done!');
     }
 }
