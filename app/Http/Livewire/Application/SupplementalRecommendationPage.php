@@ -119,6 +119,7 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                     return false;
 
                 })
+                ->hidden(fn(Child $record) => $record->submittedApplication ? false : true )
         ];
     }
 
