@@ -37,22 +37,22 @@ class ImportProdSalesforce extends Command
     public function handle()
     {
         $this->warn('Importing Accounts...');
-        Excel::import(new AccountsImport, 'live/Accounts.xlsx');
+        Excel::import(new AccountsImport, storage_path('app/live/Accounts.xlsx'));
         $this->info(Account::count() . ' accounts has been imported.');
         $this->newLine();
 
         $this->warn('Importing Addresses...');
-        Excel::import(new LiveAddressImport, 'live/Addresses.xlsx');
+        Excel::import(new LiveAddressImport, storage_path('app/live/Addresses.xlsx'));
         $this->info(Address::count() . ' has been imported.');
         $this->newLine();
 
         $this->warn('Importing Children...');
-        Excel::import(new LiveChildrenImport, 'live/Children.xlsx');
+        Excel::import(new LiveChildrenImport, storage_path('app/live/Children.xlsx'));
         $this->info(Child::count() . ' has been imported.');
         $this->newLine();
 
         $this->warn('Importing Parents...');
-        Excel::import(new LiveParentsImport, 'live/Parents.xlsx');
+        Excel::import(new LiveParentsImport, storage_path('app/live/Parents.xlsx'));
         $this->info(Parents::count() . ' has been imported.');
         $this->newLine(2);
 
