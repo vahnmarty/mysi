@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address', 75)->nullable();
             $table->string('city', 75)->nullable();
             $table->string('state', 75)->nullable();
-            $table->string('zip_code', 5)->nullable();
+            $table->string('zip_code', 10)->nullable()->comment('Some zipcode is 94044-4442');
             $table->string('phone_number', 10)->nullable();
             $table->timestamps();
             $table->softDeletes();

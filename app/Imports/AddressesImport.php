@@ -20,14 +20,14 @@ class AddressesImport implements ToCollection, WithStartRow
                 'id' => $row[0],
             ],[
                 'account_id' => $row[1],
-                'address_type' => $row[2],
-                'address' => $row[3],
-                'city' => $row[4],
-                'state' => $row[5],
-                'zip_code' => $row[6],
-                'phone_number' => (string) $row[7],
-                'sf_account_id' => $row[8],
-                'sf_residence_id' => $row[9]
+                'address_type' => (string) $row[2],
+                'address' => (string) $row[3],
+                'city' => (string) $row[4],
+                'state' => (string) $row[5],
+                'zip_code' => (string) $row[6],
+                'phone_number' => (string) (string) $row[7],
+                'sf_account_id' => (string) $row[8],
+                'sf_residence_id' => (string) $row[9]
             ]);
         }
     }

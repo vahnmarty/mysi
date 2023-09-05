@@ -19,10 +19,10 @@ class AccountsImport implements ToCollection, WithStartRow
             Account::updateOrCreate([
                 'id' => $row[0],
             ],[
-                'account_name' => $row[1],
+                'account_name' => (string) $row[1],
                 'phone' => (string) $row[2],
-                'sf_account_id' => $row[3],
-                'record_type_id' => $row[4],
+                'sf_account_id' => (string) $row[3],
+                'record_type_id' => (string) $row[4],
             ]);
         }
     }
