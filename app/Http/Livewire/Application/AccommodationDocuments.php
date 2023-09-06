@@ -160,4 +160,10 @@ class AccommodationDocuments extends Livewire implements HasTable
 
         $this->enable_form = false;
     }
+
+    public function cancel()
+    {
+        $this->form->fill();
+        $this->enable_form = false;
+    }
 }
