@@ -128,6 +128,11 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
         return $this->first_name  . ' ' . $this->last_name;
     }
 
+    public function getFullName()
+    {
+        return $this->getNameAttribute();
+    }
+
     public function canAccessFilament(): bool
     {
         return $this->hasRole('admin');

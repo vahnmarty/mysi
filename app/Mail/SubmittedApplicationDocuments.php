@@ -30,7 +30,7 @@ class SubmittedApplicationDocuments extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Submitted Application Documents',
+            subject: 'Submitted CATS Application Documents',
         );
     }
 
