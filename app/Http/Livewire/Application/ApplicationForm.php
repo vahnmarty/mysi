@@ -348,7 +348,7 @@ class ApplicationForm extends Component implements HasForms
                     $payment->update([  
                         'name_on_card' => $data['first_name'] . ' ' . $data['last_name'],
                         'payment_type' => PaymentType::AppFee,
-                        'transaction_id' => $tresponse->getResponseCode(),
+                        'transaction_id' => $tresponse->getTransId(),
                         'auth_id' => $tresponse->getAuthCode(),
                         'initial_amount' => $amount,
                         'final_amount' => $amount,
