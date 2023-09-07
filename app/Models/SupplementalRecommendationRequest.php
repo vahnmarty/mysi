@@ -17,4 +17,19 @@ class SupplementalRecommendationRequest extends Model
             $model->uuid = \Str::uuid();
         });
     }
+
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
+    }
+
+    public function child()
+    {
+        return $this->belongsTo(Child::class);
+    }
+
+    public function guardian()
+    {
+        return $this->belongsTo(Parents::class, 'parent_id');
+    }
 }

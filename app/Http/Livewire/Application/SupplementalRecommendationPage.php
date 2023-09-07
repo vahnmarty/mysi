@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Application;
 
+use Mail;
 use Closure;
 use App\Models\Child;
 use App\Models\Parents;
@@ -9,8 +10,10 @@ use Livewire\Component;
 use App\Enums\GradeLevel;
 use App\Enums\RecordType;
 use Illuminate\View\View;
+use App\Mail\RecommendationRequest;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
@@ -20,6 +23,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use App\Models\SupplementalRecommendationRequest;
 
 class SupplementalRecommendationPage extends Component implements HasForms, HasTable
 {
@@ -114,7 +118,11 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                         $this->model_id = $record->id;
                         $livewire->model = $record;
                         $this->enable_form = true;
-                        $this->form->fill($record->toArray());
+
+                        $this->form->fill([
+                            'child_id' => $record->id,
+                            'application_id' => $record->application?->id
+                        ]);
 
                         return true;
                     }
@@ -147,7 +155,9 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
         return [
             Grid::make(2)
                 ->schema([
-                    Select::make('requester')
+                    Hidden::make('child_id'),
+                    Hidden::make('application_id'),
+                    Select::make('parent_id')
                         ->label('Requester')
                         ->options(Parents::where('account_id', accountId())->get()->pluck('full_name', 'id'))
                         ->required()
@@ -156,8 +166,10 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                             $parent = Parents::findOrFail($state);
 
                             $set('requester_email', $parent->personal_email);
+                            $set('requester_name', $parent->getFullName());
                         })
                         ->columnSpan(2),
+                    Hidden::make('requester_name')->reactive(),
                     TextInput::make('requester_email')
                         ->label('Requester Email')
                         ->email()
@@ -193,10 +205,24 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
 
     public function save()
     {
+        $data = $this->form->getState();
+
+        $recommendation = new SupplementalRecommendationRequest;
+        $recommendation->fill($data);
+        $recommendation->save();
+
+        Mail::to($data['recommender_email'])
+            ->send(new RecommendationRequest($recommendation));
+
         Notification::make()
-            ->title('Feature under Maintenance')
-            ->body('Sorry, the Supplemental Recommendation Page is not yet available at the moment.')
-            ->danger()
+            ->title('Recommendation Request Sent!')
+            ->success()
             ->send();
+
+        //$this->form->fill();
+
+        //$this->enable_form = false;
+        
+        return true;
     }
 }
