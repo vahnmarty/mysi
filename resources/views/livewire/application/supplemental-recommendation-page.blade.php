@@ -10,12 +10,21 @@
         {{ $this->table }}
     </div>
 
+    <div x-data="{ open: $wire.entangle('enable_form') }" 
+        class="pb-8 mt-8"
+        x-show="open" x-cloak>
+        <p><strong>DUE DATE</strong>: St. Ignatius College Preparatory must receive all supplemental recommendations by the end of the day on Wednesday, January 10, 2024 at 11:59 PT.</p>
+    </div>
+    
+
     <div x-data="{ enable: $wire.entangle('enable_form') }" 
             class="pt-8 pb-32 border-t"
             x-show="enable"
             x-cloak>
         <form wire:submit.prevent="save" class="p-8 bg-gray-100 border rounded-md " novalidate>
 
+            
+            
             <p class="mb-8 ">
                 All required fields are color <span class="font-bold color-red-800">red</span> and have an asterisk (<span class="font-bold color-red-800">*</span>).
             </p>
