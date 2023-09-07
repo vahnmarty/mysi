@@ -44,7 +44,7 @@ class PaymentReceipt extends Notification
         return (new MailMessage)
                     ->subject('SI Admissions Application Receipt')
                     ->greeting('Hi ' . $notifiable->first_name . ', ')
-                    ->line('Thank you for your payment of **$'. number_format($this->payment->final_amount,2). '**. Your transaction confirmation code is: **'. $this->payment->auth_id.'**. Please keep this information for your records.')
+                    ->line('Thank you for your payment of **$'. number_format($this->payment->final_amount,2). '**. Your transaction confirmation code is: **'. $this->payment->transaction_id.'**. Please keep this information for your records.')
                     ->salutation(new HtmlString("**Regards**, <br>" . 'SI Admissions'));
     }
 
