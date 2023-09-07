@@ -51,6 +51,11 @@ class Child extends Model
         return $this->hasMany(AccommodationDocument::class);
     }
 
+    public function recommendations()
+    {
+        return $this->hasMany(SupplementalRecommendation::class);
+    }
+
     public function getCurrentSchool()
     {
         return $this->current_school == 'Not Listed' ? $this->current_school_not_listed : $this->current_school;

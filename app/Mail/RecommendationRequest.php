@@ -8,18 +8,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Models\SupplementalRecommendationRequest;
+use App\Models\SupplementalRecommendation;
 
 class RecommendationRequest extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public SupplementalRecommendationRequest $recommendation;
+    public SupplementalRecommendation $recommendation;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(SupplementalRecommendationRequest $recommendation)
+    public function __construct(SupplementalRecommendation $recommendation)
     {
         $this->recommendation = $recommendation->load('application', 'child');
     }

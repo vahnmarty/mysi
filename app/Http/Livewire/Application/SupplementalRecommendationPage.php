@@ -21,6 +21,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use App\Models\SupplementalRecommendation;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use App\Models\SupplementalRecommendationRequest;
@@ -104,7 +105,13 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
             Action::make('apply')
                 ->label(function(Child $record){
                     if($record->submitted()){
-                        return  'Request Rec';
+
+                        if($record->recommendations()->count()){
+                            return 'Cancel Rec';
+                        }else{
+                            return 'Request Rec';
+                        }
+                        
                     }
                         
                     return '⚠️ Cancel Rec';
@@ -189,7 +196,7 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                         ->required()
                         ->columnSpan(2),
                     Textarea::make('message')
-                        ->maxLength(2000)
+                        ->maxLength(600)
                         ->required()
                         ->columnSpan(2)
                 ])
@@ -207,8 +214,9 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
     {
         $data = $this->form->getState();
 
-        $recommendation = new SupplementalRecommendationRequest;
+        $recommendation = new SupplementalRecommendation;
         $recommendation->fill($data);
+        $recommendation->date_requested = date('Y-m-d');
         $recommendation->save();
 
         Mail::to($data['recommender_email'])
