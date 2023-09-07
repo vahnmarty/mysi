@@ -8,7 +8,7 @@ You have been invited by **{{ $recommendation->guardian->getFullName() }}** to s
 @endcomponent
 
 
-To write a recommendation, please click on this link:  [link of form]
+To write a recommendation, please click on this link:  [{{ url('recommendation') }}]({{ route('recommendation-form', $recommendation->uuid) }}) 
 
 **Note** St. Ignatius College Preparatory must receive all supplemental recommendations by Wednesday, January 10, 2024 at 11:59 PT.
 

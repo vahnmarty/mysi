@@ -219,9 +219,9 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
             ->success()
             ->send();
 
-        //$this->form->fill();
+        $this->form->fill();
 
-        //$this->enable_form = false;
+        $this->enable_form = false;
         
         return true;
     }

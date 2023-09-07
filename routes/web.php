@@ -10,6 +10,7 @@ use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Livewire\Profile\MyProfile;
+use App\Http\Livewire\RecommendationForm;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
@@ -19,8 +20,8 @@ use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
-use App\Http\Livewire\Application\AddressInformation;
 
+use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
 use App\Http\Livewire\Application\HealthcareInformation;
@@ -83,6 +84,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('help', ContactPage::class)->name('help');
     Route::get('supplemental-recommendation', SupplementalRecommendationPage::class)->name('application.supplemental-recommendation');
     Route::get('supplemental-recommendation/{uuid}', SupplementalRecommendationRequestForm::class)->name('application.supplemental-recommendation-request');
+    Route::get('recommendation/{uuid}', RecommendationForm::class)->name('recommendation-form');
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
