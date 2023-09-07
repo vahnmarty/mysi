@@ -65,6 +65,11 @@ class Application extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function legacies()
+    {
+        return $this->hasMany(Legacy::class);
+    }
+
     public function appStatus()
     {
         return $this->hasOne(ApplicationStatus::class);

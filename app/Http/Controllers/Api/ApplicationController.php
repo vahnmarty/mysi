@@ -11,7 +11,7 @@ class ApplicationController extends Controller
 {
     public function index()
     {
-        $data = Application::with('student','appStatus', 'payment')->get();
+        $data = Application::with('student','appStatus', 'payment', 'legacies')->get();
         
         foreach($data as $i => $app)
         {
