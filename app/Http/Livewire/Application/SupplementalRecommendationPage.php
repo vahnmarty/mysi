@@ -102,20 +102,15 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
     protected function getTableActions(): array
     {
         return [ 
-            Action::make('apply')
+            Action::make('request')
                 ->label(function(Child $record){
-                    if($record->submitted()){
-
-                        if($record->recommendations()->count()){
-                            return 'Cancel Rec';
-                        }else{
-                            return 'Request Rec';
+                    if($record->recommendations()->count()){
+                        if($record->recommendations()->received()->first()){
+                            return 'Rec Received';
                         }
-                        
+                    }else{
+                        return 'Request Rec';
                     }
-                        
-                    return '⚠️ Cancel Rec';
-                    
                 })
                 ->action(function(Child $record, $livewire){
 
@@ -144,7 +139,35 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                     }
 
                 })
-                ->hidden(fn(Child $record) => $record->submittedApplication ? false : true )
+                ->hidden(function(Child $record){
+                    return !$record->submittedApplication || $record->recommendations()->count();
+                })
+                ->disabled(fn(Child $record) => $record->recommendations()->received()->count()),
+
+
+            Action::make('cancel')
+                ->requiresConfirmation()
+                ->requiresConfirmation()
+                ->modalHeading('Cancel Request?')
+                ->modalSubheading('Are you sure you want to cancel this recommendation request?')
+                ->modalButton('Yes')
+                ->label(function(Child $record){
+                    return 'Cancel Rec';
+                })
+                ->action(function(Child $record, $livewire){
+
+                    $record->recommendations()->delete();
+
+                    Notification::make()
+                        ->title('Recommendation Request deleted successfully!')
+                        ->success()
+                        ->send();
+                        
+
+                })
+                ->hidden(function(Child $record){
+                    return $record->recommendations()->received()->count() || $record->recommendations()->count() == 0;
+                })
         ];
     }
 

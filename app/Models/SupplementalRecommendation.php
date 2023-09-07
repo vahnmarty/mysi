@@ -32,4 +32,9 @@ class SupplementalRecommendation extends Model
     {
         return $this->belongsTo(Parents::class, 'parent_id');
     }
+
+    public function scopeReceived($query)
+    {
+        return $query->whereNotNull('date_received');
+    }
 }

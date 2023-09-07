@@ -96,6 +96,7 @@ class RecommendationForm extends Component implements HasForms
         $rec->years_known_student = $data['years_known_student'];
         $rec->recommendation = $data['recommendation'];
         $rec->date_received = date('Y-m-d');
+        $rec->status = true;
         $rec->save();
 
         $this->done = true;

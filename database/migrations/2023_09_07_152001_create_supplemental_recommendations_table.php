@@ -30,7 +30,7 @@ return new class extends Migration
             $table->boolean('active')->default(true)->nullable();
             $table->date('date_requested')->nullable();
             $table->date('date_received')->nullable();
-            $table->boolean('status')->nullable();
+            $table->boolean('status')->nullable()->default(false);
             $table->timestamps();
         });
     }
