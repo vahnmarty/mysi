@@ -12,4 +12,9 @@ class Legacy extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

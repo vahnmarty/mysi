@@ -61,7 +61,10 @@ trait LegacyFormTrait{
                     Hidden::make('id')
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
                             if(!$state){
-                                $legacy = Legacy::create(['account_id' => $this->app->account_id]);
+                                $legacy = Legacy::create([
+                                        'account_id' => $this->app->account_id,
+                                        'application_id' => $this->app->id,
+                                    ]);
                                 $set('id', $legacy->id);
                             }
                         }),

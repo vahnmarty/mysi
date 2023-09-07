@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('legacies', function (Blueprint $table) {
-            $table->unsignedBigInteger('application_id')->nullbale()->after('account_id');
+            $table->unsignedBigInteger('application_id')->nullable()->after('account_id');
         });
     }
 
