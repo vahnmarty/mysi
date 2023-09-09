@@ -140,12 +140,22 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
 
                 })
                 ->visible(function(Child $record){
-                    return $record->submittedApplication;
+                    if($record->submittedApplication){
+                        if($record->recommendations()->received()->first()){
+                            return true;
+                        }
+                        if($record->recommendations()->count()){
+                            return false;
+                        }else{
+                            return true;
+                        }
+                    }
+
+                    return false;
                 })
-                ->hidden(function(Child $record){
-                    return $record->recommendations()->count();
-                })
-                
+                // ->hidden(function(Child $record){
+                //     return $record->recommendations()->count() && !$record->recommendations()->received()->first();
+                // })
                 ->disabled(fn(Child $record) => $record->recommendations()->received()->count()),
 
 
@@ -169,9 +179,22 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                         
 
                 })
-                ->hidden(function(Child $record){
-                    return $record->recommendations()->received()->count() || $record->recommendations()->count() == 0;
+                ->visible(function(Child $record){
+                    if($record->submittedApplication){
+                        if($record->recommendations()->received()->first()){
+                            return false;
+                        }
+                        if($record->recommendations()->count()){
+                            return true;
+                        }
+
+                    }
+
+                    return false;
                 })
+                // ->hidden(function(Child $record){
+                //     return $record->recommendations()->received()->count() || $record->recommendations()->count() == 0;
+                // })
         ];
     }
 
