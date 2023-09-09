@@ -71,7 +71,7 @@ trait ReligionFormTrait{
                 ->integer()
                 ->minLength(4)
                 ->maxLength(4)
-                ->maxValue(date('Y'))
+                //->maxValue(date('Y'))
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                 ->lazy()
                 ->afterStateUpdated(function(Livewire $livewire, Closure $get, $state){
@@ -84,7 +84,7 @@ trait ReligionFormTrait{
                 ->integer()
                 ->minLength(4)
                 ->maxLength(4)
-                ->maxValue(date('Y'))
+                //->maxValue(date('Y'))
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
                 ->lazy()
                 ->afterStateUpdated(function(Livewire $livewire, Closure $get, $state){
