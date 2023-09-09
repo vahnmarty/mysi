@@ -1,5 +1,5 @@
-<div>
-    <h2 class="text-2xl font-semibold font-heading text-primary-blue">
+<div class="max-w-5xl mx-auto lg:px-8">
+    <h2 class="text-2xl font-semibold text-center font-heading text-primary-blue">
         Supplemental Recommendation
     </h2>
 

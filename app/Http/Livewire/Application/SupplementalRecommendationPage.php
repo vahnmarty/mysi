@@ -139,9 +139,13 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                     }
 
                 })
-                ->hidden(function(Child $record){
-                    return !$record->submittedApplication || $record->recommendations()->count();
+                ->visible(function(Child $record){
+                    return $record->submittedApplication;
                 })
+                ->hidden(function(Child $record){
+                    return $record->recommendations()->count();
+                })
+                
                 ->disabled(fn(Child $record) => $record->recommendations()->received()->count()),
 
 

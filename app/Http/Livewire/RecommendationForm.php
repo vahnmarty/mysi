@@ -24,7 +24,7 @@ class RecommendationForm extends Component implements HasForms
     
     public function render()
     {
-        return view('livewire.recommendation-form');
+        return view('livewire.recommendation-form')->layout('layouts.guest');
     }
 
     public function mount($uuid)

@@ -10,10 +10,12 @@
         {{ $this->table }}
     </div>
 
+
+    <p class="mt-8"><strong>DUE DATE</strong>: St. Ignatius College Preparatory must receive all supplemental recommendations by the end of the day on Wednesday, January 10, 2024 at 11:59 PT.</p>
+
     <div x-data="{ open: $wire.entangle('enable_form') }" 
-        class="pb-8 mt-8"
+        class="pb-8"
         x-show="open" x-cloak>
-        <p><strong>DUE DATE</strong>: St. Ignatius College Preparatory must receive all supplemental recommendations by the end of the day on Wednesday, January 10, 2024 at 11:59 PT.</p>
     </div>
     
 
