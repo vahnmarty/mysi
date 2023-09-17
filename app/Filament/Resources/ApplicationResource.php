@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ApplicationResource\Pages;
-use App\Filament\Resources\ApplicationResource\RelationManagers;
-use App\Models\Application;
+use Closure;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\PromoCode;
+use App\Models\Application;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ApplicationResource\Pages;
+use App\Filament\Resources\ApplicationResource\RelationManagers;
 
 class ApplicationResource extends Resource
 {
@@ -38,19 +40,65 @@ class ApplicationResource extends Resource
                     ->formatStateUsing(fn(Application $record) => $record->student?->getFullName())
                     ->searchable(),
                 Tables\Columns\TextColumn::make("record_type"),
-                Tables\Columns\TextColumn::make("appStatus.application_start_date")
-                    ->label('Date Started')
-                    ->dateTime(),
                 Tables\Columns\TextColumn::make("appStatus.application_submit_date")
                     ->label('Date Submitted')
                     ->dateTime(),
+                Tables\Columns\TextColumn::make("payment.final_amount"),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('submitted')
+                    ->default()
+                    ->query(fn (Builder $query): Builder => $query->submitted())
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('discount')
+                    ->label('Apply Promo')
+                    ->mountUsing(function(Forms\ComponentContainer $form, Application $record){
+                        return $form->fill([
+                            'initial_amount' => $record->payment?->initial_amount
+                        ]);
+                    })
+                    ->form([
+                        Forms\Components\Select::make('promo_code')
+                            ->label('Promo Code')
+                            ->options(PromoCode::get()->pluck('code', 'code'))
+                            ->required()
+                            ->columnSpan('full')
+                            ->reactive()
+                            ->afterStateUpdated(function(Closure $get, Closure $set, $state){
+                                $promoCode = PromoCode::where('code', $state)->first();
+        
+                                if($promoCode){
+                                    $set('promo_amount', $promoCode->amount);
+                                    $set('final_amount', $get('promo_amount'));
+                                }
+                            }),
+                        Forms\Components\TextInput::make('initial_amount')
+                            ->lazy()
+                            ->label('Initial Amount')
+                            ->disabled()
+                            ->required(),
+                        Forms\Components\TextInput::make('final_amount')
+                            ->reactive()
+                            ->label('Final Amount')
+                            ->disabled()
+                            ->required()
+                            ->afterStateHydrated(function(Closure $get, Closure $set, $state){
+                                $set('final_amount', $get('promo_amount'));
+                            }),
+                    ])
+                    ->action(function(Application $record, array $data){
+                        $record->payment()->update([
+                            'promo_code' => $data['promo_code'],
+                            'initial_amount' => $data['final_amount'],
+                            'final_amount' => $data['final_amount'],
+                        ]);
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('Apply Promo?')
+                    ->modalButton('Apply Promo Code'),
+                //Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
