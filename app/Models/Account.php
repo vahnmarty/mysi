@@ -17,6 +17,11 @@ class Account extends Model
         return $this->hasMany(User::class);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
     public function getAccountId()
     {
         return Auth::user()->account_id;
@@ -39,6 +44,11 @@ class Account extends Model
     public function primaryParent()
     {
         return $this->hasOne(Parents::class)->where('is_primary', true);
+    }
+
+    public function firstParent()
+    {
+        return $this->hasOne(Parents::class);
     }
 
     public function guardians()

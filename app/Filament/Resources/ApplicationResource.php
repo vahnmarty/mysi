@@ -38,14 +38,32 @@ class ApplicationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make("student.first_name")
-                    ->label("Student's Name")
-                    ->formatStateUsing(fn(Application $record) => $record->student?->getFullName())
-                    ->searchable(),
-                Tables\Columns\TextColumn::make("record_type"),
-                Tables\Columns\TextColumn::make("appStatus.application_submit_date")
-                    ->label('Date Submitted')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make("payment.final_amount"),
+                    ->label("Student First Name")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make("student.last_name")
+                    ->label("Student Last Name")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make("account.user.email")
+                    ->label("Parent Email")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make("account.user.phone")
+                    ->label("Parent Phone")
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make("status"),
+                Tables\Columns\TextColumn::make("with_honors")
+                    ->label('With Honors'),
+                Tables\Columns\TextColumn::make("with_fa")
+                    ->label('With F/A'),
+                Tables\Columns\TextColumn::make("deposit_amount")
+                    ->label('Deposit Amount'),
+                Tables\Columns\TextColumn::make("decision")
+                    ->label('Decision'),
+                Tables\Columns\TextColumn::make("print")
+                    ->label('Print'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
@@ -66,9 +84,9 @@ class ApplicationResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()->label('View App'),
                 Tables\Actions\Action::make('discount')
-                    ->label('Apply Promo')
+                    ->label('Reduce App Fee')
                     ->mountUsing(function(Forms\ComponentContainer $form, Application $record){
                         return $form->fill([
                             'initial_amount' => $record->payment?->initial_amount
