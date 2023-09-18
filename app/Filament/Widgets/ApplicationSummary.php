@@ -23,13 +23,13 @@ class ApplicationSummary extends BaseWidget
                 ->icon('heroicon-o-cube-transparent')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
-                    'wire:click' => '$emitUp("goto", "admin/applications")',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[status][value]=incomplete")',
                 ]),
             Card::make('Submitted Applications', Application::submitted()->count())
                 ->icon('heroicon-o-badge-check')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
-                    'wire:click' => '$emitUp("goto", "admin/applications")',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[status][value]=submitted")',
                 ]),
             Card::make('Total Applications', Application::count())
                 ->icon('heroicon-o-cube')

@@ -23,6 +23,8 @@ class ApplicationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    public $status = 'submitted';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -46,9 +48,22 @@ class ApplicationResource extends Resource
                 Tables\Columns\TextColumn::make("payment.final_amount"),
             ])
             ->filters([
-                Tables\Filters\Filter::make('submitted')
-                    ->default()
-                    ->query(fn (Builder $query): Builder => $query->submitted())
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'submitted' => 'Submitted',
+                        'incomplete' => 'Incomplete',
+                    ])
+                    ->query(function (Builder $query, array $data){
+                        if($data['value'] == 'submitted'){
+                            return $query->submitted();
+                        }
+
+                        if($data['value'] == 'incomplete'){
+                            return $query->incomplete();
+                        }
+
+                        return $query;
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
