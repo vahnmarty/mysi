@@ -17,7 +17,7 @@ use App\Filament\Resources\ApplicationResource\RelationManagers;
 
 class ApplicationResource extends Resource
 {
-    protected static ?string $navigationGroup = 'Application';
+    protected static ?string $navigationGroup = 'Administration';
 
     protected static ?string $model = Application::class;
 

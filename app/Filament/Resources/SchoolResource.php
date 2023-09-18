@@ -15,11 +15,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SchoolResource extends Resource
 {
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationGroup = 'Administration';
 
     protected static ?string $model = School::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-library';
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
