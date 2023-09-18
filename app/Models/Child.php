@@ -41,9 +41,19 @@ class Child extends Model
         return $query->where('current_grade', GradeLevel::Grade8);
     }
 
+    public function scopeStudentWithUser($query)
+    {
+        return $query->student()->where;
+    }
+
     public function submittedApplication()
     {
         return $this->hasOne(Application::class)->submitted();
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
     }
 
     public function documents()

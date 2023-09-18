@@ -142,4 +142,9 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
     {
         return $this->account?->applications()->submitted()->count();
     }
+
+    public function students()
+    {
+        return $this->hasMany(Child::class, Account::class, 'user_id', 'account_id', 'id', 'id');
+    }
 }

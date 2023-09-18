@@ -43,7 +43,7 @@ class ApplicationSummary extends BaseWidget
                     'class' => 'cursor-pointer hover:bg-primary-100',
                     'wire:click' => '$emitUp("goto", "admin/users")',
                 ]),
-            Card::make('Total Students', Child::student()->count())
+            Card::make('Total Students', count(\DB::select('SELECT * FROM users a JOIN children b ON a.account_id = b.account_id AND b.current_grade = 8')))
                 ->icon('heroicon-o-academic-cap')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
