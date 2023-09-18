@@ -10,6 +10,7 @@ use App\Models\Application;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ApplicationResource\Pages;
@@ -89,7 +90,7 @@ class ApplicationResource extends Resource
                     ->label('Reduce App Fee')
                     ->mountUsing(function(Forms\ComponentContainer $form, Application $record){
                         return $form->fill([
-                            'initial_amount' => $record->payment?->initial_amount
+                            'initial_amount' => $record->payment?->initial_amount ?? 100
                         ]);
                     })
                     ->form([
@@ -110,8 +111,7 @@ class ApplicationResource extends Resource
                         Forms\Components\TextInput::make('initial_amount')
                             ->lazy()
                             ->label('Initial Amount')
-                            ->disabled()
-                            ->required(),
+                            ->disabled(),
                         Forms\Components\TextInput::make('final_amount')
                             ->reactive()
                             ->label('Final Amount')
@@ -122,11 +122,32 @@ class ApplicationResource extends Resource
                             }),
                     ])
                     ->action(function(Application $record, array $data){
-                        $record->payment()->update([
-                            'promo_code' => $data['promo_code'],
-                            'initial_amount' => $data['final_amount'],
-                            'final_amount' => $data['final_amount'],
-                        ]);
+                        if($record->payment){
+                            $record->payment()->update([
+                                'promo_code' => $data['promo_code'],
+                                'initial_amount' => $data['final_amount'],
+                                'final_amount' => $data['final_amount'],
+                            ]);
+                        }else{
+                            $user = $record->account?->user;
+
+                            if(!empty($user)){
+                                $record->payment()->create([
+                                    'user_id' => $user->id,
+                                    'promo_code' => $data['promo_code'],
+                                    'initial_amount' => $data['final_amount'],
+                                    'final_amount' => $data['final_amount'],
+                                ]);
+                            }else{
+
+                                Notification::make()
+                                ->title('Error! User does not exist')
+                                ->danger()
+                                ->send();
+                            }
+                            
+                        }
+                        
                     })
                     ->requiresConfirmation()
                     ->modalHeading('Apply Promo?')
