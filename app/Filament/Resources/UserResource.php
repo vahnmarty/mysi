@@ -24,6 +24,11 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('id', '!=', 1);
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -40,17 +45,32 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('first_name'),
-                Tables\Columns\TextColumn::make('last_name'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('email_verified_at')->dateTime(),
-                Tables\Columns\TextColumn::make('roles.name'),
+                Tables\Columns\TextColumn::make('first_name')
+                    ->label('First Name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('last_name')
+                    ->label('Last Name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email_verified_at')
+                    ->label('Email Verification Date')
+                    ->dateTime('m/d/Y h:i a'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('verify')
+                    ->label('Verify Email')
+                    ->hidden(fn(User $record) => $record->email_verified_at)
+                    ->requiresConfirmation()
+                    ->action(fn(User $record) => $record->forceVerifyEmail()),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
