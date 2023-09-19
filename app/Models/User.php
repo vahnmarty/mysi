@@ -153,4 +153,9 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
         $this->email_verified_at = now();
         $this->save();
     }
+
+    public function scopeUsers($query)
+    {
+        return $query->where('id', '!=', 1);
+    }
 }

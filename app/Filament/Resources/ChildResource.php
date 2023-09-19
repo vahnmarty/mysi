@@ -23,6 +23,8 @@ class ChildResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
+    protected static ?string $pluralLabel = 'Students';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,25 +37,48 @@ class ChildResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->rowIndex(),
-                Tables\Columns\TextColumn::make('sf_contact_id')->label('sf_contact_id'),
-                Tables\Columns\TextColumn::make('sf_account_id')->label('sf_account_id'),
-                Tables\Columns\TextColumn::make('first_name'),
-                Tables\Columns\TextColumn::make('last_name'),
-                Tables\Columns\TextColumn::make('personal_email')->label('Email'),
-                Tables\Columns\TextColumn::make('mobile_phone')->label('Phone'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                Tables\Columns\TextColumn::make('first_name')
+                    ->label('First Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('last_name')
+                    ->label('Last Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('current_school')
+                    ->label('Current School')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('current_grade')
+                    ->label('Current Grade')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('personal_email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('mobile_phone')
+                    ->label('Phone')
+                    ->formatStateUsing(fn($state) => format_phone($state))
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('view')
+                    ->url(fn(Child $record) => url('admin/applications', $record->application?->id))
+                    ->hidden(fn(Child $record) => empty($record->application))
+                    ->color('primary')
+                    ->label('View App'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
+
+    
     
     public static function getRelations(): array
     {

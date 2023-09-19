@@ -37,7 +37,7 @@ class ApplicationSummary extends BaseWidget
                     'class' => 'cursor-pointer hover:bg-primary-100',
                     'wire:click' => '$emitUp("goto", "admin/applications")',
                 ]),
-            Card::make('Total Users', User::count())
+            Card::make('Total Users', User::users()->count())
                 ->icon('heroicon-o-user-group')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
