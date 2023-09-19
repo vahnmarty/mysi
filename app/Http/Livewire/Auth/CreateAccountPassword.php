@@ -29,6 +29,10 @@ class CreateAccountPassword extends Component implements HasForms
     public $password_confirmation;
     public $parents = [];
 
+    public $expired, $message;
+
+    public $param_token;
+
     protected $messages = [
         'password.required' => 'Password is required',
         'password.min' => 'The password must be at least 8 characters',
@@ -44,13 +48,29 @@ class CreateAccountPassword extends Component implements HasForms
 
     public function mount($token)
     {
+        $this->param_token = $token;
         $accountRequest = AccountRequest::where('token', $token)->firstOrFail();
 
         if($accountRequest->expired()){
-            ## TODO
+            $this->expired = true;
+            $this->message = 'Sorry, This token has expired...';
+            return;
+        }
+
+        if($accountRequest->activated()){
+            $this->expired = true;
+            $this->message = 'Sorry, This token has expired.';
+            return;
         }
 
         $this->email = $accountRequest->email;
+
+        if(User::where('email', $this->email)->exists()){
+            $this->expired = true;
+            $this->message = 'Sorry, This email is taken.';
+            return;
+        }
+        
 
         $parents = Parents::where('personal_email', $this->email)->get();
 
@@ -106,6 +126,11 @@ class CreateAccountPassword extends Component implements HasForms
     {
         $data = $this->form->getState();
         
+        if(User::where('email', $data['email'])->exists()){
+            $this->expired = true;
+            $this->message = 'Sorry, this email is taken already.';
+            return;
+        }
 
         if( isset($data['primary_account']) ){
             // Multiple Account having the same email address
@@ -138,6 +163,10 @@ class CreateAccountPassword extends Component implements HasForms
         $user->save();
 
         Auth::login($user);
+
+        $accountRequest = AccountRequest::where('token', $this->param_token)->first();
+        $accountRequest->activated_at = now();
+        $accountRequest->save();
 
         return redirect('dashboard');
     }

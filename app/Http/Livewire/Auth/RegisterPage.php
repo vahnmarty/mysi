@@ -8,6 +8,7 @@ use Hash;
 use Closure;
 use App\Models\User;
 use App\Models\Account;
+use App\Models\Parents;
 use Livewire\Component;
 use App\Rules\HasNumber;
 use App\Rules\UniqueEmail;
@@ -137,7 +138,9 @@ class RegisterPage extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        if(User::where('email', $data['email'])->exists()){
+        $email = $data['email'];
+
+        if(User::where('email', $email)->exists()){
 
             Notification::make()
             ->title('Error! This email already exists.')
@@ -145,6 +148,23 @@ class RegisterPage extends Component implements HasForms
             ->send();
 
             return;
+        }
+
+        if( Parents::where('personal_email', $email)->exists()  ){
+            $parent = Parents::with('account.users')->where('personal_email', $email)->first();
+            $account = $parent->account;
+
+            if($account->parents()->count() > 1)
+            {
+                if($account->users()->count()){
+                    return redirect('login?email=' . $email . '&status=primary_parent');
+                }else{
+                    return redirect('login?email=' . $email . '&status=new_password');
+                }
+                
+            }else{
+                return redirect('login?email=' . $email . '&status=new_password');
+            }
         }
 
         $account = $this->createAccount();

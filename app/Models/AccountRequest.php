@@ -28,6 +28,11 @@ class AccountRequest extends Model
 
     public function expired()
     {
-        return now() >= $this->expires_at;
+        return $this->expires_at;
+    }
+
+    public function activated()
+    {
+        return $this->activated_at;
     }
 }

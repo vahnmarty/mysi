@@ -26,11 +26,13 @@ class LoginPage extends Component implements HasForms
 
     public $email, $password, $show_password = false;
     
-    public $display_message, $has_primary_owner, $primary_parent_name;
+    public $display_message, $has_primary_owner, $primary_parent_name, $status;
 
     public $new_password = true;
 
     public $action;
+
+    protected $queryString = ['email', 'status'];
 
     public function render()
     {
@@ -39,7 +41,13 @@ class LoginPage extends Component implements HasForms
 
     public function mount()
     {
-        
+        if($this->status){
+
+            if($this->status == 'new_password' && !empty($this->email))
+            {
+                $this->setNewPassword();
+            }
+        }
     }
 
     protected function getFormSchema()

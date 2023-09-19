@@ -4,6 +4,8 @@
     
     <div class="max-w-lg px-8 mx-auto">
         <!-- Session Status -->
+
+        @if(!$expired)
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <form wire:submit.prevent="submit" class="mt-8" novalidate>
@@ -29,5 +31,10 @@
             </div>
 
         </form>
+        @else
+        <div class="py-16">
+            <p class="text-center text-primary-red">{{ $message }}</p>
+        </div>
+        @endif
     </div>
 </div>
