@@ -101,6 +101,11 @@ class Application extends Model
         });
     }
 
+    public function isSubmitted()
+    {
+        return $this->appStatus?->application_submitted;
+    }
+
     public function scopeIncomplete($query)
     {
         return $query->whereHas('appStatus', function($statusQuery){
