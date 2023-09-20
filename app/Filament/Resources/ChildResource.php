@@ -27,7 +27,10 @@ class ChildResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->has('account.users')->student();
+        return parent::getEloquentQuery()
+            ->join('users', 'children.account_id', '=', 'users.account_id')
+            ->where('current_grade', 8);
+            //->withTrashed();
     }
 
     public static function form(Form $form): Form
