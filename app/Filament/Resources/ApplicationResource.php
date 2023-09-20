@@ -49,14 +49,29 @@ class ApplicationResource extends Resource
                 Tables\Columns\TextColumn::make("account.user.email")
                     ->label("Parent Email")
                     ->searchable()
-                    ->sortable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query
+                            ->join('accounts', 'applications.account_id', '=', 'accounts.id')
+                            ->join('users', 'users.account_id', '=', 'accounts.id')
+                            ->orderBy('users.email', $direction);
+                    }),
                 Tables\Columns\TextColumn::make("account.user.phone")
                     ->label("Parent Phone")
+                    ->formatStateUsing(fn($state) => format_phone($state))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query
+                            ->join('accounts', 'applications.account_id', '=', 'accounts.id')
+                            ->join('users', 'users.account_id', '=', 'accounts.id')
+                            ->orderBy('users.phone', $direction);
+                    }),
                 Tables\Columns\TextColumn::make("status"),
-                Tables\Columns\TextColumn::make("with_honors")
-                    ->label('With Honors'),
+                Tables\Columns\TextColumn::make("honors_eng")
+                    ->label('Honors Eng'),
+                Tables\Columns\TextColumn::make("honors_math")
+                    ->label('Honors Math'),
+                Tables\Columns\TextColumn::make("honors_bio")
+                    ->label('Honors Bio'),
                 Tables\Columns\TextColumn::make("with_fa")
                     ->label('With F/A'),
                 Tables\Columns\TextColumn::make("deposit_amount")
@@ -155,7 +170,7 @@ class ApplicationResource extends Resource
                 //Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
     

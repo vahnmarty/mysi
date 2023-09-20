@@ -25,6 +25,11 @@ class ChildResource extends Resource
 
     protected static ?string $pluralLabel = 'Students';
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->has('account.users')->student();
+    }
+
     public static function form(Form $form): Form
     {
         return $form

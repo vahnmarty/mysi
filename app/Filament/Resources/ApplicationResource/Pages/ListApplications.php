@@ -16,4 +16,9 @@ class ListApplications extends ListRecords
             //Actions\CreateAction::make(),
         ];
     }
+
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Actions';
+    }
 }
