@@ -28,6 +28,8 @@ class ChildResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->with('application')
+            ->select('children.*')
             ->join('users', 'children.account_id', '=', 'users.account_id')
             ->where('current_grade', 8);
             //->withTrashed();
@@ -72,7 +74,8 @@ class ChildResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('has_application')
+                    ->query(fn (Builder $query): Builder => $query->has('application', true))
             ])
             ->actions([
                 Tables\Actions\Action::make('view')
