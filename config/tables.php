@@ -68,7 +68,7 @@ return [
     'layout' => [
         'actions' => [
             'cell' => [
-                'alignment' => 'left',
+                'alignment' => 'left', // 'right'
             ],
             'modal' => [
                 'actions' => [

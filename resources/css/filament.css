@@ -1,0 +1,5 @@
+@import '../../vendor/filament/filament/resources/css/app.css';
+
+.filament-tables-header-cell button{
+    @apply justify-start;
+}

@@ -31,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
                 NavigationGroup::make()
                     ->label('Configuration'),
             ]);
+
+            Filament::registerViteTheme('resources/css/filament.css');
+
         });
     }
 }
