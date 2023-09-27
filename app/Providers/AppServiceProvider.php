@@ -32,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
                     ->label('Configuration'),
             ]);
 
+            Filament::registerScripts([
+                asset('js/filament.js'),
+            ]);
+
             Filament::registerViteTheme('resources/css/filament.css');
 
         });

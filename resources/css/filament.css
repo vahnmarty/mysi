@@ -3,3 +3,8 @@
 .filament-tables-header-cell button{
     @apply justify-start;
 }
+
+.filament-tables-search-input input{
+    @apply max-w-full;
+    width: 420px;
+}
