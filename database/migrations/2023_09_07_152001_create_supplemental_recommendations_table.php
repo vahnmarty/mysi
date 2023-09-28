@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('recommender_first_name')->nullable();
             $table->string('recommender_last_name')->nullable();
             $table->string('recommender_email')->nullable();
-            $table->string('message', 2000)->nullable();
+            $table->string('message', 2250)->nullable();
             $table->string('relationship_to_student')->nullable();
             $table->string('years_known_student')->nullable();
-            $table->string('recommendation')->nullable();
+            $table->string('recommendation', 2250)->nullable();
             $table->boolean('active')->default(true)->nullable();
             $table->date('date_requested')->nullable();
             $table->date('date_received')->nullable();

@@ -4,9 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\Parents;
 use Livewire\Component;
+use App\Rules\MaxWordCount;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use App\Forms\Components\WordTextArea;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -78,10 +80,18 @@ class RecommendationForm extends Component implements HasForms
                             return $years;
                         })
                         ->columnSpan(2),
-                    Textarea::make('recommendation')
-                        ->maxLength(1000)
+                    WordTextArea::make('recommendation')
+                        ->maxLength(2250)
                         ->required()
                         ->columnSpan(2)
+                        ->helperText('Please limit your answer to 250 words.')
+                        ->rows(13)
+                        ->lazy()
+                        ->required()
+                        ->wordLimit(250)
+                        ->rules([
+                            new MaxWordCount(250,300)
+                        ])
                 ])
         ];
     }

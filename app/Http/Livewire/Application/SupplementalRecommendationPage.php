@@ -10,11 +10,13 @@ use Livewire\Component;
 use App\Enums\GradeLevel;
 use App\Enums\RecordType;
 use Illuminate\View\View;
+use App\Rules\MaxWordCount;
 use App\Mail\RecommendationRequest;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use App\Forms\Components\WordTextArea;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
@@ -245,10 +247,18 @@ class SupplementalRecommendationPage extends Component implements HasForms, HasT
                         ->email()
                         ->required()
                         ->columnSpan(2),
-                    Textarea::make('message')
-                        ->maxLength(600)
+                    WordTextArea::make('message')
+                        ->maxLength(2250)
                         ->required()
                         ->columnSpan(2)
+                        ->helperText('Please limit your answer to 250 words.')
+                        ->rows(13)
+                        ->lazy()
+                        ->required()
+                        ->wordLimit(250)
+                        ->rules([
+                            new MaxWordCount(250,300)
+                        ])
                 ])
         ];
     }
