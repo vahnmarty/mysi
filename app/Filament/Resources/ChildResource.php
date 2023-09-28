@@ -49,28 +49,46 @@ class ChildResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('first_name')
                     ->label('First Name')
-                    ->searchable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->where('children.first_name', 'like', "%{$search}%");
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('last_name')
                     ->label('Last Name')
-                    ->searchable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->where('children.last_name', 'like', "%{$search}%");
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('current_school')
                     ->label('Current School')
-                    ->searchable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->where('children.current_school', 'like', "%{$search}%");
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('current_grade')
                     ->label('Current Grade')
-                    ->searchable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->where('children.current_grade', 'like', "%{$search}%");
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('personal_email')
                     ->label('Email')
-                    ->searchable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->where('children.personal_email', 'like', "%{$search}%");
+                    })
                     ->sortable(),
                 Tables\Columns\TextColumn::make('mobile_phone')
                     ->label('Phone')
                     ->formatStateUsing(fn($state) => format_phone($state))
-                    ->searchable()
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query
+                            ->where('children.mobile_phone', 'like', "%{$search}%");
+                    })
                     ->sortable(),
             ])
             ->filters([
