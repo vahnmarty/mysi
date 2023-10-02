@@ -35,7 +35,7 @@ class RecommendationForm extends Component implements HasForms
         $rec = SupplementalRecommendation::where('uuid', $uuid)->firstOrFail();
 
         if($rec->date_received){
-            abort(404);
+            return $this->done = true;
         }
 
         $this->form->fill([

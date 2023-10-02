@@ -35,7 +35,7 @@
 
             <div class="flex justify-end gap-8 mt-8">
                 <button type="button" wire:click="cancel()" class="btn-primary">Cancel</button>
-                <button type="submit" class="btn-primary">Send</button>
+                <button type="submit" class="btn-primary">Submit</button>
             </div>
         </form>
     </div>
