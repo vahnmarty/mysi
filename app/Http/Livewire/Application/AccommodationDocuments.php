@@ -12,6 +12,7 @@ use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Livewire\Component as Livewire;
+use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Tables\Columns\TextColumn;
@@ -127,9 +128,12 @@ class AccommodationDocuments extends Livewire implements HasTable
                 })
                 ->enableOpen()
                 ->enableDownload()
-                ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->model_id)
+                ->directory("accommodation_docs")
                 ->visible(fn(Closure $get)  =>  $get('has_learning_difference') == 1  )
-                ->preserveFilenames(),
+                // ->preserveFilenames(),
+                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                    return (string) $this->model_id . '_' . date('Ymdhis') . '_' . clean_string($file->getClientOriginalName());
+                })
             
         ];
     }
