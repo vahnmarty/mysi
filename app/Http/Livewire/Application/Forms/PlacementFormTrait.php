@@ -126,12 +126,13 @@ trait PlacementFormTrait{
                 })
                 ->enableOpen()
                 ->enableDownload()
-                ->directory("learning_docs/" . date('Ymdhis') . '/' . $this->app->id)
+                ->directory("learning_docs")
                 ->visible(fn(Closure $get)  =>  $get('has_learning_difference') == 1  )
                 //->preserveFilenames()
                 ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                    // TODO: Clean Strings:
-                    return (string) clean_string($file->getClientOriginalName());
+                    
+                    # Filename: e.g. '137_20207859_original_filename.pdf'
+                    return (string) $this->app->id . '_' . date('Ymdhis') . '_' . clean_string($file->getClientOriginalName());
                 })
                 ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                     // if($state){
