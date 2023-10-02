@@ -9,9 +9,15 @@ use App\Http\Controllers\Controller;
 
 class ApplicationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Application::with('student','appStatus', 'payment', 'legacies')->get();
+        $query = Application::with('student','appStatus', 'payment', 'legacies');
+
+        if($request->file_learning_documentation){
+            $query = $query->whereNotNull('file_learning_documentation');
+        }
+
+        $data = $query->get();
         
         foreach($data as $i => $app)
         {

@@ -15,7 +15,7 @@ class Application extends Model
 
     protected $guarded = [] ;
 
-    protected $appends = ['status', 'record_type'];
+    protected $appends = ['status', 'record_type', 'file_learning_documentation_url'];
 
     protected $casts = [
         'file_learning_documentation' => 'array'
@@ -136,4 +136,22 @@ class Application extends Model
     //     );
         
     // }
+
+    public function getFileLearningDocumentationUrlAttribute()
+    {
+        $files = $this->file_learning_documentation;
+        if(!empty($files)){
+            if( count($files) ){
+                $url = [];
+                foreach($files as $file)
+                {
+                    $url[] = url('storage', $file);
+                }
+
+                return $url;
+            }
+        }
+
+        return [];
+    }
 }
