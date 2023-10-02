@@ -15,7 +15,12 @@ class ApplicationController extends Controller
         
         foreach($data as $i => $app)
         {
-            $data[$i]['current_school'] = School::where('name', $app['student']['current_school'])->first()->toArray();
+            if(!empty($app['student']['current_school'])){
+                $data[$i]['current_school'] = School::where('name', $app['student']['current_school'])
+                            ->first()
+                            ->toArray();
+            }
+            
         }
 
         return response()->json($data);

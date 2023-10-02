@@ -50,4 +50,3 @@ Route::group( ['middleware' => [] ], function(){
     Route::resource('schools', SchoolController::class);
 
 });
-
