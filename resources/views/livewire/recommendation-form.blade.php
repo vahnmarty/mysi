@@ -28,7 +28,7 @@
             {{ $this->form }}
 
             <div class="flex justify-end gap-8 mt-8">
-                <button type="submit" class="btn-primary">Save</button>
+                <button type="submit" class="btn-primary">Submit</button>
             </div>
         </form>
     </div>
