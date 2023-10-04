@@ -59,9 +59,14 @@ class ApplicationSummary extends BaseWidget
 
     public function totalStudents()
     {
-        $total = Child::join('users', 'children.account_id', '=', 'users.account_id')
-            ->where('current_grade', 8)
-            ->count();
+        // $total = Child::join('users', 'children.account_id', '=', 'users.account_id')
+        //     ->where('current_grade', 8)
+        //     ->count();
+
+        $query = "SELECT count(*) FROM children WHERE account_id IN (SELECT account_id FROM users) AND current_grade = '8' AND deleted_at IS NULL";
+
+        $accountIds = User::whereNotNull('account_id')->pluck('account_id')->toArray();
+        $total = Child::whereIn('account_id', $accountIds)->where('current_grade', 8)->count();
 
         return $total;
     }
