@@ -42,11 +42,20 @@ Route::group( ['middleware' => [] ], function(){
     Route::resource('parents', ParentController::class);
     // Route::resource('accounts', AccountController::class);
     Route::get('accounts', [AccountController::class, 'index']);
+
+
     Route::get('activities', [ActivityController::class, 'index']);
+
+
     Route::get('addresses', [AddressController::class, 'index']);
+
     Route::get('applications', [ApplicationController::class, 'index']);
+    Route::patch('applications/{uuid}', [ApplicationController::class, 'update']);
+
     Route::get('children', [ChildController::class, 'index']);
+
     Route::get('legacies', [LegacyController::class, 'index']);
+
     Route::resource('schools', SchoolController::class);
 
 });

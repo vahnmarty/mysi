@@ -31,4 +31,18 @@ class ApplicationController extends Controller
 
         return response()->json($data);
     }
+
+    public function update(Request $request, $uuid)
+    {
+        $app = Application::whereUuid($uuid)->firstOrFail();
+
+        $data = $request->only('sf_application_id', 'sf_contact_id');
+
+        $app->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $app
+        ]);
+    }
 }
