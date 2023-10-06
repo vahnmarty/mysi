@@ -127,6 +127,18 @@ class ParentController extends Controller
         ]);
     }
 
+    public function sync(Request $request, Parents $parent)
+    {
+        $data = $request->only('sf_account_id', 'sf_contact_id');
+
+        $parent->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $parent
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

@@ -39,7 +39,10 @@ Route::group( ['middleware' => [] ], function(){
 
     Route::get('salesforce', [SalesforceController::class, 'index']);
 
+
+    Route::post('parents/{parent}/sync', [ParentController::class, 'sync']);
     Route::resource('parents', ParentController::class);
+
     // Route::resource('accounts', AccountController::class);
     Route::get('accounts', [AccountController::class, 'index']);
 
