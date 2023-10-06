@@ -56,6 +56,7 @@ Route::group( ['middleware' => [] ], function(){
     Route::patch('applications/{uuid}', [ApplicationController::class, 'update']);
 
     Route::get('children', [ChildController::class, 'index']);
+    Route::post('children/{child}/sync', [ChildController::class, 'sync']);
 
     Route::get('legacies', [LegacyController::class, 'index']);
 
