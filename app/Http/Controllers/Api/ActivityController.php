@@ -12,4 +12,16 @@ class ActivityController extends Controller
     {
         return response()->json(Activity::get());
     }
+
+    public function sync(Request $request, Activity $activity)
+    {
+        $data = $request->only('sf_activity_id', 'sf_application_id');
+
+        $activity->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $activity
+        ]);
+    }
 }

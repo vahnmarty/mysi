@@ -48,6 +48,7 @@ Route::group( ['middleware' => [] ], function(){
 
 
     Route::get('activities', [ActivityController::class, 'index']);
+    Route::post('activities/{activity}/sync', [ActivityController::class, 'sync']);
 
 
     Route::get('addresses', [AddressController::class, 'index']);
