@@ -61,6 +61,7 @@ Route::group( ['middleware' => [] ], function(){
     Route::post('children/{child}/sync', [ChildController::class, 'sync']);
 
     Route::get('legacies', [LegacyController::class, 'index']);
+    Route::post('legacies/{legacy}/sync', [LegacyController::class, 'sync']);
 
     Route::resource('schools', SchoolController::class);
 

@@ -16,6 +16,18 @@ class LegacyController extends Controller
         return response()->json(Legacy::get());
     }
 
+    public function sync(Request $request, Legacy $legacy)
+    {
+        $data = $request->only('sf_legacy_id', 'sf_application_id');
+
+        $legacy->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $legacy
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
