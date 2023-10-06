@@ -143,4 +143,16 @@ class AccountController extends Controller
             'message' => 'Record deleted'
         ]);
     }
+
+    public function sync(Request $request, Account $account)
+    {
+        $data = $request->only('sf_account_id');
+
+        $account->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $account
+        ]);
+    }
 }

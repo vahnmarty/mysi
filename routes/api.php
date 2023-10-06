@@ -43,8 +43,8 @@ Route::group( ['middleware' => [] ], function(){
     Route::post('parents/{parent}/sync', [ParentController::class, 'sync']);
     Route::resource('parents', ParentController::class);
 
-    // Route::resource('accounts', AccountController::class);
     Route::get('accounts', [AccountController::class, 'index']);
+    Route::post('accounts/{account}/sync', [AccountController::class, 'sync']);
 
 
     Route::get('activities', [ActivityController::class, 'index']);
