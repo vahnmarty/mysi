@@ -32,7 +32,7 @@ class ApplicationController extends Controller
         return response()->json($data);
     }
 
-    public function update(Request $request, $uuid)
+    public function sync(Request $request, $uuid)
     {
         $app = Application::whereUuid($uuid)->firstOrFail();
 

@@ -55,7 +55,7 @@ Route::group( ['middleware' => [] ], function(){
     Route::post('addresses/{address}/sync', [AddressController::class, 'sync']);
 
     Route::get('applications', [ApplicationController::class, 'index']);
-    Route::patch('applications/{uuid}', [ApplicationController::class, 'update']);
+    Route::post('applications/{uuid}/sync', [ApplicationController::class, 'sync']);
 
     Route::get('children', [ChildController::class, 'index']);
     Route::post('children/{child}/sync', [ChildController::class, 'sync']);
