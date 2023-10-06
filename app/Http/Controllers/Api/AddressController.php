@@ -12,4 +12,16 @@ class AddressController extends Controller
     {
         return response()->json(Address::get());
     }
+
+    public function sync(Request $request, Address $address)
+    {
+        $data = $request->only('sf_account_id', 'sf_residence_id');
+
+        $address->update($data);
+
+        return response()->json([
+            'success' => true,
+            'data' => $address
+        ]);
+    }
 }
