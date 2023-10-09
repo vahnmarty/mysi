@@ -18,7 +18,7 @@ class LegacyController extends Controller
 
     public function sync(Request $request, Legacy $legacy)
     {
-        $data = $request->only('sf_legacy_id', 'sf_application_id');
+        $data = $request->only('sf_legacy_id', 'sf_application_id', 'record_type_id');
 
         $legacy->update($data);
 

@@ -15,7 +15,7 @@ class AddressController extends Controller
 
     public function sync(Request $request, Address $address)
     {
-        $data = $request->only('sf_account_id', 'sf_residence_id');
+        $data = $request->only('sf_account_id', 'sf_residence_id', 'record_type_id');
 
         $address->update($data);
 

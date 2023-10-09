@@ -146,7 +146,7 @@ class AccountController extends Controller
 
     public function sync(Request $request, Account $account)
     {
-        $data = $request->only('sf_account_id');
+        $data = $request->only('sf_account_id', 'record_type_id');
 
         $account->update($data);
 

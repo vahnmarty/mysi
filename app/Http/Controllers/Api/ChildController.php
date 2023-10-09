@@ -15,7 +15,7 @@ class ChildController extends Controller
 
     public function sync(Request $request, Child $child)
     {
-        $data = $request->only('sf_account_id', 'sf_contact_id');
+        $data = $request->only('sf_account_id', 'sf_contact_id', 'record_type_id');
 
         $child->update($data);
 

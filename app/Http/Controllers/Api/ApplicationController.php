@@ -36,7 +36,7 @@ class ApplicationController extends Controller
     {
         $app = Application::whereUuid($uuid)->firstOrFail();
 
-        $data = $request->only('sf_application_id', 'sf_contact_id');
+        $data = $request->only('sf_application_id', 'sf_contact_id', 'record_type_id');
 
         $app->update($data);
 

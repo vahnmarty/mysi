@@ -15,7 +15,7 @@ class ActivityController extends Controller
 
     public function sync(Request $request, Activity $activity)
     {
-        $data = $request->only('sf_activity_id', 'sf_application_id');
+        $data = $request->only('sf_activity_id', 'sf_application_id', 'record_type_id');
 
         $activity->update($data);
 
