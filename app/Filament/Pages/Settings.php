@@ -7,6 +7,7 @@ use App\Models\Setting;
 use Filament\Pages\Page;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
@@ -86,19 +87,55 @@ class Settings extends Page implements HasForms
 
         foreach($settings as $setting)
         {
-            $array[] = Grid::make(3)
+            $schema = [];
+            $inputs = [];
+            $schema[] = Placeholder::make("{$setting->config}_label")
+                            ->columnSpan(2)
+                            ->disableLabel()
+                            ->label('')
+                            ->content($this->customInlineLabel($setting->config, $setting->description));
+
+            if($setting->form_type == 'date')
+            {
+                $input = DatePicker::make($setting->config)
+                                ->disableLabel()
+                                ->columnSpan(2)
+                                ->lazy();
+            }else if($setting->form_type == 'range_year')
+            {
+                $years = range(2000, 2024);
+                $inputs = [
+                    Select::make($setting->config . '_from')
+                        ->placeholder('YYYY')
+                        ->options(array_combine($years, $years))
+                        ->disableLabel(),
+                    Select::make($setting->config . '_to')
+                        ->placeholder('YYYY')
+                        ->options(array_combine($years, $years))
+                        ->disableLabel()
+                ];
+            }
+            else{
+                $input = TextInput::make($setting->config)
+                                ->disableLabel()
+                                ->lazy();
+            }
+
+            if(!empty($inputs)){
+                $schema[] = Grid::make(2)->columnSpan(2)->schema($inputs);
+            }else{
+                $schema[] = Grid::make(2)->columnSpan(2)->schema([$input]);
+            }
+            
+
+            $schema[] = Placeholder::make("{$setting->config}_update")
+            ->label('')
+            ->disableLabel()
+            ->content($this->updateButton($setting->config));
+
+            $array[] = Grid::make(6)
                     ->extraAttributes(['class' => 'bg-gray-100 py-2 px-2'])
-                    ->schema([
-                        Placeholder::make("{$setting->config}_label")
-                            ->disableLabel()
-                            ->content($this->customInlineLabel($setting->config, $setting->description)),
-                        DatePicker::make($setting->config)
-                            ->disableLabel()
-                            ->lazy(),
-                        Placeholder::make("{$setting->config}_update")
-                            ->disableLabel()
-                            ->content($this->updateButton($setting->config)),
-                    ]);
+                    ->schema($schema);
         }
 
         return $array;
