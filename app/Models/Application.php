@@ -82,7 +82,7 @@ class Application extends Model
 
     public function getRecordTypeAttribute()
     {
-        return RecordType::fromValue($this->record_type_id)->description;
+        return $this->record_type_id ? RecordType::fromValue($this->record_type_id)?->description : '';
     }
 
     public function getStatusAttribute()

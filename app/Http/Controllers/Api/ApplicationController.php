@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\School;
+use App\Enums\RecordType;
 use App\Models\Application;
 use Illuminate\Http\Request;
+use BenSampo\Enum\Rules\EnumValue;
 use App\Http\Controllers\Controller;
 
 class ApplicationController extends Controller
@@ -32,17 +34,19 @@ class ApplicationController extends Controller
         return response()->json($data);
     }
 
-    public function sync(Request $request, $uuid)
+    public function sync(Request $request, Application $application)
     {
-        $app = Application::whereUuid($uuid)->firstOrFail();
+        $request->validate([
+            'record_type_id' => new EnumValue(RecordType::class)
+        ]);
 
         $data = $request->only('sf_application_id', 'sf_contact_id', 'record_type_id');
 
-        $app->update($data);
+        $application->update($data);
 
         return response()->json([
             'success' => true,
-            'data' => $app
+            'data' => $application
         ]);
     }
 }

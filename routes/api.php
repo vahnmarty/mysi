@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ParentController;
 use App\Http\Controllers\Api\SchoolController;
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\ActivityController;
 use App\Http\Controllers\Api\SalesforceController;
 use App\Http\Controllers\Api\ApplicationController;
@@ -55,10 +56,13 @@ Route::group( ['middleware' => [] ], function(){
     Route::post('addresses/{address}/sync', [AddressController::class, 'sync']);
 
     Route::get('applications', [ApplicationController::class, 'index']);
-    Route::post('applications/{uuid}/sync', [ApplicationController::class, 'sync']);
+    Route::post('applications/{application}/sync', [ApplicationController::class, 'sync']);
 
     Route::get('children', [ChildController::class, 'index']);
     Route::post('children/{child}/sync', [ChildController::class, 'sync']);
+
+    Route::get('students', [StudentController::class, 'index']);
+    Route::post('students/{student}/sync', [StudentController::class, 'sync']);
 
     Route::get('legacies', [LegacyController::class, 'index']);
     Route::post('legacies/{legacy}/sync', [LegacyController::class, 'sync']);
