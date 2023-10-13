@@ -16,7 +16,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-class Settings extends Page implements HasForms
+class SettingsForm extends Page implements HasForms
 {
     use InteractsWithForms;
     
