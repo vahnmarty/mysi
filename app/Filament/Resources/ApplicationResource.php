@@ -10,6 +10,7 @@ use App\Models\Application;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use App\Enums\NotificationStatusType;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -65,7 +66,30 @@ class ApplicationResource extends Resource
                             ->join('users', 'users.account_id', '=', 'accounts.id')
                             ->orderBy('users.phone', $direction);
                     }),
-                Tables\Columns\TextColumn::make("status"),
+                Tables\Columns\TextColumn::make("status")->label('App Status'),
+                Tables\Columns\TextColumn::make('notification_status')
+                    ->getStateUsing(function (Application $record) {
+                        if(empty($record->notification_status)){
+                            return '---';
+                        }
+                        return $record->notification_status;
+                    })
+                    ->action(
+                        Tables\Actions\Action::make('update_status')
+                            ->requiresConfirmation()
+                            ->modalHeading('Update Notification Status')
+                            ->modalSubheading('The applicant will receive a notification once you confirm.')
+                            ->modalButton('Send Notification')
+                            ->form([
+                                Forms\Components\Select::make('notification_status_type')
+                                    ->label('Status')
+                                    ->options(NotificationStatusType::asSelectArray())
+                                    ->required(),
+                            ])
+                            ->action(function (Application $record, $data): void {
+                                dd($record->getKey(), $data);
+                            }),
+                        ),
                 Tables\Columns\TextColumn::make("honors_eng")
                     ->label('Honors Eng'),
                 Tables\Columns\TextColumn::make("honors_math")
