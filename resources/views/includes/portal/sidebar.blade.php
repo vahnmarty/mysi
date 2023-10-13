@@ -68,15 +68,33 @@
             <ul class="font-medium text-gray-700">
 
                 @php
+                    $notification_start_date = notification_setting('notification_start_date');
+                    $notification_end_date = notification_setting('notification_end_date');
+
+                    $notif_start_date = $notification_start_date->value;
+                    $notif_end_date = $notification_end_date->value;
+                @endphp
+
+                @if(now()->gte($notif_start_date) && now()->lt($notif_end_date) || empty($notif_start_date)  || empty($notif_end_date))
+                <li class="px-8 py-1 text-sm transition {{ request()->is('notifications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                    <a href="{{ url('notifications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                        <x-heroicon-o-bell class="flex-shrink-0 w-5 h-5" />
+                        <strong>Notifications</strong>
+                    </a>
+                </li>
+                @endif
+
+
+                @php
                     $freshmen_application_start_date = notification_setting('freshmen_application_start_date');
                     $freshmen_application_end_date = notification_setting('freshmen_application_hard_close_date');
 
-                    $start_date = $freshmen_application_start_date->value;
-                    $end_date = $freshmen_application_end_date->value;
+                    $app_start_date = $freshmen_application_start_date->value;
+                    $app_end_date = $freshmen_application_end_date->value;
                 @endphp
                 
 
-                @if(now()->gte($start_date) && now()->lt($end_date) || empty($start_date)  || empty($end_date))
+                @if(now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date))
                 <li class="px-8 py-1 text-sm transition {{ request()->is('admission*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                     <a href="{{ url('admission') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                         <x-heroicon-o-color-swatch class="flex-shrink-0 w-5 h-5" />
@@ -115,12 +133,26 @@
 
                 @endif
 
-                <x-sidebar-item align="start" href="{{ url('supplemental-recommendation') }}">
-                    <x-slot name="icon">
-                        <x-heroicon-o-gift class="flex-shrink-0 w-5 h-5" />
-                    </x-slot>
-                    Supplemental Recommendation
-                </x-sidebar-item>
+                @php
+                    $supplemental_recommendation_start_date = notification_setting('supplemental_recommendation_start_date');
+                    $supplemental_recommendation_end_date = notification_setting('supplemental_recommendation_end_date');
+
+                    $sup_start_date = $supplemental_recommendation_start_date->value;
+                    $sup_end_date = $supplemental_recommendation_end_date->value;
+                @endphp
+
+                @if(Auth::user()->hasSubmittedApplications())
+
+                    @if(now()->gte($sup_start_date) && now()->lt($sup_end_date) || empty($sup_start_date)  || empty($sup_end_date))
+                    <x-sidebar-item align="start" href="{{ url('supplemental-recommendation') }}">
+                        <x-slot name="icon">
+                            <x-heroicon-o-gift class="flex-shrink-0 w-5 h-5" />
+                        </x-slot>
+                        Supplemental Recommendation
+                    </x-sidebar-item>
+                    @endif
+
+                @endif
 
                 @if(Auth::user()->hasSubmittedApplications())
                 <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
