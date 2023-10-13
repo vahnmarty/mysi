@@ -36,6 +36,10 @@ class NotificationSettingResource extends Resource
                     ->required()
                     ->columnSpan('full')
                     ->visible(fn(NotificationSetting $record) => $record->form_type === FormType::Date),
+                Forms\Components\DateTimePicker::make('value')
+                    ->required()
+                    ->columnSpan('full')
+                    ->visible(fn(NotificationSetting $record) => $record->form_type === FormType::DateTime),
                 Forms\Components\Select::make('value1')
                     ->required()
                     ->placeholder('YYYY')

@@ -67,6 +67,16 @@
         <div class="py-8">
             <ul class="font-medium text-gray-700">
 
+                @php
+                    $freshmen_application_start_date = notification_setting('freshmen_application_start_date');
+                    $freshmen_application_end_date = notification_setting('freshmen_application_hard_close_date');
+
+                    $start_date = $freshmen_application_start_date->value;
+                    $end_date = $freshmen_application_end_date->value;
+                @endphp
+                
+
+                @if(now()->gte($start_date) && now()->lt($end_date) || empty($start_date)  || empty($end_date))
                 <li class="px-8 py-1 text-sm transition {{ request()->is('admission*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                     <a href="{{ url('admission') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                         <x-heroicon-o-color-swatch class="flex-shrink-0 w-5 h-5" />
@@ -101,6 +111,9 @@
                     </x-slot>
                     Admissions Video
                 </x-sidebar-item>
+
+
+                @endif
 
                 <x-sidebar-item align="start" href="{{ url('supplemental-recommendation') }}">
                     <x-slot name="icon">

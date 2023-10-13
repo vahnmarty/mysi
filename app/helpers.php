@@ -110,3 +110,10 @@ if (! function_exists('format_phone')) {
         return preg_replace($pattern, $replacement, $phone);
     }
 }
+
+
+if (! function_exists('notification_setting')) {
+    function notification_setting($config) {
+        return \App\Models\NotificationSetting::where('config', $config)->first();
+    }
+}
