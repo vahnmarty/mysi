@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Auth;
+use App\Enums\AddressType;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Account extends Model
 {
@@ -34,6 +35,11 @@ class Account extends Model
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function primaryAddress()
+    {
+        return $this->hasOne(Address::class)->where('address_type', AddressType::PrimaryAddress);
     }
 
     public function parents()

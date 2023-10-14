@@ -15,7 +15,12 @@ class Application extends Model
 
     protected $guarded = [] ;
 
-    protected $appends = ['status', 'record_type', 'file_learning_documentation_url'];
+    protected $appends = [
+         'status', 
+         'record_type', 
+         'file_learning_documentation_url',
+         'primary_parent'
+    ];
 
     protected $casts = [
         'file_learning_documentation' => 'array'
@@ -73,6 +78,17 @@ class Application extends Model
     public function appStatus()
     {
         return $this->hasOne(ApplicationStatus::class);
+    }
+
+    public function getPrimaryParentAttribute()
+    {
+        $primaryParent = $this->account->primaryParent;
+
+        if(empty($primaryParent)){
+            $primaryParent = $this->account->parents()->first();
+        }
+
+        return $primaryParent;
     }
 
     public function archive()
@@ -153,5 +169,16 @@ class Application extends Model
         }
 
         return [];
+    }
+
+    public static function optionList()
+    {
+        $array = [];
+        foreach(Application::with('student')->get() as $app)
+        {
+            $array[$app->id] = $app->student->first_name . ' ' . $app->student->last_name;
+        }
+
+        return $array;
     }
 }

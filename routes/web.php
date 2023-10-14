@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Livewire\Profile\MyProfile;
 use App\Http\Livewire\RecommendationForm;
+use App\Http\Livewire\NotificationPreview;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
@@ -19,8 +20,8 @@ use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Application\LegacyInformation;
-use App\Http\Livewire\Application\ParentInformation;
 
+use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
@@ -89,6 +90,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
 Route::get('sample-form', SampleForm::class);
+Route::get('notification-sample/{id}', NotificationPreview::class);
 
 
 Route::get('ping', function(){
