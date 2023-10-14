@@ -67,13 +67,8 @@ class ApplicationResource extends Resource
                             ->orderBy('users.phone', $direction);
                     }),
                 Tables\Columns\TextColumn::make("status")->label('App Status'),
-                Tables\Columns\TextColumn::make('notification_status')
-                    ->getStateUsing(function (Application $record) {
-                        if(empty($record->notification_status)){
-                            return '---';
-                        }
-                        return $record->notification_status;
-                    })
+                Tables\Columns\TextColumn::make('appStatus.application_status')
+                    ->label('Notification Status')
                     ->action(
                         Tables\Actions\Action::make('update_status')
                             ->requiresConfirmation()
@@ -81,29 +76,30 @@ class ApplicationResource extends Resource
                             ->modalSubheading('The applicant will receive a notification once you confirm.')
                             ->modalButton('Send Notification')
                             ->form([
-                                Forms\Components\Select::make('notification_status_type')
+                                Forms\Components\Select::make('application_status')
                                     ->label('Status')
                                     ->options(NotificationStatusType::asSelectArray())
                                     ->required(),
                             ])
                             ->action(function (Application $record, $data): void {
-                                dd($record->getKey(), $data);
+                                $record->appStatus->application_status = $data['application_status'];
+                                $record->save();
+
+                                // TODO: Notify here
                             }),
                         ),
-                Tables\Columns\TextColumn::make("honors_eng")
+                Tables\Columns\ToggleColumn::make("honors_eng")
                     ->label('Honors Eng'),
-                Tables\Columns\TextColumn::make("honors_math")
+                Tables\Columns\ToggleColumn::make("honors_math")
                     ->label('Honors Math'),
-                Tables\Columns\TextColumn::make("honors_bio")
+                Tables\Columns\ToggleColumn::make("honors_bio")
                     ->label('Honors Bio'),
-                Tables\Columns\TextColumn::make("with_fa")
+                Tables\Columns\ToggleColumn::make("with_fa")
                     ->label('With F/A'),
                 Tables\Columns\TextColumn::make("deposit_amount")
                     ->label('Deposit Amount'),
-                Tables\Columns\TextColumn::make("decision")
+                Tables\Columns\TextColumn::make("appStatus.candidate_decision")
                     ->label('Decision'),
-                Tables\Columns\TextColumn::make("print")
-                    ->label('Print'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
@@ -191,6 +187,8 @@ class ApplicationResource extends Resource
                     ->requiresConfirmation()
                     ->modalHeading('Apply Promo?')
                     ->modalButton('Apply Promo Code'),
+                Tables\Actions\Action::make('print')
+                    ->label('Print Letter')
                 //Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
