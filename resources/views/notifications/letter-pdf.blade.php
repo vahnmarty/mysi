@@ -1,5 +1,6 @@
 @extends('layouts.pdf')
 
+@section('title', 'MySI Notification')
 @section('content')
 <div>
     <table border="0" width="100%" style="font-family: sans-serif; font-size: 12px;" cellspacing="0" cellpadding="0">
