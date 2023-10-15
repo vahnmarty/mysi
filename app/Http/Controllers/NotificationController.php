@@ -1,44 +1,43 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Controllers;
 
-use Livewire\Component;
-use App\Models\Application;
-use App\Models\NotificationLetter;
 use Arr;
+use App\Models\Application;
+use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\NotificationLetter;
 
-class NotificationPreview extends Component
+class NotificationController extends Controller
 {
-    public $notification, $application_id;
-    public $content = '';
-    protected $queryString = ['application_id'];
-
-    public function render()
+    public function sample(Request $request, $id)
     {
-        $pdf = Pdf::loadView('pdf.invoice', $data);
-        return $pdf->download('invoice.pdf');
+        $request->validate([
+            'application_id' => 'required'
+        ]);
 
-        return view('livewire.notification-preview')->layout('layouts.guest');
-    }
+        $notification = NotificationLetter::findOrFail($id);
 
-    public function mount($id)
-    {
-        $this->notification = NotificationLetter::findOrFail($id);
+        $app = Application::with('student', 'account')->findOrFail($request->application_id);
 
-        $this->app = Application::with('student', 'account')->findOrFail($this->application_id);
-
-        $account = $this->app->account;
+        $account = $app->account;
 
         $variables = [
-            'application' => $this->app->toArray(),
-            'student' => $this->app->student->toArray(),
+            'application' => $app->toArray(),
+            'student' => $app->student->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
         ];
 
 
-        $this->content = $this->parseContent($this->notification->content, $variables);
+        $content = $this->parseContent($notification->content, $variables);
+
+        if($request->pdf){
+            $pdf = Pdf::loadView('notifications.letter-pdf', compact('app', 'account', 'content', 'notification'));
+            return $pdf->stream('mysi-letter.pdf');
+        }
+
+        return view('notifications.letter-preview', compact('app', 'account', 'content', 'notification'));
     }
 
     public function parseContent($input, $variables)

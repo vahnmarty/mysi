@@ -9,6 +9,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use App\Models\NotificationLetter;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\NotificationLetterResource\Pages;
@@ -27,7 +28,7 @@ class NotificationLetterResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')->required(),
-                Forms\Components\RichEditor::make('content')
+                TiptapEditor::make('content')
                     ->required()
                     ->extraInputAttributes(['style' => 'min-height:500px'])
                     ->columnSpan('full'),

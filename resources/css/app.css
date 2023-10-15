@@ -1,4 +1,5 @@
 @import '../../vendor/filament/forms/dist/module.esm.css';
+@import '../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
  
 @tailwind base;
 @tailwind components;
