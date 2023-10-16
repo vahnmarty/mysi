@@ -36,7 +36,8 @@
 
         <div class="flex-1">
             <main class="px-4 py-3 lg:px-16 lg:py-6">
-                {{ $slot }}
+                {{ $slot ?? '' }}
+                @yield('content')
             </main>
         </div>
     </div>

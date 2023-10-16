@@ -22,6 +22,8 @@ class SettingResource extends Resource
     
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         $years = range(2000, date('Y') + 10);

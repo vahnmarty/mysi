@@ -129,6 +129,13 @@ class Application extends Model
         });
     }
 
+    public function scopeHasNotifications($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->whereNotNull('application_submitted');
+        });
+    }
+
 
     public function familyMatrix()
     {

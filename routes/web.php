@@ -87,6 +87,9 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('supplemental-recommendation', SupplementalRecommendationPage::class)->name('application.supplemental-recommendation');
     Route::get('supplemental-recommendation/{uuid}', SupplementalRecommendationRequestForm::class)->name('application.supplemental-recommendation-request');
     Route::get('recommendation/{uuid}', RecommendationForm::class)->name('recommendation-form');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('notifications/{uuid}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::get('notifications/{uuid}/pdf', [NotificationController::class, 'pdf'])->name('notifications.pdf');
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');

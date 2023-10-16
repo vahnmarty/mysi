@@ -7,9 +7,85 @@ use App\Models\Application;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\NotificationLetter;
+use App\Enums\NotificationStatusType;
 
 class NotificationController extends Controller
 {
+    public function index()
+    {
+        $apps = Application::where('account_id', accountId())->hasNotifications()->get();
+
+        if(count($apps) == 1) {
+            return redirect()->route('notifications.show', $apps->first()->uuid);
+        }
+    }
+
+    public function show($uuid)
+    {
+        $app = Application::with('appStatus')->whereUuid($uuid)->firstOrFail();
+
+        $appStatus = $app->appStatus;
+
+        $notification = NotificationLetter::where('reference', $appStatus->application_status)->first();
+
+        if(!$notification){
+            return 'notification not found';
+        }
+
+        $account = $app->account;
+
+        $variables = [
+            'application' => $app->toArray(),
+            'student' => $app->student->toArray(),
+            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+        ];
+
+
+        $content = $this->parseContent($notification->content, $variables);
+
+        return view('notifications.show', compact('app', 'account', 'content', 'notification'));
+    }
+
+    public function pdf($uuid)
+    {
+        $app = Application::with('appStatus')->whereUuid($uuid)->firstOrFail();
+
+        $appStatus = $app->appStatus;
+
+        $notification = NotificationLetter::where('reference', $appStatus->application_status)->first();
+
+        if(!$notification){
+            return 'notification not found';
+        }
+
+        $account = $app->account;
+
+        $variables = [
+            'application' => $app->toArray(),
+            'student' => $app->student->toArray(),
+            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+        ];
+
+
+        $content = $this->parseContent($notification->content, $variables);
+
+        $pdf = Pdf::loadView('notifications.letter-pdf', compact('app', 'account', 'content', 'notification'));
+        return $pdf->stream('mysi-letter.pdf');
+    }
+
+
+    public function getNotificationLetter(Application $app, $status)
+    {
+        if($status == NotificationStatusType::Accepted)
+        {
+            $letter = NotificationLetter::where('reference', NotificationStatusType::Accepted)->first();
+
+            //if($app->)
+        }
+    }
+
     public function sample(Request $request, $id)
     {
         $request->validate([

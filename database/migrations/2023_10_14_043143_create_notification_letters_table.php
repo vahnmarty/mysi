@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notification_letters', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('notification_setting_id')->nullable();
+            $table->string('reference')->nullable();
             $table->string('title');
             $table->longtext('content')->nullable();
             $table->timestamps();

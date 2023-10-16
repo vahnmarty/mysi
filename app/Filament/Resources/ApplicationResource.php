@@ -75,6 +75,9 @@ class ApplicationResource extends Resource
                             ->modalHeading('Update Notification Status')
                             ->modalSubheading('The applicant will receive a notification once you confirm.')
                             ->modalButton('Send Notification')
+                            ->mountUsing(fn (Forms\ComponentContainer $form, Application $record) => $form->fill([
+                                'application_status' => $record->appStatus?->application_status,
+                            ]))
                             ->form([
                                 Forms\Components\Select::make('application_status')
                                     ->label('Status')
@@ -88,13 +91,13 @@ class ApplicationResource extends Resource
                                 // TODO: Notify here
                             }),
                         ),
-                Tables\Columns\ToggleColumn::make("honors_eng")
+                Tables\Columns\ToggleColumn::make("honors_english")
                     ->label('Honors Eng'),
                 Tables\Columns\ToggleColumn::make("honors_math")
                     ->label('Honors Math'),
                 Tables\Columns\ToggleColumn::make("honors_bio")
                     ->label('Honors Bio'),
-                Tables\Columns\ToggleColumn::make("with_fa")
+                Tables\Columns\ToggleColumn::make("with_financial_aid")
                     ->label('With F/A'),
                 Tables\Columns\TextColumn::make("deposit_amount")
                     ->label('Deposit Amount'),
