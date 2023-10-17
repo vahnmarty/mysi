@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\School;
 use Illuminate\Console\Command;
+use App\Models\NotificationLetter;
+use App\Models\NotificationSetting;
+use App\Enums\NotificationStatusType;
 
 class ProductionChecklist extends Command
 {
@@ -28,19 +31,75 @@ class ProductionChecklist extends Command
     {
         $this->newLine(3);  
         
+        # Configs
         $this->checkConfigs();
         $this->newLine();
+
+        # Settings
         $this->checkSettings();
         $this->newLine();
 
-        $this->line('Schools: ' . School::count());
+        # Schools
+        $this->line('C. Schools: ' . School::count());
+        $this->newLine();
+
+        # Notifications
+        $this->checkNotificationSettings();
+        $this->newLine();
+        $this->checkNotificationLetters();
+
 
         $this->newLine(3);
     }
 
+    public function checkNotificationSettings()
+    {
+        $this->line('D. Notification Settings');
+        $this->newLine();
+
+        $settings = NotificationSetting::get();
+
+        foreach($settings as $setting)
+        {
+            if(!empty($setting->value)){
+                $this->info($this->getSuccessIcon() . " {$setting->title}: {$setting->value}" );
+            }else{
+                $this->error($this->getFailedIcon() . " {$setting->title}: ");
+            }
+        }
+    }
+
+    public function checkNotificationLetters()
+    {
+        $this->line('E. Notification Letters');
+        $this->newLine();
+
+        $types = NotificationStatusType::asSelectArray();
+
+        foreach($types as $status)
+        {
+            $notification = NotificationLetter::where('reference', $status)->first();
+
+            if($notification){
+                $this->info($this->getSuccessIcon() . " {$status}" );
+            }else{
+                $this->error($this->getFailedIcon() . " {$status}");
+            }
+        }
+
+        $financial_aid = NotificationLetter::where('title', 'Financial Aid')->first();
+
+        if($financial_aid){
+            $this->info($this->getSuccessIcon() . " Financial Aid" );
+        }else{
+            $this->error($this->getFailedIcon() . " Financial Aid");
+        }
+
+    }
+
     public function checkSettings()
     {
-        $this->line('Settings');
+        $this->line('B. Settings');
         $this->newLine();
 
         $array = ['placement_test_date'];
@@ -53,7 +112,7 @@ class ProductionChecklist extends Command
 
     public function checkConfigs()
     {
-        $this->line('Config/Environment');
+        $this->line('A. Config/Environment');
         $this->newLine();
 
         $array = [
