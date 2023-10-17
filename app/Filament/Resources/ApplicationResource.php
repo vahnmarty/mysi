@@ -85,8 +85,9 @@ class ApplicationResource extends Resource
                                     ->required(),
                             ])
                             ->action(function (Application $record, $data): void {
-                                $record->appStatus->application_status = $data['application_status'];
-                                $record->save();
+                                $appStatus = $record->appStatus;
+                                $appStatus->application_status = $data['application_status'];
+                                $appStatus->save();
 
                                 // TODO: Notify here
                             }),

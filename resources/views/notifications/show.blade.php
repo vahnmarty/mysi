@@ -25,6 +25,7 @@
 
             <p class="mt-8 font-bold text-gray-900">NOTE:  In order to reserve your spot in the SI Class of 2027, you must click the Enroll at SI button AND make a deposit payment before 6:00 am PT on Friday, March 24, 2023.   Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.</p>
 
+            @if($app->with_financial_aid)
             <div class="grid grid-cols-5 mt-8">
                 <div class="col-span-2 p-3 border border-red-100 border-dashed rounded-md shadow-md bg-gray-50">
                     <div class="flex gap-3">
@@ -39,6 +40,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 
             <div class="flex gap-6 mt-8">
                 <a href="{{ route('notifications.pdf', $app->uuid) }}" target="_blank" class="btn-primary">Download</a>
