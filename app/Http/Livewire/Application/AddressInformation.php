@@ -214,7 +214,8 @@ class AddressInformation extends Component implements HasTable, HasForms
                                     }
                                 })
                                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
-                                ->rules([new PhoneNumberRule])
+                                ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
+                                ->validationAttribute('Phone Number')
                                 
                         ])
                 ]),
