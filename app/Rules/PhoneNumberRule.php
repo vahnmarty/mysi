@@ -15,7 +15,11 @@ class PhoneNumberRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (!preg_match("/^\d{10}$/", $value)) {
-            $fail('The phone number is not valid.  Enter a valid phone number.');
+            if(substr($value, 0, 1) === '1'){
+                $fail('Phone numbers cannot begin with 1.');
+            }else{
+                $fail('The phone number is not valid.  Enter a valid phone number.');
+            }
         } 
     }
 }

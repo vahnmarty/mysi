@@ -27,6 +27,7 @@ use Filament\Notifications\Actions\Action;
 use Phpsa\FilamentPasswordReveal\Password;
 use Illuminate\Validation\ValidationException;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Rules\DoesntStartWith;
 
 class RegisterPage extends Component implements HasForms
 {
@@ -65,7 +66,8 @@ class RegisterPage extends Component implements HasForms
                 ->label('Parent/Guardian Phone')
                 ->placeholder('Parent/Guardian Phone')
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
-                ->rules([new PhoneNumberRule])
+                ->validationAttribute('Phone Number')
+                ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->required(),
             TextInput::make('email')
                 ->disableLabel()
@@ -137,6 +139,8 @@ class RegisterPage extends Component implements HasForms
     public function register()
     {
         $data = $this->form->getState();
+
+        dd($data);
 
         $email = $data['email'];
 
