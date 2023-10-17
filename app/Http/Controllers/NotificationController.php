@@ -75,6 +75,24 @@ class NotificationController extends Controller
         return $pdf->stream('mysi-letter.pdf');
     }
 
+    public function financialAid($uuid)
+    {
+        $app = Application::with('appStatus')->whereUuid($uuid)->firstOrFail();
+
+        $account = $app->account;
+
+        $variables = [
+            'application' => $app->toArray(),
+            'student' => $app->student->toArray(),
+            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+        ];
+
+        $content = $variables;
+
+        return view('notifications.financial-aid', compact('app', 'account', 'content'));
+    }
+
 
     public function getNotificationLetter(Application $app, $status)
     {
