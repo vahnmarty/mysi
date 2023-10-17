@@ -17,7 +17,7 @@
             </header>
 
             <article class="mt-16">
-                the contents is here
+                {!! $contents !!}
             </article>
 
             <div class="flex gap-6 pt-8 mt-8 border-t border-dashed border-primary-red">

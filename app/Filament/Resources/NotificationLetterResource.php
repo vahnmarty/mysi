@@ -29,8 +29,7 @@ class NotificationLetterResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('reference')
-                    ->options(NotificationStatusType::asSelectArray())
-                    ->required(),
+                    ->options(NotificationStatusType::asSelectArray()),
                 Forms\Components\TextInput::make('title')->required(),
                 TiptapEditor::make('content')
                     ->required()

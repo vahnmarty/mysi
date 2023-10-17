@@ -4,7 +4,7 @@
 <div class="text-sm">
     
     <div class="px-8 mx-auto max-w-7xl">
-        <div class="p-10 mt-8 bg-white border rounded-lg shadow-lg">
+        <div class="p-10 mt-8 bg-white border rounded-lg shadow-xl">
 
             <header class="flex gap-6">
                 <img src="{{ asset('img/logo.png') }}" alt="">
