@@ -98,7 +98,8 @@ trait StudentFormTrait{
             TextInput::make('student.mobile_phone')
                 ->label('Mobile Phone')
                 ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
-                ->rules([new PhoneNumberRule])
+                ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
+                ->validationAttribute('Phone Number')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){

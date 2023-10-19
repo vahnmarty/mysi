@@ -144,6 +144,8 @@ trait AddressFormTrait{
                         ->label('Phone at Location:')
                         ->default('')
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
+                        ->rules(['doesnt_start_with:1'])
+                        ->validationAttribute('Phone Number')
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
                             if($get('id')){
