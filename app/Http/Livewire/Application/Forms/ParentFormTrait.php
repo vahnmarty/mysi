@@ -122,6 +122,8 @@ trait ParentFormTrait{
                         ->label('Mobile Phone')
                         ->tel()
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
+                        ->rules(['doesnt_start_with:1'])
+                        ->validationAttribute('Phone Number')
                         ->required()
                         ->lazy()
                         ->afterStateHydrated(function(Closure $set, $state){
