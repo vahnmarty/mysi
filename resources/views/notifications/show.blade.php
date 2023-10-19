@@ -23,6 +23,12 @@
                 {!! $content !!}
             </article>
 
+            <div class="mt-8 border-t-2 border-dashed border-primary-red"></div>
+            
+            @if(!empty($faq))
+            {!! $faq !!}
+            @endif
+
             <p class="mt-8 font-bold text-gray-900">NOTE:  In order to reserve your spot in the SI Class of 2027, you must click the Enroll at SI button AND make a deposit payment before 6:00 am PT on Friday, March 24, 2023.   Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.</p>
 
             @if($app->with_financial_aid)

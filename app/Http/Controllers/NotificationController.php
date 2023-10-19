@@ -44,7 +44,17 @@ class NotificationController extends Controller
 
         $content = $this->parseContent($notification->content, $variables);
 
-        return view('notifications.show', compact('app', 'account', 'content', 'notification'));
+        $faq = '';
+
+        if($appStatus->application_status == NotificationStatusType::WaitListed){
+            $faq_cms = NotificationLetter::where('title', 'Waitlist FAQ')->first();
+
+            if($faq_cms){
+                $faq = $faq_cms->content;
+            }
+        }
+
+        return view('notifications.show', compact('app', 'account', 'content', 'notification', 'appStatus', 'faq'));
     }
 
     public function pdf($uuid)

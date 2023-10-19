@@ -14,6 +14,7 @@ use App\Enums\NotificationStatusType;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Notifications\Admission\ApplicationReviewed;
 use App\Filament\Resources\ApplicationResource\Pages;
 use App\Filament\Resources\ApplicationResource\RelationManagers;
 
@@ -89,7 +90,11 @@ class ApplicationResource extends Resource
                                 $appStatus->application_status = $data['application_status'];
                                 $appStatus->save();
 
-                                // TODO: Notify here
+                                $account = $record->account;
+
+                                foreach($account->users as $user){
+                                    $user->notify(new ApplicationReviewed);
+                                }
                             }),
                         ),
                 Tables\Columns\ToggleColumn::make("honors_english")
