@@ -140,8 +140,6 @@ class RegisterPage extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        dd($data);
-
         $email = $data['email'];
 
         if(User::where('email', $email)->exists()){
