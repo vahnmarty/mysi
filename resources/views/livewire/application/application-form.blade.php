@@ -42,11 +42,11 @@
 
             {{ $this->form }}
 
-            <div x-data="{ open: $wire.entangle('is_validated') }" 
+            <div x-data="{ open: $wire.entangle('is_validated'), amount : $wire.entangle('amount') }" 
                 x-show="open"
                 x-cloak
                 class="flex justify-center mt-8">
-                <button type="button" wire:click="submit" class="btn-primary">Pay Fee and Submit Application</button>
+                <button type="button" wire:click="submit" class="btn-primary" x-text="amount > 0 ? 'Pay Fee and Submit Application' : 'Submit Application'"></button>
             </div>
         </form>
         @endif
