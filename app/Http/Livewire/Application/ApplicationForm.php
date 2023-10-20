@@ -425,16 +425,13 @@ class ApplicationForm extends Component implements HasForms
     public function submit()
     {
         $data = $this->form->getState();
-
+        
         $this->dispatchBrowserEvent('page-loading-open');
 
-        $payment = $this->app->payment;
+        $app = Application::with('appStatus')->find($this->app->id);
 
-        $payment = $this->authorizeCreditCard($payment, $data['billing']);
 
-        if($payment instanceof Payment){
-
-            $app = Application::with('appStatus')->find($this->app->id);
+        if($this->amount <= 0){
 
             $app->appStatus()->update([
                 'application_submitted' => true,
@@ -444,20 +441,44 @@ class ApplicationForm extends Component implements HasForms
             $this->saveAppArchive($app, $data);
 
             Auth::user()->notify( new ApplicationSubmitted($app));
-            Auth::user()->notify( new PaymentReceipt($app));
-
-            //Mail::to(config('settings.si.admissions.email'))->send(new NewApplicationSubmitted($app));
 
             $this->is_submitted = true;
 
             $this->dispatchBrowserEvent('page-loading-close');
-        }else{
 
-            Notification::make()
-                ->title('Payment failed.')
-                ->danger()
-                ->send();
+            return true;
+
+        }else{
+            $payment = $this->app->payment;
+
+            $payment = $this->authorizeCreditCard($payment, $data['billing']);
+
+            if($payment instanceof Payment){
+
+                $app->appStatus()->update([
+                    'application_submitted' => true,
+                    'application_submit_date' => now()
+                ]);
+
+                $this->saveAppArchive($app, $data);
+
+                Auth::user()->notify( new ApplicationSubmitted($app));
+                Auth::user()->notify( new PaymentReceipt($app));
+
+                //Mail::to(config('settings.si.admissions.email'))->send(new NewApplicationSubmitted($app));
+
+                $this->is_submitted = true;
+
+                $this->dispatchBrowserEvent('page-loading-close');
+            }else{
+
+                Notification::make()
+                    ->title('Payment failed.')
+                    ->danger()
+                    ->send();
+            }
         }
+        
         
     }
 

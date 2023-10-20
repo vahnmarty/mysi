@@ -60,7 +60,7 @@ trait FinalStepsTrait{
                 </div>')),
             Fieldset::make('Payment Information')
                 ->label(new HtmlString('<strong>Payment Information</strong>'))
-                ->visible(fn(Closure $get) => $this->is_validated && $get('agree_to_release_record') && $get('agree_academic_record_is_true') )
+                ->visible(fn(Closure $get) => $this->is_validated && $get('agree_to_release_record') && $get('agree_academic_record_is_true') && $this->amount > 0 )
                 ->columns(3)
                 ->schema([
                     Placeholder::make('amount')
