@@ -24,4 +24,12 @@ class ActivityController extends Controller
             'data' => $activity
         ]);
     }
+
+    public function show(Activity $activity)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $activity
+        ]);
+    }
 }

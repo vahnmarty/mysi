@@ -62,6 +62,10 @@ class AccountController extends Controller
      */
     public function show(Request $request, Account $account)
     {
+        return response()->json([
+            'success' => true,
+            'data' => $account
+        ]);
 
         // Account{
         //     parents {}

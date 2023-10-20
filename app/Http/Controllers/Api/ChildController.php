@@ -24,4 +24,12 @@ class ChildController extends Controller
             'data' => $child
         ]);
     }
+
+    public function show(Child $child)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $child
+        ]);
+    }
 }

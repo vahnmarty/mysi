@@ -49,4 +49,12 @@ class ApplicationController extends Controller
             'data' => $application
         ]);
     }
+
+    public function show(Application $application)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $application
+        ]);
+    }
 }

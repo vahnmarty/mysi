@@ -24,4 +24,12 @@ class AddressController extends Controller
             'data' => $address
         ]);
     }
+
+    public function show(Address $address)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $address
+        ]);
+    }
 }

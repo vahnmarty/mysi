@@ -24,4 +24,12 @@ class StudentController extends Controller
             'data' => $student
         ]);
     }
+
+    public function show(Child $student)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $student
+        ]);
+    }
 }

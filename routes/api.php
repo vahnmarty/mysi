@@ -45,26 +45,33 @@ Route::group( ['middleware' => [] ], function(){
     Route::resource('parents', ParentController::class);
 
     Route::get('accounts', [AccountController::class, 'index']);
+    Route::get('accounts/{account}', [AccountController::class, 'show']);
     Route::post('accounts/{account}/sync', [AccountController::class, 'sync']);
 
 
     Route::get('activities', [ActivityController::class, 'index']);
+    Route::get('activities/{activity}', [ActivityController::class, 'show']);
     Route::post('activities/{activity}/sync', [ActivityController::class, 'sync']);
 
 
     Route::get('addresses', [AddressController::class, 'index']);
+    Route::get('addresses/{address}', [AddressController::class, 'show']);
     Route::post('addresses/{address}/sync', [AddressController::class, 'sync']);
 
     Route::get('applications', [ApplicationController::class, 'index']);
+    Route::get('applications/{application}', [ApplicationController::class, 'show']);
     Route::post('applications/{application}/sync', [ApplicationController::class, 'sync']);
 
     Route::get('children', [ChildController::class, 'index']);
+    Route::get('children/{child}', [ChildController::class, 'show']);
     Route::post('children/{child}/sync', [ChildController::class, 'sync']);
 
     Route::get('students', [StudentController::class, 'index']);
+    Route::get('students/{student}', [StudentController::class, 'show']);
     Route::post('students/{student}/sync', [StudentController::class, 'sync']);
 
     Route::get('legacies', [LegacyController::class, 'index']);
+    Route::get('legacies/{legacy}', [LegacyController::class, 'show']);
     Route::post('legacies/{legacy}/sync', [LegacyController::class, 'sync']);
 
     Route::resource('schools', SchoolController::class);

@@ -49,7 +49,10 @@ class LegacyController extends Controller
      */
     public function show(Legacy $legacy)
     {
-        //
+        return response()->json([
+            'success' => true,
+            'data' => $legacy
+        ]);
     }
 
     /**
