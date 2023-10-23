@@ -183,7 +183,10 @@ class Application extends Model
         $array = [];
         foreach(Application::with('student')->get() as $app)
         {
-            $array[$app->id] = $app->student->first_name . ' ' . $app->student->last_name;
+            if($app->student){
+                $array[$app->id] = $app->student->first_name . ' ' . $app->student->last_name;
+            }
+            
         }
 
         return $array;
