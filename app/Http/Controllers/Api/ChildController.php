@@ -8,9 +8,17 @@ use App\Http\Controllers\Controller;
 
 class ChildController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(Child::get());
+        $max = 100;
+
+        if($request->n){
+            $max = $request->n;
+        }
+
+        $data = Child::paginate($max);
+
+        return response()->json($data);
     }
 
     public function sync(Request $request, Child $child)
