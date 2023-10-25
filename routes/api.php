@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 // ['middleware' => [ 'client' ] 
-Route::group( ['middleware' => [] ], function(){
+Route::group( ['middleware' => ['client'] ], function(){
 
     Route::get('salesforce', [SalesforceController::class, 'index']);
 
