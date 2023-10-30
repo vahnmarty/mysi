@@ -9,10 +9,11 @@ use App\Models\School;
 use App\Enums\RacialType;
 use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Grid;
 use Livewire\Component as Livewire;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TagsInput;
 //use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
@@ -145,74 +146,106 @@ trait StudentFormTrait{
                     $input = is_array($state) ? implode(',', $state) : $state;
                     $this->autoSaveStudent('ethnicity', $input);
                 }),
-            Select::make('student.current_school')
-                ->label('Current School')
-                ->options(['Not Listed' => 'Not Listed'] + School::middleSchool()->orderBy('name')->get()->pluck('name', 'name')->toArray())
-                ->preload()
-                ->optionsLimit(50)
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->middleSchool()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
-                ->reactive()
-                ->required()
-                ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('current_school', $state);
-                }),
-            TextInput::make('student.current_school_not_listed')
-                ->label('If not listed, add it here')
-                ->lazy()
-                ->required()
-                ->hidden(fn (Closure $get) => $get('student.current_school') !== self::NotListed)
-                ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('current_school_not_listed', $state);
-                }),
-            Select::make('other_high_school_1')
-                ->label('Other High School #1')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->optionsLimit(50)
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
-                ->hint('(where you plan to apply)')
-                ->lazy()
-                ->afterStateUpdated(function($state){
-                    $this->autoSave('other_high_school_1', $state);
-                }),
-            Select::make('other_high_school_2')
-                ->label('Other High School #2')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->optionsLimit(50)
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
-                ->hint('(where you plan to apply)')
-                ->lazy()
-                ->afterStateUpdated(function($state){
-                    $this->autoSave('other_high_school_2', $state);
-                }),
-            Select::make('other_high_school_3')
-                ->label('Other High School #3')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->optionsLimit(50)
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
-                ->hint('(where you plan to apply)')
-                ->lazy()
-                ->afterStateUpdated(function($state){
-                    $this->autoSave('other_high_school_3', $state);
-                }),
-            Select::make('other_high_school_4')
-                ->label('Other High School #4')
-                ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->optionsLimit(50)
-                ->searchable()
-                ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
-                ->hint('(where you plan to apply)')
-                ->lazy()
-                ->afterStateUpdated(function($state){
-                    $this->autoSave('other_high_school_4', $state);
-                }),
+            Grid::make(2)
+                ->schema([
+                    Select::make('student.current_school')
+                        ->label('Current School')
+                        ->options(['Not Listed' => 'Not Listed'] + School::middleSchool()->orderBy('name')->get()->pluck('name', 'name')->toArray())
+                        ->preload()
+                        ->optionsLimit(50)
+                        ->searchable()
+                        ->getSearchResultsUsing(fn (string $search) => School::search($search)->middleSchool()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
+                        ->reactive()
+                        ->required()
+                        ->afterStateUpdated(function($state){
+                            $this->autoSaveStudent('current_school', $state);
+                        }),
+                    TextInput::make('student.current_school_not_listed')
+                        ->label('If not listed, add it here')
+                        ->lazy()
+                        ->required(fn (Closure $get) => $get('student.current_school') === self::NotListed)
+                        ->disabled(fn (Closure $get) => $get('student.current_school') !== self::NotListed)
+                        ->afterStateUpdated(function($state){
+                            $this->autoSaveStudent('current_school_not_listed', $state);
+                        }),
+                    Select::make('other_high_school_1')
+                        ->label('Other High School #1')
+                        ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
+                        ->preload()
+                        ->optionsLimit(50)
+                        ->searchable()
+                        ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
+                        ->hint('(where you plan to apply)')
+                        ->lazy()
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_1', $state);
+                        }),
+                    TextInput::make('other_high_school_1_not_listed')
+                        ->label('If not listed, add it here')
+                        ->lazy()
+                        ->disabled(fn (Closure $get) => $get('other_high_school_1') !== self::NotListed)
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_1_not_listed', $state);
+                        }),
+                    Select::make('other_high_school_2')
+                        ->label('Other High School #2')
+                        ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
+                        ->preload()
+                        ->optionsLimit(50)
+                        ->searchable()
+                        ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
+                        ->hint('(where you plan to apply)')
+                        ->lazy()
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_2', $state);
+                        }),
+                    TextInput::make('other_high_school_2_not_listed')
+                        ->label('If not listed, add it here')
+                        ->lazy()
+                        ->disabled(fn (Closure $get) => $get('other_high_school_2') !== self::NotListed)
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_2_not_listed', $state);
+                        }),
+                    Select::make('other_high_school_3')
+                        ->label('Other High School #3')
+                        ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
+                        ->preload()
+                        ->optionsLimit(50)
+                        ->searchable()
+                        ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
+                        ->hint('(where you plan to apply)')
+                        ->lazy()
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_3', $state);
+                        }),
+                    TextInput::make('other_high_school_3_not_listed')
+                        ->label('If not listed, add it here')
+                        ->lazy()
+                        ->disabled(fn (Closure $get) => $get('other_high_school_3') !== self::NotListed)
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_3_not_listed', $state);
+                        }),
+                    Select::make('other_high_school_4')
+                        ->label('Other High School #4')
+                        ->options(['Not Listed' => 'Not Listed'] + School::highSchool()->notSi()->orderBy('name')->get()->pluck('name', 'name')->toArray() )
+                        ->preload()
+                        ->optionsLimit(50)
+                        ->searchable()
+                        ->getSearchResultsUsing(fn (string $search) => School::search($search)->highSchool()->notSi()->orderBy('name')->get()->take(50)->pluck('name', 'name'))
+                        ->hint('(where you plan to apply)')
+                        ->lazy()
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_4', $state);
+                        }),
+                    TextInput::make('other_high_school_4_not_listed')
+                        ->label('If not listed, add it here')
+                        ->lazy()
+                        ->disabled(fn (Closure $get) => $get('other_high_school_4') !== self::NotListed)
+                        ->afterStateUpdated(function($state){
+                            $this->autoSave('other_high_school_4_not_listed', $state);
+                        }),
+                ]),
+            
         ];
     }
 
