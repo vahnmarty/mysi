@@ -25,6 +25,19 @@ class ParentController extends Controller
 
     public function index(Request $request)
     {
+        $fetch = $request->fetch ?? 0;
+
+        if($fetch){
+            $data = Parents::get();
+        }else{
+            $data = Parents::has('account')->get();
+        }
+
+        return response()->json([
+            'total' => count($data),
+            'data' => $data
+        ]);
+
         $data = Parents::get();
 
         return response()->json($data);

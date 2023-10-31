@@ -218,39 +218,40 @@ class ViewApplication extends ViewRecord
                     }
                 })
                 ->disabled(),
-            Select::make('student.current_school')
-                ->label('Current School')
-                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray())
-                ->preload()
-                ->optionsLimit(50)
-                ->required()
-                ->disabled(),
-            TextInput::make('student.current_school_not_listed')
-                ->label('If not listed, add it here')
-                ->visible(fn(Closure $get) => $get('student.current_school') == 'Not Listed')
-                ->disabled(),
-            Select::make('other_high_school_1')
-                ->label('Other High School #1')
-                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->disabled(),
-            Select::make('other_high_school_2')
-                ->label('Other High School #2')
-                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->optionsLimit(50)
-                ->disabled(),
-            Select::make('other_high_school_3')
-                ->label('Other High School #3')
-                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->disabled(),
-            Select::make('other_high_school_4')
-                ->label('Other High School #4')
-                ->options(['Not Listed' => 'Not Listed'] + School::active()->get()->pluck('name', 'name')->toArray() )
-                ->preload()
-                ->optionsLimit(50)
-                ->disabled(),
+                Grid::make(2)
+                    ->schema([
+                        TextInput::make('student.current_school')
+                            ->label('Current School')
+                            ->required()
+                            ->disabled(),
+                        TextInput::make('student.current_school_not_listed')
+                            ->label('If not listed, add it here')
+                            ->disabled(),
+                        TextInput::make('other_high_school_1')
+                            ->label('Other High School #1')
+                            ->disabled(),
+                        TextInput::make('other_high_school_1')
+                            ->label('If not listed, add it here')
+                            ->disabled(),
+                        TextInput::make('other_high_school_2')
+                            ->label('Other High School #2')
+                            ->disabled(),
+                        TextInput::make('other_high_school_2')
+                            ->label('If not listed, add it here')
+                            ->disabled(),
+                        TextInput::make('other_high_school_3')
+                            ->label('Other High School #3')
+                            ->disabled(),
+                        TextInput::make('other_high_school_3')
+                            ->label('If not listed, add it here')
+                            ->disabled(),
+                        TextInput::make('other_high_school_4')
+                            ->label('Other High School #4')
+                            ->disabled(),
+                        TextInput::make('other_high_school_4')
+                            ->label('If not listed, add it here')
+                            ->disabled(),
+                    ])
         ];
     }
 

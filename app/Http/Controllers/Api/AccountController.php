@@ -14,9 +14,18 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Account::has('users')->get();
+        $fetch = $request->fetch ?? 0;
 
-        return response()->json($data);
+        if($fetch){
+            $data = Account::get();
+        }else{
+            $data = Account::has('users')->get();
+        }
+
+        return response()->json([
+            'total' => count($data),
+            'data' => $data
+        ]);
     }
 
     /**
