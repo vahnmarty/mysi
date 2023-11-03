@@ -30,7 +30,11 @@ class ParentController extends Controller
         if($fetch){
             $data = Parents::get();
         }else{
-            $data = Parents::has('account')->get();
+            $data = Parents::has('account')
+                ->whereHas('account', function($query){
+                    $query->has('users');
+                })
+                ->get();
         }
 
         return response()->json([
