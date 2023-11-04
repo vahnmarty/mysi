@@ -84,10 +84,11 @@ class ViewApplication extends ViewRecord
             $data['siblings_matrix'] =$archive->siblings_matrix;
             $data['legacy'] = $archive->legacy;
             $data['activities'] = $archive->activities;
+
         }else{
 
             $account = $this->app->account;
-            
+            $data = $this->app->toArray();
             $data['student'] = $this->app->student->toArray();
             $data['addresses'] = $account->addresses->toArray();
             $data['parents'] = $account->guardians->toArray();
@@ -97,7 +98,6 @@ class ViewApplication extends ViewRecord
             $data['legacy'] = $account->legacies->toArray();
             $data['activities'] = $this->app->activities->toArray();
         }
-        
 
         
         $this->form->fill($data);
@@ -230,25 +230,25 @@ class ViewApplication extends ViewRecord
                         TextInput::make('other_high_school_1')
                             ->label('Other High School #1')
                             ->disabled(),
-                        TextInput::make('other_high_school_1')
+                        TextInput::make('other_high_school_1_not_listed')
                             ->label('If not listed, add it here')
                             ->disabled(),
                         TextInput::make('other_high_school_2')
                             ->label('Other High School #2')
                             ->disabled(),
-                        TextInput::make('other_high_school_2')
+                        TextInput::make('other_high_school_2_not_listed')
                             ->label('If not listed, add it here')
                             ->disabled(),
                         TextInput::make('other_high_school_3')
                             ->label('Other High School #3')
                             ->disabled(),
-                        TextInput::make('other_high_school_3')
+                        TextInput::make('other_high_school_3_not_listed')
                             ->label('If not listed, add it here')
                             ->disabled(),
                         TextInput::make('other_high_school_4')
                             ->label('Other High School #4')
                             ->disabled(),
-                        TextInput::make('other_high_school_4')
+                        TextInput::make('other_high_school_4_not_listed')
                             ->label('If not listed, add it here')
                             ->disabled(),
                     ])

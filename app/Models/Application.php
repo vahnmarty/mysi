@@ -93,7 +93,7 @@ class Application extends Model
 
     public function archive()
     {
-        return $this->hasOne(ApplicationArchive::class);
+        return $this->hasOne(ApplicationArchive::class)->latest();
     }
 
     public function getRecordTypeAttribute()
