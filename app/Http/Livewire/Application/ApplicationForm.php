@@ -476,6 +476,9 @@ class ApplicationForm extends Component implements HasForms
                     ->title('Payment failed.')
                     ->danger()
                     ->send();
+
+
+                $this->dispatchBrowserEvent('page-loading-close');
             }
         }
         
