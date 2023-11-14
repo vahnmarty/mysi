@@ -251,12 +251,16 @@ class ApplicationForm extends Component implements HasForms
 
         $this->is_validated = true;
 
-        $payment = Payment::firstOrCreate([
+        $payment = Payment::firstOrCreate(
+            [
             'application_id' => $this->app->id,
-            'user_id' => Auth::id(),
+            'user_id' => Auth::id()
+        ],
+            [ 
             'initial_amount' => 100,
             'final_amount' => 100
-        ]);
+        ]
+        );
     }
 
     function authorizeCreditCard(Payment $payment, $data)
