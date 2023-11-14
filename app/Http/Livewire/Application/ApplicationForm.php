@@ -114,7 +114,6 @@ class ApplicationForm extends Component implements HasForms
 
     protected function getFormSchema(): array
     {
-        return [];
         return [
             // Toggle::make('autosave')
             //     ->label('AutoSave')
@@ -126,60 +125,6 @@ class ApplicationForm extends Component implements HasForms
             Placeholder::make('form_description')
                 ->label('')
                 ->content(new HtmlString('* The application saves your work automatically after you enter your information and click out of the text box. All required fields are  <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).')),
-            Section::make('Applicant Information')
-                ->collapsible()
-                ->collapsed(true)
-                ->schema($this->getStudentForm()),
-            Section::make('Address Information')
-                ->schema($this->getAddressForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Parent/Guardian Information')
-                ->schema($this->getParentForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Sibling Information')
-                ->schema($this->getSiblingForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Family Information')
-                ->description(new HtmlString('If all family members are not listed, <a  href="?active=matrix#matrix" class="underline text-link">click here</a> to refresh this tab.'))
-                ->schema($this->getFamilyMatrix())
-                ->collapsible()
-                ->collapsed(fn() => $this->active == 'matrix' ? false : true )
-                ->extraAttributes(['id' => 'matrix']),
-            Section::make('Legacy Information')
-                ->schema($this->getLegacyForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Spiritual and Community Information')
-                ->schema($this->getReligionForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Parent/Guardian Statement')
-                ->schema($this->getParentStatement())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Applicant Statement')
-                ->schema($this->getStudentStatement())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('School Activities')
-                ->schema($this->getActivityForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Writing Sample')
-                ->schema($this->getWritingSampleForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('High School Placement Test')
-                ->schema($this->getPlacementForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('Final Steps')
-                ->schema($this->getFinalStepsForm())
-                ->collapsible()
-                ->collapsed(true),
         ];
     }
 
