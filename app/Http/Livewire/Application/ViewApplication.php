@@ -462,12 +462,9 @@ class ViewApplication extends Component implements HasForms
                         ->disableLabel()
                         ->options(ParentType::asSameArray())
                         ->disabled(),
-                    Select::make('address_location')
+                    TextInput::make('address_location')
                         ->label('Address Location')
                         ->disableLabel()
-                        ->options(function(){
-                            return Address::where('account_id', accountId())->pluck('address_type', 'address_type')->toArray();
-                        })
                         ->disabled(),
                     Select::make('living_situation')
                         ->label('Living Situation')
@@ -501,12 +498,9 @@ class ViewApplication extends Component implements HasForms
                         ->disableLabel()
                         ->options(SiblingType::asSameArray())
                         ->disabled(),
-                    Select::make('address_location')
+                    TextInput::make('address_location')
                         ->label('Address Location')
                         ->disableLabel()
-                        ->options(function(){
-                            return Address::where('account_id', accountId())->pluck('address_type', 'address_type')->toArray();
-                        })
                         ->disabled(),
                     Select::make('living_situation')
                         ->label('Living Situation')
