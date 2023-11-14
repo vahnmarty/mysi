@@ -53,7 +53,7 @@ class ApplicationForm extends Component implements HasForms
     public $data = [];
     public $is_validated = false;
     public $is_submitted = false;
-    public $amount = 100;
+    public $amount;
     public $active;
 
     protected $queryString = ['active'];
