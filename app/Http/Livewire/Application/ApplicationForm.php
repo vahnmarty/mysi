@@ -129,7 +129,56 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true)
                 ->schema($this->getStudentForm()),
-            
+            Section::make('Address Information')
+                ->schema($this->getAddressForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Parent/Guardian Information')
+                ->schema($this->getParentForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Sibling Information')
+                ->schema($this->getSiblingForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Family Information')
+                ->description(new HtmlString('If all family members are not listed, <a  href="?active=matrix#matrix" class="underline text-link">click here</a> to refresh this tab.'))
+                ->schema($this->getFamilyMatrix())
+                ->collapsible()
+                ->collapsed(fn() => $this->active == 'matrix' ? false : true )
+                ->extraAttributes(['id' => 'matrix']),
+            Section::make('Legacy Information')
+                ->schema($this->getLegacyForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Spiritual and Community Information')
+                ->schema($this->getReligionForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Parent/Guardian Statement')
+                ->schema($this->getParentStatement())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Applicant Statement')
+                ->schema($this->getStudentStatement())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('School Activities')
+                ->schema($this->getActivityForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Writing Sample')
+                ->schema($this->getWritingSampleForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('High School Placement Test')
+                ->schema($this->getPlacementForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Final Steps')
+                ->schema($this->getFinalStepsForm())
+                ->collapsible()
+                ->collapsed(true),
         ];
     }
 
@@ -184,7 +233,7 @@ class ApplicationForm extends Component implements HasForms
     public function __autoSave($model, $column, $value)
     {
         try {
-            $model->$column = $value;
+            $model->$column = removeQuotes($value);
             $model->save();
             
         } catch (\Exception $e) {
