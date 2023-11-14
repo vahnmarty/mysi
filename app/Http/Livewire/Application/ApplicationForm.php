@@ -257,8 +257,8 @@ class ApplicationForm extends Component implements HasForms
             'user_id' => Auth::id()
         ],
             [ 
-            'initial_amount' => 100,
-            'final_amount' => 100
+            'initial_amount' => config('settings.payment.application_fee'),
+            'final_amount' => config('settings.payment.application_fee')
         ]
         );
     }

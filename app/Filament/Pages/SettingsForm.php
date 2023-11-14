@@ -2,9 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use File;
 use Closure;
+use Artisan;
 use App\Models\Setting;
 use Filament\Pages\Page;
+use Filament\Pages\Actions\Action;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -12,6 +15,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -26,151 +30,97 @@ class SettingsForm extends Page implements HasForms
 
     protected static string $view = 'filament.pages.settings';
 
-    protected static bool $shouldRegisterNavigation = false;
-
-    public $env = [], $settings = [];
 
     public function mount()
     {
-        $this->envForm->fill(config('settings'));
+        $this->form->fill([
+            'payment' => [
+                'application_fee' => config('settings.payment.application_fee')
+            ]
+        ]);
 
         $this->settings = Setting::pluck('value', 'config')->toArray();
 
     }
-
-    protected function getEnvFormStatePath()
-    {
-        return 'env';
-    }
-
-    protected function getSettingsFormStatePath()
-    {
-        return 'settings';
-    }
-
-    protected function getEnvFormSchema(): array
+    protected function getFormSchema(): array 
     {
         return [
-            Section::make('Environment Setting')
+            Section::make('Admission')
                 ->schema([
-                    Toggle::make('edit')
-                        ->reactive()
-                        ->label('Edit?'),
-                    TextInput::make('si.admissions.email')
-                        ->label("Admission's Email Address")
-                        ->required()
-                        ->lazy()
-                        ->disabled(fn(Closure $get) => !$get('edit')),
                     TextInput::make('payment.application_fee')
-                        ->label("Application Fee")
-                        ->numeric()
-                        ->required()
-                        ->lazy()
-                        ->disabled(fn(Closure $get) => !$get('edit')),
-                ]),
-            
-        ];
-    }
-
-    protected function getSettingsFormSchema(): array
-    {
-        return [
-            Section::make('General Settings')
-                ->schema($this->getSettingsSchema()),
-            
-        ];
-    }
-
-    public function getSettingsSchema()
-    {
-        $settings = Setting::get();
-
-        $array = [];
-
-        foreach($settings as $setting)
-        {
-            $schema = [];
-            $inputs = [];
-            $schema[] = Placeholder::make("{$setting->config}_label")
-                            ->columnSpan(2)
-                            ->disableLabel()
-                            ->label('')
-                            ->content($this->customInlineLabel($setting->config, $setting->description));
-
-            if($setting->form_type == 'date')
-            {
-                $input = DatePicker::make($setting->config)
-                                ->disableLabel()
-                                ->columnSpan(2)
-                                ->lazy();
-            }else if($setting->form_type == 'range_year')
-            {
-                $years = range(2000, 2024);
-                $inputs = [
-                    Select::make($setting->config . '_from')
-                        ->placeholder('YYYY')
-                        ->options(array_combine($years, $years))
-                        ->disableLabel(),
-                    Select::make($setting->config . '_to')
-                        ->placeholder('YYYY')
-                        ->options(array_combine($years, $years))
-                        ->disableLabel()
-                ];
-            }
-            else{
-                $input = TextInput::make($setting->config)
-                                ->disableLabel()
-                                ->lazy();
-            }
-
-            if(!empty($inputs)){
-                $schema[] = Grid::make(2)->columnSpan(2)->schema($inputs);
-            }else{
-                $schema[] = Grid::make(2)->columnSpan(2)->schema([$input]);
-            }
-            
-
-            $schema[] = Placeholder::make("{$setting->config}_update")
-            ->label('')
-            ->disableLabel()
-            ->content($this->updateButton($setting->config));
-
-            $array[] = Grid::make(6)
-                    ->extraAttributes(['class' => 'bg-gray-100 py-2 px-2'])
-                    ->schema($schema);
-        }
-
-        return $array;
-    }
-
-    protected function getForms(): array 
-    {
-        return [
-            'envForm' => $this->makeForm()
-                ->schema($this->getEnvFormSchema())
-                ->statePath($this->getEnvFormStatePath()),
-            'settingsForm' => $this->makeForm()
-                ->schema($this->getSettingsFormSchema())
-                ->statePath($this->getSettingsFormStatePath()),
+                    ->label("Application Fee")
+                    ->numeric()
+                    ->required()
+                    ->lazy(),
+                ])
         ];
     } 
 
-    public function customInlineLabel($config, $name)
+    protected function getActions(): array
     {
-        return new HtmlString("<h6 class='mb-1 text-sm font-bold'>{$config}</h6><p class='text-xs'>{$name}</p>");
+        return [
+            Action::make('clear_cache')
+                ->label('Clear Cache')
+                ->requiresConfirmation()
+                ->action('clearCache')
+                ->color('secondary'),
+            Action::make('save_changes')
+                ->requiresConfirmation()
+                ->action('updateChanges'),
+
+        ];
     }
 
-    public function updateButton($config)
+    public function updateChanges()
     {
-        return new HtmlString("
-        <div class='flex justify-center'>
-            <button type='button 
-                x-data x-on:click='confirm(`Confirm Changes?`)' wire:click='save'
-                class='px-2 py-1 text-primary-red hover:underline'>
-                Update
-            </button>
-        </div>
-        ");
+        $data = $this->form->getState();
+
+        $this->updateEnv('PAYMENT_APPLICATION_FEE', $data['payment']['application_fee'], 'app.timezone' );
+        
+    }
+
+    public function updateEnv($env, $value, $config = null)
+    {
+        $envFilePath = base_path('.env');
+
+        if (File::exists($envFilePath)) {
+            $envContent = File::get($envFilePath);
+
+            // replace the value of the config variable
+            $envContent = preg_replace('/^' . $env . '=.*/m', $env . '=' . $value, $envContent);
+
+            // write the updated content to the .env file
+            try {
+                File::put($envFilePath, $envContent);
+
+                $this->clearCache();
+
+                Notification::make()
+                    ->title('Settings updated successfully!')
+                    ->body("The {$env} environment variable has been updated. Please note that changes may not be reflected immediately. If you do not see the new value, please wait a few minutes and refresh the page.")
+                    ->success()
+                    ->send();
+
+                //$this->$env = config($config);
+                
+                # Hard Refresh
+                //return redirect(request()->header('Referer'));
+
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+        
+        }
+    }
+
+    public function clearCache()
+    {
+        Artisan::call('config:cache');
+
+        Notification::make()
+            ->title('Cache Clear')
+            ->success()
+            ->send();
     }
 
 

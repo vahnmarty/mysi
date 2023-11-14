@@ -134,7 +134,7 @@ class ApplicationResource extends Resource
                     ->label('Reduce App Fee')
                     ->mountUsing(function(Forms\ComponentContainer $form, Application $record){
                         return $form->fill([
-                            'initial_amount' => $record->payment?->initial_amount ?? 100
+                            'initial_amount' => $record->payment?->initial_amount ?? config('settings.payment.application_fee')
                         ]);
                     })
                     ->form([
