@@ -16,10 +16,14 @@ class ForceLogin extends Page implements HasForms
 {
     use InteractsWithForms;
 
+    protected static ?string $navigationGroup = 'Administration';
+
     protected static ?string $navigationIcon = 'heroicon-o-lock-open';
 
     protected static string $view = 'filament.pages.force-login';
 
+    protected static ?int $navigationSort = 3;
+    
     public $account, $account_id, $user;
 
     protected function getFormSchema() : array
