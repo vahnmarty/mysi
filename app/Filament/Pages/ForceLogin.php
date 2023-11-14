@@ -27,6 +27,7 @@ class ForceLogin extends Page implements HasForms
                 ->options(Account::has('users')->get()->pluck('account_name', 'id'))
                 ->preload()
                 ->required()
+                ->searchable()
                 ->lazy(),
             Select::make('user')
                 ->label('User Login')
