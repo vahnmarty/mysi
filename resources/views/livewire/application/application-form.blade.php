@@ -5,8 +5,6 @@
         </h2>
     </div>
 
-    @livewire('autosave-indicator')
-
     <div wire:loading wire:target="submit"
         class="fixed inset-0 bg-gray-900/90 z-[1000] flex items-center justify-center lg:p-32 p-8">
         <div 
