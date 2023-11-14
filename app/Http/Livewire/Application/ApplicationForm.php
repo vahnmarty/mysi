@@ -114,6 +114,7 @@ class ApplicationForm extends Component implements HasForms
 
     protected function getFormSchema(): array
     {
+        return [];
         return [
             // Toggle::make('autosave')
             //     ->label('AutoSave')
