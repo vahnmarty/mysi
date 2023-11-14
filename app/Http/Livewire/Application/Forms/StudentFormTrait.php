@@ -106,6 +106,29 @@ trait StudentFormTrait{
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('mobile_phone', $state);
                 }),
+            CheckboxList::make('student.race')
+                ->label(new HtmlString('<div>How do you identify racially?</div><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
+                ->options(RacialType::asSameArray())
+                ->columns(3)
+                ->lazy()
+                ->afterStateHydrated(function (CheckboxList $component, $state) {
+                    if(is_string($state)){
+                        $component->state(explode(',', $state));
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
+                    }
+                })
+                ->afterStateUpdated(function(Closure $get, $state){
+
+                    $input = is_array($state) ? implode(',', $state) : $state;
+
+                    $this->autoSaveStudent('race', $input);
+
+                    $multi_racial_flag = count($get('student.race')) > 1;
+
+                    $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
+                }),
             
         ];
     }
