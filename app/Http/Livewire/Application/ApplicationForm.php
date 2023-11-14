@@ -430,8 +430,20 @@ class ApplicationForm extends Component implements HasForms
 
         $app = Application::with('appStatus')->find($this->app->id);
 
+        $paymentRecord = $app->payment;
 
         if($this->amount <= 0){
+
+            if(!$paymentRecord){
+                $this->dispatchBrowserEvent('page-loading-close');
+
+                Notification::make()
+                    ->title('Payment failed.')
+                    ->danger()
+                    ->send();
+                    
+                return false;
+            }
 
             $app->appStatus()->update([
                 'application_submitted' => true,
@@ -449,9 +461,8 @@ class ApplicationForm extends Component implements HasForms
             return true;
 
         }else{
-            $payment = $this->app->payment;
 
-            $payment = $this->authorizeCreditCard($payment, $data['billing']);
+            $payment = $this->authorizeCreditCard($paymentRecord, $data['billing']);
 
             if($payment instanceof Payment){
 
