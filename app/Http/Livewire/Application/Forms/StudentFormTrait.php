@@ -129,6 +129,25 @@ trait StudentFormTrait{
 
                     $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
+            TagsInput::make('student.ethnicity')
+                ->label(new HtmlString('<div>What is your ethnicity?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
+                ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
+                ->lazy()
+                ->placeholder('')
+                ->afterStateHydrated(function (TagsInput $component, $state) {
+                    if(is_string($state)){
+                        $newState = removeQuotes($state);
+                        $array = explode(',', $newState);
+                        $component->state($array);
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
+                    }
+                })
+                ->afterStateUpdated(function(Closure $get, $state){
+                    $input = is_array($state) ? implode(',', $state) : $state;
+                    $this->autoSaveStudent('ethnicity', $input);
+                }),
             Grid::make(2)
                 ->schema([
                     Select::make('student.current_school')

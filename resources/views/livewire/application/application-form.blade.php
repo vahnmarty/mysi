@@ -23,7 +23,7 @@
 
     <div x-data="{ done: $wire.entangle('is_submitted') }"  class="pb-32 mt-8">
 
-        <div x-show="done" class="p-8 rounded-lg">
+        <div x-show="done" x-cloak class="p-8 rounded-lg">
 
             <div class="flex justify-center">
                 <img src="{{ asset('img/mail.svg') }}" class="w-40 h-40"/>
