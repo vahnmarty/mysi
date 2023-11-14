@@ -30,6 +30,8 @@ class SettingsForm extends Page implements HasForms
 
     protected static string $view = 'filament.pages.settings';
 
+    protected static ?string $navigationLabel = 'Settings';
+
 
     public function mount()
     {
