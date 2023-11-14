@@ -15,12 +15,13 @@ use App\Http\Livewire\NotificationPreview;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
 use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Notifications\FinancialAid;
-use App\Http\Livewire\Application\ApplicationForm;
 
+use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
@@ -97,7 +98,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
 Route::get('sample-form', SampleForm::class);
 Route::get('notification-sample/{id}', [NotificationController::class, 'sample']);
-
+Route::impersonate();
 
 Route::get('ping', function(){
     return 'Hello!';

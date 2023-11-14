@@ -7,9 +7,10 @@ use App\Notifications\VerifyEmail;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\Auth\ForgotUsername as ForgotUsernameNotification;
@@ -19,6 +20,8 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
 
     use HasRoles;
+
+    use Impersonate;
 
     /**
      * The attributes that are mass assignable.
@@ -157,5 +160,10 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
     public function scopeUsers($query)
     {
         return $query->where('id', '!=', 1);
+    }
+
+    public function canImpersonate(): bool
+    {
+        return $this->hasRole('admin');
     }
 }

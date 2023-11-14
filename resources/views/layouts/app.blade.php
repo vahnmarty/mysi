@@ -28,6 +28,8 @@
 
 <body class="h-full font-sans antialiased">
 
+    @livewire('banner-impersonator')
+
     @include('includes.portal.header')
 
     <div class="bg-white lg:flex">
