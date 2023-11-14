@@ -8,6 +8,8 @@ use App\Models\Account;
 use Filament\Pages\Page;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
+use CoringaWc\FilamentInputLoading\TextInput;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class ForceLogin extends Page implements HasForms
@@ -18,7 +20,7 @@ class ForceLogin extends Page implements HasForms
 
     protected static string $view = 'filament.pages.force-login';
 
-    public $account, $user;
+    public $account, $account_id, $user;
 
     protected function getFormSchema() : array
     {
@@ -26,8 +28,9 @@ class ForceLogin extends Page implements HasForms
             Select::make('account')
                 ->options(Account::has('users')->get()->pluck('account_name', 'id'))
                 ->preload()
-                ->required()
                 ->searchable()
+                ->lazy(),
+            TextInput::make('account_id')
                 ->lazy(),
             Select::make('user')
                 ->label('User Login')
@@ -35,6 +38,10 @@ class ForceLogin extends Page implements HasForms
                 ->options(function(Closure $get){
                     if($get('account')){
                         return User::where('account_id', $get('account'))->get()->pluck('name', 'id');
+                    }
+
+                    if($get('account_id')){
+                        return User::where('account_id', $get('account_id'))->get()->pluck('name', 'id');
                     }
 
                     return [];
