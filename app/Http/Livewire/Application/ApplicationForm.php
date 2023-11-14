@@ -128,7 +128,7 @@ class ApplicationForm extends Component implements HasForms
             Section::make('Applicant Information')
                 ->collapsible()
                 ->collapsed(true)
-                ->schema([]),
+                ->schema($this->getStudentForm()),
             
         ];
     }
