@@ -23,10 +23,9 @@
         </div>
     </div>
 
-    <div class="pb-32 mt-8">
+    <div x-data="{ done: $wire.entangle('is_submitted') }"  class="pb-32 mt-8">
 
-        @if($is_submitted)
-        <div class="p-8 rounded-lg">
+        <div x-show="done" class="p-8 rounded-lg">
 
             <div class="flex justify-center">
                 <img src="{{ asset('img/mail.svg') }}" class="w-40 h-40"/>
@@ -37,18 +36,19 @@
                 <a href="{{ url('admission') }}" class="mt-8 btn-primary">Back to Applications</a>
             </div>
         </div>
-        @else
-        <form wire:submit.prevent="submit" novalidate>
+        <div x-show="!done">
+            <form wire:submit.prevent="submit" novalidate>
 
-            {{ $this->form }}
-
-            <div x-data="{ open: $wire.entangle('is_validated'), amount : $wire.entangle('amount') }" 
-                x-show="open"
-                x-cloak
-                class="flex justify-center mt-8">
-                <button type="button" wire:click="submit" class="btn-primary" x-text="amount > 0 ? 'Pay Fee and Submit Application' : 'Submit Application'"></button>
-            </div>
-        </form>
-        @endif
+                {{ $this->form }}
+    
+                <div x-data="{ open: $wire.entangle('is_validated'), amount : $wire.entangle('amount') }" 
+                    x-show="open"
+                    x-cloak
+                    class="flex justify-center mt-8">
+                    <button type="button" wire:click="submit" class="btn-primary" x-text="amount > 0 ? 'Pay Fee and Submit Application' : 'Submit Application'"></button>
+                </div>
+            </form>
+        </div>
+        
     </div>
 </div>
