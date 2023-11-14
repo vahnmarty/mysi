@@ -436,6 +436,8 @@ class ApplicationForm extends Component implements HasForms
 
         $paymentRecord = $app->payment;
 
+        dd($paymentRecord);
+
         if($this->amount <= 0){
 
             if(!$paymentRecord){

@@ -85,6 +85,16 @@ class ViewApplication extends ViewRecord
             $data['legacy'] = $archive->legacy;
             $data['activities'] = $archive->activities;
 
+            # Missing Fields
+            if(empty($data['student']['ethnicity'])){
+                $this->record->archive()->update([
+                    'student' => $this->app->student->toArray()
+                ]);
+
+                dd($this->record->archive);
+            }
+            
+
         }else{
 
             $account = $this->app->account;

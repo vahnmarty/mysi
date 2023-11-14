@@ -23,7 +23,7 @@ class ForceLogin extends Page implements HasForms
     protected static string $view = 'filament.pages.force-login';
 
     protected static ?int $navigationSort = 3;
-    
+
     public $account, $account_id, $user;
 
     protected function getFormSchema() : array
@@ -33,24 +33,30 @@ class ForceLogin extends Page implements HasForms
                 ->options(Account::has('users')->get()->pluck('account_name', 'id'))
                 ->preload()
                 ->searchable()
+                ->afterStateUpdated(function($state, Closure $set){
+                    $set('account_id', $state);
+                })
                 ->lazy(),
             TextInput::make('account_id')
                 ->lazy(),
             Select::make('user')
                 ->label('User Login')
+                ->helperText('You can search/select an account or you can input the account ID.')
                 ->lazy()
-                ->options(function(Closure $get){
-                    if($get('account')){
-                        return User::where('account_id', $get('account'))->get()->pluck('name', 'id');
-                    }
-
+                ->options(function(Closure $get, Closure $set){
                     if($get('account_id')){
-                        return User::where('account_id', $get('account_id'))->get()->pluck('name', 'id');
+                        $users =  User::where('account_id', $get('account_id'))->get()->pluck('name', 'id');
+
+                        if(!empty($users[0])){
+                            $set('user', $users[0]);
+                        }
+                        return $users;
                     }
 
                     return [];
                 })
                 ->preload()
+                ->placeholder('Select User')
                 ->required()
         ];
     }

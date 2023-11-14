@@ -62,7 +62,7 @@ class Application extends Model
 
     public function payment()
     {
-        return $this->hasOne(Payment::class);
+        return $this->hasOne(Payment::class)->latest();
     }
 
     public function payments()
