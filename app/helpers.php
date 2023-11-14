@@ -11,6 +11,12 @@ if (! function_exists('clean_string')) {
     }
 }
 
+if (! function_exists('removeQuotes')) {
+    function removeQuotes($string){
+        return str_replace('"', '', $string);
+    }
+}
+
 if (! function_exists('accountId')) {
     function accountId() {
         return auth()->user()->account_id;

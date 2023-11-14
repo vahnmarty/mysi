@@ -233,7 +233,7 @@ class ApplicationForm extends Component implements HasForms
     public function __autoSave($model, $column, $value)
     {
         try {
-            $model->$column = removeQuotes($value);
+            $model->$column = $value;
             $model->save();
             
         } catch (\Exception $e) {
