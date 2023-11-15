@@ -55,6 +55,8 @@ class PayApplicationFee extends Component implements HasForms
         }else{
             $account = Account::find(accountId());
             $applications = $account->applications()->submitted()->get() ;
+
+            dd($applications);
             
             foreach($applications as $app){
                 if(!$app->isPaid()){
