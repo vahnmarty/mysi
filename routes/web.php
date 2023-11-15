@@ -26,6 +26,7 @@ use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Admission\TransactionHistory;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
+use App\Http\Livewire\Application\PayApplicationFee;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
@@ -83,6 +84,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('healthcare', HealthcareInformation::class)->name('application.healthcare');
     Route::get('emergency-contact', EmergencyContactInformation::class)->name('application.emergecy-contact');
     Route::get('admission', AdmissionApplication::class)->name('application.admission');
+    Route::get('admission/payment/{uuid?}', PayApplicationFee::class)->name('application.payment');
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
     Route::get('accommodation-documents', AccommodationDocuments::class)->name('application.accommodation-documents');

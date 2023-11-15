@@ -79,6 +79,23 @@ class Application extends Model
         });
     }
 
+    public function isPaid()
+    {
+        foreach($this->payments as $payment)
+        {
+            if($payment->transaction_id && $payment->total_amount > 0){
+                return true;
+            }
+
+            if($payment->promo_code == 'App0'){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    
     public function scopeUnpaid( $query )
     {
         return $query->whereHas('payments', function($pQuery){

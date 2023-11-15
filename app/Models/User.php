@@ -166,4 +166,56 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
     {
         return $this->hasRole('admin');
     }
+
+    public function hasFailedPayment()
+    {
+        $bool = false;
+
+        $app0 = 'App0';
+
+        $account = Account::find(accountId());
+
+        foreach($account->applications()->submitted()->get() as $app)
+        {
+            foreach($app->payments as $payment)
+            {
+                if($payment->total_amount <=0)
+                {
+                    if($payment->promo_code != $app0)
+                    {
+                        return true;
+                    }
+                }
+
+                if(empty($payment->transaction_id))
+                {
+                    if($payment->promo_code != $app0)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return $bool;
+    }
+
+    public function failedApplications()
+    {
+        $bool = false;
+
+        foreach($this->account->applications()->submitted()->get() as $app)
+        {
+            foreach($app->payments as $payment)
+            {
+                if($payment->total_amount <=0)
+                {
+                    if($payment->promo_code != 'App0')
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
 }
