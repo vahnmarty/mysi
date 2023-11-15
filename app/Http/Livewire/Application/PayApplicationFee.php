@@ -62,9 +62,11 @@ class PayApplicationFee extends Component implements HasForms
                         return redirect()->route('application.payment', ['uuid' => $app->uuid]);
                     }
                 }
+            }else{
+                dd('This account has no application submitted.');
             }
 
-            dd('This account has no application submitted.');
+            
             
         }
     }
