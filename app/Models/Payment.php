@@ -10,4 +10,9 @@ class Payment extends Model
     use HasFactory;
 
     protected $guarded = [] ;
+
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
+    }
 }

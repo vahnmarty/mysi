@@ -23,6 +23,7 @@ use App\Http\Livewire\Notifications\FinancialAid;
 
 use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
+use App\Http\Livewire\Admission\TransactionHistory;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\AddressInformation;
@@ -93,6 +94,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('notifications/{uuid}', [NotificationController::class, 'show'])->name('notifications.show');
     Route::get('notifications/{uuid}/pdf', [NotificationController::class, 'pdf'])->name('notifications.pdf');
     Route::get('notifications/{uuid}/financial-aid', FinancialAid::class)->name('notifications.financial-aid');
+    Route::get('transactions', TransactionHistory::class)->name('transactions.index');
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
