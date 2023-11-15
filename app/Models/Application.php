@@ -65,6 +65,13 @@ class Application extends Model
         return $this->hasOne(Payment::class)->latest();
     }
 
+    public function scopeHasPromoCode( $query )
+    {
+        return $query->whereHas('payments', function($pQuery){
+            $pQuery->whereNotNull('promo_code');
+        });
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);

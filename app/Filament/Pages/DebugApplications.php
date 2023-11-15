@@ -4,9 +4,11 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 use App\Models\Application;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Illuminate\Database\Eloquent\Builder;
 
 class DebugApplications extends Page implements HasTable
 {
@@ -62,6 +64,16 @@ class DebugApplications extends Page implements HasTable
             TextColumn::make('appStatus.application_submit_date')
                 ->label('date_submitted')
                 ->sortable()
+        ];
+    }
+
+    protected function getTableFilters(): array
+    {
+        return [
+            Filter::make('submitted')
+                ->query(fn (Builder $query): Builder => $query->submitted()),
+            Filter::make('with_promo_code')
+                ->query(fn (Builder $query): Builder => $query->hasPromoCode())
         ];
     }
 }
