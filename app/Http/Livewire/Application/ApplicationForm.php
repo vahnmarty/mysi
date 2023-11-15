@@ -263,8 +263,6 @@ class ApplicationForm extends Component implements HasForms
             'final_amount' => config('settings.payment.application_fee')
         ]
         );
-
-        dd($this->amount);
     }
 
     function authorizeCreditCard(Payment $payment, $data)
