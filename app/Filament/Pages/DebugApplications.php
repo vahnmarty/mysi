@@ -4,11 +4,14 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 use App\Models\Application;
+use Filament\Pages\Actions\Action;
+use App\Exports\UnpaidApplications;
 use Filament\Tables\Filters\Filter;
+use Maatwebsite\Excel\Facades\Excel;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Concerns\InteractsWithTable;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Concerns\InteractsWithTable;
 
 class DebugApplications extends Page implements HasTable
 {
@@ -77,5 +80,20 @@ class DebugApplications extends Page implements HasTable
             Filter::make('no_transaction')
                 ->query(fn (Builder $query): Builder => $query->noTransaction())
         ];
+    }
+
+    protected function getActions(): array
+    {
+        return [
+            Action::make('print')
+                ->label('Print Unpaid Applications')
+                ->action('exportUnpaidApplications')
+
+        ];
+    }
+
+    public function exportUnpaidApplications()
+    {
+        return Excel::download(new UnpaidApplications, 'unpaid-applications.xlsx');
     }
 }
