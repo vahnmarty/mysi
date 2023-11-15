@@ -61,6 +61,8 @@ class PayApplicationFee extends Component implements HasForms
                     return redirect()->route('application.payment', ['uuid' => $app->uuid]);
                 }
             }
+
+            $this->paid = true;
         }
     }
 
