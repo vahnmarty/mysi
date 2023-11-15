@@ -90,8 +90,6 @@ class ViewApplication extends ViewRecord
                 $this->record->archive()->update([
                     'student' => $this->app->student->toArray()
                 ]);
-
-                dd($this->record->archive);
             }
             
 
