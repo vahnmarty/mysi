@@ -2,7 +2,7 @@
 
 if (! function_exists('inFailedPayments')) {
     function inFailedPayments($accountId){
-        return \App\Models\UnsettledApplication::where('account_id', $accountId)->exists();
+        $unsettled =  \App\Models\UnsettledApplication::where('account_id', $accountId)->first();
     }
 }
 

@@ -10,6 +10,7 @@ use App\Enums\PaymentType;
 use App\Models\Application;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
+use App\Models\UnsettledApplication;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -157,6 +158,12 @@ class PayApplicationFee extends Component implements HasForms
             Auth::user()->notify( new PaymentReceipt($this->app));
             
             $this->paid = true;
+
+            $unsettled = UnsettledApplication::where('account_id', accountId())->first();
+
+            if($unsettled){
+                $unsettled->delete();
+            }
             
         }else{
 
