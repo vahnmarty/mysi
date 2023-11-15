@@ -58,6 +58,7 @@ class PayApplicationFee extends Component implements HasForms
 
             foreach($account->applications()->submitted()->get() as $app){
                 if(!$app->isPaid()){
+                    dd($app);
                     return redirect()->route('application.payment', ['uuid' => $app->uuid]);
                 }
             }
