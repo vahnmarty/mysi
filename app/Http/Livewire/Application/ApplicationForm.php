@@ -75,6 +75,8 @@ class ApplicationForm extends Component implements HasForms
 
     public function mount($uuid)
     {
+        $this->amount = config('settings.payment.application_fee');
+        
         $this->app = Application::with('activities', 'student')->whereUuid($uuid)->firstOrFail();
         
         $status = $this->app->appStatus()->firstOrCreate([
@@ -261,6 +263,8 @@ class ApplicationForm extends Component implements HasForms
             'final_amount' => config('settings.payment.application_fee')
         ]
         );
+
+        dd($this->amount);
     }
 
     function authorizeCreditCard(Payment $payment, $data)
