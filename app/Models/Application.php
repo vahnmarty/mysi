@@ -79,6 +79,13 @@ class Application extends Model
         });
     }
 
+    public function scopeUnpaid( $query )
+    {
+        return $query->whereHas('payments', function($pQuery){
+            $pQuery->whereNull('transaction_id')->orWhere('total_amount','<=' ,0);
+        });
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);

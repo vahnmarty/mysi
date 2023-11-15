@@ -13,7 +13,7 @@ class UnpaidApplications implements FromView
     public function view(): View
     {
         return view('exports.applications', [
-            'applications' => Application::submitted()->get()
+            'applications' => Application::submitted()->unpaid()->get()
         ]);
     }
 
