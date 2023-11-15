@@ -30,6 +30,8 @@ class PayApplicationFee extends Component implements HasForms
 
     public $data = [];
 
+    public $app_uuid;
+
     public function render()
     {
         return view('livewire.application.pay-application-fee');
@@ -37,6 +39,9 @@ class PayApplicationFee extends Component implements HasForms
 
     public function mount($uuid = null)
     {
+        $this->app_uuid = $uuid;
+
+        
         if($uuid){
 
             $app = Application::whereUuid($uuid)->firstOrFail();
@@ -57,13 +62,13 @@ class PayApplicationFee extends Component implements HasForms
             $applications = $account->applications()->submitted()->get() ;
             
             if(count($applications)){
-
-                dd($account, $applications);
                 foreach($applications as $app){
                     if(!$app->isPaid()){
                         return redirect()->route('application.payment', ['uuid' => $app->uuid]);
                     }
                 }
+
+                // FIX all unpaid.
             }else{
                 dd('This account has no application submitted.');
             }

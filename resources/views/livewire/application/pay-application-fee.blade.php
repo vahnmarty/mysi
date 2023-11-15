@@ -3,6 +3,8 @@
         Pay Application Fee
     </h2>
 
+    @if($app_uuid)
+
     <div class="mt-8">
 
         @if($paid)
@@ -30,5 +32,7 @@
         </form>
         @endif
     </div>
+
+    @endif
 
 </div>
