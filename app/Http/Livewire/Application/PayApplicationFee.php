@@ -41,17 +41,16 @@ class PayApplicationFee extends Component implements HasForms
 
             $app = Application::whereUuid($uuid)->firstOrFail();
 
-            if($app->isPaid()){
-                $this->paid = true;
-
-                return;
-            }
 
             $this->app = $app;
 
             $this->amount = $app->payment->final_amount ?? config('settings.payment.application_fee');
 
-            $this->form->fill();            
+            $this->form->fill();  
+            
+            if($app->isPaid()){
+                $this->paid = true;
+            }
 
         }else{
             $account = Account::find(accountId());
@@ -62,7 +61,6 @@ class PayApplicationFee extends Component implements HasForms
                     return redirect()->route('application.payment', ['uuid' => $app->uuid]);
                 }
             }
-            
             
         }
     }
