@@ -93,7 +93,7 @@
                     $app_end_date = $freshmen_application_end_date->value;
                 @endphp
 
-                @if(Auth::user()->hasFailedPayment())
+                @if( inFailedPayments(accountId()) )
                 <li class="px-4 py-1 mb-3 text-sm transition">
                     <a href="{{ route('application.payment') }}" class="inline-flex items-start w-full gap-3 px-4 py-2 text-red-900 bg-red-100 rounded-md text-md hover:bg-red-200">
                         <x-heroicon-o-cash class="flex-shrink-0 w-5 h-5" />

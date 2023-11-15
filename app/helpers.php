@@ -1,5 +1,11 @@
 <?php
 
+if (! function_exists('inFailedPayments')) {
+    function inFailedPayments($accountId){
+        return \App\Models\UnsettledApplication::where('account_id', $accountId)->exists();
+    }
+}
+
 if (! function_exists('clean_string')) {
     function clean_string($string){
         // Remove special characters and replace spaces with underscores
