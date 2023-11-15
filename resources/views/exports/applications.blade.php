@@ -6,6 +6,7 @@
         <th>Account</th>
         <th>AppStatus ID</th>
         <th>AppStatus Status</th>
+        <th>Date Submitted</th>
         <th>Payment ID</th>
         <th>Transaction ID</th>
         <th>Promo Code</th>
@@ -21,6 +22,7 @@
             <td>{{ $app->account->account_name }}</td>
             <td>{{ $app->appStatus->id }}</td>
             <td>{{ $app->appStatus->application_status }}</td>
+            <td>{{ $app->appStatus->application_submit_date }}</td>
             <td>{{ $payment->id }}</td>
             <td>{{ $payment->transaction_id }}</td>
             <td>{{ $payment->promo_code }}</td>
