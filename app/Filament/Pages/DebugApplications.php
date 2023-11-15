@@ -73,7 +73,9 @@ class DebugApplications extends Page implements HasTable
             Filter::make('submitted')
                 ->query(fn (Builder $query): Builder => $query->submitted()),
             Filter::make('with_promo_code')
-                ->query(fn (Builder $query): Builder => $query->hasPromoCode())
+                ->query(fn (Builder $query): Builder => $query->hasPromoCode()),
+            Filter::make('no_transaction')
+                ->query(fn (Builder $query): Builder => $query->noTransaction())
         ];
     }
 }

@@ -72,6 +72,13 @@ class Application extends Model
         });
     }
 
+    public function scopeNoTransaction( $query )
+    {
+        return $query->whereHas('payments', function($pQuery){
+            $pQuery->whereNull('transaction_id');
+        });
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);
