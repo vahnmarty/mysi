@@ -161,3 +161,11 @@ Route::get('/callback', function (Request $request) {
  
     return $response->json();
 });
+
+Route::get('changelog', function(){
+
+    $file = base_path('CHANGELOG.md');
+    $content = \File::get($file);
+
+    return view('changelog', ['changelog' => $content]);
+});
