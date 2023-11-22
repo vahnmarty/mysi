@@ -1,5 +1,6 @@
 <?php
 
+use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Livewire\SampleForm;
@@ -168,4 +169,9 @@ Route::get('changelog', function(){
     $content = \File::get($file);
 
     return view('changelog', ['changelog' => $content]);
+});
+
+Route::get('impersonator/logout', function(){
+    Auth::user()->leaveImpersonation();
+    return redirect('admin/force-login');
 });

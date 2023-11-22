@@ -95,6 +95,14 @@
                                             Profile
                                         </a>
                                     </div>
+                                    @if(Auth::user()->isImpersonated())
+                                    <div class="p-4">
+                                        <a href="{{ url('impersonator/logout') }}" class="flex gap-3 px-3 py-3 text-xs text-primary-red bg-primary-red/10 hover:bg-primary-red/50">
+                                            <x-heroicon-o-x class="w-4 h-4"/>
+                                            Exit
+                                        </a>
+                                    </div>
+                                    @else
                                     <div class="hover:bg-gray-100">
                                         <a href="#" class="flex gap-3 px-6 py-3 text-xs " onclick="document.querySelector('#form_logout').submit()">
                                             <x-heroicon-o-logout class="w-4 h-4"/>
@@ -104,6 +112,7 @@
                                                 @csrf
                                             </form>
                                     </div>
+                                    @endif
                                 </div>
                             </x-slot>
                         </x-dropdown>
