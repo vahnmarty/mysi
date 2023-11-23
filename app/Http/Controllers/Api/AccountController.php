@@ -16,6 +16,8 @@ class AccountController extends Controller
     {
         $data = Account::has('users')->get();
 
+        return $data;
+
         return response()->json([
             'total' => count($data),
             'data' => $data
