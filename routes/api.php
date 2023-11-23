@@ -44,6 +44,7 @@ Route::group( ['middleware' => ['client'] ], function(){
     Route::resource('parents', ParentController::class);
 
     Route::get('accounts', [AccountController::class, 'index']);
+    Route::get('accounts/fetch', [AccountController::class, 'fetch']);
     Route::get('accounts/{account}', [AccountController::class, 'show']);
     Route::post('accounts/{account}/sync', [AccountController::class, 'sync']);
 

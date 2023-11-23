@@ -14,13 +14,17 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
-        $fetch = $request->fetch ?? 0;
+        $data = Account::has('users')->get();
 
-        if($fetch){
-            $data = Account::get();
-        }else{
-            $data = Account::has('users')->get();
-        }
+        return response()->json([
+            'total' => count($data),
+            'data' => $data
+        ]);
+    }
+
+    public function fetch(Request $request)
+    {
+        $data = Account::get();
 
         return response()->json([
             'total' => count($data),
