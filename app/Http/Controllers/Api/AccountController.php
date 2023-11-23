@@ -14,8 +14,6 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
-        return 'z';
-        
         $fetch = $request->fetch ?? 0;
 
         if($fetch){
