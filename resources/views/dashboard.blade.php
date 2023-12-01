@@ -28,8 +28,18 @@
             
         </div>
 
+        @php
+            $freshmen_application_start_date = notification_setting('freshmen_application_start_date');
+            $freshmen_application_end_date = notification_setting('freshmen_application_hard_close_date');
+
+            $app_start_date = $freshmen_application_start_date->value;
+            $app_end_date = $freshmen_application_end_date->value;
+        @endphp
+
+        @if(now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date))
         <div class="flex justify-center mt-12">
             <a href="{{ route('application.admission') }}" class="btn-primary">Start Application</a>
         </div>
+        @endif
     </div>
 </x-app-layout>
