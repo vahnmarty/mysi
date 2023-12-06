@@ -24,9 +24,9 @@ class ViewApplications extends Component implements HasTable
     {
         $app = Application::where('account_id', accountId())->get();
 
-        // if( count($app) == 1){
-        //     return redirect()->route('application.show', $app->uuid);
-        // }
+        if( count($app) == 1){
+            return redirect()->route('application.show', $app[0]->uuid);
+        }
         
     }
 
