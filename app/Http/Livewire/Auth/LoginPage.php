@@ -47,6 +47,11 @@ class LoginPage extends Component implements HasForms
             {
                 $this->setNewPassword();
             }
+
+            if($this->status == 'primary_parent' && !empty($this->email))
+            {
+                $this->errorPrimaryParent();
+            }
         }
     }
 
@@ -194,5 +199,16 @@ class LoginPage extends Component implements HasForms
             ->title('Unable to login. Check your username and password.')
             ->danger()
             ->send();
+    }
+
+    public function errorPrimaryParent()
+    {
+        $parent = Parents::with('account.users')->where('personal_email', $this->email)->first();
+        $account = $parent->account;
+
+        $primary_parent = $account->primaryParent ?? $account->users()->first();
+        $this->display_message = true;
+        $this->action = 'primary_parent';
+        $this->primary_parent_name = $primary_parent?->getFullName();
     }
 }
