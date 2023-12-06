@@ -11,19 +11,17 @@
                 Welcome to MySI, your gateway to St. Ignatius College Preparatory!
             </p>
             <p>
-                You will create and complete your Admissions Application here and submit it by midnight on Wednesday, November 15, 2023. In March, you will receive your Admissions decision using this system. Make sure to save your username and password in a secure location.
-
+                For those that submitted an application for the SI Class of 2028, you will receive your Admissions decision using this system on March 15, 2024 at 4pm. Make sure to save your username and password in a secure location.
             </p>
             <p>
-                Use the navigation links located on the left-hand side of your screen to explore MySI.
+                Please visit the <a href="https://www.siprep.org/admissions/timeline" target="_blank" class="underline text-link">Timeline</a> on our Admissions website for next steps. Use the navigation links located on the left-hand side of your screen to explore MySI.
             </p>
-
             <p>
-                If you have any questions about applying to SI, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link">admissions@siprep.org</a> or (415) 731-7500 ext. 5274.
+                If you have any questions about the application process, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link ">admissions@siprep.org</a>  or <a href="tel:(415) 731-7500 ext. 5274" class="underline text-link">(415) 731-7500 ext. 5274</a>.
             </p>
 
             <p>
-                If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="underline text-link">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are seeing.  A screenshot will help greatly in resolving your technical issue.
+                If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="underline text-link ">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are experiencing. A screenshot will help greatly in resolving your technical issue.
             </p>
             
         </div>

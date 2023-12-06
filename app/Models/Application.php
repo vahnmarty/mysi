@@ -229,4 +229,15 @@ class Application extends Model
 
         return $array;
     }
+
+    public static function isEnabled()
+    {
+        $notification_start_date = notification_setting('notification_start_date');
+        $notification_end_date = notification_setting('notification_end_date');
+
+        $notif_start_date = $notification_start_date->value;
+        $notif_end_date = $notification_end_date->value;
+
+        return now()->gte($notif_start_date) && now()->lt($notif_end_date) || empty($notif_start_date)  || empty($notif_end_date);
+    }
 }

@@ -41,6 +41,10 @@ return [
         'key' => env('SALESFORCE_CONSUMER_KEY'),
         'secret' => env('SALESFORCE_CONSUMER_SECRET'),
         'callback' => env('SALESFORCE_CONSUMER_CALLBACK')
+    ],
+
+    'adyen' => [
+        'key' => env('ADYEN_KEY')
     ]
 
 ];

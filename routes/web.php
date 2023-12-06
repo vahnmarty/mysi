@@ -18,9 +18,10 @@ use App\Http\Livewire\Auth\ResetPasswordPage;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
+use App\Http\Livewire\Admission\ViewApplications;
 use App\Http\Livewire\Auth\CreateAccountPassword;
-use App\Http\Livewire\Notifications\FinancialAid;
 
+use App\Http\Livewire\Notifications\FinancialAid;
 use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Admission\TransactionHistory;
@@ -97,6 +98,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('notifications/{uuid}/pdf', [NotificationController::class, 'pdf'])->name('notifications.pdf');
     Route::get('notifications/{uuid}/financial-aid', FinancialAid::class)->name('notifications.financial-aid');
     Route::get('transactions', TransactionHistory::class)->name('transactions.index');
+    Route::get('applications', ViewApplications::class);
 });
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');

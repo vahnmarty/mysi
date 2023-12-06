@@ -16,13 +16,14 @@ use App\Enums\ParentType;
 use App\Enums\RacialType;
 use App\Enums\RecordType;
 use App\Enums\Salutation;
+use Illuminate\View\View;
 use App\Enums\AddressType;
+use App\Models\Application;
 use App\Enums\ConditionBoolean;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Radio;
-use Illuminate\View\View;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
@@ -52,6 +53,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
 
     public $action = CrudAction::Create; 
     public $model_id;
+
+    public $open;
     
     public function render()
     {
@@ -61,6 +64,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
 
     public function mount()
     {
+        $this->open = Application::isEnabled();
+
         $this->form->fill([
             'account_id' => accountId()
         ]);
@@ -68,6 +73,8 @@ class AdmissionApplication extends Component implements HasTable, HasForms
         if($this->getTableQuery()->count() <= 0){
             $this->enable_form = true;
         }
+
+        
     }
 
     public function getTableQuery()
