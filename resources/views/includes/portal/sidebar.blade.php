@@ -139,12 +139,6 @@
                     Admissions Video
                 </x-sidebar-item>
 
-                <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
-                    <x-slot name="icon">
-                        <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
-                    </x-slot>
-                    Upload Accommodations Documents
-                </x-sidebar-item>
                 @else
                 <x-sidebar-item align="start" href="{{ url('applications') }}">
                     <x-slot name="icon">
@@ -153,6 +147,13 @@
                     View Application
                 </x-sidebar-item>
                 @endif
+
+                <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
+                    <x-slot name="icon">
+                        <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    Upload Accommodations Documents
+                </x-sidebar-item>
 
                 @php
                     $supplemental_recommendation_start_date = notification_setting('supplemental_recommendation_start_date');
