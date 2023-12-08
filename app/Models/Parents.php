@@ -13,7 +13,7 @@ class Parents extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['full_name'];
+    //protected $appends = ['full_name'];
 
     public function getFullName()
     {

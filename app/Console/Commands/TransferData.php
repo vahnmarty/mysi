@@ -62,16 +62,26 @@ class TransferData extends Command
  
         $bar->start();
         
-        foreach ($model->get() as $item) {
-            //$this->performTask($item);
-
-            //$this->line($item->id);
+        foreach ($model->get() as $srcItem) 
+        {
+            $newItem  = new $model;
+            $newItem->setConnection('mysql2');
+            $data = $srcItem->makeHidden($this->salesforceFields())->toArray();
+            $newItem->fill($data);
+            $newItem->save();
         
             $bar->advance();
         }
         
         $bar->finish();
         
+    }
+
+    public function salesforceFields()
+    {
+        return [
+            'id', 'sf_account_id', 'record_type_id', 'sf_residence_id', 'created_at', 'updated_at'
+        ];
     }
 
 }
