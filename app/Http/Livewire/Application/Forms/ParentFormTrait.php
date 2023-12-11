@@ -59,7 +59,7 @@ trait ParentFormTrait{
                                         $existing = collect($items)->where('id', $parent->id)->first();
         
                                         if(!$existing){
-                                            $parent->forceDelete();
+                                            $parent->delete();
                                         }
                                     }
                                 }else{
