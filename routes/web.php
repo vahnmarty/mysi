@@ -28,6 +28,7 @@ use App\Http\Livewire\Admission\TransactionHistory;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\PayApplicationFee;
+use App\Http\Livewire\Registration\RegistrationForm;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
@@ -92,14 +93,19 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('help', ContactPage::class)->name('help');
     Route::get('supplemental-recommendation', SupplementalRecommendationPage::class)->name('application.supplemental-recommendation');
     Route::get('supplemental-recommendation/{uuid}', SupplementalRecommendationRequestForm::class)->name('application.supplemental-recommendation-request');
-    Route::get('recommendation/{uuid}', RecommendationForm::class)->name('recommendation-form');
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('notifications/{uuid}', [NotificationController::class, 'show'])->name('notifications.show');
     Route::get('notifications/{uuid}/pdf', [NotificationController::class, 'pdf'])->name('notifications.pdf');
     Route::get('notifications/{uuid}/financial-aid', FinancialAid::class)->name('notifications.financial-aid');
     Route::get('transactions', TransactionHistory::class)->name('transactions.index');
     Route::get('applications', ViewApplications::class);
+
+
+    Route::get('registration', RegistrationForm::class);
 });
+
+
+Route::get('recommendation/{uuid}', RecommendationForm::class)->name('recommendation-form');
 
 Route::get('test-payment', SamplePayment::class)->middleware('auth');
 Route::get('sample-form', SampleForm::class);
