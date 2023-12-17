@@ -90,6 +90,16 @@ class AccommodationDocuments extends Livewire implements HasTable
         return 'data';
     }
 
+    protected function getTableEmptyStateHeading(): ?string
+    {
+        return 'No records found';
+    }
+ 
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return 'Accommodation documents cannot be sent to SI if there were no applications submitted.';
+    }
+
     protected function getFormSchema()
     {
         return [
