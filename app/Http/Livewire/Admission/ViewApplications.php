@@ -22,7 +22,7 @@ class ViewApplications extends Component implements HasTable
 
     public function mount()
     {
-        $app = Application::where('account_id', accountId())->get();
+        $app = Application::where('account_id', accountId())->submitted()->get();
 
         if( count($app) == 1){
             return redirect()->route('application.show', $app[0]->uuid);

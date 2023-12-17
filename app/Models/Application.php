@@ -232,12 +232,12 @@ class Application extends Model
 
     public static function isEnabled()
     {
-        $notification_start_date = notification_setting('notification_start_date');
-        $notification_end_date = notification_setting('notification_end_date');
+        $freshmen_application_start_date = notification_setting('freshmen_application_start_date');
+        $freshmen_application_end_date = notification_setting('freshmen_application_hard_close_date');
 
-        $notif_start_date = $notification_start_date->value;
-        $notif_end_date = $notification_end_date->value;
+        $app_start_date = $freshmen_application_start_date->value;
+        $app_end_date = $freshmen_application_end_date->value;
 
-        return now()->gte($notif_start_date) && now()->lt($notif_end_date) || empty($notif_start_date)  || empty($notif_end_date);
+        return now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date);
     }
 }
