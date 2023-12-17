@@ -14,6 +14,8 @@ use Filament\Tables\Concerns\InteractsWithTable;
 class ViewApplications extends Component implements HasTable
 {
     use InteractsWithTable;
+
+    public $open = true;
     
     public function render()
     {
@@ -26,6 +28,10 @@ class ViewApplications extends Component implements HasTable
 
         if( count($app) == 1){
             return redirect()->route('application.show', $app[0]->uuid);
+        }
+
+        if(count($app) <= 0){
+            $this->open = false;
         }
         
     }

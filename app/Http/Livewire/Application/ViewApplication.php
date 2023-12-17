@@ -67,6 +67,10 @@ class ViewApplication extends Component implements HasForms
 
         $archive = $this->app->archive;
 
+        if(!$archive){
+            dd($this->app->with('appStatus'));
+        }
+
         $data = $archive->application;
         $data['student'] = $archive->student;
         $data['addresses'] = $archive->addresses;
