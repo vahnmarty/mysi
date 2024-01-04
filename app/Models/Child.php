@@ -24,6 +24,11 @@ class Child extends Model
         return $this->hasOne(Application::class);
     }
 
+    public function registration()
+    {
+        return $this->hasOne(Registration::class);
+    }
+
     public function submitted()
     {
         if($this->application)

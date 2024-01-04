@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Lab404\Impersonate\Models\Impersonate;
 use Filament\Models\Contracts\FilamentUser;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,6 +18,8 @@ use App\Notifications\Auth\ForgotUsername as ForgotUsernameNotification;
 
 class User extends Authenticatable implements FilamentUser,MustVerifyEmail
 {
+    use SoftDeletes;
+    
     use HasApiTokens, HasFactory, Notifiable;
 
     use HasRoles;

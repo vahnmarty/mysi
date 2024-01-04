@@ -33,6 +33,7 @@ use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
 use App\Http\Livewire\Application\HealthcareInformation;
+use App\Http\Livewire\Registration\StudentRegistrations;
 use App\Http\Livewire\Application\AccommodationDocuments;
 use App\Http\Livewire\Application\EmergencyContactInformation;
 use App\Http\Livewire\Application\UploadAccommodationDocuments;
@@ -100,8 +101,8 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('transactions', TransactionHistory::class)->name('transactions.index');
     Route::get('applications', ViewApplications::class);
 
-
-    Route::get('registration', RegistrationForm::class);
+    Route::get('registration', StudentRegistrations::class)->name('registration.index');
+    Route::get('registration/{uuid}', RegistrationForm::class)->name('registration.form');
 });
 
 
