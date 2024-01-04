@@ -97,11 +97,11 @@ class ApplicationResource extends Resource
                                 }
                             }),
                         ),
-                Tables\Columns\ToggleColumn::make("honors_english")
+                Tables\Columns\ToggleColumn::make("appStatus.honors_english")
                     ->label('Honors Eng'),
-                Tables\Columns\ToggleColumn::make("honors_math")
+                Tables\Columns\ToggleColumn::make("appStatus.honors_math")
                     ->label('Honors Math'),
-                Tables\Columns\ToggleColumn::make("honors_bio")
+                Tables\Columns\ToggleColumn::make("appStatus.honors_bio")
                     ->label('Honors Bio'),
                 Tables\Columns\ToggleColumn::make("with_financial_aid")
                     ->label('With F/A'),

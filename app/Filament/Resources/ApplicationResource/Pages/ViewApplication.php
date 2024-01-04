@@ -58,7 +58,7 @@ class ViewApplication extends ViewRecord
     protected function getActions(): array
     {
         return [
-            //Actions\EditAction::make(),
+            Actions\Action::make('decision'),
         ];
     }
 
