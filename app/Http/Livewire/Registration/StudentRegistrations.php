@@ -135,8 +135,7 @@ class StudentRegistrations extends Component implements HasTable, HasForms
                     ]);
 
                     return redirect()->route('registration.form', $registration->uuid);
-                })
-                ->hidden(fn(Child $record) => $record->submitted()),
+                }),
             // ViewColumn::make('pipe')
             //     ->label('')
             //     ->view('filament.tables.columns.pipe')
