@@ -161,6 +161,7 @@ class AccommodationDocuments extends Livewire implements HasTable
 
                 Mail::to(['ggalletta@siprep.org','pcollins@siprep.org'])
                     ->bcc('admissions@siprep.org')
+                    ->bcc('rferro@siprep.org')
                     ->send(new SubmittedApplicationDocuments($document));
 
                 Notification::make()
