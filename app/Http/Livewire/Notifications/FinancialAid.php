@@ -55,7 +55,7 @@ class FinancialAid extends Component implements HasForms
 
     public function acknowledge()
     {
-        
+       
     }
 
     public function parseContent($input, $variables)

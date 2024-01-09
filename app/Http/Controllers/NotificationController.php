@@ -6,7 +6,9 @@ use Arr;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\ApplicationStatus;
 use App\Models\NotificationLetter;
+use App\Models\NotificationMessage;
 use App\Enums\NotificationStatusType;
 
 class NotificationController extends Controller
@@ -14,6 +16,7 @@ class NotificationController extends Controller
     public function index()
     {
         $apps = Application::where('account_id', accountId())->get();
+
         if(count($apps) == 1) {
             return redirect()->route('notifications.show', $apps->first()->uuid);
         }
@@ -21,27 +24,10 @@ class NotificationController extends Controller
 
     public function show($uuid)
     {
-        $app = Application::with('appStatus')->whereUuid($uuid)->firstOrFail();
-
+        $notification = NotificationMessage::whereUuid($uuid)->firstOrFail();
+        $app = $notification->application;
         $appStatus = $app->appStatus;
-
-        $notification = NotificationLetter::where('reference', $appStatus->application_status)->first();
-
-        if(!$notification){
-            return 'notification not found';
-        }
-
-        $account = $app->account;
-
-        $variables = [
-            'application' => $app->toArray(),
-            'student' => $app->student->toArray(),
-            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
-            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
-        ];
-
-
-        $content = $this->parseContent($notification->content, $variables);
+        $content = $notification->content;
 
         $faq = '';
 
@@ -53,7 +39,18 @@ class NotificationController extends Controller
             }
         }
 
-        return view('notifications.show', compact('app', 'account', 'content', 'notification', 'appStatus', 'faq'));
+        $this->readNotification($appStatus);
+
+        return view('notifications.show', compact('notification', 'app', 'content', 'appStatus', 'faq'));
+    }
+
+    public function readNotification(ApplicationStatus $appStatus)
+    {
+        if(!$appStatus->notification_read){
+            $appStatus->notification_read = true;
+            $appStatus->notification_read_date = now();
+            $appStatus->save();
+        }
     }
 
     public function pdf($uuid)

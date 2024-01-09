@@ -36,6 +36,8 @@ class RegistrationForm extends Component implements HasForms
 
     public $done = false;
 
+    public $open;
+
     public function render()
     {
         return view('livewire.registration.registration-form');
@@ -45,6 +47,8 @@ class RegistrationForm extends Component implements HasForms
     {
         $registration = Registration::with('account', 'student')->whereUuid($uuid)->firstOrFail();
 
+        $this->open = $registration->started_at ? true : false;
+        
         $this->registration = $registration;
         $user = Auth::user();
         
@@ -103,5 +107,14 @@ class RegistrationForm extends Component implements HasForms
     protected function getFormStatePath(): string 
     {
         return 'data';
+    }
+
+    public function start()
+    {
+        $registration = $this->registration;
+        $registration->started_at = now();
+        $registration->save();
+
+        return redirect(request()->header('Referer'));
     }
 }

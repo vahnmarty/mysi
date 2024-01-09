@@ -10,7 +10,9 @@ use App\Models\Application;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use App\Models\NotificationLetter;
 use App\Enums\NotificationStatusType;
+use App\Services\NotificationService;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -70,6 +72,7 @@ class ApplicationResource extends Resource
                 Tables\Columns\TextColumn::make("status")->label('App Status'),
                 Tables\Columns\TextColumn::make('appStatus.application_status')
                     ->label('Notification Status')
+                    ->formatStateUsing(fn ($state) => $state ?? '-- N/A --')
                     ->action(
                         Tables\Actions\Action::make('update_status')
                             ->requiresConfirmation()
@@ -91,6 +94,9 @@ class ApplicationResource extends Resource
                                 $appStatus->save();
 
                                 $account = $record->account;
+
+                                $service = new NotificationService;
+                                $service->createMessage($record);
 
                                 foreach($account->users as $user){
                                     $user->notify(new ApplicationReviewed);
@@ -204,7 +210,8 @@ class ApplicationResource extends Resource
                 //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
+
     public static function getRelations(): array
     {
         return [

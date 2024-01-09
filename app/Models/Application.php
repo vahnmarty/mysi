@@ -62,7 +62,12 @@ class Application extends Model
 
     public function payment()
     {
-        return $this->hasOne(Payment::class)->latest();
+        return $this->hasOne(Payment::class)->where('payment_type', 'AppFee')->latest();
+    }
+
+    public function registration()
+    {
+        return $this->hasOne(Registration::class);
     }
 
     public function scopeHasPromoCode( $query )
@@ -160,6 +165,11 @@ class Application extends Model
         return $this->appStatus?->application_submitted;
     }
 
+    public function hasRegistered()
+    {
+        return $this->appStatus?->candidate_decision;
+    }
+
     public function scopeIncomplete($query)
     {
         return $query->whereHas('appStatus', function($statusQuery){
@@ -239,5 +249,10 @@ class Application extends Model
         $app_end_date = $freshmen_application_end_date->value;
 
         return now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date);
+    }
+
+    public function notificationMessage()
+    {
+        return $this->hasOne(NotificationMessage::class)->latest();
     }
 }

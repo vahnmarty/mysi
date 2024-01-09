@@ -19,6 +19,7 @@ use App\Enums\Salutation;
 use Illuminate\View\View;
 use App\Enums\AddressType;
 use App\Models\Application;
+use App\Models\Registration;
 use App\Enums\ConditionBoolean;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
@@ -79,7 +80,7 @@ class StudentRegistrations extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId())->where('current_grade', GradeLevel::Grade8);
+        return Registration::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 
@@ -87,17 +88,17 @@ class StudentRegistrations extends Component implements HasTable, HasForms
         return [
             TextColumn::make('student_name')
                 ->label('Student Name')
-                ->formatStateUsing(fn(Child $record) => $record->getFullName() ),
+                ->formatStateUsing(fn(Registration $record) => $record->student?->getFullName() ),
             TextColumn::make('mobile_phone')
                 ->label('Mobile Phone')
-                ->formatStateUsing(fn($state) => format_phone($state)),
-            TextColumn::make('personal_email')
+                ->formatStateUsing(fn(Registration $record) => format_phone($record->student?->mobile_phone)),
+            TextColumn::make('student.personal_email')
                 ->label('Email'),
-            TextColumn::make('current_school')
+            TextColumn::make('student.current_school')
                 ->label('Current School')
                 ->wrap()
-                ->formatStateUsing(fn(Child $record) => $record->getCurrentSchool()),
-            TextColumn::make('current_grade')
+                ->formatStateUsing(fn(Registration $record) => $record->student?->getCurrentSchool()),
+            TextColumn::make('student.current_grade')
                 ->label('Current Grade'),
         ];
     }
@@ -120,21 +121,10 @@ class StudentRegistrations extends Component implements HasTable, HasForms
             //     ->url(fn(Child $record) => route('application.show', $record->application->uuid))
             //     ->extraAttributes(['class' => 'app-status'])
             //     ->color(''),
-            Action::make('apply')
-                ->label(function(Child $record){
-                    return $record->registration ? 'Edit' : 'Apply';
-                })
-                ->action(function(Child $record){
-
-                    if($record->registration){
-                        return redirect()->route('registration.form', $record->registration->uuid);
-                    }
-                    $registration = $record->registration()->create([
-                        'account_id' => accountId(),
-                        'record_type_id' => RecordType::Student
-                    ]);
-
-                    return redirect()->route('registration.form', $registration->uuid);
+            Action::make('edit')
+                ->label('Edit')
+                ->action(function(Registration $record){
+                    return redirect()->route('registration.form', $record->uuid);
                 }),
             // ViewColumn::make('pipe')
             //     ->label('')

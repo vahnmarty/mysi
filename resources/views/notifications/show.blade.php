@@ -4,7 +4,7 @@
 <div class="text-sm">
     
     <div class="px-8 mx-auto max-w-7xl">
-        <div class="p-10 mt-8 bg-white border rounded-lg shadow-xl">
+        <div class="p-10 mt-8 bg-white border-2 rounded-lg shadow-xl">
 
             <header class="flex gap-6">
                 <img src="{{ asset('img/logo.png') }}" alt="">
@@ -39,8 +39,10 @@
                         <div>
                             <p class="text-base font-bold">Financial Aid Assisstance</p>
                             <div class="flex items-center gap-4">
-                                <a href="{{ route('notifications.financial-aid', $app->uuid) }}" class="underline">View</a>
+                                <a target="_blank" href="{{ route('notifications.financial-aid', $app->uuid) }}" class="underline">View</a>
+                                @if($notification->fa_acknowledged_at)
                                 <p class="italic" >Acknowledged</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -48,8 +50,12 @@
             </div>
             @endif
 
-            <div class="flex gap-6 mt-8">
+            <div class="flex justify-between gap-6 mt-8">
                 <a href="{{ route('notifications.pdf', $app->uuid) }}" target="_blank" class="btn-primary">Download</a>
+                <div class="flex justify-center gap-3">
+                    <button type="submit" class="btn-success">Enroll at SI</button>
+                    <button type="submit" class="btn-danger">Decline</button>
+                </div>
             </div>
 
         </div>
