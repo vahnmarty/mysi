@@ -14,6 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use App\Models\SupplementalRecommendation;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Wiebenieuwenhuis\FilamentCharCounter\TextInput as TextInputCounter;
 
 class RecommendationForm extends Component implements HasForms
 {
@@ -65,10 +66,11 @@ class RecommendationForm extends Component implements HasForms
                         ->disabled()
                         ->required()
                         ->columnSpan(2),
-                    TextInput::make('relationship_to_student')
+                    TextInputCounter::make('relationship_to_student')
                         ->label('Relationship to Student')
                         ->required()
-                        ->columnSpan(2),
+                        ->columnSpan(2)
+                        ->maxLength(40),
                     Select::make('years_known_student')
                         ->label('Years Known Student')
                         ->required()

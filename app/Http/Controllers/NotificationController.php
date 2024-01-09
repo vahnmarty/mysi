@@ -13,8 +13,7 @@ class NotificationController extends Controller
 {
     public function index()
     {
-        $apps = Application::where('account_id', accountId())->hasNotifications()->get();
-
+        $apps = Application::where('account_id', accountId())->get();
         if(count($apps) == 1) {
             return redirect()->route('notifications.show', $apps->first()->uuid);
         }
