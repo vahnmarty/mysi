@@ -60,7 +60,6 @@ class RegistrationForm extends Component implements HasForms
         $data['student'] = $this->registration->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
-        
         $data['autosave'] = true;
 
         $data['healthcare'] = $registration
@@ -72,6 +71,13 @@ class RegistrationForm extends Component implements HasForms
             
         $data['emergency_contact'] = $registration
             ->emergency_contact()
+            ->firstOrCreate([ 
+                'account_id' => $accountId
+            ])
+            ->toArray();
+
+        $data['accommodation'] = $registration
+            ->accommodation()
             ->firstOrCreate([ 
                 'account_id' => $accountId
             ])
