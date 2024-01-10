@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('language3', 100)->nullable();
             $table->string('language4', 100)->nullable();
             $table->string('language1_skill', 300)->nullable();
+            $table->boolean('reserve_language_placement', 1)->nullable();
             $table->boolean('language_challenge_flag', 1)->nullable();
             $table->string('language_challenge_choice', 255)->nullable();
             $table->string('about_choice', 255)->nullable();

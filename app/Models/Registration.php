@@ -54,7 +54,7 @@ class Registration extends Model
         return $this->hasOne(MagisProgram::class);
     }
 
-    public function coursePlacement()
+    public function course_placement()
     {
         return $this->hasOne(coursePlacement::class);
     }

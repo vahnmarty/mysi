@@ -39,10 +39,10 @@ trait CoursePlacementTrait{
     public function getCoursePlacementForm()
     {
         return [
-            Placeholder::make('section_accomod_form')
+            Placeholder::make('course_placement.section_accomod_form')
                 ->label('')
                 ->content(new HtmlString('* This section is to be completed by the student.')),
-            Placeholder::make('english_placement')
+            Placeholder::make('course_placement.english_placement')
                 ->label('')
                 ->content(new HtmlString("<div class='space-y-8'>
                     <div class='space-y-4'>
@@ -64,14 +64,19 @@ trait CoursePlacementTrait{
 
                     </div>
                 </div>")),
-            Select::make('reserve_math_challenge')
+            Select::make('course_placement.math_challenge')
                 ->label('Do you want to make a reservation to take the Math Challenge Test on April 22,2023?')
                 ->options([
                     1 => 'Yes',
                     0 => 'No'
                 ])
-                ->required(),
-            Placeholder::make('language_selection')
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('math_challenge', $state);
+                }),
+            Placeholder::make('course_placement.language_selection')
                 ->label('')
                 ->content(new HtmlString("<div>
                     <h3 class='font-bold text-primary-blue'>Language Selection</h3>
@@ -80,41 +85,72 @@ trait CoursePlacementTrait{
                     (NOTE:  French is not for beginners.  You will need to take a Placement Test to take the class.
                     </p>
                 </div>")),
-            Select::make('language1')
+            Select::make('course_placement.language1')
                 ->label('First Choice')
-                ->reactive()
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray()),
-            Select::make('language2')
+                ->options(LanguageSelection::asSameArray())
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('language1', $state);
+                }),
+            Select::make('course_placement.language2')
                 ->label('Second Choice')
-                ->reactive()
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray()),
-            Select::make('language3')
+                ->options(LanguageSelection::asSameArray())
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('language2', $state);
+                }),
+            Select::make('course_placement.language3')
                 ->label('Third Choice')
-                ->reactive()
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray()),
-            Select::make('language4')
+                ->options(LanguageSelection::asSameArray())
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('language3', $state);
+                }),
+            Select::make('course_placement.language4')
                 ->label('Fourth Choice')
-                ->reactive()
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray()),
-            Placeholder::make('advance_section')
+                ->options(LanguageSelection::asSameArray())
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('language4', $state);
+                }),
+            Placeholder::make('course_placement.advance_section')
                 ->label('')
                 ->content(new HtmlString('<p class="text-sm">To place in a more advanced section of your language choice than beginning level, you are required to take a Language Placement Test on April 22, 2023.</p>')),
-            Select::make('reserve_language_placement_test')
+            Select::make('course_placement.reserve_language_placement')
                 ->label('Do you want to make a reservation to take the Language Placement Test on April 22,2023')
                 ->options([
                     1 => 'Yes',
                     0 => 'No'
                 ])
-                ->required(),
-            Radio::make('language1_skill')
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('reserve_language_placement', $state);
+                }),
+            Radio::make('course_placement.language1_skill')
                 ->label('Check that apply to your number 1 ranked language choice')
                 ->options(LanguageCapability::asSameArray())
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('language1_skill', $state);
+                }),
             
             
         ];
+    }
+
+    private function autoSaveCourse($column, $value)
+    {
+        $this->autoSave($column, $value, 'course_placement');
     }
 }
