@@ -1,4 +1,15 @@
 <x-filament::page>
+
+    @if($declined)
+    <div class="p-4 bg-red-300 rounded-md">
+        <div class="flex items-center">
+            <x-heroicon-s-exclamation class="w-16 h-16 text-red-600"/>
+            <div>
+                <h5 class="text-lg font-bold">You have declined this notification.</h5>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="text-sm">
     
         <div class="px-8 mx-auto max-w-7xl">

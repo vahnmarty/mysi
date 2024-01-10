@@ -35,7 +35,7 @@ class ViewNotification extends Page {
 
     public $content, $faq, $fa_content;
 
-    public $show_fa = false, $checked;
+    public $show_fa = false, $checked, $declined;
 
     public Application $app;
 
@@ -66,6 +66,8 @@ class ViewNotification extends Page {
         $this->app = $app;
         $this->fa_content = $notification->financial_aid_content;
 
+        $this->declined = $app->declined();
+
         //$this->readNotification($appStatus);
     }
 
@@ -83,11 +85,16 @@ class ViewNotification extends Page {
     protected function getActions(): array
     {
         return [
+            Action::make('view')
+                ->label('View Registration')
+                ->url(url('registration'))
+                ->color('primary')
+                ->visible(fn() => $this->app->hasRegistered()),
             Action::make('enroll')
                 ->label('Enroll at SI')
                 ->action('enroll')
                 ->color('success')
-                ->visible(fn() => !$this->app->hasRegistered() && $this->applicationAccepted())
+                ->visible(fn() => !$this->app->hasRegistered() && $this->applicationAccepted() && !$this->app->declined())
                 ->modalHeading('Registration Deposit Fee')
                 ->modalButton('PAY ($' . number_format($this->deposit_amount,2) .')')
                 ->form([
@@ -151,9 +158,20 @@ class ViewNotification extends Page {
                 ->requiresConfirmation()
                 ->action('decline')
                 ->color('primary')
-                ->hidden(fn() => $this->app->hasRegistered()),
+                ->hidden(fn() => $this->app->hasRegistered() || $this->app->declined()),
 
         ];
+    }
+
+    public function decline()
+    {
+        $app = $this->app;
+        $app->appStatus()->update([
+            'candidate_decision' => false,
+            'candidate_decision_date' => now()
+        ]);
+
+        return redirect(request()->header('Referer'));
     }
 
     public function acknowledgeFinancialAid()

@@ -75,6 +75,8 @@ class ApplicationResource extends Resource
                     ->formatStateUsing(fn ($state) => $state ?? '-- N/A --')
                     ->action(
                         Tables\Actions\Action::make('update_status')
+                            ->color('danger')
+                            ->disabled(fn(Application $record) => $record->appStatus->candidate_decision)
                             ->requiresConfirmation()
                             ->modalHeading('Update Notification Status')
                             ->modalSubheading('The applicant will receive a notification once you confirm.')
@@ -95,6 +97,8 @@ class ApplicationResource extends Resource
 
                                 $account = $record->account;
 
+                                $record->notificationMessages()->delete();
+
                                 $service = new NotificationService;
                                 $service->createMessage($record);
 
@@ -114,7 +118,8 @@ class ApplicationResource extends Resource
                 Tables\Columns\TextColumn::make("deposit_amount")
                     ->label('Deposit Amount'),
                 Tables\Columns\TextColumn::make("appStatus.candidate_decision")
-                    ->label('Decision'),
+                    ->label('Decision')
+                    ->formatStateUsing(fn($state) => !empty($state) ? $state ? 'Accepted' : 'Declined' : ''),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
@@ -227,5 +232,10 @@ class ApplicationResource extends Resource
             'view' => Pages\ViewApplication::route('/{record}'),
             'edit' => Pages\EditApplication::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    protected function getTableRecordActionUsing(): ?Closure
+    {
+        return null;
+    }
 }

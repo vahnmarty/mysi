@@ -29,7 +29,7 @@ class ApplicationNotification extends Component implements HasTable
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId())->has('application');
+        return  NotificationMessage::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 

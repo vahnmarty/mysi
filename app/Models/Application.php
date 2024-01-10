@@ -170,6 +170,17 @@ class Application extends Model
         return $this->appStatus?->candidate_decision;
     }
 
+    public function declined()
+    {
+        $decision = $this->appStatus?->candidate_decision;
+
+        if(!is_null($decision)){
+            return $decision == false;
+        }
+
+        return false;
+    }
+
     public function scopeIncomplete($query)
     {
         return $query->whereHas('appStatus', function($statusQuery){
@@ -249,6 +260,11 @@ class Application extends Model
         $app_end_date = $freshmen_application_end_date->value;
 
         return now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date);
+    }
+
+    public function notificationMessages()
+    {
+        return $this->hasMany(NotificationMessage::class);
     }
 
     public function notificationMessage()
