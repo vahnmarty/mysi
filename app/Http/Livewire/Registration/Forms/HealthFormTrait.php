@@ -79,6 +79,13 @@ trait HealthFormTrait{
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveHealth('physician_phone', $state);
                 }),
+            TextInput::make('healthcare.physician_phone_ext')
+                ->label('Physician Phone Extension')
+                ->lazy()
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveHealth('physician_phone_ext', $state);
+                }),
             WordTextArea::make('healthcare.prescribed_medications')
                 ->label("Prescribed Medications, Time and Dosages (If not applicable, type 'N/A') ")
                 ->helperText("Please limit your answer to 75 words.")

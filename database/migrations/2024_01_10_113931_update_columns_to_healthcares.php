@@ -17,7 +17,7 @@ return new class extends Migration
             $table->renameColumn('first_name', 'physician_name');
             $table->dropColumn('last_name');
             $table->renameColumn('phone', 'physician_phone');
-            $table->dropColumn('phone_extension');
+            $table->renameColumn('phone_extension', 'physician_phone_ext')->after('phone');
 
             $table->after('phone', function(Blueprint $table){
                 $table->string('prescribed_medications', 1024);
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->renameColumn('physician_name', 'first_name');
             $table->string('last_name')->nullable();
             $table->renameColumn('physician_phone', 'phone');
-            $table->string('phone_extension')->nullable();
+            $table->renameColumn('physician_phone_ext', 'phone_extension');
 
             // Invert the column dropping
             $table->dropColumn('prescribed_medications');

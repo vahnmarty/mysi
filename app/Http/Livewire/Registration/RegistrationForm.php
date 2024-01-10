@@ -63,7 +63,19 @@ class RegistrationForm extends Component implements HasForms
         
         $data['autosave'] = true;
 
-        $data['healthcare'] = $registration->healthcare()->firstOrCreate([ 'account_id' => $accountId])->toArray();
+        $data['healthcare'] = $registration
+            ->healthcare()
+            ->firstOrCreate([ 
+                'account_id' => $accountId
+            ])
+            ->toArray();
+            
+        $data['emergency_contact'] = $registration
+            ->emergencyContact()
+            ->firstOrCreate([ 
+                'account_id' => $accountId
+            ])
+            ->toArray();
 
         $this->form->fill($data);
     }
