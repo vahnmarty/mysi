@@ -71,7 +71,7 @@ class RegistrationForm extends Component implements HasForms
             ->toArray();
             
         $data['emergency_contact'] = $registration
-            ->emergencyContact()
+            ->emergency_contact()
             ->firstOrCreate([ 
                 'account_id' => $accountId
             ])

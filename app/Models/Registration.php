@@ -39,7 +39,7 @@ class Registration extends Model
         return $this->hasOne(Healthcare::class);
     }
 
-    public function emergencyContact()
+    public function emergency_contact()
     {
         return $this->hasOne(EmergencyContact::class);
     }
