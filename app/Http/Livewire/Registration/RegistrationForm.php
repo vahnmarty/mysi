@@ -52,6 +52,7 @@ class RegistrationForm extends Component implements HasForms
         
         $this->registration = $registration;
         $user = Auth::user();
+        $accountId = accountId();
         
         $account = $registration->account->load('addresses', 'guardians', 'parents');
 
@@ -59,7 +60,10 @@ class RegistrationForm extends Component implements HasForms
         $data['student'] = $this->registration->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
+        
         $data['autosave'] = true;
+
+        $data['healthcare'] = $registration->healthcare()->firstOrCreate([ 'account_id' => $accountId])->toArray();
 
         $this->form->fill($data);
     }

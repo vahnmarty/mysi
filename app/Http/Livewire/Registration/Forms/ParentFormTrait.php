@@ -84,12 +84,13 @@ trait ParentFormTrait{
                                 $set('id', $parentModel->id);
                             }
                         }),
-                    Select::make('relationship')
+                    Select::make('relationship_type')
+                        ->label('Relationship')
                         ->options(ParentType::asSameArray())
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveParent($get('id'),'relationship', $state);
+                            $this->autoSaveParent($get('id'),'relationship_type', $state);
                         }),
                     Select::make('salutation')
                         ->options(Salutation::asSameArray())
@@ -245,9 +246,9 @@ trait ParentFormTrait{
 
     private function autoSaveParent($id, $column, $value)
     {
-        // $model = ParentModel::find($id);
-        // $model->$column = $value;
-        // $model->save();
+        $model = ParentModel::find($id);
+        $model->$column = $value;
+        $model->save();
     }
 
 }

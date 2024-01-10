@@ -111,4 +111,29 @@ class Account extends Model
 
         return false;
     }
+
+    public function healthcares()
+    {
+        return $this->hasMany(Healthcare::class);
+    }
+
+    public function emergencyContacts()
+    {
+        return $this->hasMany(EmergencyContact::class);
+    }
+
+    public function accommodations()
+    {
+        return $this->hasMany(Accommodation::class);
+    }
+
+    public function magisPrograms()
+    {
+        return $this->hasMany(MagisProgram::class);
+    }
+
+    public function coursePlacements()
+    {
+        return $this->hasMany(coursePlacement::class);
+    }
 }

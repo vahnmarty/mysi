@@ -110,8 +110,8 @@ trait CoursePlacementTrait{
                     0 => 'No'
                 ])
                 ->required(),
-            CheckboxList::make('language_choice')
-                ->label('Check ALL that apply to your number 1 ranked language choice')
+            Radio::make('language1_skill')
+                ->label('Check that apply to your number 1 ranked language choice')
                 ->options(LanguageCapability::asSameArray())
             
             

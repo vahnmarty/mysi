@@ -33,4 +33,29 @@ class Registration extends Model
     {
         return $this->belongsTo(Child::class, 'child_id');
     }
+
+    public function healthcare()
+    {
+        return $this->hasOne(Healthcare::class);
+    }
+
+    public function emergencyContact()
+    {
+        return $this->hasOne(EmergencyContact::class);
+    }
+
+    public function accommodation()
+    {
+        return $this->hasOne(Accommodation::class);
+    }
+
+    public function magisProgram()
+    {
+        return $this->hasOne(MagisProgram::class);
+    }
+
+    public function coursePlacement()
+    {
+        return $this->hasOne(coursePlacement::class);
+    }
 }

@@ -60,7 +60,7 @@ trait MagisProgramTrait{
                 ->helperText("(neither parent holds a bachelor's degree from a US college or university)")
                 ->options(CommonOption::asSameArray())
                 ->required(),
-            Radio::make('magis_program')
+            Radio::make('is_interested')
                 ->label('Are you interested in joining the Magis Program at this time?')
                 ->helperText("(If yes, more information about the program and the Magis First-Year Student Retreat will be emailed to you.)")
                 ->options(CommonOption::asSameArray())
