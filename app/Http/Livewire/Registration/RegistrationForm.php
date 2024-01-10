@@ -8,6 +8,7 @@ use App\Models\Registration;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Http\Livewire\Registration\Forms\HealthFormTrait;
@@ -116,5 +117,49 @@ class RegistrationForm extends Component implements HasForms
         $registration->save();
 
         return redirect(request()->header('Referer'));
+    }
+
+    public function __autoSave($model, $column, $value)
+    {
+        try {
+            $model->$column = $value;
+            $model->save();
+            
+        } catch (\Exception $e) {
+
+            Notification::make()
+                ->title('Error! Invalid value: ' . $value)
+                ->danger()
+                ->send();
+        }
+    }
+
+    public function autoSave($column, $value, $relationship = null)
+    {
+        if($relationship){
+            $model = $this->registration->{$relationship};
+        }else{
+            $model = $this->registration;
+        } 
+
+        if(is_array($value)){
+            $value = implode(',', $value);
+        }
+
+        try {
+            $model->$column = $value;
+            $model->save();
+        } catch (\Exception $e) {
+
+            throw $e;
+            
+            Notification::make()
+                ->title('System Error!')
+                ->body('Please check error message (s) below the field.')
+                ->danger()
+                ->send();
+        }
+
+        
     }
 }

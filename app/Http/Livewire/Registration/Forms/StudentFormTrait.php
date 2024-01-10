@@ -179,25 +179,35 @@ trait StudentFormTrait{
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('tshirt_size', $state);
                 }),
-            Select::make('student.performing_arts_program')
+            Select::make('student.performing_arts_flag')
                 ->options([
-                    'Yes' => 'Yes',
-                    'No' => 'No'
+                    1 => 'Yes',
+                    0 => 'No'
                 ])
                 ->label('Would you be interested in joining any of our performing arts programs?')
                 ->required()
                 ->lazy()
                 ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('performing_arts_program', $state);
+                    $this->autoSaveStudent('performing_arts_flag', $state);
                 }),
-            Select::make('student.performing_arts_type')
+            Select::make('student.performing_arts_programs')
                 ->multiple()
                 ->options(ArtProgramsType::asSameArray())
                 ->required()
                 ->label('Please select all the programs you are interested in')
                 ->lazy()
-                ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('performing_arts_type', $state);
+                ->visible(fn (Closure $get) => $get('student.performing_arts_flag') == true)
+                ->afterStateHydrated(function (Select $component, $state) {
+                    if(is_string($state)){
+                        $component->state(explode(',', $state));
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
+                    }
+                })
+                ->afterStateUpdated(function(Closure $get, $state){
+                    $input = is_array($state) ? implode(',', $state) : $state;
+                    $this->autoSaveStudent('performing_arts_programs', $input);
                 }),
             
         ];
@@ -205,6 +215,6 @@ trait StudentFormTrait{
 
     private function autoSaveStudent($column, $value)
     {
-        //$this->__autoSave($this->app->student, $column, $value);
+        $this->__autoSave($this->registration->student, $column, $value);
     }
 }
