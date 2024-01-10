@@ -192,7 +192,7 @@ trait StudentFormTrait{
                 }),
             Select::make('student.performing_arts_programs')
                 ->multiple()
-                ->options(ArtProgramsType::asSameArray())
+                ->options(ArtProgramsType::asSameArray() + ['Other' => 'Other'])
                 ->required()
                 ->label('Please select all the programs you are interested in')
                 ->lazy()
@@ -208,6 +208,14 @@ trait StudentFormTrait{
                 ->afterStateUpdated(function(Closure $get, $state){
                     $input = is_array($state) ? implode(',', $state) : $state;
                     $this->autoSaveStudent('performing_arts_programs', $input);
+                }),
+            TextInput::make('student.performing_arts_other')
+                ->label('If Other, Please specify:')
+                ->lazy()
+                ->required()
+                ->visible(fn (Closure $get) => in_array('Other', $get('student.performing_arts_programs')) )
+                ->afterStateUpdated(function($state){
+                    $this->autoSaveStudent('performing_arts_other', $state);
                 }),
             
         ];

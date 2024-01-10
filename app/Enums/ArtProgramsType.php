@@ -15,5 +15,9 @@ final class ArtProgramsType extends Enum
     use EnumCustomTrait;
     
     const Choir = 'Choir';
-    const Jazz = 'Jazz';
+    const BandAndOrchestra = 'Band and Orchestra';
+    const JazzBand = 'Jazz Band';
+    const Dance = 'Dance';
+    const Theater = 'Theater (Fall/Play/Spring/Musical)';
+    const PepBand = 'PEP Band';
 }
