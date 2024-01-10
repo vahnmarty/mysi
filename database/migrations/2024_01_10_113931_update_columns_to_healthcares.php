@@ -20,9 +20,9 @@ return new class extends Migration
             $table->renameColumn('phone_extension', 'physician_phone_ext')->after('phone');
 
             $table->after('phone', function(Blueprint $table){
-                $table->string('prescribed_medications', 1024);
-                $table->string('allergies', 1024);
-                $table->string('other_issues', 1024);
+                $table->string('prescribed_medications', 1024)->nullable();
+                $table->string('allergies', 1024)->nullable();
+                $table->string('other_issues', 1024)->nullable();
             });
             
         });
