@@ -55,17 +55,40 @@ trait MagisProgramTrait{
                         <li>Students of color historically underrepresented in higher education </li>
                     </ul>
                 </div>")),
-            Radio::make('first_gen_student')
+            Radio::make('magis_program.first_gen')
                 ->label('Are you a first-generation college-bound student?')
                 ->helperText("(neither parent holds a bachelor's degree from a US college or university)")
-                ->options(CommonOption::asSameArray())
-                ->required(),
-            Radio::make('is_interested')
+                ->options([
+                    1 => 'Yes',
+                    0 => 'No',
+                    2 => 'Unsure'
+                ])
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveProgram('first_gen', $state);
+                }),
+            Radio::make('magis_program.is_interested')
                 ->label('Are you interested in joining the Magis Program at this time?')
                 ->helperText("(If yes, more information about the program and the Magis First-Year Student Retreat will be emailed to you.)")
-                ->options(CommonOption::asSameArray())
-                ->required(),
+                ->options([
+                    1 => 'Yes',
+                    0 => 'No',
+                    2 => 'Unsure'
+                ])
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveProgram('is_interested', $state);
+                }),
             
         ];
+    }
+
+    private function autoSaveProgram($column, $value)
+    {
+        $this->autoSave($column, $value, 'magis_program');
     }
 }

@@ -83,6 +83,13 @@ class RegistrationForm extends Component implements HasForms
             ])
             ->toArray();
 
+        $data['magis_program'] = $registration
+            ->magis_program()
+            ->firstOrCreate([ 
+                'account_id' => $accountId
+            ])
+            ->toArray();
+
         $this->form->fill($data);
     }
 

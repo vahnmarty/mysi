@@ -49,7 +49,7 @@ class Registration extends Model
         return $this->hasOne(Accommodation::class);
     }
 
-    public function magisProgram()
+    public function magis_program()
     {
         return $this->hasOne(MagisProgram::class);
     }
