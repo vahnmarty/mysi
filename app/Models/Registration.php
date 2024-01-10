@@ -56,6 +56,6 @@ class Registration extends Model
 
     public function course_placement()
     {
-        return $this->hasOne(coursePlacement::class);
+        return $this->hasOne(CoursePlacement::class);
     }
 }
