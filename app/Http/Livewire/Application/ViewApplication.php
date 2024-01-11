@@ -69,7 +69,7 @@ class ViewApplication extends Component implements HasForms
 
         $data = [];
         
-        if($this->app->isSubmitted() && $archive->application)
+        if($this->app->isSubmitted() && $archive)
         {
             $data = $archive->application;
             $data['student'] = $archive->student;
