@@ -67,20 +67,40 @@ class ViewApplication extends Component implements HasForms
 
         $archive = $this->app->archive;
 
-        if(!$archive){
-            dd($this->app->with('appStatus'));
-        }
+        $data = [];
+        
+        if($this->app->isSubmitted())
+        {
+            $data = $archive->application;
+            $data['student'] = $archive->student;
+            $data['addresses'] = $archive->addresses;
+            $data['parents'] = $archive->parents;
+            $data['parents_matrix'] = $archive->parents_matrix;
+            $data['siblings'] = $archive->siblings;
+            $data['siblings_matrix'] =$archive->siblings_matrix;
+            $data['legacy'] = $archive->legacy;
+            $data['activities'] = $archive->activities;
 
-        $data = $archive->application;
-        $data['student'] = $archive->student;
-        $data['addresses'] = $archive->addresses;
-        $data['parents'] = $archive->parents;
-        $data['parents_matrix'] = $archive->parents_matrix;
-        $data['siblings'] = $archive->siblings;
-        $data['siblings_matrix'] =$archive->siblings_matrix;
-        $data['legacy'] = $archive->legacy;
-        $data['activities'] = $archive->activities;
-        $data['placement_test_date'] = settings('placement_test_date');
+            # Missing Fields
+            if(empty($data['student']['ethnicity'])){
+                $this->record->archive()->update([
+                    'student' => $this->app->student->toArray()
+                ]);
+            }
+            
+
+        }else{
+            $account = $this->app->account;
+            $data = $this->app->toArray();
+            $data['student'] = $this->app->student->toArray();
+            $data['addresses'] = $account->addresses->toArray();
+            $data['parents'] = $account->guardians->toArray();
+            $data['parents_matrix'] = $account->parents->toArray();
+            $data['siblings'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
+            $data['siblings_matrix'] = $account->children()->where('id', '!=', $this->app->child_id)->get()->toArray();
+            $data['legacy'] = $account->legacies->toArray();
+            $data['activities'] = $this->app->activities->toArray();
+        }
 
 
         $this->form->fill($data);
