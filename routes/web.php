@@ -37,6 +37,7 @@ use App\Http\Livewire\Admission\ApplicationNotification;
 use App\Http\Livewire\Application\HealthcareInformation;
 use App\Http\Livewire\Registration\StudentRegistrations;
 use App\Http\Livewire\Application\AccommodationDocuments;
+use App\Http\Livewire\Registration\RegistrationCompleted;
 use App\Http\Livewire\Application\EmergencyContactInformation;
 use App\Http\Livewire\Application\UploadAccommodationDocuments;
 use App\Http\Livewire\Application\SupplementalRecommendationPage;
@@ -105,6 +106,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 
     Route::get('registration', StudentRegistrations::class)->name('registration.index');
     Route::get('registration/{uuid}', RegistrationForm::class)->name('registration.form');
+    Route::get('registration/{uuid}/completed', RegistrationCompleted::class)->name('registration.completed');
 });
 
 

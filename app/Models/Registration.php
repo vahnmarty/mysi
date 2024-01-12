@@ -29,6 +29,16 @@ class Registration extends Model
         return $this->belongsTo(Account::class);
     }
 
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
+    }
+
+    public function completed()
+    {
+        return $this->application->appStatus->registration_completed;
+    }
+
     public function student()
     {
         return $this->belongsTo(Child::class, 'child_id');

@@ -46,11 +46,14 @@ class RegistrationForm extends Component implements HasForms
 
     public function mount($uuid)
     {
-        $registration = Registration::with('account', 'student')->whereUuid($uuid)->firstOrFail();
-
-        $this->open = $registration->started_at ? true : false;
-        
+        $registration = Registration::with('account', 'student', 'application.appStatus')->whereUuid($uuid)->firstOrFail();
         $this->registration = $registration;
+        
+        $appStatus = $this->getAppStatus();
+
+        $this->open = $appStatus?->registration_started ? true : false;
+        
+        
         $user = Auth::user();
         $accountId = accountId();
         
@@ -148,9 +151,10 @@ class RegistrationForm extends Component implements HasForms
 
     public function start()
     {
-        $registration = $this->registration;
-        $registration->started_at = now();
-        $registration->save();
+        $appStatus = $this->getAppStatus();
+        $appStatus->registration_started = true;
+        $appStatus->registration_start_date = now();
+        $appStatus->save();
 
         return redirect(request()->header('Referer'));
     }
@@ -197,5 +201,22 @@ class RegistrationForm extends Component implements HasForms
         }
 
         
+    }
+
+    public function submit()
+    {
+        $data = $this->form->getState();
+
+        $appStatus = $this->getAppStatus();
+        $appStatus->registration_completed = true;
+        $appStatus->registration_complete_date = now();
+        $appStatus->save();
+
+        return redirect()->route('registration.completed', $this->registration->uuid);
+    }
+
+    public function getAppStatus()
+    {
+        return $this->registration->application->appStatus;
     }
 }

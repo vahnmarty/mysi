@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('sf_application_id', 18)->nullable();
             $table->string('sf_contact_id', 18)->nullable();
             $table->string('record_type_id', 18)->nullable();
-            $table->timestamp('started_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

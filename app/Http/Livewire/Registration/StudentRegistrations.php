@@ -29,6 +29,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -123,9 +124,12 @@ class StudentRegistrations extends Component implements HasTable, HasForms
             //     ->color(''),
             Action::make('edit')
                 ->label('Edit')
-                ->action(function(Registration $record){
-                    return redirect()->route('registration.form', $record->uuid);
-                }),
+                ->visible(fn(Registration $record) => !$record->completed())
+                ->url(fn(Registration $record) => route('registration.form', $record->uuid) ),
+            Action::make('view')
+                ->label('View')
+                ->visible(fn(Registration $record) => $record->completed())
+                ->url(fn(Registration $record) => route('registration.completed', $record->uuid) )
             // ViewColumn::make('pipe')
             //     ->label('')
             //     ->view('filament.tables.columns.pipe')

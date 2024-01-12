@@ -124,6 +124,7 @@ trait CoursePlacementTrait{
             Placeholder::make('course_placement.advance_section')
                 ->label('')
                 ->content(new HtmlString('<p class="text-sm">To place in a more advanced section of your language choice than beginning level, you are required to take a Language Placement Test on April 22, 2023.</p>')),
+
             Select::make('course_placement.reserve_language_placement')
                 ->label('Do you want to make a reservation to take the Language Placement Test on April 22,2023')
                 ->options([
@@ -135,6 +136,17 @@ trait CoursePlacementTrait{
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('reserve_language_placement', $state);
+                }),
+            
+            Select::make('course_placement.language_challenge_choice')
+                ->label('What language?')
+                ->options(LanguageSelection::asSameArray())
+                ->required()
+                ->reactive()
+                ->visible(fn (Closure $get) =>  $get('course_placement.reserve_language_placement') )
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('language_challenge_choice', $state);
                 }),
             Radio::make('course_placement.language1_skill')
                 ->label('Check that apply to your number 1 ranked language choice')
