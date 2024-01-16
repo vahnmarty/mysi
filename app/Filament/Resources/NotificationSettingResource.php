@@ -20,7 +20,7 @@ class NotificationSettingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-bell';
 
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {

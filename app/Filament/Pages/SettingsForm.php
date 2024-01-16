@@ -24,7 +24,7 @@ class SettingsForm extends Page implements HasForms
 {
     use InteractsWithForms;
     
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static ?string $navigationGroup = 'Settings';
     
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 

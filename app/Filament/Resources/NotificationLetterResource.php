@@ -22,7 +22,7 @@ class NotificationLetterResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {

@@ -80,7 +80,7 @@ class ApplicationResource extends Resource
                             ->requiresConfirmation()
                             ->modalHeading('Update Notification Status')
                             ->modalSubheading('The applicant will receive a notification once you confirm.')
-                            ->modalButton('Send Notification')
+                            ->modalButton('Save')
                             ->mountUsing(fn (Forms\ComponentContainer $form, Application $record) => $form->fill([
                                 'application_status' => $record->appStatus?->application_status,
                             ]))
@@ -99,12 +99,12 @@ class ApplicationResource extends Resource
 
                                 $record->notificationMessages()->delete();
 
-                                $service = new NotificationService;
-                                $service->createMessage($record);
-
-                                foreach($account->users as $user){
-                                    $user->notify(new ApplicationReviewed);
+                                if($data['application_status'] != NotificationStatusType::NoResponse)
+                                {
+                                    $service = new NotificationService;
+                                    $service->createMessage($record);
                                 }
+                                
                             }),
                         ),
                 Tables\Columns\ToggleColumn::make("appStatus.honors_english")
@@ -113,8 +113,9 @@ class ApplicationResource extends Resource
                     ->label('Honors Math'),
                 Tables\Columns\ToggleColumn::make("appStatus.honors_bio")
                     ->label('Honors Bio'),
-                Tables\Columns\ToggleColumn::make("with_financial_aid")
-                    ->label('With F/A'),
+                Tables\Columns\SelectColumn::make("with_financial_aid")
+                    ->label('With F/A')
+                    ->options(['A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D', 'E' => 'E']),
                 Tables\Columns\TextColumn::make("deposit_amount")
                     ->label('Deposit Amount'),
                 Tables\Columns\TextColumn::make("appStatus.candidate_decision")
