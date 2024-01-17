@@ -24,6 +24,8 @@ class NotificationLetterResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
+    protected static ?int $navigationSort = 10;
+
     public static function form(Form $form): Form
     {
         return $form

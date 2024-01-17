@@ -23,8 +23,8 @@ class NotificationSettingTableSeeder extends Seeder
         $this->create('notification_end_date', 'Notification End Date', null, 'datetime');
         $this->create('registration_start_date', 'Registration Start Date', null, 'datetime');
         $this->create('registration_end_date', 'Registration End Date', null, 'datetime');
-        $this->create('test_placement_notification_start_date', 'Test Placement Notification Start Date', null, 'datetime');
-        $this->create('test_placement_notification_end_date', 'Test Placement Notification End Date', null, 'datetime');
+        $this->create('course_placement_notification_start_date', 'Course Placement Notification Start Date', null, 'datetime');
+        $this->create('course_placement_notification_end_date', 'Course Placement Notification End Date', null, 'datetime');
         $this->create('transfer_student_application_start_date', 'Transfer Student Application Start Date', null, 'datetime');
         $this->create('transfer_student_application_end_date', 'Transfer Student Application End Date', null, 'datetime');     
     }

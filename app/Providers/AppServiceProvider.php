@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use Filament\Facades\Filament;
+use Filament\Navigation\UserMenuItem;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Filament\Facades\Filament;
+use App\Filament\Resources\UserResource;
 use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationBuilder;
+use App\Filament\Resources\ApplicationResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,11 +29,28 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(40);
 
         Filament::serving(function () {
+
             Filament::registerNavigationGroups([
-                NavigationGroup::make()
-                    ->label('Administration'),
-                NavigationGroup::make()
-                    ->label('Configuration'),
+                'Administration',
+                'Configuration',
+            ]);
+
+            // Filament::navigation(function (NavigationBuilder $builder): NavigationBuilder {
+            //     return $builder
+            //         ->groups([
+            //             NavigationGroup::make('Administration')
+            //                 ->items([
+            //                     ...ApplicationResource::getNavigationItems(),
+            //                     ...UserResource::getNavigationItems(),
+            //                 ]),
+            //         ]);
+            // });
+
+            Filament::registerUserMenuItems([
+                UserMenuItem::make()
+                    ->label('Change Password')
+                    ->url(url('admin/change-password'))
+                    ->icon('heroicon-s-key'),
             ]);
 
             Filament::registerScripts([
@@ -39,5 +60,7 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerViteTheme('resources/css/filament.css');
 
         });
+
+
     }
 }

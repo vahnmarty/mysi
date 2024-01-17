@@ -27,6 +27,8 @@ class ChangePassword extends Page implements HasForms
 
     protected static string $view = 'filament.pages.change-password';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public $password, $password_confirmation;
 
     protected function getFormSchema() : array

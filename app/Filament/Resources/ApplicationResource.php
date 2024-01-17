@@ -11,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use App\Models\NotificationLetter;
+use App\Enums\CandidateDecisionType;
 use App\Enums\NotificationStatusType;
 use App\Services\NotificationService;
 use Filament\Notifications\Notification;
@@ -93,9 +94,8 @@ class ApplicationResource extends Resource
                             ->action(function (Application $record, $data): void {
                                 $appStatus = $record->appStatus;
                                 $appStatus->application_status = $data['application_status'];
+                                $appStatus->candidate_decision_status = CandidateDecisionType::NotificationSent;
                                 $appStatus->save();
-
-                                $account = $record->account;
 
                                 $record->notificationMessages()->delete();
 
@@ -113,14 +113,13 @@ class ApplicationResource extends Resource
                     ->label('Honors Math'),
                 Tables\Columns\ToggleColumn::make("appStatus.honors_bio")
                     ->label('Honors Bio'),
-                Tables\Columns\SelectColumn::make("with_financial_aid")
+                Tables\Columns\SelectColumn::make("appStatus.financial_aid")
                     ->label('With F/A')
                     ->options(['A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D', 'E' => 'E']),
-                Tables\Columns\TextColumn::make("deposit_amount")
+                Tables\Columns\TextColumn::make("appStatus.deposit_amount")
                     ->label('Deposit Amount'),
-                Tables\Columns\TextColumn::make("appStatus.candidate_decision")
-                    ->label('Decision')
-                    ->formatStateUsing(fn($state) => !empty($state) ? $state ? 'Accepted' : 'Declined' : ''),
+                Tables\Columns\TextColumn::make("appStatus.candidate_decision_status")
+                    ->label('Decision'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')

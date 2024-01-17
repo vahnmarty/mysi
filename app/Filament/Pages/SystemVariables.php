@@ -20,7 +20,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-class SettingsForm extends Page implements HasForms
+class SystemVariables extends Page implements HasForms
 {
     use InteractsWithForms;
     
@@ -30,7 +30,7 @@ class SettingsForm extends Page implements HasForms
 
     protected static string $view = 'filament.pages.settings';
 
-    protected static ?string $navigationLabel = 'Settings';
+    protected static ?string $navigationLabel = 'System Variables';
 
 
     public function mount()
@@ -49,6 +49,11 @@ class SettingsForm extends Page implements HasForms
         return [
             Section::make('Admission')
                 ->schema([
+                    TextInput::make('payment.application_fee')
+                    ->label("Application Fee")
+                    ->numeric()
+                    ->required()
+                    ->lazy(),
                     TextInput::make('payment.application_fee')
                     ->label("Application Fee")
                     ->numeric()
