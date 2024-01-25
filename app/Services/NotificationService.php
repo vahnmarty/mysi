@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Application;
 use App\Models\NotificationLetter;
+use App\Models\NotificationSetting;
 
 class NotificationService{
 
@@ -16,9 +17,13 @@ class NotificationService{
         $account = $app->account;
 
         $variables = [
-            'application' => $app->toArray(),
-            'settings' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'system' => config('settings'),
+            'parents_name' => $account->getParentsName(),
+            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
             'student' => $app->student->toArray(),
+            'application' => $app->toArray(),
+            'application_status' => $app->appStatus->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
         ];
@@ -39,16 +44,22 @@ class NotificationService{
 
     public function createFinancialAidContent(Application $app)
     {
-        $notification = NotificationLetter::where('title', 'Financial Aid')->first();
+        $notification = NotificationLetter::where('title', 'FA Letter ' . $app->appStatus->financial_aid)->first();
 
         $account = $app->account;
 
         $variables = [
-            'application' => $app->toArray(),
+            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'system' => config('settings'),
+            'parents_name' => $account->getParentsName(),
+            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
             'student' => $app->student->toArray(),
+            'application' => $app->toArray(),
+            'application_status' => $app->appStatus->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
         ];
+
 
         $contents = $this->parseContent($notification->content, $variables);
 
@@ -57,6 +68,7 @@ class NotificationService{
 
     public function parseContent($input, $variables)
     {
+
         // Define a callback function to replace the variables
         $replaceCallback = function($matches) use ($variables) {
             $variableName = trim($matches[1], '{}');
@@ -64,8 +76,19 @@ class NotificationService{
             $field = \Arr::get($variables, $variableName);
 
             if(!empty($field)){
+
+                if(is_date($field)){
+                    return date('F d, Y', strtotime($field));
+                }
+
+                if($this->special_cases($variableName)){
+                    $type = $this->special_cases($variableName, returnArray: true) ;
+                    return $this->transformSpecialCases($field, $type);
+                }
+
                 return $field;
             }
+            
 
             return $matches[0]; // If the variable doesn't exist in the array, leave it unchanged
         };
@@ -74,5 +97,38 @@ class NotificationService{
         $outputString = preg_replace_callback('/@{([^}]+)}/', $replaceCallback, $input);
 
         return $outputString;
+    }
+
+    public function special_cases($input, $returnArray = false)
+    {
+        $array = [
+            'timeline.acceptance_deadline_date' => 'date_description',
+            'timeline.registration_start_date' => 'date_with_day',
+            'timeline.registration_end_date' => 'date_description',
+            'system.payment.tuition_fee' => 'money',
+            'application_status.total_financial_aid_amount' => 'money',
+            'application_status.annual_financial_aid_amount' => 'money',
+        ];
+        
+        if($returnArray){
+            return isset($array[$input]) ? $array[$input] : [];
+        }
+        
+        return isset($array[$input]);
+    }
+
+    public function transformSpecialCases($input, $type)
+    {
+        if($type == 'date_description'){
+            return date(('g:i a T \o\n F j, Y'), strtotime($input));
+        }
+
+        if($type == 'date_with_day'){
+            return date(('l, F j, Y'), strtotime($input));
+        }
+
+        if($type == 'money'){
+            return number_format($input, 2);
+        }
     }
 }

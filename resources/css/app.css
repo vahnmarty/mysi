@@ -186,3 +186,7 @@ display: none;
 #table-parent-matrix sup, #table-sibling-matrix sup{
     display: none !important;
 }
+
+.html-content a{
+    @apply underline text-link;
+}

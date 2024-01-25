@@ -56,29 +56,12 @@ class NotificationController extends Controller
 
     public function pdf($uuid)
     {
-        $app = Application::with('appStatus')->whereUuid($uuid)->firstOrFail();
+        $notification = NotificationMessage::with('application')->whereUuid($uuid)->firstOrFail();
+        
+        $content = $notification->content;
 
-        $appStatus = $app->appStatus;
+        $pdf = Pdf::loadView('notifications.letter-pdf', compact('content', 'notification'));
 
-        $notification = NotificationLetter::where('reference', $appStatus->application_status)->first();
-
-        if(!$notification){
-            return 'notification not found';
-        }
-
-        $account = $app->account;
-
-        $variables = [
-            'application' => $app->toArray(),
-            'student' => $app->student->toArray(),
-            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
-            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
-        ];
-
-
-        $content = $this->parseContent($notification->content, $variables);
-
-        $pdf = Pdf::loadView('notifications.letter-pdf', compact('app', 'account', 'content', 'notification'));
         return $pdf->stream('mysi-letter.pdf');
     }
 
@@ -184,7 +167,7 @@ class NotificationController extends Controller
             'timeline.acceptance_deadline_date' => 'date_description',
             'timeline.registration_start_date' => 'date_with_day',
             'timeline.registration_end_date' => 'date_description',
-            'system.payment.tuition_fee' => 'money'
+            'system.payment.tuition_fee' => 'money',
         ];
         
         if($returnArray){

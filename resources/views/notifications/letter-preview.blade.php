@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 
 @section('content')
-<div>
+<div >
     
     <div class="px-8 mx-auto max-w-7xl">
         <div class="p-10 mt-8 bg-white border rounded-lg shadow-lg">
@@ -19,7 +19,7 @@
                 </div>
             </header>
 
-            <article class="mt-16">
+            <article class="mt-16 html-content">
                 {!! $content !!}
             </article>
 
