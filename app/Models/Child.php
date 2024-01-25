@@ -118,11 +118,11 @@ class Child extends Model
 
     public function getPronounSubjectAttribute()
     {
-        return 'he';
+        return 'he/she';
     }
     
     public function getPronounPossessiveAttribute()
     {
-        return 'his';
+        return 'his/her';
     }
 }

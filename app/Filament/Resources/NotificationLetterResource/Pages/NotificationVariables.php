@@ -19,25 +19,25 @@ class NotificationVariables extends Page
 
     public function mount()
     {
-        $notification = NotificationLetter::first();
-
         $app = Application::with('student', 'account', 'appStatus')->first();
 
         $account = $app->account;
 
         $variables = [
-            'application' => $app->toArray(),
-            'application_status' => $app->appStatus->toArray(),
             'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
             'system' => config('settings'),
-            'student' => $app->student->toArray(),
             'parents_name' => $account->getParentsName(),
             'parents_name_salutation' => $account->getParentsName(withSalutation:true),
+            'student' => $app->student->toArray(),
+            'application' => $app->toArray(),
+            'application_status' => $app->appStatus->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
         ];
 
-        $this->variables = collect($variables)->sortKeys()->all();
+        //$this->variables = collect($variables)->sortKeys()->all();
+
+        $this->variables = $variables;
     }
 
    
