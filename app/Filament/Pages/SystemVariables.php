@@ -35,10 +35,17 @@ class SystemVariables extends Page implements HasForms
 
     public function mount()
     {
+        $academic_year = config('settings.academic_year');
+
+        $academic_year_arr = explode('-', $academic_year);
+
         $this->form->fill([
             'payment' => [
-                'application_fee' => config('settings.payment.application_fee')
-            ]
+                'application_fee' => config('settings.payment.application_fee'),
+                'tuition_fee' => config('settings.payment.tuition_fee')
+            ],
+            'academic_year_1' => $academic_year_arr[0],
+            'academic_year_2' => $academic_year_arr[1],
         ]);
 
         $this->settings = Setting::pluck('value', 'config')->toArray();
@@ -46,19 +53,42 @@ class SystemVariables extends Page implements HasForms
     }
     protected function getFormSchema(): array 
     {
+        $years = range(2000, date('Y') + 10);
         return [
             Section::make('Admission')
                 ->schema([
-                    TextInput::make('payment.application_fee')
-                    ->label("Application Fee")
-                    ->numeric()
-                    ->required()
-                    ->lazy(),
-                    TextInput::make('payment.application_fee')
-                    ->label("Application Fee")
-                    ->numeric()
-                    ->required()
-                    ->lazy(),
+                    Grid::make(4)
+                        ->schema([
+                            TextInput::make('payment.application_fee')
+                            ->label("Application Fee")
+                            
+                            ->numeric()
+                            ->required()
+                            ->lazy(),
+                        ]),
+                    Grid::make(4)
+                        ->schema([
+                            Select::make('academic_year_1')
+                                ->label('Academic Year (From)')
+                                ->required()
+                                ->placeholder('YYYY')
+                                ->required()
+                                ->options(array_combine($years, $years)),
+                            Select::make('academic_year_2')
+                                ->label('Academic Year (To)')
+                                ->required()
+                                ->placeholder('YYYY')
+                                ->required()
+                                ->options(array_combine($years, $years))
+                        ]),
+                    Grid::make(4)
+                        ->schema([
+                            TextInput::make('payment.tuition_fee')
+                            ->label("Tuition Fee")
+                            ->numeric()
+                            ->required()
+                            ->lazy(),
+                        ]),
                 ])
         ];
     } 
@@ -82,7 +112,9 @@ class SystemVariables extends Page implements HasForms
     {
         $data = $this->form->getState();
 
-        $this->updateEnv('PAYMENT_APPLICATION_FEE', $data['payment']['application_fee'], 'app.timezone' );
+        $this->updateEnv('PAYMENT_APPLICATION_FEE', $data['payment']['application_fee']);
+        $this->updateEnv('PAYMENT_TUITION_FEE', $data['payment']['tuition_fee']);
+        $this->updateEnv('ACADEMIC_YEAR', $data['academic_year_1'] . '-' . $data['academic_year_2']);
         
     }
 

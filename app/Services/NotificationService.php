@@ -17,6 +17,7 @@ class NotificationService{
 
         $variables = [
             'application' => $app->toArray(),
+            'settings' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
             'student' => $app->student->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()

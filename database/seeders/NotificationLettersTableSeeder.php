@@ -76,7 +76,7 @@ class NotificationLettersTableSeeder extends Seeder
 
     public function createFinancialAid()
     {
-        $the_letter = NotificationLetter::where('title', 'Financial Aid')->exists();
+        $the_letter = NotificationLetter::where('title', 'FA Letter A')->exists();
 
         if(!$the_letter)
         {

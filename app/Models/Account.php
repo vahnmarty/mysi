@@ -136,4 +136,32 @@ class Account extends Model
     {
         return $this->hasMany(coursePlacement::class);
     }
+
+    public function getParentsName($withSalutation = false)
+    {
+        if($this->parents()->count() == 1){
+            return $this->parents()->first()->first_name . ' ';
+        }
+
+        if($this->parents()->count() == 2){
+            $parents = $this->parents;
+            $string = '';
+
+            foreach($this->parents as $i => $parent){
+
+                if($withSalutation){
+                    $string .= $parent->salutation . ' ' . $parent->last_name;
+                }else{
+                    $string .=  $parent->first_name . ' ' . $parent->last_name;
+                }
+
+                if($i != 1){
+                    $string .= ' and ';
+                }
+                
+            }
+
+            return $string;
+        }
+    }
 }

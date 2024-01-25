@@ -129,3 +129,13 @@ if (! function_exists('notification_setting')) {
         return \App\Models\NotificationSetting::where('config', $config)->first();
     }
 }
+
+
+if (! function_exists('is_date')) {
+    function is_date($input) {
+        $date = \DateTime::createFromFormat('Y-m-d', $input);
+        
+        // Check if $input is a valid date string in the 'Y-m-d' format
+        return $date && $date->format('Y-m-d') === $input;
+    }
+}

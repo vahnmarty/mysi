@@ -13,7 +13,8 @@ class NotificationSettingTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->create('academic_year_applying_for', 'Academic Year Applying For', null, 'range_year');
+        # Batch 1
+        $this->create('academic_year', 'Academic Year Applying For', null, 'range_year');
         $this->create('freshmen_application_start_date', 'Freshmen Application Start Date', null, 'datetime');
         $this->create('freshmen_application_soft_close_date', 'Freshmen Application Soft Close Date', null, 'datetime');
         $this->create('freshmen_application_hard_close_date', 'Freshmen Application Hard Close Date', null, 'datetime');
@@ -26,7 +27,12 @@ class NotificationSettingTableSeeder extends Seeder
         $this->create('course_placement_notification_start_date', 'Course Placement Notification Start Date', null, 'datetime');
         $this->create('course_placement_notification_end_date', 'Course Placement Notification End Date', null, 'datetime');
         $this->create('transfer_student_application_start_date', 'Transfer Student Application Start Date', null, 'datetime');
-        $this->create('transfer_student_application_end_date', 'Transfer Student Application End Date', null, 'datetime');     
+        $this->create('transfer_student_application_end_date', 'Transfer Student Application End Date', null, 'datetime');
+        
+        # Batch 2
+        $this->create('notification_date', 'Notification Date', null, 'date');
+        $this->create('acceptance_deadline_date', 'Acceptance Deadline Date', null, 'datetime');
+        
     }
 
     public function create($config, $description, $value = null, $form_type = null)

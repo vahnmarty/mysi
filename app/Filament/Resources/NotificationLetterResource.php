@@ -79,6 +79,7 @@ class NotificationLetterResource extends Resource
             'index' => Pages\ListNotificationLetters::route('/'),
             'create' => Pages\CreateNotificationLetter::route('/create'),
             'edit' => Pages\EditNotificationLetter::route('/{record}/edit'),
+            'variables' => Pages\NotificationVariables::route('/variables')
         ];
     }    
 }

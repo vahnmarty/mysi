@@ -14,6 +14,12 @@ class Child extends Model
 
     protected $guarded = [];
 
+    protected $appends = [
+        'pronoun_subject',
+        'pronoun_possessive',
+        'official_school'
+    ];
+
     public function getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;
@@ -76,6 +82,11 @@ class Child extends Model
         return $this->current_school == 'Not Listed' ? $this->current_school_not_listed : $this->current_school;
     }
 
+    public function getOfficialSchoolAttribute()
+    {
+        return $this->getCurrentSchool();
+    }
+
     public function getExpectedGraduationYear()
     {
         if(is_numeric($this->current_grade)){
@@ -103,5 +114,15 @@ class Child extends Model
         }
         
         return null;
+    }
+
+    public function getPronounSubjectAttribute()
+    {
+        return 'he';
+    }
+    
+    public function getPronounPossessiveAttribute()
+    {
+        return 'his';
     }
 }

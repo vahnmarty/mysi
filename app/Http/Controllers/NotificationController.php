@@ -9,6 +9,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\ApplicationStatus;
 use App\Models\NotificationLetter;
 use App\Models\NotificationMessage;
+use App\Models\NotificationSetting;
 use App\Enums\NotificationStatusType;
 
 class NotificationController extends Controller
@@ -118,17 +119,21 @@ class NotificationController extends Controller
 
         $notification = NotificationLetter::findOrFail($id);
 
-        $app = Application::with('student', 'account')->findOrFail($request->application_id);
+        $app = Application::with('student', 'account', 'appStatus')->findOrFail($request->application_id);
 
         $account = $app->account;
 
         $variables = [
             'application' => $app->toArray(),
+            'application_status' => $app->appStatus->toArray(),
+            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'system' => config('settings'),
             'student' => $app->student->toArray(),
+            'parents_name' => $account->getParentsName(),
+            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
         ];
-
 
         $content = $this->parseContent($notification->content, $variables);
 
@@ -150,8 +155,19 @@ class NotificationController extends Controller
             $field = Arr::get($variables, $variableName);
 
             if(!empty($field)){
+
+                if(is_date($field)){
+                    return date('F d, Y', strtotime($field));
+                }
+
+                if($this->special_cases($variableName)){
+                    $type = $this->special_cases($variableName, returnArray: true) ;
+                    return $this->transformSpecialCases($field, $type);
+                }
+
                 return $field;
             }
+            
 
             return $matches[0]; // If the variable doesn't exist in the array, leave it unchanged
         };
@@ -160,5 +176,36 @@ class NotificationController extends Controller
         $outputString = preg_replace_callback('/@{([^}]+)}/', $replaceCallback, $input);
 
         return $outputString;
+    }
+
+    public function special_cases($input, $returnArray = false)
+    {
+        $array = [
+            'timeline.acceptance_deadline_date' => 'date_description',
+            'timeline.registration_start_date' => 'date_with_day',
+            'timeline.registration_end_date' => 'date_description',
+            'system.payment.tuition_fee' => 'money'
+        ];
+        
+        if($returnArray){
+            return isset($array[$input]) ? $array[$input] : [];
+        }
+        
+        return isset($array[$input]);
+    }
+
+    public function transformSpecialCases($input, $type)
+    {
+        if($type == 'date_description'){
+            return date(('g:i a T \o\n F j, Y'), strtotime($input));
+        }
+
+        if($type == 'date_with_day'){
+            return date(('l, F j, Y'), strtotime($input));
+        }
+
+        if($type == 'money'){
+            return number_format($input, 2);
+        }
     }
 }
