@@ -190,3 +190,7 @@ display: none;
 .html-content a{
     @apply underline text-link;
 }
+
+.html-content ul{
+    @apply pl-8 list-disc;
+}

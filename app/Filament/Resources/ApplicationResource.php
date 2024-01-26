@@ -105,9 +105,9 @@ class ApplicationResource extends Resource
                                     $service->createMessage($record);
 
                                     Notification::make()
-                                    ->title('Notification Sent.')
-                                    ->success()
-                                    ->send();
+                                        ->title('Notification Sent.')
+                                        ->success()
+                                        ->send();
                                 }
                                 
                             }),

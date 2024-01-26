@@ -79,7 +79,7 @@
                 <li class="px-8 py-1 text-sm transition {{ request()->is('notifications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                     <a href="{{ url('notifications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                         <x-heroicon-o-bell class="flex-shrink-0 w-5 h-5" />
-                        <strong>Notifications</strong>
+                        <strong>Notification</strong>
                     </a>
                 </li>
                 @endif
@@ -96,7 +96,7 @@
                 <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                     <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                         <x-heroicon-o-identification class="flex-shrink-0 w-5 h-5" />
-                        <strong>Registrations</strong>
+                        <strong>Registration</strong>
                     </a>
                 </li>
                 @endif

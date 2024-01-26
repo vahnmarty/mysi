@@ -46,6 +46,7 @@ class ProductionChecklist extends Command
         # Notifications
         $this->checkNotificationSettings();
         $this->newLine();
+        // todo here
         $this->checkNotificationLetters();
 
 

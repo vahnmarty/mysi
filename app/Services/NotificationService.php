@@ -12,7 +12,15 @@ class NotificationService{
     {
         $appStatus = $app->appStatus;
 
-        $notification = NotificationLetter::where('reference', $appStatus->application_status)->first();
+        $letterType = $appStatus->application_status;
+
+        if($appStatus->application_status == 'Accepted'){
+            if($appStatus->withHonors()){
+                $letterType = 'Accepted with Honors';
+            }
+        }
+
+        $notification = NotificationLetter::where('title', $letterType)->first();
 
         $account = $app->account;
 
