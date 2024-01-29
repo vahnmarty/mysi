@@ -83,7 +83,7 @@ class ViewApplication extends Component implements HasForms
 
             # Missing Fields
             if(empty($data['student']['ethnicity'])){
-                $this->record->archive()->update([
+                $this->app->archive()->update([
                     'student' => $this->app->student->toArray()
                 ]);
             }
