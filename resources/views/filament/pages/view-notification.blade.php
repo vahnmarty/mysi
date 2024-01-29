@@ -1,5 +1,4 @@
-<x-filament::page>
-
+<div>
     @if($declined)
     <div class="p-4 bg-red-300 rounded-md">
         <div class="flex items-center">
@@ -97,6 +96,8 @@
                     </div>
                 </x-modal>
                 @endif
+
+                <x-filament::page></x-filament::page>
     
                 <div class="flex justify-between gap-6 mt-8">
                     <a href="{{ route('notifications.pdf', $notification->uuid) }}"   class="btn-primary">
@@ -108,4 +109,4 @@
             </div>
         </div>
     </div>
-</x-filament::page>
+</div>

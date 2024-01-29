@@ -194,3 +194,7 @@ display: none;
 .html-content ul{
     @apply pl-8 list-disc;
 }
+
+.filament-header-heading{
+    @apply text-2xl font-semibold font-heading text-primary-blue;
+}

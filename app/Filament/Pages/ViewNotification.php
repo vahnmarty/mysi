@@ -20,6 +20,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Actions\CreateAction;
 use Filament\Forms\Components\Placeholder;
+use Illuminate\Contracts\Support\Htmlable;
 use net\authorize\api\contract\v1 as AnetAPI;
 use Filament\Forms\Concerns\InteractsWithForms;
 use net\authorize\api\controller as AnetController;
@@ -69,6 +70,11 @@ class ViewNotification extends Page {
         $this->declined = $app->declined();
 
         //$this->readNotification($appStatus);
+    }
+
+    protected function getTitle(): string | Htmlable
+    {
+        return 'Notification Letter';
     }
 
     protected function getFormSchema(): array 
