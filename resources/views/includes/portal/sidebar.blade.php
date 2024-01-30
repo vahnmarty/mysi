@@ -68,21 +68,40 @@
             <ul class="font-medium text-gray-700">
 
                 @php
-                    $notification_start_date = notification_setting('notification_start_date');
-                    $notification_end_date = notification_setting('notification_end_date');
+                    $transfer_student_application_start_date = notification_setting('transfer_student_application_start_date');
+                    $transfer_student_application_end_date = notification_setting('transfer_student_application_end_date');
 
-                    $notif_start_date = $notification_start_date->value;
-                    $notif_end_date = $notification_end_date->value;
+                    $transfer_start_date = $transfer_student_application_start_date->value;
+                    $transfer_end_date = $transfer_student_application_end_date->value;
                 @endphp
 
-                @if(now()->gte($notif_start_date) && now()->lt($notif_end_date) || empty($notif_start_date)  || empty($notif_end_date))
-                <li class="px-8 py-1 text-sm transition {{ request()->is('notifications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
-                    <a href="{{ url('notifications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
-                        <x-heroicon-o-bell class="flex-shrink-0 w-5 h-5" />
-                        <strong>Notification</strong>
+                @if(now()->gte($transfer_start_date) && now()->lt($transfer_start_date))
+                <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                    <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                        <x-heroicon-o-switch-horizontal class="flex-shrink-0 w-5 h-5" />
+                        <strong>Transfer Application</strong>
                     </a>
                 </li>
                 @endif
+
+                @php
+                    $course_placement_notification_start_date = notification_setting('course_placement_notification_start_date');
+                    $course_placement_notification_end_date = notification_setting('course_placement_notification_end_date');
+
+                    $placement_start_date = $course_placement_notification_start_date->value;
+                    $placement_end_date = $course_placement_notification_end_date->value;
+                @endphp
+
+                @if(now()->gte($placement_start_date) && now()->lt($placement_end_date))
+                <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                    <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                        <x-heroicon-o-book-open class="flex-shrink-0 w-5 h-5" />
+                        <strong>Course Placement</strong>
+                    </a>
+                </li>
+                @endif
+
+                
 
                 @php
                     $registration_start_date = notification_setting('registration_start_date');
@@ -97,6 +116,23 @@
                     <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                         <x-heroicon-o-identification class="flex-shrink-0 w-5 h-5" />
                         <strong>Registration</strong>
+                    </a>
+                </li>
+                @endif
+
+                @php
+                    $notification_start_date = notification_setting('notification_start_date');
+                    $notification_end_date = notification_setting('notification_end_date');
+
+                    $notif_start_date = $notification_start_date->value;
+                    $notif_end_date = $notification_end_date->value;
+                @endphp
+
+                @if(now()->gte($notif_start_date) && now()->lt($notif_end_date) || empty($notif_start_date)  || empty($notif_end_date))
+                <li class="px-8 py-1 text-sm transition {{ request()->is('notifications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                    <a href="{{ url('notifications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                        <x-heroicon-o-bell class="flex-shrink-0 w-5 h-5" />
+                        <strong>Notification</strong>
                     </a>
                 </li>
                 @endif
