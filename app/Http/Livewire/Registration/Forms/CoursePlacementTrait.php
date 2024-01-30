@@ -44,26 +44,26 @@ trait CoursePlacementTrait{
                 ->content(new HtmlString('* This section is to be completed by the student.')),
             Placeholder::make('course_placement.english_placement')
                 ->label('')
-                ->content(new HtmlString("<div class='space-y-8'>
-                    <div class='space-y-4'>
-                        <h3 class='font-bold text-primary-blue'>English Placement</h3>
+                ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-primary-blue">English Placement</h3>
 
-                        <p>You have been placed in: ______________________</p>
+                        <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.english_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
 
                         <p>NOTE:  Any interested freshman students will have an opportunity to apply for Honors English in the spring semester of their freshman year for the following school year (sophomore year).</p>
 
                     </div>
-                    <div class='space-y-4'>
-                        <h3 class='font-bold text-primary-blue'>Math Placement</h3>
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-primary-blue">Math Placement</h3>
 
-                        <p>You have been placed in: ______________________</p>
+                        <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.math_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
 
                         <p>
                             If you want to challenge your math placement, you are required to take the Challenge Test on April 22, 2023.    
                         </p>
 
                     </div>
-                </div>")),
+                </div>')),
             Select::make('course_placement.math_challenge')
                 ->label('Do you want to make a reservation to take the Math Challenge Test on April 22,2023?')
                 ->options([
@@ -88,7 +88,7 @@ trait CoursePlacementTrait{
             Select::make('course_placement.language1')
                 ->label('First Choice')
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray())
+                ->options(fn() => $this->getLanguageArray(1))
                 ->reactive()
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
@@ -97,7 +97,7 @@ trait CoursePlacementTrait{
             Select::make('course_placement.language2')
                 ->label('Second Choice')
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray())
+                ->options(fn() => $this->getLanguageArray(2))
                 ->reactive()
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
@@ -106,7 +106,7 @@ trait CoursePlacementTrait{
             Select::make('course_placement.language3')
                 ->label('Third Choice')
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray())
+                ->options(fn() => $this->getLanguageArray(3))
                 ->reactive()
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
@@ -115,7 +115,7 @@ trait CoursePlacementTrait{
             Select::make('course_placement.language4')
                 ->label('Fourth Choice')
                 ->inlineLabel()
-                ->options(LanguageSelection::asSameArray())
+                ->options(fn() => $this->getLanguageArray(4))
                 ->reactive()
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
@@ -164,5 +164,27 @@ trait CoursePlacementTrait{
     private function autoSaveCourse($column, $value)
     {
         $this->autoSave($column, $value, 'course_placement');
+    }
+
+    private function getLanguageArray($exceptNumber)
+    {
+        $languages = LanguageSelection::asSameArray();
+        $data = $this->data['course_placement'];
+        $selected = [];
+    
+
+        foreach(range(1,4) as $i => $lang)
+        {
+            if($lang != $exceptNumber)
+            {
+                $selectedLanguage = $data['language' . $lang];
+                if( !empty($data['language' . $lang]) ){
+                    unset($languages[$data['language' . $lang]]);
+                }
+            }
+            
+        }
+        
+        return $languages;
     }
 }

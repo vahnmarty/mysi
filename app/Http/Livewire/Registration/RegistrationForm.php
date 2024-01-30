@@ -63,6 +63,7 @@ class RegistrationForm extends Component implements HasForms
         $data['student'] = $this->registration->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
+        $data['application_status'] = $appStatus->toArray();
         $data['autosave'] = true;
 
         $data['healthcare'] = $registration

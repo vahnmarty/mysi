@@ -139,3 +139,13 @@ if (! function_exists('is_date')) {
         return $date && $date->format('Y-m-d') === $input;
     }
 }
+
+if (! function_exists('has_registered')) {
+    function has_registered() {
+        if(auth()->check()){
+            $account = \Auth::user()->account;
+            
+            return $account->hasRegisteredStudent();
+        }
+    }
+}

@@ -1,5 +1,5 @@
 <header class="relative">
-    <div class="py-2 lg:py-6 bg-primary-red">
+    <div class="py-2 lg:py-6 {{ has_registered() ? 'bg-primary-blue' : 'bg-primary-red' }}">
         <div class="px-4 mx-auto lg:px-8">
             <div class="flex items-center justify-between">
                 

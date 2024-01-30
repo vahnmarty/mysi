@@ -164,4 +164,19 @@ class Account extends Model
             return $string;
         }
     }
+
+    public function registration()
+    {
+        return $this->hasOne(Registration::class);
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
+    }
+
+    public function hasRegisteredStudent()
+    {
+        return $this->registration ? true : false;
+    }
 }
