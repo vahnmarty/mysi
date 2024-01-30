@@ -124,7 +124,7 @@ class NotificationLettersTableSeeder extends Seeder
         
     }
 
-    public function createdAcceptedWithHonors()
+    public function createAcceptedWithHonors()
     {
         $the_letter = NotificationLetter::where('reference', 'Accepted with Honors')->exists();
 
