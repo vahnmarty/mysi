@@ -1,29 +1,5 @@
-<div x-data="{ form: $wire.entangle('open') }">
-    <div x-show="!form" x-cloak class="p-10 bg-white border shadow-xl">
-        <h1 class="text-4xl font-bold text-center font-heading">Welcome to  <strong class="text-primary-blue">Registration</strong></h1>
-        <p class="mt-8">
-            Congratulations on successfully completing the payment process. We're excited to have you join our school! Please follow the steps below to complete your registration:
-        </p>
-
-        <div class="pl-8 mt-8">
-            <ol class="list-disc">
-                <li>Student Information</li>
-                <li>Address Information</li>
-                <li>Parent/Guardian Information</li>
-                <li>Health Information</li>
-                <li>Emergency Contact Information</li>
-                <li>School-based Accommodation</li>
-                <li>Magis Program</li>
-                <li>Course Placement</li>
-            </ol>
-        </div>
-
-        <div class="flex justify-center mt-8">
-            <button type="button" wire:click="start" class="btn-primary">Continue</button>
-        </div>
-    </div>
-
-    <div x-show="form" x-cloak>
+<div x-data="{ form: true }">
+    <div>
     
         <div class="flex justify-between">
             <h2 class="text-2xl font-semibold font-heading text-primary-blue">

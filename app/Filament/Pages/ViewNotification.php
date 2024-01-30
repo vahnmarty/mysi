@@ -36,7 +36,7 @@ class ViewNotification extends Page {
 
     public $content, $faq, $fa_content;
 
-    public $show_fa = false, $checked, $declined;
+    public $show_fa = false, $checked, $declined, $decision_status;
 
     public Application $app;
 
@@ -69,12 +69,14 @@ class ViewNotification extends Page {
 
         $this->declined = $app->declined();
 
+        $this->decision_status = $appStatus->candidate_decision_status;
+
         //$this->readNotification($appStatus);
     }
 
     protected function getTitle(): string | Htmlable
     {
-        return 'Notification Letter';
+        return ' ';
     }
 
     protected function getFormSchema(): array 
@@ -91,11 +93,6 @@ class ViewNotification extends Page {
     protected function getActions(): array
     {
         return [
-            Action::make('view')
-                ->label('View Registration')
-                ->url(url('registration'))
-                ->color('primary')
-                ->visible(fn() => $this->app->hasRegistered()),
             Action::make('enroll')
                 ->label('Enroll at SI')
                 ->action('enroll')
@@ -160,7 +157,7 @@ class ViewNotification extends Page {
                     $this->checkout($data['billing']);
                 }),
             Action::make('decline')
-                ->label('Decline')
+                ->label('Decline Acceptance at SI')
                 ->requiresConfirmation()
                 ->action('decline')
                 ->color('primary')
@@ -174,7 +171,8 @@ class ViewNotification extends Page {
         $app = $this->app;
         $app->appStatus()->update([
             'candidate_decision' => false,
-            'candidate_decision_date' => now()
+            'candidate_decision_date' => now(),
+            'candidate_decision_status' => 'Declined',
         ]);
 
         return redirect(request()->header('Referer'));
@@ -216,21 +214,19 @@ class ViewNotification extends Page {
 
             $app->appStatus()->update([
                 'candidate_decision' => true,
-                'candidate_decision_date' => now()
+                'candidate_decision_date' => now(),
+                'candidate_decision_status' => 'Accepted'
             ]);
-
-            //Auth::user()->notify( new ApplicationSubmitted($app));
-            //Auth::user()->notify( new PaymentReceipt($app));
-
             
             # Create Registration
-            $registration = $app->registration()->create([
+            $registration = $app->registration()->firstOrCreate([
+                'child_id' => $app->child_id
+            ],[
                 'account_id' => accountId(),
                 'record_type_id' => RecordType::Student,
-                'child_id' => $app->child_id
             ]);
 
-            return redirect()->route('registration.form', $registration->uuid);
+            return redirect()->to('registration');
         }else{
 
             Notification::make()

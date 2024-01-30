@@ -39,6 +39,11 @@ class Registration extends Model
         return $this->application->appStatus->registration_completed;
     }
 
+    public function started() : bool
+    {
+        return $this->started_at ? true : false;
+    }
+
     public function student()
     {
         return $this->belongsTo(Child::class, 'child_id');

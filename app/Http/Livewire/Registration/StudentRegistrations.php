@@ -123,9 +123,17 @@ class StudentRegistrations extends Component implements HasTable, HasForms
             //     ->extraAttributes(['class' => 'app-status'])
             //     ->color(''),
             Action::make('edit')
-                ->label('Edit')
+                ->label(fn(Registration $record) => $record->started() ? 'Edit' : 'Register' )
                 ->visible(fn(Registration $record) => !$record->completed())
-                ->url(fn(Registration $record) => route('registration.form', $record->uuid) ),
+                ->action(function(Registration $record){
+
+                    if(!$record->started()){
+                        $record->started_at = now();
+                        $record->save();
+                    }
+
+                    return redirect()->route('registration.form', $record->uuid);
+                }),
             Action::make('view')
                 ->label('View')
                 ->visible(fn(Registration $record) => $record->completed())

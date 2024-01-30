@@ -129,7 +129,7 @@ class RegistrationForm extends Component implements HasForms
                 ->schema($this->getEmergencyForm())
                 ->collapsible()
                 ->collapsed(true),
-            Section::make('School-based Accommodation')
+            Section::make('School-Based Accommodation')
                 ->schema($this->getAccommodationForm())
                 ->collapsible()
                 ->collapsed(true),

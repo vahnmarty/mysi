@@ -12,7 +12,7 @@
     <div class="text-sm">
     
         <div class="px-8 mx-auto max-w-7xl">
-            <div class="p-10 mt-8 bg-white border-2 rounded-lg shadow-xl">
+            <div class="p-10 mt-8 bg-white border-2 rounded-lg shadow-md">
     
                 <header class="flex gap-6">
                     <img src="{{ asset('img/logo.png') }}" alt="">
@@ -97,7 +97,7 @@
                 </x-modal>
                 @endif
 
-                <x-filament::page></x-filament::page>
+               
     
                 <div class="flex justify-between gap-6 mt-8">
                     <a href="{{ route('notifications.pdf', $notification->uuid) }}"   class="btn-primary">
@@ -106,6 +106,10 @@
                     </a>
                 </div>
     
+            </div>
+
+            <div class="mt-8">
+                <x-filament::page></x-filament::page>
             </div>
         </div>
     </div>
