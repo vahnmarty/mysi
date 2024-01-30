@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Livewire\SampleForm;
+use App\Http\Livewire\SurveyForm;
 use App\Http\Livewire\ContactPage;
 use App\Http\Livewire\SamplePayment;
 use Illuminate\Support\Facades\Http;
@@ -19,8 +20,8 @@ use App\Http\Livewire\Auth\ResetPasswordPage;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
-use App\Http\Livewire\Admission\ViewApplications;
 
+use App\Http\Livewire\Admission\ViewApplications;
 use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Notifications\FinancialAid;
 use App\Http\Livewire\Application\ApplicationForm;
@@ -107,6 +108,8 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('registration', StudentRegistrations::class)->name('registration.index');
     Route::get('registration/{uuid}', RegistrationForm::class)->name('registration.form');
     Route::get('registration/{uuid}/completed', RegistrationCompleted::class)->name('registration.completed');
+
+    Route::get('survey/{uuid}', SurveyForm::class)->name('survey-form');
 });
 
 

@@ -25,7 +25,7 @@
                     Please check back here on <u>{{ date('l, F j, Y', strtotime($registration_end_date)) }}</u> for next steps and registration information.
                 </h4>
 
-                <a href="" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
+                <a href="{{ route('survey-form', $notification->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
             </div>
             @endif
 

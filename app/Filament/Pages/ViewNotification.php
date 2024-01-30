@@ -226,7 +226,7 @@ class ViewNotification extends Page {
                 'record_type_id' => RecordType::Student,
             ]);
 
-            return redirect()->to('registration');
+            return redirect(request()->header('Referer'));
         }else{
 
             Notification::make()
