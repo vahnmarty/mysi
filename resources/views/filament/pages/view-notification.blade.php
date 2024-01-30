@@ -12,6 +12,23 @@
     <div class="text-sm">
     
         <div class="px-8 mx-auto max-w-7xl">
+
+            @if($decision_status == 'Accepted')
+            <div class="mt-8">
+                @php
+                $registration_end_date = notification_setting('registration_end_date')->value;
+
+
+                @endphp
+                <h4 class="font-bold text-primary-red">
+                    Congratulations on enrolling as a student in the SI Class of {{ config('settings.class_year') }}! 
+                    Please check back here on <u>{{ date('l, F j, Y', strtotime($registration_end_date)) }}</u> for next steps and registration information.
+                </h4>
+
+                <a href="" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
+            </div>
+            @endif
+
             <div class="p-10 mt-8 bg-white border-2 rounded-lg shadow-md">
     
                 <header class="flex gap-6">
