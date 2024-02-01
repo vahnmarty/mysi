@@ -432,15 +432,6 @@ class ApplicationForm extends Component implements HasForms
 
     public function submit()
     {
-        $isValid = $this->validateForm();
-
-        if(!$isValid){
-            Notification::make()
-                ->title('Payment failed. Problem creating a Payment Record')
-                ->danger()
-                ->send();
-        }
-
         $data = $this->form->getState();
         
         $this->dispatchBrowserEvent('page-loading-open');
@@ -479,6 +470,11 @@ class ApplicationForm extends Component implements HasForms
 
         }else{
 
+            if(!$paymentRecord){
+
+                dd($paymentRecord);
+            }
+            
             $payment = $this->authorizeCreditCard($paymentRecord, $data['billing']);
 
             if($payment instanceof Payment){
