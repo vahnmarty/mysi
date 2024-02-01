@@ -65,6 +65,11 @@ class Application extends Model
         return $this->hasOne(Payment::class)->where('payment_type', 'AppFee')->latest();
     }
 
+    public function applicationFee()
+    {
+        return $this->hasOne(Payment::class)->where('payment_type', 'AppFee')->latest();
+    }
+
     public function registration()
     {
         return $this->hasOne(Registration::class);

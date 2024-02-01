@@ -23,7 +23,7 @@ class PaymentReceipt extends Notification
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->payment = $app->payment;
+        $this->payment = $app->applicationFee;
     }
 
     /**
