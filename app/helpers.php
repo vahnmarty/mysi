@@ -145,7 +145,7 @@ if (! function_exists('has_registered')) {
         if(auth()->check()){
             $account = \Auth::user()->account;
             
-            return $account->hasRegisteredStudent();
+            return $account?->hasRegisteredStudent();
         }
     }
 }
