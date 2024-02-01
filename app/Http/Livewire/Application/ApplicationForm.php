@@ -263,6 +263,8 @@ class ApplicationForm extends Component implements HasForms
             'final_amount' => config('settings.payment.application_fee')
         ]
         );
+        
+        return $payment ? true : false;
     }
 
     function authorizeCreditCard(Payment $payment, $data)
@@ -430,6 +432,15 @@ class ApplicationForm extends Component implements HasForms
 
     public function submit()
     {
+        $isValid = $this->validateForm();
+
+        if(!$isValid){
+            Notification::make()
+                ->title('Payment failed. Problem creating a Payment Record')
+                ->danger()
+                ->send();
+        }
+
         $data = $this->form->getState();
         
         $this->dispatchBrowserEvent('page-loading-open');
