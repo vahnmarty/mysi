@@ -102,10 +102,11 @@ class ApplicationResource extends Resource
                                 if($data['application_status'] != NotificationStatusType::NoResponse)
                                 {
                                     $service = new NotificationService;
-                                    $service->createMessage($record);
+                                    $letterType = $service->createMessage($record);
 
                                     Notification::make()
                                         ->title('Notification Sent.')
+                                        ->body('Status: ' . $letterType )
                                         ->success()
                                         ->send();
                                 }

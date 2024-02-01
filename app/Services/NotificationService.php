@@ -37,7 +37,15 @@ class NotificationService{
         ];
 
         $content = $this->parseContent($notification->content, $variables);
-        $fa_content = $this->createFinancialAidContent($app);
+
+        $fa_content = '';
+
+        if($appStatus->financial_aid){
+            $fa_content = $this->createFinancialAidContent($app);
+
+            $letterType .= ' with FA Letter ' . $appStatus->financial_aid; 
+        }
+        
         $faq_content = '';
         
 
@@ -48,6 +56,8 @@ class NotificationService{
             'faq_content' => $faq_content,
             'with_fa' => $app->with_financial_aid
         ]);
+
+        return $letterType;
     }
 
     public function createFinancialAidContent(Application $app)
