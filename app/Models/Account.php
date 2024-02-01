@@ -140,7 +140,12 @@ class Account extends Model
     public function getParentsName($withSalutation = false)
     {
         if($this->parents()->count() == 1){
-            return $this->parents()->first()->first_name . ' ';
+            $firstParent = $this->parents()->first();
+
+            if($withSalutation){
+                return $firstParent->salutation . ' ' . $firstParent->first_name ;
+            }
+            return $firstParent->first_name;
         }
 
         if($this->parents()->count() == 2){
