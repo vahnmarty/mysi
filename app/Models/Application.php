@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Str;
 use App\Enums\RecordType;
+use App\Enums\NotificationStatusType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -184,6 +185,13 @@ class Application extends Model
         }
 
         return false;
+    }
+
+    public function waitlisted()
+    {
+        $decision = $this->appStatus?->application_status;
+
+        return $decision == NotificationStatusType::WaitListed;
     }
 
     public function scopeIncomplete($query)

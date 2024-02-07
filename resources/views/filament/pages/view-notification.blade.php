@@ -1,14 +1,4 @@
 <div>
-    @if($declined)
-    <div class="p-4 bg-red-300 rounded-md">
-        <div class="flex items-center">
-            <x-heroicon-s-exclamation class="w-16 h-16 text-red-600"/>
-            <div>
-                <h5 class="text-lg font-bold">You have declined this notification.</h5>
-            </div>
-        </div>
-    </div>
-    @endif
     <div class="text-sm">
     
         <div class="px-8 mx-auto max-w-7xl">
@@ -23,6 +13,14 @@
                 <h4 class="font-bold text-primary-red">
                     Congratulations on enrolling as a student in the SI Class of {{ config('settings.class_year') }}! 
                     Please check back here on <u>{{ date('l, F j, Y', strtotime($registration_end_date)) }}</u> for next steps and registration information.
+                </h4>
+
+                <a href="{{ route('survey-form', $notification->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
+            </div>
+            @elseif($decision_status == 'Declined')
+            <div class="mt-8">
+                <h4 class="font-bold text-primary-red">
+                    This is a confirmation that you declined your acceptance to SI. We wish you all the best in high school.
                 </h4>
 
                 <a href="{{ route('survey-form', $notification->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>

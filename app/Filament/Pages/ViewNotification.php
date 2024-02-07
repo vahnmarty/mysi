@@ -162,6 +162,12 @@ class ViewNotification extends Page {
                 ->action('decline')
                 ->color('primary')
                 ->hidden(fn() => $this->app->hasRegistered() || $this->app->declined()),
+            Action::make('remove_waitlist')
+                ->label('Remove from Waitlist')
+                ->requiresConfirmation()
+                ->action('removeWaitlist')
+                ->color('primary')
+                ->visible(fn() => $this->app->waitlisted() ),
 
         ];
     }
@@ -173,6 +179,18 @@ class ViewNotification extends Page {
             'candidate_decision' => false,
             'candidate_decision_date' => now(),
             'candidate_decision_status' => 'Declined',
+        ]);
+
+        return redirect(request()->header('Referer'));
+    }
+
+    public function removeWaitlist()
+    {
+        $app = $this->app;
+        $app->appStatus()->update([
+            'candidate_decision' => false,
+            'candidate_decision_date' => now(),
+            'candidate_decision_status' => 'Waitlist Removed',
         ]);
 
         return redirect(request()->header('Referer'));

@@ -27,7 +27,7 @@
                     <div class="hidden pl-8 lg:block">
                         <a href="{{ url('/') }}">
                             <h4 class="text-4xl font-extrabold text-white font-heading">MySI Portal</h4>
-                            <p class="text-xl text-white font-heading">St. Ignatius College Preparatory</p>
+                            <p class="text-xl text-white font-heading">St. Ignatius College Preparatory @if(has_registered())&reg; @endif</p>
                         </a>
                     </div>
                     
