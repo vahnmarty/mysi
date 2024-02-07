@@ -107,7 +107,7 @@ class NotificationService{
                 return $field;
             }
             
-            return ''; // leaving blank??
+            //return ''; // leaving blank??
 
             return $matches[0]; // If the variable doesn't exist in the array, leave it unchanged
         };

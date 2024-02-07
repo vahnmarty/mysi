@@ -149,3 +149,13 @@ if (! function_exists('has_registered')) {
         }
     }
 }
+
+if (! function_exists('env_variable')) {
+    function env_variable($name) {
+        return [
+            'variable' => $name,
+            'value' => env($name)
+        ];
+    }
+}
+

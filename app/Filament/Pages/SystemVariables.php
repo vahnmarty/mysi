@@ -3,12 +3,12 @@
 namespace App\Filament\Pages;
 
 use File;
-use Closure;
 use Artisan;
+use Closure;
 use App\Models\Setting;
 use Filament\Pages\Page;
-use Filament\Pages\Actions\Action;
 use Illuminate\Support\HtmlString;
+use App\Models\NotificationSetting;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -17,8 +17,12 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Actions\Action as FormAction;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Pages\Actions\Action as PageAction;
 
 class SystemVariables extends Page implements HasForms
 {
@@ -39,6 +43,8 @@ class SystemVariables extends Page implements HasForms
 
         $academic_year_arr = explode('-', $academic_year);
 
+        $timeline = NotificationSetting::pluck('value', 'config')->toArray();
+
         $this->form->fill([
             'payment' => [
                 'application_fee' => config('settings.payment.application_fee'),
@@ -46,6 +52,8 @@ class SystemVariables extends Page implements HasForms
             ],
             'academic_year_1' => $academic_year_arr[0],
             'academic_year_2' => $academic_year_arr[1],
+            'class_year' => config('settings.class_year'),
+            'timeline' => $timeline
         ]);
 
         $this->settings = Setting::pluck('value', 'config')->toArray();
@@ -81,6 +89,26 @@ class SystemVariables extends Page implements HasForms
                                 ->required()
                                 ->options(array_combine($years, $years))
                         ]),
+                ]),
+            Section::make('Notification Letter Variables')
+                ->schema([
+                    Grid::make(4)
+                        ->schema([
+                            DatePicker::make('timeline.notification_date')
+                                ->label("Notification Date"),
+                        ]),
+                    Grid::make(4)
+                        ->schema([
+                            DateTimePicker::make('timeline.acceptance_deadline_date')
+                                ->label("Acceptance Deadline Date"),
+                        ]),
+                    Grid::make(4)
+                        ->schema([
+                            DateTimePicker::make('timeline.registration_start_date')
+                                ->label("Registration Start Date"),
+                            DateTimePicker::make('timeline.registration_end_date')
+                                ->label("Registration End Date"),
+                        ]),
                     Grid::make(4)
                         ->schema([
                             TextInput::make('payment.tuition_fee')
@@ -89,19 +117,27 @@ class SystemVariables extends Page implements HasForms
                             ->required()
                             ->lazy(),
                         ]),
-                ])
+                    Grid::make(4)
+                        ->schema([
+                            TextInput::make('class_year')
+                            ->label("Class Year")
+                            ->required()
+                            ->lazy(),
+                        ]),
+                ]),
+
         ];
     } 
 
     protected function getActions(): array
     {
         return [
-            Action::make('clear_cache')
+            PageAction::make('clear_cache')
                 ->label('Clear Cache')
                 ->requiresConfirmation()
                 ->action('clearCache')
                 ->color('secondary'),
-            Action::make('save_changes')
+            PageAction::make('save_changes')
                 ->requiresConfirmation()
                 ->action('updateChanges'),
 
@@ -116,6 +152,12 @@ class SystemVariables extends Page implements HasForms
         $this->updateEnv('PAYMENT_TUITION_FEE', $data['payment']['tuition_fee']);
         $this->updateEnv('ACADEMIC_YEAR', $data['academic_year_1'] . '-' . $data['academic_year_2']);
         
+        
+        foreach($data['timeline'] as $config => $value){
+            $setting = NotificationSetting::where('config', $config)->first();
+            $setting->value = $value;
+            $setting->save();
+        }
     }
 
     public function updateEnv($env, $value, $config = null)
