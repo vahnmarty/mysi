@@ -24,6 +24,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use net\authorize\api\contract\v1 as AnetAPI;
 use Filament\Forms\Concerns\InteractsWithForms;
 use net\authorize\api\controller as AnetController;
+use Illuminate\Contracts\View\View;
 
 class ViewNotification extends Page {
 
@@ -44,6 +45,7 @@ class ViewNotification extends Page {
 
     public $billing = [];
     public $deposit_amount = 1500;
+
 
     public function mount($uuid)
     {
@@ -74,9 +76,14 @@ class ViewNotification extends Page {
         //$this->readNotification($appStatus);
     }
 
-    protected function getTitle(): string | Htmlable
+    protected function getHeading(): string | Htmlable
     {
         return ' ';
+    }
+
+    protected function getTitle(): string | Htmlable
+    {
+        return 'Notification';
     }
 
     protected function getFormSchema(): array 
