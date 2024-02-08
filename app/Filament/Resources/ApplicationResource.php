@@ -73,10 +73,10 @@ class ApplicationResource extends Resource
                 Tables\Columns\TextColumn::make("status")->label('App Status'),
                 Tables\Columns\TextColumn::make('appStatus.application_status')
                     ->label('Notification Status')
+                    ->color('secondary')
                     ->formatStateUsing(fn ($state) => $state ?? '-- N/A --')
                     ->action(
                         Tables\Actions\Action::make('update_status')
-                            ->color('danger')
                             ->disabled(fn(Application $record) => $record->appStatus->candidate_decision)
                             ->requiresConfirmation()
                             ->modalHeading('Update Notification Status')
@@ -120,6 +120,10 @@ class ApplicationResource extends Resource
                                             }),
                                         Forms\Components\TextInput::make('math_class')
                                             ->label('Math Class')
+                                            ->disabled()
+                                            ->visible(fn($state) => !empty($state)),
+                                        Forms\Components\TextInput::make('english_class')
+                                            ->label('English Class')
                                             ->disabled()
                                             ->visible(fn($state) => !empty($state)),
                                         Forms\Components\TextInput::make('bio_class')

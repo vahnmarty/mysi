@@ -33,7 +33,8 @@ class NotificationService{
             'application' => $app->toArray(),
             'application_status' => $app->appStatus->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
-            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray(),
+            'class_list' => $app->classList()
         ];
 
         $content = $this->parseContent($notification->content, $variables);
@@ -118,14 +119,43 @@ class NotificationService{
 
             if(!empty($field)){
 
-                if(is_date($field)){
-                    return date('F d, Y', strtotime($field));
+
+                if($variableName == 'class_list')
+                {
+                    $classes = $field;
+                    if(is_array($field))
+                    {
+                        $html = '<ul style="padding-left: 15px; list-style: disc;">';
+                        
+                        if(count($classes)){
+                            foreach($classes as $class)
+                            {
+                                $html .= '<li><strong>' . $class . '</strong></li>';
+                            }
+                        }else{
+
+                            $html .= '<li><strong>No class information.</strong></li>';
+                        }
+                        
+
+                        $html .= '</ul>';
+
+                        return $html;
+                    }
+                    return '<strong>CLASS</strong>';
+                }else{
+                    if(is_date($field)){
+                        return date('F d, Y', strtotime($field));
+                    }
+    
+    
+                    if($this->special_cases($variableName)){
+                        $type = $this->special_cases($variableName, returnArray: true) ;
+                        return $this->transformSpecialCases($field, $type);
+                    }
                 }
 
-                if($this->special_cases($variableName)){
-                    $type = $this->special_cases($variableName, returnArray: true) ;
-                    return $this->transformSpecialCases($field, $type);
-                }
+                
 
                 return $field;
             }
