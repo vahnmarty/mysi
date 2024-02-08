@@ -176,6 +176,16 @@ class Application extends Model
         return $this->appStatus?->candidate_decision;
     }
 
+    public function accepted()
+    {
+        return $this->appStatus->application_status == NotificationStatusType::Accepted;
+    }
+
+    public function fa_acknowledged()
+    {
+        return $this->appStatus->fa_acknowledged_at;
+    }
+
     public function declined()
     {
         $decision = $this->appStatus?->candidate_decision;
@@ -283,5 +293,20 @@ class Application extends Model
     public function notificationMessage()
     {
         return $this->hasOne(NotificationMessage::class)->latest();
+    }
+
+    public function canEnroll(): bool
+    {
+        # Not Registered
+        # Accepted
+        # Not Declined
+        # If has FA, Acknowledged
+        $condition =  !$this->hasRegistered() && $this->accepted() && !$this->declined();
+
+        if($this->appStatus->financial_aid){
+            $condition = $this->fa_acknowledged();
+        }
+
+        return $condition;
     }
 }

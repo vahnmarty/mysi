@@ -54,7 +54,6 @@ class NotificationService{
             'content' => $content,
             'financial_aid_content' => $fa_content,
             'faq_content' => $faq_content,
-            'with_fa' => $app->with_financial_aid
         ]);
 
         return $letterType;

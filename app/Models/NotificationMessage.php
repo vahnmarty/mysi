@@ -32,9 +32,4 @@ class NotificationMessage extends Model
     {
         return $this->belongsTo(Application::class);
     }
-
-    public function acknowledged()
-    {
-        return $this->fa_acknowledged_at ? true : false;
-    }
 }

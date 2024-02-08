@@ -92,37 +92,38 @@ class ViewNotification extends Page {
 
     protected function getActions(): array
     {
+        $notification_setting = notification_setting('registration_end_date');
+        $registration_end_date = date(('g:i a T \o\n F j, Y'), strtotime($notification_setting->value));
+        $class_year = config('settings.class_year');
+
         return [
             Action::make('enroll')
                 ->label('Enroll at SI')
                 ->action('enroll')
                 ->color('success')
-                ->visible(fn() => !$this->app->hasRegistered() && $this->applicationAccepted() && !$this->app->declined())
+                ->visible(fn() => $this->app->canEnroll())
                 ->modalHeading('Registration Deposit Fee')
                 ->modalButton('PAY ($' . number_format($this->deposit_amount,2) .')')
                 ->form([
                     Placeholder::make('note')
                         ->label('')
-                        ->content(new HtmlString('NOTE:  You must make a deposit payment of <strong> $'.number_format($this->deposit_amount,2).'</strong> before 6:00 am PT on Friday, March 24, 2023 to reserve your spot in the SI Class of 2027.')),
+                        ->content(new HtmlString('NOTE:  You must make a deposit payment of <strong> $'.number_format($this->deposit_amount,2).'</strong> before '. $registration_end_date .' to reserve your spot in the SI Class of '. $class_year .'.')),
                     Fieldset::make('Payment Information')
                         ->label(new HtmlString('<strong>Payment Information</strong>'))
                         ->columns(3)
                         ->schema([
                             TextInput::make('billing.first_name')
                         ->label('First Name')
-                        ->required()
-                        ->lazy(),
+                        ->required(),
                     TextInput::make('billing.last_name')
                         ->label('Last Name')
-                        ->required()
-                        ->lazy(),
+                        ->required(),
                     TextInput::make('billing.email')
                         ->label('Email')
                         ->email()
                         ->rules(['email:rfc,dns'])
                         ->columnSpan('full')
-                        ->required()
-                        ->lazy(),
+                        ->required(),
                     TextInput::make('billing.card_number')
                         ->label('Credit Card Number')
                         ->required()
@@ -198,9 +199,9 @@ class ViewNotification extends Page {
 
     public function acknowledgeFinancialAid()
     {
-        $notification = $this->notification;
-        $notification->fa_acknowledged_at = now();
-        $notification->save();
+        $appStatus = $this->app->appStatus;
+        $appStatus->fa_acknowledged_at = now();
+        $appStatus->save();
 
         $this->dispatchBrowserEvent('close-modal');
     }

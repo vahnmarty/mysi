@@ -92,36 +92,42 @@ class ApplicationResource extends Resource
                                 Forms\Components\Select::make('application_status')
                                     ->label('Status')
                                     ->options(NotificationStatusType::asSelectArray())
-                                    ->required(),
-                                Forms\Components\Toggle::make('with_honors')
-                                    ->label('With Honors?')
-                                    ->disabled()
-                                    ->onColor('success')
-                                    ->offColor('secondary')
-                                    ->onIcon('heroicon-s-check')
-                                    ->offIcon('heroicon-s-x')
-                                    ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
-                                        $component->state($record->appStatus?->withHonors() );
-                                    }),
-                                    Forms\Components\Toggle::make('with_fa')
-                                    ->label('With Financial Aid?')
-                                    ->disabled()
-                                    ->onColor('success')
-                                    ->offColor('secondary')
-                                    ->onIcon('heroicon-s-check')
-                                    ->offIcon('heroicon-s-x')
-                                    ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
-                                        $component->state($record->appStatus?->withFA() );
-                                    }),
-                                Forms\Components\TextInput::make('math_class')
-                                    ->label('Math Class')
-                                    ->disabled()
-                                    ->visible(fn($state) => !empty($state)),
-                                Forms\Components\TextInput::make('bio_class')
-                                    ->disabled()
-                                    ->label('Bio Class')
-                                    ->disabled()
-                                    ->visible(fn($state) => !empty($state)),
+                                    ->required()
+                                    ->reactive(),
+                                Forms\Components\Grid::make(1)
+                                    ->reactive()
+                                    ->visible(fn(Closure $get) => $get('application_status') == NotificationStatusType::Accepted)
+                                    ->schema([
+                                        Forms\Components\Toggle::make('with_honors')
+                                            ->label('With Honors?')
+                                            ->disabled()
+                                            ->onColor('success')
+                                            ->offColor('secondary')
+                                            ->onIcon('heroicon-s-check')
+                                            ->offIcon('heroicon-s-x')
+                                            ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                                $component->state($record->appStatus?->withHonors() );
+                                            }),
+                                            Forms\Components\Toggle::make('with_fa')
+                                            ->label('With Financial Aid?')
+                                            ->disabled()
+                                            ->onColor('success')
+                                            ->offColor('secondary')
+                                            ->onIcon('heroicon-s-check')
+                                            ->offIcon('heroicon-s-x')
+                                            ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                                $component->state($record->appStatus?->withFA() );
+                                            }),
+                                        Forms\Components\TextInput::make('math_class')
+                                            ->label('Math Class')
+                                            ->disabled()
+                                            ->visible(fn($state) => !empty($state)),
+                                        Forms\Components\TextInput::make('bio_class')
+                                            ->disabled()
+                                            ->label('Bio Class')
+                                            ->disabled()
+                                            ->visible(fn($state) => !empty($state)),
+                                    ])
                             ])
                             ->action(function (Application $record, $data): void {
                                 $appStatus = $record->appStatus;
