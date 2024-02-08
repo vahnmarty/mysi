@@ -77,7 +77,7 @@ class ApplicationResource extends Resource
                     ->formatStateUsing(fn ($state) => $state ?? '-- N/A --')
                     ->action(
                         Tables\Actions\Action::make('update_status')
-                            ->disabled(fn(Application $record) => $record->appStatus->candidate_decision)
+                            ->disabled(fn(Application $record) => $record->appStatus?->candidate_decision)
                             ->requiresConfirmation()
                             ->modalHeading('Update Notification Status')
                             ->modalSubheading('The applicant will receive a notification once you confirm.')

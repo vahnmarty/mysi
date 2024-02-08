@@ -169,7 +169,7 @@ class ViewNotification extends Page {
                 ->requiresConfirmation()
                 ->action('decline')
                 ->color('primary')
-                ->hidden(fn() => $this->app->hasRegistered() || $this->app->declined()),
+                ->hidden(fn() => $this->app->hasRegistered() || $this->app->declined() || ($this->app->appStatus->financial_aid ? !$this->app->fa_acknowledged() : true )),
             Action::make('remove_waitlist')
                 ->label('Remove from Waitlist')
                 ->requiresConfirmation()

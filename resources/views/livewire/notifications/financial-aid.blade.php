@@ -1,3 +1,5 @@
+<!-- PROBABLY A WRONG FILE -->
+
 <div class="text-sm">
     
     <div class="px-8 mx-auto max-w-7xl">
@@ -12,7 +14,7 @@
                         San Francisco, California 94116<br>
                         (415) 731-7500<br>
                     </p>
-                    <p class="mt-6"> Office of Admissions</p>
+                    <p class="mt-6"> Business Office</p>
                 </div>
             </header>
 

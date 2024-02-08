@@ -181,9 +181,9 @@ class Application extends Model
         return $this->appStatus->application_status == NotificationStatusType::Accepted;
     }
 
-    public function fa_acknowledged()
+    public function fa_acknowledged():bool | null
     {
-        return $this->appStatus->fa_acknowledged_at;
+        return !empty($this->appStatus->fa_acknowledged_at);
     }
 
     public function declined()
@@ -295,7 +295,7 @@ class Application extends Model
         return $this->hasOne(NotificationMessage::class)->latest();
     }
 
-    public function canEnroll(): bool
+    public function canEnroll()
     {
         # Not Registered
         # Accepted
@@ -303,9 +303,12 @@ class Application extends Model
         # If has FA, Acknowledged
         $condition =  !$this->hasRegistered() && $this->accepted() && !$this->declined();
 
-        if($this->appStatus->financial_aid){
-            $condition = $this->fa_acknowledged();
+        if(!$this->hasRegistered()){
+            if($this->appStatus->financial_aid){
+                $condition = $this->fa_acknowledged();
+            }
         }
+        
 
         return $condition;
     }
