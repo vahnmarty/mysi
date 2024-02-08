@@ -56,7 +56,11 @@ class ApplicationNotification extends Component implements HasTable
     {
         return [ 
             Action::make('read')
-                ->label('Read Letter')
+                ->label(function(NotificationMessage $record){
+                    $appStatus = $record->application->appStatus;
+
+                    return $appStatus->notification_read ? "Read"  : "Read Letter";
+                })
                 ->action(function(NotificationMessage $record){
                     $appStatus = $record->application->appStatus;
 
@@ -79,5 +83,10 @@ class ApplicationNotification extends Component implements HasTable
     protected function isTablePaginationEnabled()
     {
         return false;
+    }
+
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
     }
 }

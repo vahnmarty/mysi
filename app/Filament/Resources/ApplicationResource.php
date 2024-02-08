@@ -84,12 +84,44 @@ class ApplicationResource extends Resource
                             ->modalButton('Save')
                             ->mountUsing(fn (Forms\ComponentContainer $form, Application $record) => $form->fill([
                                 'application_status' => $record->appStatus?->application_status,
+                                'math_class' => $record->appStatus->math_class,
+                                'english_class' => $record->appStatus->english_class,
+                                'bio_class' => $record->appStatus->bio_class,
                             ]))
                             ->form([
                                 Forms\Components\Select::make('application_status')
                                     ->label('Status')
                                     ->options(NotificationStatusType::asSelectArray())
                                     ->required(),
+                                Forms\Components\Toggle::make('with_honors')
+                                    ->label('With Honors?')
+                                    ->disabled()
+                                    ->onColor('success')
+                                    ->offColor('secondary')
+                                    ->onIcon('heroicon-s-check')
+                                    ->offIcon('heroicon-s-x')
+                                    ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                        $component->state($record->appStatus?->withHonors() );
+                                    }),
+                                    Forms\Components\Toggle::make('with_fa')
+                                    ->label('With Financial Aid?')
+                                    ->disabled()
+                                    ->onColor('success')
+                                    ->offColor('secondary')
+                                    ->onIcon('heroicon-s-check')
+                                    ->offIcon('heroicon-s-x')
+                                    ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                        $component->state($record->appStatus?->withFA() );
+                                    }),
+                                Forms\Components\TextInput::make('math_class')
+                                    ->label('Math Class')
+                                    ->disabled()
+                                    ->visible(fn($state) => !empty($state)),
+                                Forms\Components\TextInput::make('bio_class')
+                                    ->disabled()
+                                    ->label('Bio Class')
+                                    ->disabled()
+                                    ->visible(fn($state) => !empty($state)),
                             ])
                             ->action(function (Application $record, $data): void {
                                 $appStatus = $record->appStatus;

@@ -17,4 +17,9 @@ class ApplicationStatus extends Model
     {
         return $this->honors_math || $this->honors_english || $this->honors_bio;
     }
+
+    public function withFA()
+    {
+        return !empty($this->financial_aid);
+    }
 }
