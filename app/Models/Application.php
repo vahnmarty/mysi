@@ -173,7 +173,7 @@ class Application extends Model
 
     public function hasRegistered()
     {
-        return $this->appStatus?->candidate_decision;
+        return $this->registration;
     }
 
     public function accepted()
@@ -308,7 +308,6 @@ class Application extends Model
         # If has FA, Acknowledged
         
         $condition =  !$this->hasRegistered() && $this->accepted() && !$this->declined() && !$this->waitlisted();
-        
         if($condition){
             if($this->appStatus->financial_aid){
                 $condition = $this->fa_acknowledged();
