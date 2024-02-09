@@ -301,9 +301,10 @@ class Application extends Model
         # Accepted
         # Not Declined
         # If has FA, Acknowledged
-        $condition =  !$this->hasRegistered() && $this->accepted() && !$this->declined();
-
-        if(!$this->hasRegistered()){
+        
+        $condition =  !$this->hasRegistered() && $this->accepted() && !$this->declined() && !$this->waitlisted();
+        
+        if($condition){
             if($this->appStatus->financial_aid){
                 $condition = $this->fa_acknowledged();
             }

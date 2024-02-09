@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use App\Enums\GradeLevel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -118,11 +119,11 @@ class Child extends Model
 
     public function getPronounSubjectAttribute()
     {
-        return 'he/she';
+        return $this->gender == Gender::Male ? 'he' : 'she';
     }
     
     public function getPronounPossessiveAttribute()
     {
-        return 'his/her';
+        return $this->gender == Gender::Male ? 'his' : 'her';
     }
 }

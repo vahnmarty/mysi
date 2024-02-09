@@ -52,9 +52,11 @@ class SystemVariables extends Page implements HasForms
             ],
             'academic_year_1' => $academic_year_arr[0],
             'academic_year_2' => $academic_year_arr[1],
+            'number_of_applicants' => config('settings.number_of_applicants'),
             'class_year' => config('settings.class_year'),
-            'timeline' => $timeline
+            'timeline' => $timeline,
         ]);
+
 
         $this->settings = Setting::pluck('value', 'config')->toArray();
 
@@ -69,7 +71,6 @@ class SystemVariables extends Page implements HasForms
                         ->schema([
                             TextInput::make('payment.application_fee')
                             ->label("Application Fee")
-                            
                             ->numeric()
                             ->required()
                             ->lazy(),
@@ -121,6 +122,13 @@ class SystemVariables extends Page implements HasForms
                         ->schema([
                             TextInput::make('class_year')
                             ->label("Class Year")
+                            ->required()
+                            ->lazy(),
+                        ]),
+                    Grid::make(4)
+                        ->schema([
+                            TextInput::make('number_of_applicants')
+                            ->label("Number of Applicants")
                             ->required()
                             ->lazy(),
                         ]),
