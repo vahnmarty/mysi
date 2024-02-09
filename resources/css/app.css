@@ -176,7 +176,7 @@ display: none;
   }
 
 #table-parent-matrix th:last-child:before{
-    content: 'hello';
+    content: '';
 }
 
 .flex.items-center:has(.hide-checkbox-label){
