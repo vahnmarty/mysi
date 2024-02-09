@@ -56,9 +56,38 @@
                 
                 
                 @if(!empty($faq))
-                <div class="pt-8 mt-8 border-t-2 border-dashed border-primary-red"></div>
-                <article class="html-content">{!! $faq !!}</article>
+
+                <div class="mt-8">
+                    <a href="#" x-data="{}"
+                    x-on:click.prevent="$dispatch('open-modal', 'show-faq')" 
+                    class="text-xl font-bold underline text-link">Waitlist FAQ</a>
+                </div>
+
+                <x-modal name="show-faq" :show="false"  maxWidth="4xl">
+                    <div class="p-10 bg-white border rounded-lg shadow-lg">
+
+                        <header class="flex gap-6">
+                            <img src="{{ asset('img/logo.png') }}" alt="">
+                            <div>
+                                <p>
+                                    St. Ignatius College Preparatory<br>
+                                    2001 37th Avenue<br>
+                                    San Francisco, California 94116<br>
+                                    (415) 731-7500<br>
+                                </p>
+                                <p class="mt-6"> Office of Admissions</p>
+                            </div>
+                        </header>
+            
+                        <article class="mt-16 html-content">
+                            {!! $faq !!}
+                        </article>
+                    </div>
+                </x-modal>
+                
                 @endif
+
+                
                 
                 @if($app->appStatus->financial_aid)
                 <div class="grid grid-cols-5 mt-8">

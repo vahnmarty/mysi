@@ -121,6 +121,17 @@ class NotificationLettersTableSeeder extends Seeder
 
             $letter->save();
         }
+
+        $letterE = NotificationLetter::where('title', 'FA Letter E')->exists();
+
+        if(!$letterE)
+        {
+            $letter = new NotificationLetter;
+            $letter->title = 'FA Letter E';
+            $letter->content = '<p>@{timeline.notification_date}<br><br>@{parents_name}<br>@{address.address}<br>@{address.city}, @{address.state} @{address.zip_code}<br><br>Dear @{parents_name_salutation}:<br><br>My sincere congratulations to @{student.first_name} upon acceptance to the St. Ignatius College Preparatory Class of @{system.class_year}!<br><br>I am writing to convey the decision of the Financial Assistance Committee. We regret to inform you that we are unable to provided financial assistance for the @{system.academic_year} school year.<br><br>Our financial assistance funds are limited and we have made every effort to evaluate your family`s demonstrated need. We cannot support any appeals unless there have been significant changes in your financial circumstances that occurred after your application for aid was filed. Examples of significant changes include:</p><ul><li><p>Loss of income (waves, benefits, etc.) due to unemployment</p></li><li><p>New major medical issue or family death.</p></li></ul><p><br>If you are moving forward with an appeal, please detail and document these changes by noon on Monday, March 20. All required documents, including your 2022 taxes, must be on file in your TADS application to be considered for an appeal. Click <a href="https://docs.google.com/forms/d/e/1FAIpQLSf_KibnGVPgGl40zRTlWbWapgloxWmHGaCq8Wzcsj6M5rcZsg/viewform?pli=1" target="_blank" as_button="false" button_theme="">here</a>  to submit an appeal.<br><br>It is our intention to make a St. Ignatius education possible for all families and you are most welcome to apply for financial assistance in future years. Information about next year`s assistance process will be available on the SI website in October 2023.<br><br>Once again, the Financial Assistance Committee regrets that we were not able to meet your request. We look forward to partnering with you as we provide an exceptional Jesuit education in these next four years.<br><br>Sincerely,</p><p><img src="'.$this->ken_signature.'" width="181" height="80"><br>Ken Stupi<br>VP of Finance &amp; Administration</p>';
+
+            $letter->save();
+        }
         
     }
 
