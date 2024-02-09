@@ -329,12 +329,12 @@ class Application extends Model
         $appStatus = $this->appStatus;
         $array = [];
 
-        if($appStatus->math_class){
-            $array[] = $appStatus->math_class;
-        }
-
         if($appStatus->english_class){
             $array[] = $appStatus->english_class;
+        }
+
+        if($appStatus->math_class){
+            $array[] = $appStatus->math_class;
         }
 
         if($appStatus->bio_class){
