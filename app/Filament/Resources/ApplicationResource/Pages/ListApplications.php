@@ -23,8 +23,9 @@ class ListApplications extends ListRecords
         return 'Actions';
     }
 
-    protected function getTableRecordActionUsing(): ?Closure
+    protected function getTableRecordUrlUsing(): ?Closure
     {
         return null;
     }
+    
 }

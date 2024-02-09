@@ -282,8 +282,4 @@ class ApplicationResource extends Resource
         ];
     }
 
-    protected function getTableRecordActionUsing(): ?Closure
-    {
-        return null;
-    }
 }
