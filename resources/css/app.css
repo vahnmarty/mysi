@@ -191,6 +191,10 @@ display: none;
     @apply underline text-link;
 }
 
+.html-content h2{
+    @apply text-xl;
+}
+
 .html-content ul{
     @apply pl-8 list-disc;
 }

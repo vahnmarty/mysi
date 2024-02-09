@@ -25,6 +25,13 @@
 
                 <a href="{{ route('survey-form', $notification->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
             </div>
+            @elseif($decision_status == 'Waitlist Removed')
+            <div class="mt-8">
+                <h4 class="font-bold text-primary-red">
+                    This is a confirmation that you removed yourself from the Waiting list. We wish you all the best in high school.
+                </h4>
+
+            </div>
             @endif
 
             <div class="p-10 mt-8 bg-white border-2 rounded-lg shadow-md">
@@ -49,8 +56,8 @@
                 
                 
                 @if(!empty($faq))
-                <div class="mt-8 border-t-2 border-dashed border-primary-red"></div>
-                {!! $faq !!}
+                <div class="pt-8 mt-8 border-t-2 border-dashed border-primary-red"></div>
+                <article class="html-content">{!! $faq !!}</article>
                 @endif
                 
                 @if($app->appStatus->financial_aid)

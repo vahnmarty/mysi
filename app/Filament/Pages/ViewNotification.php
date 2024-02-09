@@ -60,7 +60,7 @@ class ViewNotification extends Page {
             $faq_cms = NotificationLetter::where('title', 'Waitlist FAQ')->first();
 
             if($faq_cms){
-                $faq = $faq_cms->content;
+                $this->faq = $faq_cms->content;
             }
         }
 
@@ -175,7 +175,7 @@ class ViewNotification extends Page {
                 ->requiresConfirmation()
                 ->action('removeWaitlist')
                 ->color('primary')
-                ->visible(fn() => $this->app->waitlisted() ),
+                ->visible(fn() => $this->app->waitlisted() && !$this->app->waitlistRemoved() ),
 
         ];
     }
@@ -196,7 +196,7 @@ class ViewNotification extends Page {
     {
         $app = $this->app;
         $app->appStatus()->update([
-            'candidate_decision' => false,
+            'candidate_decision' => 3,
             'candidate_decision_date' => now(),
             'candidate_decision_status' => 'Waitlist Removed',
         ]);

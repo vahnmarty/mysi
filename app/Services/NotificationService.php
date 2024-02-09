@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Application;
 use App\Models\NotificationLetter;
 use App\Models\NotificationSetting;
+use App\Enums\NotificationStatusType;
 
 class NotificationService{
 
@@ -40,14 +41,16 @@ class NotificationService{
         $content = $this->parseContent($notification->content, $variables);
 
         $fa_content = '';
+        $faq_content = '';
 
         if($appStatus->financial_aid){
             $fa_content = $this->createFinancialAidContent($app);
-
             $letterType .= ' with FA Letter ' . $appStatus->financial_aid; 
         }
-        
-        $faq_content = '';
+
+        if($appStatus->application_status == NotificationStatusType::WaitListed){
+            $faq_content = $this->createFAQContent($app);
+        }
         
 
         $app->notificationMessage()->create([
@@ -86,22 +89,13 @@ class NotificationService{
 
     public function createFAQContent(Application $app)
     {
-        $notification = NotificationLetter::where('title', 'FA Letter ' . $app->appStatus->financial_aid)->first();
+        $notification = NotificationLetter::where('title', 'Waitlist FAQ')->first();
 
         $account = $app->account;
 
         $variables = [
-            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
-            'system' => config('settings'),
-            'parents_name' => $account->getParentsName(),
-            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
-            'student' => $app->student->toArray(),
-            'application' => $app->toArray(),
-            'application_status' => $app->appStatus->toArray(),
-            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
-            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+            
         ];
-
 
         $contents = $this->parseContent($notification->content, $variables);
 

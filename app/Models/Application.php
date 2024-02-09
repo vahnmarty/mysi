@@ -314,6 +314,11 @@ class Application extends Model
         return $condition;
     }
 
+    public function waitlistRemoved()
+    {
+        return $this->appStatus?->candidate_decision == 3;
+    }
+
     public function classList(): array
     {
         $appStatus = $this->appStatus;
