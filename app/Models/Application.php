@@ -181,6 +181,11 @@ class Application extends Model
         return $this->appStatus->application_status == NotificationStatusType::Accepted;
     }
 
+    public function notAccepted()
+    {
+        return $this->appStatus->application_status == NotificationStatusType::NotAccepted;
+    }
+
     public function fa_acknowledged():bool | null
     {
         return !empty($this->appStatus->fa_acknowledged_at);
