@@ -18,6 +18,7 @@ class Child extends Model
     protected $appends = [
         'pronoun_subject',
         'pronoun_possessive',
+        'pronoun_personal',
         'official_school'
     ];
 
@@ -125,5 +126,10 @@ class Child extends Model
     public function getPronounPossessiveAttribute()
     {
         return $this->gender == Gender::Male ? 'his' : 'her';
+    }
+
+    public function getPronounPersonalAttribute()
+    {
+        return $this->gender == Gender::Male ? 'him' : 'her';
     }
 }

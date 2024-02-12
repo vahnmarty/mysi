@@ -147,7 +147,7 @@ class ApplicationResource extends Resource
                                     $letterType = $service->createMessage($record);
 
                                     Notification::make()
-                                        ->title('Notification Sent.')
+                                        ->title('Notification Set.')
                                         ->body('Status: ' . $letterType )
                                         ->success()
                                         ->send();

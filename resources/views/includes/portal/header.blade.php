@@ -77,7 +77,7 @@
                         
                         <x-dropdown>
                             <x-slot name="trigger">
-                                <button class="flex p-1 transition duration-200 ease-in-out hover:bg-red-900" type="button">
+                                <button class="flex p-1 transition duration-200 ease-in-out hover:bg-gray-900/10" type="button">
                                     <div class="hidden mr-3 text-right lg:block">
                                         <p class="text-sm text-white">{{ Auth::user()->name }}</p>
                                         <p class="text-xs text-gray-100">{{ Auth::user()->username ? '@' . Auth::user()->username : Auth::user()->email }}</p>

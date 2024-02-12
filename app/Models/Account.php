@@ -182,6 +182,14 @@ class Account extends Model
 
     public function hasRegisteredStudent()
     {
-        return $this->registration ? true : false;
+        return false;
+        foreach($this->applications as $app){
+            if($app?->appStatus->registration_completed){
+                return true;
+                break;
+            }
+        }
+
+        return false;;
     }
 }

@@ -138,14 +138,14 @@ class NotificationService{
                     }
                     return '<strong>CLASS</strong>';
                 }else{
-                    if(is_date($field)){
-                        return date('F d, Y', strtotime($field));
-                    }
-    
     
                     if($this->special_cases($variableName)){
                         $type = $this->special_cases($variableName, returnArray: true) ;
                         return $this->transformSpecialCases($field, $type);
+                    }
+
+                    if(is_date($field)){
+                        return date('F d, Y', strtotime($field));
                     }
                 }
 
@@ -168,12 +168,16 @@ class NotificationService{
     public function special_cases($input, $returnArray = false)
     {
         $array = [
+            'timeline.notification_date' => 'date_with_day',
             'timeline.acceptance_deadline_date' => 'date_description',
             'timeline.registration_start_date' => 'date_with_day',
             'timeline.registration_end_date' => 'date_description',
-            'system.payment.tuition_fee' => 'money',
-            'application_status.total_financial_aid_amount' => 'money',
-            'application_status.annual_financial_aid_amount' => 'money',
+            'system.payment.tuition_fee' => 'number',
+            'application_status.total_financial_aid_amount' => 'number',
+            'application_status.annual_financial_aid_amount' => 'number',
+            'application_status.deposit_amount' => 'number',
+            'system.number_of_applicants' => 'number'
+
         ];
         
         if($returnArray){
@@ -195,6 +199,10 @@ class NotificationService{
 
         if($type == 'money'){
             return number_format($input, 2);
+        }
+
+        if($type == 'number'){
+            return number_format($input);
         }
     }
 }
