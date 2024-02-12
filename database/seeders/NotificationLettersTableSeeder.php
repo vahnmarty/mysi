@@ -55,6 +55,17 @@ class NotificationLettersTableSeeder extends Seeder
 
             $letter->save();
         }
+
+        $faq_letter = NotificationLetter::where('reference', 'Waitlist FAQ')->exists();
+
+        if(!$faq_letter)
+        {
+            $letter = new NotificationLetter;
+            $letter->title = 'Waitlist FAQ';
+            $letter->content = '<h2 style="text-align: center; text-align: center; text-align: center"><strong><u>Information About the Waitlist</u></strong><br></h2><p><br>We have prepared the following responses to some common questions about the Waitlist at St. Ignatius College Preparatory and hope you will find this information helpful.<br><br><strong>What is my position on the Waitlist?</strong><br><br>The waitlist is not ranked. It represents a pool of approximately 500 qualified applicants that the Admissions Committee will select from to fill openings and balance the class. The Committee will continue to evaluate the qualifications of each candidate before making selections from the waitlist.<br><br><strong>What if I have applied for Financial Assistance?</strong><br><br>At this time, we have distributed all the tuition assistance available to accepted students. We predict that minimal or no financial assistance will be available to students accepted off the waitlist.<br><br><strong>What are my chances of getting in, and when will I hear?</strong><br><br>We have admitted the number of applicants predicted to fill our entering freshman class and will offer admission to applicant(s) from the waitlist if the total of those who accept our initial admission offers drops below the number of spaces available in the class.<br>After our March 24th registration deadline, we will be in a better position to determine how many spaces will be available for those students on our waitlist. You will be notified as soon as possible, but no later than March 31st, of your final status. The Admissions Committee will continue to make decisions as spaces become available. You will be notified via email of your final status.<br><br><strong>May I submit additional information?</strong><br><br>Information currently in the applicant’s file will be considered, as the Admissions Committee would not be able to review every waitlisted applicant’s additional information during this period of time.<br><br><strong>I do not wish to remain on the Waitlist - what should I do?</strong><br><br>Please indicate your preference to not remain on the Waitlist by clicking the "Remove from Waitlist" button located at the bottom of your online notification letter.</p>';
+
+            $letter->save();
+        }
         
     }
 

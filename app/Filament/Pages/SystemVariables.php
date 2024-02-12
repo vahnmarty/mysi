@@ -159,6 +159,8 @@ class SystemVariables extends Page implements HasForms
         $this->updateEnv('PAYMENT_APPLICATION_FEE', $data['payment']['application_fee']);
         $this->updateEnv('PAYMENT_TUITION_FEE', $data['payment']['tuition_fee']);
         $this->updateEnv('ACADEMIC_YEAR', $data['academic_year_1'] . '-' . $data['academic_year_2']);
+        $this->updateEnv('CLASS_YEAR', $data['class_year']);
+        $this->updateEnv('NUMBER_OF_APPLICANTS', $data['number_of_applicants']);
         
         
         foreach($data['timeline'] as $config => $value){
