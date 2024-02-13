@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Str;
 use App\Enums\RecordType;
+use App\Enums\CandidateDecisionType;
 use App\Enums\NotificationStatusType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -178,7 +179,7 @@ class Application extends Model
 
     public function accepted()
     {
-        return $this->appStatus->application_status == NotificationStatusType::Accepted;
+        return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted;
     }
 
     public function notAccepted()
