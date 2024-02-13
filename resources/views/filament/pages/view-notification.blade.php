@@ -86,9 +86,8 @@
                 </x-modal>
                 
                 @endif
-
                 
-                
+                @if($app->accepted())
                 @if($app->appStatus->financial_aid)
                 <div class="grid grid-cols-5 mt-8">
                     @if($app->fa_acknowledged())
@@ -96,7 +95,7 @@
                         <div class="flex gap-3">
                             <x-heroicon-o-check-circle class="w-10 h-10 text-green-500 shadow-sm"/>
                             <div>
-                                <p class="text-base font-bold">Financial Aid Assisstance</p>
+                                <p class="text-base font-bold">Financial Aid Assistance</p>
                                 <div class="flex items-center gap-4">
                                     <a href="#" x-data="{}"
                                     x-on:click.prevent="$dispatch('open-modal', 'show-financial-aid')" 
@@ -110,7 +109,7 @@
                         <div class="flex gap-3">
                             <x-heroicon-o-newspaper class="w-10 h-10 shadow-sm text-primary-red"/>
                             <div>
-                                <p class="text-base font-bold">Financial Aid Assisstance</p>
+                                <p class="text-base font-bold">Financial Aid Assistance</p>
                                 <div class="flex items-center gap-4">
                                     <a href="#" x-data="{}"
                                     x-on:click.prevent="$dispatch('open-modal', 'show-financial-aid')" 
@@ -121,6 +120,7 @@
                     </div>
                     @endif
                 </div>
+                @endif
 
                 <x-modal name="show-financial-aid" :show="$show_fa"  maxWidth="4xl">
                     <div class="p-10 bg-white border rounded-lg shadow-lg">

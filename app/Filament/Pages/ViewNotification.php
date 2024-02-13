@@ -44,7 +44,7 @@ class ViewNotification extends Page {
     public NotificationMessage $notification;
 
     public $billing = [];
-    public $deposit_amount = 1500;
+    public $deposit_amount;
 
 
     public function mount($uuid)
@@ -68,12 +68,9 @@ class ViewNotification extends Page {
         $this->content = $content;
         $this->app = $app;
         $this->fa_content = $notification->financial_aid_content;
-
         $this->declined = $app->declined();
-
         $this->decision_status = $appStatus->candidate_decision_status;
-
-        //$this->readNotification($appStatus);
+        $this->deposit_amount = $app->appStatus->deposit_amount;
     }
 
     protected function getHeading(): string | Htmlable

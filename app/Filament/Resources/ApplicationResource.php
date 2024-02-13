@@ -134,8 +134,15 @@ class ApplicationResource extends Resource
                                     ])
                             ])
                             ->action(function (Application $record, $data): void {
+                                
+                                $application_status = $data['application_status'];
+
+                                // if($application_status == NotificationStatusType::Accepted && $data['with_honors']){
+                                //     $application_status = 'Accepted With Honors';
+                                // }
+
                                 $appStatus = $record->appStatus;
-                                $appStatus->application_status = $data['application_status'];
+                                $appStatus->application_status = $application_status;
                                 $appStatus->candidate_decision_status = CandidateDecisionType::NotificationSent;
                                 $appStatus->save();
 

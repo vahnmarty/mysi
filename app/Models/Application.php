@@ -300,7 +300,7 @@ class Application extends Model
         return $this->hasOne(NotificationMessage::class)->latest();
     }
 
-    public function canEnroll()
+    public function canEnroll($debug = false)
     {
         # Not Registered
         # Accepted
@@ -308,10 +308,15 @@ class Application extends Model
         # If has FA, Acknowledged
         
         $condition =  !$this->hasRegistered() && $this->accepted() && !$this->declined() && !$this->waitlisted();
+
         if($condition){
             if($this->appStatus->financial_aid){
                 $condition = $this->fa_acknowledged();
             }
+        }
+
+        if($debug){
+            dd('!$this->hasRegistered() : ' . !$this->hasRegistered(), '$this->accepted() : ' . $this->accepted(), '!$this->declined() : ' . !$this->declined(), '!$this->waitlisted() : ' . !$this->waitlisted());
         }
         
 
