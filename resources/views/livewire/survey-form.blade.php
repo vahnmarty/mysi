@@ -1,4 +1,8 @@
 <div>
+
+    @if(!$completed)
+
+
     <div class="flex justify-between">
         @if($type == 'Accepted')
         <h2 class="text-2xl font-semibold font-heading text-primary-blue">
@@ -32,4 +36,10 @@
             </div>
         </form>
     </div>
+
+    @else
+    <div class="mt-16">
+        <p class="text-2xl font-bold text-center text-primary-blue">Thank you for taking our Survey.</p>
+    </div>
+    @endif
 </div>

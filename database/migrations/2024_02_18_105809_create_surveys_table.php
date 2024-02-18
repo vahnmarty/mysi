@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('application_id');
             $table->uuid('uuid');
             $table->string('type');
+            $table->string('other_school')->nullable();
             $table->string('most_important_reason')->nullable();
             $table->string('most_important_reason_comment')->nullable();
             $table->string('second_important_reason')->nullable();

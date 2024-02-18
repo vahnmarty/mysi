@@ -5,10 +5,12 @@ namespace App\Http\Livewire;
 use App\Models\Survey;
 use Livewire\Component;
 use App\Models\Application;
+use App\Enums\SurveyReasonType;
 use App\Models\NotificationMessage;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
+use App\Enums\SurveySchoolDecisionType;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -23,6 +25,10 @@ class SurveyForm extends Component implements HasForms
     public $type;
 
     public $data = [];
+
+    public Survey $survey;
+
+    public $completed;
     
     public function render()
     {
@@ -32,11 +38,20 @@ class SurveyForm extends Component implements HasForms
 
     public function mount($uuid)
     {
-        $survey = Survey::whereUuid($uuid)->firstOrFail();
+        $survey = Survey::with('schools')->whereUuid($uuid)->firstOrFail();
+
+        $this->completed = $survey->submitted();
+
+        $this->survey = $survey;
 
         $this->type = $survey->type;
 
         $this->form->fill();
+    }
+
+    protected function getFormModel(): Survey 
+    {
+        return $this->survey;
     }
 
     protected function getFormStatePath(): string 
@@ -54,9 +69,10 @@ class SurveyForm extends Component implements HasForms
                 ->inlineLabel(),
             Placeholder::make('school_desc')
                 ->label('Please list, in order of preference, the schools to which you applied , the admission decision (accepted/waitlisted/not accepted), and Financial Aid or scholarship information, if applicable:'),
-            TableRepeater::make('survey_schools')
+            TableRepeater::make('schools')
+                ->relationship()
                 ->label('')
-                ->defaultItems(4)
+                ->defaultItems(1)
                 ->hideLabels()
                 ->createItemButtonLabel('Add')
                 ->columnSpan('full')
@@ -67,18 +83,22 @@ class SurveyForm extends Component implements HasForms
                     Select::make('school_decision')
                         ->label("School's Decision")
                         ->placeholder('Select')
-                        ->options([])
+                        ->options(SurveySchoolDecisionType::asSameArray())
                         ->required(),
                     Select::make('applied_for_aid')
                         ->label("Applied for Aid")
                         ->placeholder('Select')
-                        ->options([])
+                        ->options([
+                            0 => 'No',
+                            1 => 'Yes'
+                        ])
                         ->required(),
                     TextInput::make('amount_aid')
                         ->label("Amount of Aid or Scholarship Offered")
                         ->prefix('$'),
                     TextInput::make('comment')
                         ->label("Comment")
+                        ->maxLength(100),
                 ]),
             Fieldset::make('Rank the three(3) most important reasons for choosing SI:')   
                 ->columns(2)
@@ -86,29 +106,34 @@ class SurveyForm extends Component implements HasForms
                     Select::make('most_important_reason')
                         ->label('Most Important Reason')
                         ->inlineLabel()
-                        ->options([]),
+                        ->options(SurveyReasonType::asSameArray()),
                     TextInput::make('most_important_reason_comment')
                         ->label('Comment')
+                        ->maxLength(100)
                         ->inlineLabel(),
                     Select::make('second_important_reason')
                         ->label('Second Important Reason')
                         ->inlineLabel()
-                        ->options([]),
+                        ->options(SurveyReasonType::asSameArray()),
                     TextInput::make('second_important_reason_comment')
                         ->label('Comment')
+                        ->maxLength(100)
                         ->inlineLabel(),
                     Select::make('third_important_reason')
                         ->label('Third Important Reason')
                         ->inlineLabel()
-                        ->options([]),
+                        ->options(SurveyReasonType::asSameArray()),
                     TextInput::make('third_important_reason_comment')
                         ->label('Comment')
-                        ->inlineLabel(),
+                        ->inlineLabel()
+                        ->maxLength(100),
                 ]),
-            Textarea::make('student_visit_program_remarks')
-                ->label('If you attended a Student Visit Program or any other Admissions event, we would appreciate any comments regarding your experience:'),
+            Textarea::make('experience')
+                ->label('If you attended a Student Visit Program or any other Admissions event, we would appreciate any comments regarding your experience:')
+                ->maxLength(500),
             Textarea::make('si_admission_process')
                 ->label('Please let us know your thoughts regarding the SI admissions process this year:')
+                ->maxLength(500),
         ];
     }
 
@@ -116,6 +141,8 @@ class SurveyForm extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        dd($data);
+        $this->survey->update($data);
+        $this->survey->submitted_at = now();
+        $this->survey->save();
     }
 }

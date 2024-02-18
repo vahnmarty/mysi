@@ -25,4 +25,9 @@ class Survey extends Model
     {
         return $this->hasMany(SurveySchool::class);
     }
+
+    public function submitted()
+    {
+        return !empty($this->submitted_at);
+    }
 }
