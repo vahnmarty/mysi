@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Survey;
 use Livewire\Component;
 use App\Models\Application;
 use App\Models\NotificationMessage;
@@ -31,11 +32,9 @@ class SurveyForm extends Component implements HasForms
 
     public function mount($uuid)
     {
-        $notificationMessage = NotificationMessage::with('application')->whereUuid($uuid)->firstOrFail();
+        $survey = Survey::whereUuid($uuid)->firstOrFail();
 
-        $app = $notificationMessage->application;
-
-        $this->type = $app->accepted() ? 'Accepted' : 'Declined';
+        $this->type = $survey->type;
 
         $this->form->fill();
     }
@@ -48,6 +47,13 @@ class SurveyForm extends Component implements HasForms
     protected function getFormSchema()
     {
         return [
+            TextInput::make('other_school')
+                ->label('School that you plan to attend:')
+                ->required(fn() => $this->type == 'Declined')
+                ->visible(fn() => $this->type == 'Declined')
+                ->inlineLabel(),
+            Placeholder::make('school_desc')
+                ->label('Please list, in order of preference, the schools to which you applied , the admission decision (accepted/waitlisted/not accepted), and Financial Aid or scholarship information, if applicable:'),
             TableRepeater::make('survey_schools')
                 ->label('')
                 ->defaultItems(4)

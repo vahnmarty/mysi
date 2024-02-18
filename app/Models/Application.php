@@ -320,4 +320,9 @@ class Application extends Model
         return $array;
         
     }
+
+    public function survey()
+    {
+        return $this->hasOne(Survey::class);
+    }
 }

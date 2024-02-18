@@ -14,11 +14,16 @@
 
     <div class="pb-32 mt-8">
 
-        <p>Please answer the following questions to assist us in evaluating our admissions process and to complete your registration at St. Ignatius College Preparatory.</p>
-        <p class="mt-8 mb-8 font-bold">
-            Please list, in order of preference, the schools to which you applied , the admission decision (accepted/waitlisted/not accepted), and Financial Aid or scholarship information, if applicable:
+        @if($type == 'Accepted')
+        <p>
+            Please answer the following questions to assist us in evaluating our admissions process and to complete your registration at St. Ignatius College Preparatory.
         </p>
-        <form wire:submit.prevent="submit">
+        @else
+        <p>
+            We truly appreciated your application to St. Ignatius College Preparatory this year. Please answer the following questions to assist us in evaluating our admissions process and to decline your acceptance at St. Ignatius College Preparatory.
+        </p>
+        @endif
+        <form class="mt-8" wire:submit.prevent="submit">
 
             {{ $this->form }}
 

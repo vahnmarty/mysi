@@ -47,6 +47,7 @@ class ViewNotification extends Page {
     public $deposit_amount;
 
 
+
     public function mount($uuid)
     {
         $notification = NotificationMessage::whereUuid($uuid)->firstOrFail();
@@ -218,6 +219,8 @@ class ViewNotification extends Page {
             'candidate_decision_status' => 'Declined',
         ]);
 
+        $this->initSurveyForm($app);
+
         return redirect(request()->header('Referer'));
     }
 
@@ -280,6 +283,8 @@ class ViewNotification extends Page {
                 'account_id' => accountId(),
                 'record_type_id' => RecordType::Student,
             ]);
+
+            $this->initSurveyForm($app);
 
             return redirect(request()->header('Referer'));
         }else{
@@ -439,5 +444,12 @@ class ViewNotification extends Page {
         }
 
         return $response;
+    }
+
+    public function initSurveyForm(Application $app)
+    {
+        return $app->survey()->create([
+            'type' => $app->enrolled() ? 'Accepted' : 'Declined'
+        ]);
     }
 }
