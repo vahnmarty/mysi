@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AddressLocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,5 +34,10 @@ class Parents extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function scopeFromPrimaryAddress($query)
+    {
+        return $query->where('address_location', AddressLocation::PrimaryAddress);
     }
 }

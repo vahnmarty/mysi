@@ -52,6 +52,13 @@
                 <article class="mt-16 html-content">
                     {!! $content !!}
                 </article>
+
+                
+                @if($app->accepted())
+                <p class="mt-8 font-bold text-gray-900">
+                    NOTE: In order to reserve your spot in the SI Class of {{ config('settings.class_year') }}, you must click the Enroll at SI button AND make a deposit payment before {{ date(('g:i a T \o\n F j, Y'), strtotime(config('settings.timeline.registration_end_date'))) }}. Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.
+                </p>
+                @endif
     
                 
                 

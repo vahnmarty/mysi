@@ -3,7 +3,7 @@
 @section('title', 'MySI Notification')
 @section('content')
 <div>
-    <table border="0" width="100%" style="font-family: sans-serif; font-size: 12px;" cellspacing="0" cellpadding="0">
+    <table border="0" width="100%" style="font-family: sans-serif; font-size: 11px;" cellspacing="0" cellpadding="0">
         <tr>
             <td width="13%"><a href="#" target="_blank"><img src="{{ asset('img/logo.png') }}" width="76" height="100" alt="Logo" align="center" border="0"></a></td>
                <td width="87%">
@@ -16,7 +16,7 @@
         </tr>
         </table>
     
-    <article style="font-family: sans-serif; font-size: 12px; margin-top: 32px">
+    <article style="font-family: sans-serif; font-size: 11px; margin-top: 32px">
         {!! $content !!}
     </article>
 </div>

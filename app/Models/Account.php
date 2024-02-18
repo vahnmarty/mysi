@@ -139,7 +139,7 @@ class Account extends Model
 
     public function getParentsName($withSalutation = false)
     {
-        if($this->parents()->count() == 1){
+        if($this->parents()->fromPrimaryAddress()->count() == 1){
             $firstParent = $this->parents()->first();
 
             if($withSalutation){
@@ -148,7 +148,7 @@ class Account extends Model
             return $firstParent->first_name;
         }
 
-        if($this->parents()->count() == 2){
+        if($this->parents()->fromPrimaryAddress()->count() == 2){
             $parents = $this->parents;
             $string = '';
 
@@ -168,6 +168,8 @@ class Account extends Model
 
             return $string;
         }
+
+        return 'No Primary Parents';
     }
 
     public function registration()
