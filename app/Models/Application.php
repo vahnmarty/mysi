@@ -177,7 +177,12 @@ class Application extends Model
         return $this->registration;
     }
 
-    public function accepted()
+    public function applicationAccepted()
+    {
+        return $this->appStatus->application_status == NotificationStatusType::Accepted;
+    }
+
+    public function enrolled()
     {
         return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted;
     }
@@ -225,28 +230,12 @@ class Application extends Model
     }
 
 
-    public function familyMatrix()
-    {
-        return [
-
-        ];
-    }
 
     public function supplementalRecommendationRequest()
     {
         return $this->hasMany(SupplementalRecommendationRequest::class);
     }
 
-    // public function current_school()
-    // {
-    //     return $this->hasManyThrough(
-    //         School::class,
-    //         Child::class,
-    //         'current_school',
-    //         'name'
-    //     );
-        
-    // }
 
     public function getFileLearningDocumentationUrlAttribute()
     {
@@ -301,25 +290,15 @@ class Application extends Model
         return $this->hasOne(NotificationMessage::class)->latest();
     }
 
-    public function canEnroll($debug = false)
+    public function canEnroll()
     {
-        # Not Registered
-        # Accepted
-        # Not Declined
-        # If has FA, Acknowledged
-        
-        $condition =  !$this->hasRegistered() && !$this->accepted() && !$this->declined() && !$this->waitlisted();
+        $condition =  $this->applicationAccepted() && !$this->hasRegistered() && !$this->enrolled() && !$this->declined() && !$this->waitlisted();
 
         if($condition){
             if($this->appStatus->financial_aid){
                 $condition = $this->fa_acknowledged();
             }
         }
-
-        if($debug){
-            dd('!$this->hasRegistered() : ' . !$this->hasRegistered(), '$this->accepted() : ' . $this->accepted(), '!$this->declined() : ' . !$this->declined(), '!$this->waitlisted() : ' . !$this->waitlisted());
-        }
-        
 
         return $condition;
     }
