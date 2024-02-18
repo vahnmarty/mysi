@@ -72,6 +72,10 @@ class ViewNotification extends Page {
         $this->declined = $app->declined();
         $this->decision_status = $appStatus->candidate_decision_status;
         $this->deposit_amount = $app->appStatus->deposit_amount;
+
+        if($this->decision_status){
+            $this->initSurveyForm($app);
+        }
     }
 
     protected function getHeading(): string | Htmlable
@@ -448,7 +452,9 @@ class ViewNotification extends Page {
 
     public function initSurveyForm(Application $app)
     {
-        return $app->survey()->create([
+        return $app->survey()->firstOrCreate([
+            'application_id' => $app->id
+        ],[
             'type' => $app->enrolled() ? 'Accepted' : 'Declined'
         ]);
     }
