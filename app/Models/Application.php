@@ -184,7 +184,7 @@ class Application extends Model
 
     public function enrolled()
     {
-        return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted;
+        return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted && $this->hasRegistered();
     }
 
     public function notAccepted()
@@ -290,17 +290,9 @@ class Application extends Model
         return $this->hasOne(NotificationMessage::class)->latest();
     }
 
-    public function canEnroll()
+    public function hasFinancialAid()
     {
-        $condition =  $this->applicationAccepted() && !$this->hasRegistered() && !$this->enrolled() && !$this->declined() && !$this->waitlisted();
-
-        if($condition){
-            if($this->appStatus->financial_aid){
-                $condition = $this->fa_acknowledged();
-            }
-        }
-
-        return $condition;
+        return !empty($this->appStatus->financial_aid);
     }
 
     public function waitlistRemoved()

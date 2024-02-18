@@ -105,7 +105,6 @@ class ViewNotification extends Page {
                 ->label('Enroll at SI')
                 ->action('enroll')
                 ->color('success')
-                ->visible(fn() => $this->app->canEnroll())
                 ->modalHeading('Registration Deposit Fee')
                 ->modalButton('PAY ($' . number_format($this->deposit_amount,2) .')')
                 ->form([
@@ -160,13 +159,46 @@ class ViewNotification extends Page {
                 ])
                 ->action(function (array $data): void {
                     $this->checkout($data['billing']);
+                })
+                ->visible(function(){
+                    $app = $this->app;
+                    
+                    if( $app->applicationAccepted() ){
+                        if($app->hasRegistered() || $app->declined() || $app->enrolled()) {
+                            return false;
+                        }
+
+                        if($app->hasFinancialAid()){
+                            return $app->fa_acknowledged();
+                        }
+
+                        return true;
+                    }
+
+                    return false;
                 }),
             Action::make('decline')
                 ->label('Decline Acceptance at SI')
                 ->requiresConfirmation()
                 ->action('decline')
                 ->color('primary')
-                ->visible(fn() => $this->app->applicationAccepted() && !$this->app->enrolled() && !$this->app->hasRegistered() && !$this->app->declined()),
+                ->visible(function(){
+                    $app = $this->app;
+                    
+                    if( $app->applicationAccepted() ){
+                        if($app->hasRegistered() || $app->declined() || $app->enrolled()) {
+                            return false;
+                        }
+
+                        if($app->hasFinancialAid()){
+                            return $app->fa_acknowledged();
+                        }
+                        
+                        return true;
+                    }
+
+                    return false;
+                }),
             Action::make('remove_waitlist')
                 ->label('Remove from Waitlist')
                 ->requiresConfirmation()
