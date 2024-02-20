@@ -14,6 +14,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use App\Http\Livewire\Registration\Forms\HealthFormTrait;
 use App\Http\Livewire\Registration\Forms\ParentFormTrait;
 use App\Http\Livewire\Registration\Forms\AddressFormTrait;
+use App\Http\Livewire\Registration\Forms\SiblingFormTrait;
 use App\Http\Livewire\Registration\Forms\StudentFormTrait;
 use App\Http\Livewire\Registration\Forms\MagisProgramTrait;
 use App\Http\Livewire\Registration\Forms\EmergencyFormTrait;
@@ -25,7 +26,7 @@ class RegistrationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait, SiblingFormTrait;
 
     # Model
     public Registration $registration;
@@ -63,6 +64,7 @@ class RegistrationForm extends Component implements HasForms
         $data['student'] = $this->registration->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
+        $data['siblings'] = $account->children()->where('id', '!=', $this->registration->child_id)->get()->toArray();
         $data['application_status'] = $appStatus->toArray();
         $data['autosave'] = true;
 
@@ -120,6 +122,10 @@ class RegistrationForm extends Component implements HasForms
                 ->schema($this->getAddressForm()),
             Section::make('Parent/Guardian Information')
                 ->schema($this->getParentForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('Sibling Information')
+                ->schema($this->getSiblingForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Health Information')
