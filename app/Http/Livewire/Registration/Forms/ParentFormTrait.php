@@ -12,6 +12,7 @@ use App\Enums\AddressType;
 use App\Enums\ParentSuffix;
 use App\Rules\MaxWordCount;
 use App\Enums\EmploymentStatus;
+use App\Enums\MaritalStatusType;
 use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
@@ -324,6 +325,47 @@ trait ParentFormTrait{
                                     $this->autoSaveParent($get('id'),'graduate_school_state', $state);
                                 }),
                         ]),
+                    Select::make('is_primary_contact')
+                        ->label('Is this parent the Primary Contact? (Only 1 parent can be the Primary Contact)')
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ])
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'is_primary_contact', $state);
+                        }),
+                    Select::make('has_legal_custody')
+                        ->label('Does this parent have legal custody of the student?')
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ])
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'has_legal_custody', $state);
+                        }),
+                    Select::make('is_pickup_allowed')
+                        ->label('Is it okay for this parent to pickup the student at SI?')
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ])
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'is_pickup_allowed', $state);
+                        }),
+                    Select::make('marital_status')
+                        ->label('What is your marital status?')
+                        ->options(MaritalStatusType::asSameArray())
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'marital_status', $state);
+                        }),
                 ])
                 
         ];
