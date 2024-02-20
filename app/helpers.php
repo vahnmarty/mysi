@@ -150,6 +150,16 @@ if (! function_exists('has_registered')) {
     }
 }
 
+if (! function_exists('has_enrolled')) {
+    function has_enrolled() {
+        if(auth()->check()){
+            $account = \Auth::user()->account;
+            
+            return $account?->hasEnrolledStudent();
+        }
+    }
+}
+
 if (! function_exists('env_variable')) {
     function env_variable($name) {
         return [

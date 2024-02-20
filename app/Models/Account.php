@@ -182,9 +182,20 @@ class Account extends Model
         return $this->hasMany(Registration::class);
     }
 
+    public function hasEnrolledStudent()
+    {
+        foreach($this->applications as $app){
+            if($app->enrolled()){
+                return true;
+                break;
+            }
+        }
+
+        return false;;
+    }
+
     public function hasRegisteredStudent()
     {
-        return false;
         foreach($this->applications as $app){
             if($app?->appStatus->registration_completed){
                 return true;

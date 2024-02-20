@@ -109,7 +109,7 @@ class RegistrationForm extends Component implements HasForms
         return [
             Placeholder::make('form_description')
                 ->label('')
-                ->content(new HtmlString('* The application saves your work automatically after you enter your information and click out of the text box. All required fields are  <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).')),
+                ->content(new HtmlString('* Please review the information you entered during Admissions carefully, and update as necessary.  Also, please answer the additional questions.  The application saves your work automatically after you enter your information and click out of the text box.  All required fields are in <span class="font-bold text-primary-red">red</span>  and have an asterisk (<span class="text-primary-red">*</span>).')),
             Section::make('Student Information')
                 ->collapsible()
                 ->collapsed(true)

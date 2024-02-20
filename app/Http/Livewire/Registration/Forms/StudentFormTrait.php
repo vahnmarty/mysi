@@ -8,6 +8,7 @@ use App\Enums\Suffix;
 use App\Models\School;
 use App\Enums\ShirtSize;
 use App\Enums\RacialType;
+use App\Enums\ReligionType;
 use App\Enums\ArtProgramsType;
 use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
@@ -15,10 +16,10 @@ use Filament\Forms\Components\Grid;
 use Livewire\Component as Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
-use CoringaWc\FilamentInputLoading\TextInput;
 use Filament\Forms\Components\TextInput\Mask;
 
 trait StudentFormTrait{
@@ -91,14 +92,14 @@ trait StudentFormTrait{
             TextInput::make('student.personal_email')
                 ->email()
                 ->rules(['email:rfc,dns'])
-                ->label('Personal Email')
+                ->label('Personal Email (If none, use a parent’s email address.)')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('personal_email', $state);
                 }),
             TextInput::make('student.mobile_phone')
-                ->label('Mobile Phone')
+                ->label('Mobile Phone (If none, use a parent’s mobile phone.)')
                 ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
@@ -179,43 +180,97 @@ trait StudentFormTrait{
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('tshirt_size', $state);
                 }),
-            Select::make('student.performing_arts_flag')
-                ->options([
-                    1 => 'Yes',
-                    0 => 'No'
-                ])
-                ->label('Would you be interested in joining any of our performing arts programs?')
-                ->required()
+            // Select::make('student.performing_arts_flag')
+            //     ->options([
+            //         1 => 'Yes',
+            //         0 => 'No'
+            //     ])
+            //     ->label('Would you be interested in joining any of our performing arts programs?')
+            //     ->required()
+            //     ->lazy()
+            //     ->afterStateUpdated(function($state){
+            //         $this->autoSaveStudent('performing_arts_flag', $state);
+            //     }),
+            // Select::make('student.performing_arts_programs')
+            //     ->multiple()
+            //     ->options(ArtProgramsType::asSameArray() + ['Other' => 'Other'])
+            //     ->required()
+            //     ->label('Please select all the programs you are interested in')
+            //     ->lazy()
+            //     ->visible(fn (Closure $get) => $get('student.performing_arts_flag') == true)
+            //     ->afterStateHydrated(function (Select $component, $state) {
+            //         if(is_string($state)){
+            //             $component->state(explode(',', $state));
+            //         }else{
+            //             $data = is_array($state) ? $state : [];
+            //             $component->state($data);
+            //         }
+            //     })
+            //     ->afterStateUpdated(function(Closure $get, $state){
+            //         $input = is_array($state) ? implode(',', $state) : $state;
+            //         $this->autoSaveStudent('performing_arts_programs', $input);
+            //     }),
+            // TextInput::make('student.performing_arts_other')
+            //     ->label('If Other, Please specify:')
+            //     ->lazy()
+            //     ->required()
+            //     ->visible(fn (Closure $get) => in_array('Other', $get('student.performing_arts_programs')) )
+            //     ->afterStateUpdated(function($state){
+            //         $this->autoSaveStudent('performing_arts_other', $state);
+            //     }),
+            Select::make('student.religion')
+                ->options(ReligionType::asSelectArray())
+                ->label("Applicant's Religion")
                 ->lazy()
+                ->required()
                 ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('performing_arts_flag', $state);
+                    $this->autoSaveStudent('religion', $state);
                 }),
-            Select::make('student.performing_arts_programs')
-                ->multiple()
-                ->options(ArtProgramsType::asSameArray() + ['Other' => 'Other'])
-                ->required()
-                ->label('Please select all the programs you are interested in')
+            TextInput::make('student.religion_other')
+                ->label('If "Other," add it here')
                 ->lazy()
-                ->visible(fn (Closure $get) => $get('student.performing_arts_flag') == true)
-                ->afterStateHydrated(function (Select $component, $state) {
-                    if(is_string($state)){
-                        $component->state(explode(',', $state));
-                    }else{
-                        $data = is_array($state) ? $state : [];
-                        $component->state($data);
-                    }
-                })
+                ->required()
+                ->placeholder('Enter Religion')
+                ->hidden(fn (Closure $get) => $get('student.religion') !== ReligionType::Other)
                 ->afterStateUpdated(function(Closure $get, $state){
-                    $input = is_array($state) ? implode(',', $state) : $state;
-                    $this->autoSaveStudent('performing_arts_programs', $input);
+                    $this->autoSaveStudent('religion_other', $state);
                 }),
-            TextInput::make('student.performing_arts_other')
-                ->label('If Other, Please specify:')
+            TextInput::make('student.religious_community')
+                ->label('Church/Faith Community')
                 ->lazy()
-                ->required()
-                ->visible(fn (Closure $get) => in_array('Other', $get('student.performing_arts_programs')) )
-                ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('performing_arts_other', $state);
+                ->afterStateUpdated(function(Closure $get, $state){
+                    $this->autoSaveStudent('religious_community', $state);
+                }),
+            TextInput::make('student.religious_community_location')
+                ->label('Church/Faith Community Location')
+                ->lazy()
+                ->afterStateUpdated(function(Closure $get, $state){
+                    $this->autoSaveStudent('religious_community_location', $state);
+                }),
+            TextInput::make('student.baptism_year')
+                ->label('Baptism Year')
+                ->integer()
+                ->minLength(4)
+                ->maxLength(4)
+                //->maxValue(date('Y'))
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                ->lazy()
+                ->afterStateUpdated(function(Livewire $livewire, Closure $get, $state){
+                    $livewire->validateOnly('data.student.baptism_year');
+                    $this->autoSaveStudent('baptism_year', $state);
+                }),
+            TextInput::make('student.confirmation_year')
+                ->label('Confirmation Year')
+                ->numeric()
+                ->integer()
+                ->minLength(4)
+                ->maxLength(4)
+                //->maxValue(date('Y'))
+                ->mask(fn (TextInput\Mask $mask) => $mask->pattern('0000'))
+                ->lazy()
+                ->afterStateUpdated(function(Livewire $livewire, Closure $get, $state){
+                    $livewire->validateOnly('data.student.confirmation_year');
+                    $this->autoSaveStudent('confirmation_year', $state);
                 }),
             
         ];
