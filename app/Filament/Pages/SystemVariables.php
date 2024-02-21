@@ -39,10 +39,6 @@ class SystemVariables extends Page implements HasForms
 
     public function mount()
     {
-        $academic_year = config('settings.academic_year');
-
-        $academic_year_arr = explode('-', $academic_year);
-
         $timeline = NotificationSetting::pluck('value', 'config')->toArray();
 
         $this->form->fill([
@@ -50,8 +46,7 @@ class SystemVariables extends Page implements HasForms
                 'application_fee' => config('settings.payment.application_fee'),
                 'tuition_fee' => config('settings.payment.tuition_fee')
             ],
-            'academic_year_1' => $academic_year_arr[0],
-            'academic_year_2' => $academic_year_arr[1],
+            'academic_year' =>  config('settings.academic_year'),
             'number_of_applicants' => config('settings.number_of_applicants'),
             'class_year' => config('settings.class_year'),
             'timeline' => $timeline,
@@ -77,18 +72,11 @@ class SystemVariables extends Page implements HasForms
                         ]),
                     Grid::make(4)
                         ->schema([
-                            Select::make('academic_year_1')
-                                ->label('Academic Year (From)')
+                            TextInput::make('academic_year')
+                                ->label('Academic Year (YYYY - YYYY)')
                                 ->required()
-                                ->placeholder('YYYY')
-                                ->required()
-                                ->options(array_combine($years, $years)),
-                            Select::make('academic_year_2')
-                                ->label('Academic Year (To)')
-                                ->required()
-                                ->placeholder('YYYY')
-                                ->required()
-                                ->options(array_combine($years, $years))
+                                ->placeholder('YYYY - YYYY')
+                                ->required(),
                         ]),
                 ]),
             Section::make('Notification Letter Variables')
@@ -158,7 +146,7 @@ class SystemVariables extends Page implements HasForms
 
         $this->updateEnv('PAYMENT_APPLICATION_FEE', $data['payment']['application_fee']);
         $this->updateEnv('PAYMENT_TUITION_FEE', $data['payment']['tuition_fee']);
-        $this->updateEnv('ACADEMIC_YEAR', $data['academic_year_1'] . '-' . $data['academic_year_2']);
+        $this->updateEnv('ACADEMIC_YEAR', $data['academic_year']);
         $this->updateEnv('CLASS_YEAR', $data['class_year']);
         $this->updateEnv('NUMBER_OF_APPLICANTS', $data['number_of_applicants']);
         
@@ -173,6 +161,7 @@ class SystemVariables extends Page implements HasForms
     public function updateEnv($env, $value, $config = null)
     {
         $envFilePath = base_path('.env');
+        $value = '"' . $value . '"';
 
         if (File::exists($envFilePath)) {
             $envContent = File::get($envFilePath);
