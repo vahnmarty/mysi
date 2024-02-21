@@ -170,7 +170,7 @@ class NotificationService{
         $array = [
             //'timeline.notification_date' => 'date_with_day',
             'timeline.acceptance_deadline_date' => 'date_description',
-            'timeline.registration_start_date' => 'date_with_day',
+            'timeline.registration_start_date' => 'date_timezone_display',
             'timeline.registration_end_date' => 'date_description',
             'system.payment.tuition_fee' => 'number',
             'application_status.total_financial_aid_amount' => 'number',
@@ -195,6 +195,10 @@ class NotificationService{
 
         if($type == 'date_with_day'){
             return date(('l, F j, Y'), strtotime($input));
+        }
+
+        if($type == 'date_timezone_display'){
+            return date(('F j, Y'), strtotime($input)) . ' at ' . date(('g a T'), strtotime($input));
         }
 
         if($type == 'money'){

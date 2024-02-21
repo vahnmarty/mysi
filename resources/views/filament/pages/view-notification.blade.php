@@ -169,7 +169,7 @@
 
                
                 
-                @if(!$app->notAccepted())
+                @if($app->applicationAccepted())
                 <div class="flex justify-between gap-6 mt-8">
                     <a href="{{ route('notifications.pdf', $notification->uuid) }}"   class="btn-primary">
                         <x-heroicon-o-document-download class="w-4 h-4 mr-3 text-white"/>
