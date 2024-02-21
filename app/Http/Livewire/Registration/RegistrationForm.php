@@ -18,6 +18,7 @@ use App\Http\Livewire\Registration\Forms\SiblingFormTrait;
 use App\Http\Livewire\Registration\Forms\StudentFormTrait;
 use App\Http\Livewire\Registration\Forms\MagisProgramTrait;
 use App\Http\Livewire\Registration\Forms\EmergencyFormTrait;
+use App\Http\Livewire\Registration\Forms\FamilyDynamicsTrait;
 use App\Http\Livewire\Registration\Forms\CoursePlacementTrait;
 use App\Http\Livewire\Registration\Forms\AccommodationFormTrait;
 
@@ -26,7 +27,7 @@ class RegistrationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait, SiblingFormTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait, SiblingFormTrait, FamilyDynamicsTrait;
 
     # Model
     public Registration $registration;
@@ -59,12 +60,15 @@ class RegistrationForm extends Component implements HasForms
         $accountId = accountId();
         
         $account = $registration->account->load('addresses', 'guardians', 'parents');
-
+        
         $data = $this->registration->toArray();
         $data['student'] = $this->registration->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
         $data['siblings'] = $account->children()->where('id', '!=', $this->registration->child_id)->get()->toArray();
+        $data['parents_matrix'] = $this->getParentsMatrix();
+        $data['relationship_matrix'] = $this->getRelationshipMatrix();
+        $data['siblings_matrix'] = $account->children()->where('id', '!=', $this->registration->child_id)->get()->toArray();
         $data['application_status'] = $appStatus->toArray();
         $data['autosave'] = true;
 
@@ -128,6 +132,10 @@ class RegistrationForm extends Component implements HasForms
                 ->schema($this->getSiblingForm())
                 ->collapsible()
                 ->collapsed(true),
+            Section::make('Family Dynamics')
+                ->schema($this->getFamilyMatrix())
+                ->collapsible()
+                ->collapsed(true),
             Section::make('Health Information')
                 ->schema($this->getHealthForm())
                 ->collapsible()
@@ -155,6 +163,13 @@ class RegistrationForm extends Component implements HasForms
     {
         return 'data';
     }
+
+    public function refreshForm()
+    {
+        $this->refreshFormData(['parents_matrix']);
+    }
+
+    
 
     public function start()
     {
@@ -209,6 +224,13 @@ class RegistrationForm extends Component implements HasForms
 
         
     }
+
+    // public function autoSaveFiles($column, $files)
+    // {
+    //     $model = $this->registration;
+    //     $model->$column = $files;
+    //     $model->save();
+    // }
 
     public function submit()
     {

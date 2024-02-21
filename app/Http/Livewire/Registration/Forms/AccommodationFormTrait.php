@@ -15,17 +15,19 @@ use App\Rules\MaxWordCount;
 use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
 use Livewire\Component as Livewire;
-use Filament\Forms\Components\Radio;
+use Livewire\TemporaryUploadedFile;
 //use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Radio;
 use App\Enums\FamilySpiritualityType;
 use Filament\Forms\Components\Select;
 use App\Forms\Components\WordTextArea;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
-use Filament\Forms\Components\TextInput;
 
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
@@ -43,8 +45,28 @@ trait AccommodationFormTrait{
             Placeholder::make('accommodation.accommodation_text')
                 ->label('')
                 ->content(new HtmlString("<div class='text-sm'>
-                St. Ignatius welcomes all types of learners.  Our <strong>CATS (Center for Academics and Targeted Support)</strong> program provides academic support and accommodations to students that have learning differences or other diagnosis(es) that may impact learning.  If your child would like to access services from CATS, please email documentation of their needs to <a href='mailto:ggalletta@siprep.org' class='text-link'>ggalletta@siprep.org</a>.  Documentation can be (but is not limited to):  an IEP, 504 Plan, psychological educational evaluation or doctor's letter.  Documents must contain a specific diagnosis.  If you have further questions, please contact our CATS Director, Gianna Galletta, at <a href='mailto:ggalletta@siprep.org' class='text-link'>ggalletta@siprep.org</a>.  We look forward to working with you!
+                St. Ignatius welcomes all types of learners.  Our <strong>CATS (Center for Academics and Targeted Support)</strong> program provides academic support and accommodations to students that have learning differences or other diagnosis(es) that may impact learning. If your child would like to access services from CATS, please upload documentation below..  Documentation can be (but is not limited to):  an IEP, 504 Plan, psychological educational evaluation or doctor's letter.  Documents must contain a specific diagnosis.  If you have further questions, please contact our CATS Director, Gianna Galletta, at <a href='mailto:ggalletta@siprep.org' class='text-link'>ggalletta@siprep.org</a>.  We look forward to working with you!
                 </div>")),
+            FileUpload::make('accommodation.cats_file')
+                ->label('Upload your file here.')
+                ->maxSize(25000)
+                ->reactive()
+                ->enableOpen()
+                ->enableDownload()
+                ->directory("cats_services")
+                //->preserveFilenames()
+                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                    return (string) $this->registration->id . '_' . date('Ymdhis')  .'_' . clean_string($file->getClientOriginalName());
+                })
+                ->afterStateHydrated(function(Closure $get, Closure $set, $state){
+                })
+                ->afterStateUpdated(function(Livewire $livewire, FileUpload $component, Closure $get, Closure $set, $state){
+                    $component->saveUploadedFiles();
+                    $file = $component->getState();
+                    //$files = Arr::flatten($component->getState());
+                    
+                    $this->autoSaveAccommodation('cats_file', $file);
+                }),
             Radio::make('accommodation.formal')
                 ->label('Does the student receive formal academic accommodations at their current school (Learning Plan, IEP, 504 Plan, Other)?')
                 ->options([
