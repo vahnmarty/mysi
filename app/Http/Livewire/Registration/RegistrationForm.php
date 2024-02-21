@@ -11,6 +11,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Http\Livewire\Registration\Forms\DirectoryTrait;
 use App\Http\Livewire\Registration\Forms\HealthFormTrait;
 use App\Http\Livewire\Registration\Forms\ParentFormTrait;
 use App\Http\Livewire\Registration\Forms\AddressFormTrait;
@@ -27,7 +28,7 @@ class RegistrationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait, SiblingFormTrait, FamilyDynamicsTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait, SiblingFormTrait, FamilyDynamicsTrait, DirectoryTrait;
 
     # Model
     public Registration $registration;
@@ -152,6 +153,10 @@ class RegistrationForm extends Component implements HasForms
                 ->schema($this->getMagisProgramForm())
                 ->collapsible()
                 ->collapsed(true),
+            Section::make('SI Directory')
+                ->schema($this->getSIDirectoryForm())
+                ->collapsible()
+                ->collapsed(true),
             Section::make('Course Placement')
                 ->schema($this->getCoursePlacementForm())
                 ->collapsible()
@@ -225,12 +230,17 @@ class RegistrationForm extends Component implements HasForms
         
     }
 
-    // public function autoSaveFiles($column, $files)
-    // {
-    //     $model = $this->registration;
-    //     $model->$column = $files;
-    //     $model->save();
-    // }
+    public function autoSaveFiles($column, $files, $relationship = null)
+    {
+        if($relationship){
+            $model = $this->registration->$relationship;
+        }else{
+            $model = $this->registration;
+        }
+        
+        $model->$column = $files;
+        $model->save();
+    }
 
     public function submit()
     {

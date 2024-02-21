@@ -10,4 +10,8 @@ class Accommodation extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    protected $casts = [
+        'cats_file' => 'array'
+    ];
 }

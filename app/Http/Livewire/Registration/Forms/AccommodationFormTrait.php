@@ -54,6 +54,7 @@ trait AccommodationFormTrait{
                 ->enableOpen()
                 ->enableDownload()
                 ->directory("cats_services")
+                ->multiple()
                 //->preserveFilenames()
                 ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
                     return (string) $this->registration->id . '_' . date('Ymdhis')  .'_' . clean_string($file->getClientOriginalName());
@@ -62,10 +63,8 @@ trait AccommodationFormTrait{
                 })
                 ->afterStateUpdated(function(Livewire $livewire, FileUpload $component, Closure $get, Closure $set, $state){
                     $component->saveUploadedFiles();
-                    $file = $component->getState();
-                    //$files = Arr::flatten($component->getState());
-                    
-                    $this->autoSaveAccommodation('cats_file', $file);
+                    $files = \Arr::flatten($component->getState());
+                    $this->autoSaveFiles('cats_file', $files, 'accommodation');
                 }),
             Radio::make('accommodation.formal')
                 ->label('Does the student receive formal academic accommodations at their current school (Learning Plan, IEP, 504 Plan, Other)?')
