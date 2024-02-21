@@ -182,6 +182,11 @@ class Application extends Model
         return $this->appStatus->application_status == NotificationStatusType::Accepted;
     }
 
+    public function candidateAccepted()
+    {
+        return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted;
+    }
+
     public function enrolled()
     {
         return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted && $this->hasRegistered();

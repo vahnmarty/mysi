@@ -455,7 +455,7 @@ class ViewNotification extends Page {
         return $app->survey()->firstOrCreate([
             'application_id' => $app->id
         ],[
-            'type' => $app->enrolled() ? 'Accepted' : 'Declined'
+            'type' => $app->candidateAccepted() ? 'Accepted' : 'Declined'
         ]);
     }
 }
