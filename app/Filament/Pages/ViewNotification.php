@@ -72,10 +72,6 @@ class ViewNotification extends Page {
         $this->declined = $app->declined();
         $this->decision_status = $appStatus->candidate_decision_status;
         $this->deposit_amount = $app->appStatus->deposit_amount;
-
-        if($this->decision_status){
-            $this->initSurveyForm($app);
-        }
     }
 
     protected function getHeading(): string | Htmlable
@@ -223,7 +219,7 @@ class ViewNotification extends Page {
             'candidate_decision_status' => 'Declined',
         ]);
 
-        $this->initSurveyForm($app);
+        $this->initSurveyForm($app, 'Declined');
 
         return redirect(request()->header('Referer'));
     }
@@ -288,7 +284,7 @@ class ViewNotification extends Page {
                 'record_type_id' => RecordType::Student,
             ]);
 
-            $this->initSurveyForm($app);
+            $this->initSurveyForm($app, 'Accepted');
 
             return redirect(request()->header('Referer'));
         }else{
@@ -450,12 +446,12 @@ class ViewNotification extends Page {
         return $response;
     }
 
-    public function initSurveyForm(Application $app)
+    public function initSurveyForm(Application $app, $type)
     {
         return $app->survey()->firstOrCreate([
             'application_id' => $app->id
         ],[
-            'type' => $app->candidateAccepted() ? 'Accepted' : 'Declined'
+            'type' => $type
         ]);
     }
 }
