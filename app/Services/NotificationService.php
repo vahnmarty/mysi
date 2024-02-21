@@ -168,7 +168,7 @@ class NotificationService{
     public function special_cases($input, $returnArray = false)
     {
         $array = [
-            'timeline.notification_date' => 'date_with_day',
+            //'timeline.notification_date' => 'date_with_day',
             'timeline.acceptance_deadline_date' => 'date_description',
             'timeline.registration_start_date' => 'date_with_day',
             'timeline.registration_end_date' => 'date_description',
