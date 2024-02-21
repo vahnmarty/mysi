@@ -145,14 +145,14 @@ class Account extends Model
             if($withSalutation){
                 return $firstParent->salutation . ' ' . $firstParent->first_name ;
             }
-            return $firstParent->first_name;
+            return $firstParent->first_name  . ' ' . $firstParent->last_name;
         }
 
-        if($this->parents()->fromPrimaryAddress()->count() == 2){
-            $parents = $this->parents;
+        if($this->parents()->fromPrimaryAddress()->count() >= 2){
+            $parents = $this->parents()->get()->take(2);
             $string = '';
 
-            foreach($this->parents as $i => $parent){
+            foreach($parents as $i => $parent){
 
                 if($withSalutation){
                     $string .= $parent->salutation . ' ' . $parent->last_name;
