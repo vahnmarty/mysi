@@ -15,6 +15,10 @@ return [
 
     'academic_year' => env('ACADEMIC_YEAR'),
     'class_year' => env('CLASS_YEAR'),
-    'number_of_applicants' => env('NUMBER_OF_APPLICANTS')
+    'number_of_applicants' => env('NUMBER_OF_APPLICANTS'),
+
+    'registration' =>[
+        'challenge_test_date' => env('CHALLENGE_TEST_DATE')
+    ]
 
 ];

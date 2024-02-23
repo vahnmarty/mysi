@@ -59,13 +59,13 @@ trait CoursePlacementTrait{
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.math_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
 
                         <p>
-                            If you want to challenge your math placement, you are required to take the Challenge Test on April 22, 2023.    
+                            If you want to challenge your math placement, you are required to take the Challenge Test on '. date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) .'.    
                         </p>
 
                     </div>
                 </div>')),
             Select::make('course_placement.math_challenge')
-                ->label('Do you want to make a reservation to take the Math Challenge Test on April 22,2023?')
+                ->label('Do you want to make a reservation to take the Math Challenge Test on ' . date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) . '?')
                 ->options([
                     1 => 'Yes',
                     0 => 'No'
@@ -123,10 +123,10 @@ trait CoursePlacementTrait{
                 }),
             Placeholder::make('course_placement.advance_section')
                 ->label('')
-                ->content(new HtmlString('<p class="text-sm">To place in a more advanced section of your language choice than beginning level, you are required to take a Language Placement Test on April 22, 2023.</p>')),
+                ->content(new HtmlString('<p class="text-sm">To place in a more advanced section of your language choice than beginning level, you are required to take a Language Placement Test on ' .  date('F d, Y', strtotime(config('settings.registration.challenge_test_date')))  .'.</p>')),
 
             Select::make('course_placement.reserve_language_placement')
-                ->label('Do you want to make a reservation to take the Language Placement Test on April 22,2023')
+                ->label('Do you want to make a reservation to take the Language Placement Test on ' . date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) . '?')
                 ->options([
                     1 => 'Yes',
                     0 => 'No'
