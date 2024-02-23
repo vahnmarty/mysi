@@ -143,8 +143,10 @@ class Account extends Model
             $firstParent = $this->parents()->first();
 
             if($withSalutation){
-                return $firstParent->salutation . ' ' . $firstParent->first_name ;
+                # Mr. Last Name
+                return $firstParent->salutation . ' ' . $firstParent->last_name ;
             }
+
             return $firstParent->first_name  . ' ' . $firstParent->last_name;
         }
 
