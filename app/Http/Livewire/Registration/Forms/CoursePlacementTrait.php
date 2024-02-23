@@ -12,18 +12,19 @@ use App\Enums\RacialType;
 use App\Enums\CommonOption;
 use App\Enums\ReligionType;
 use App\Rules\MaxWordCount;
+use App\Enums\LanguageFacts;
 use App\Rules\PhoneNumberRule;
 use App\Enums\LanguageSelection;
 use App\Enums\LanguageCapability;
-use Illuminate\Support\HtmlString;
 //use Filament\Forms\Components\Textarea;
+use Illuminate\Support\HtmlString;
 use Livewire\Component as Livewire;
 use Filament\Forms\Components\Radio;
 use App\Enums\FamilySpiritualityType;
 use Filament\Forms\Components\Select;
 use App\Forms\Components\WordTextArea;
-use Filament\Forms\Components\Fieldset;
 
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -61,7 +62,16 @@ trait CoursePlacementTrait{
                         <p>
                             If you want to challenge your math placement, you are required to take the Challenge Test on '. date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) .'.    
                         </p>
+                    </div>
 
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-primary-blue">Biology Placement</h3>
+
+                        <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.bio_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
+
+                        <p>
+                            If you want to challenge your biology placement, you are required to take the Challenge Test on '. date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) .'.    
+                        </p>
                     </div>
                 </div>')),
             Select::make('course_placement.math_challenge')
@@ -82,7 +92,7 @@ trait CoursePlacementTrait{
                     <h3 class='font-bold text-primary-blue'>Language Selection</h3>
                     <p class='mt-8 text-sm'>
                     <strong class='text-primary-red'>Please indicate your language choice in the text boxes below:</strong> Options are French, Latin, Mandarin and Spanish
-                    (NOTE:  French is not for beginners.  You will need to take a Placement Test to take the class.
+                    (NOTE:  French for beginners is not offered.  You will need to take a Placement Test and place into French 3 or above in order to take the class.
                     </p>
                 </div>")),
             Select::make('course_placement.language1')
@@ -123,7 +133,7 @@ trait CoursePlacementTrait{
                 }),
             Placeholder::make('course_placement.advance_section')
                 ->label('')
-                ->content(new HtmlString('<p class="text-sm">To place in a more advanced section of your language choice than beginning level, you are required to take a Language Placement Test on ' .  date('F d, Y', strtotime(config('settings.registration.challenge_test_date')))  .'.</p>')),
+                ->content(new HtmlString('<p class="text-sm">To place above the beginning level of your Language Choice, you must take the Placement Test on ' .  date('F d, Y', strtotime(config('settings.registration.challenge_test_date')))  .'.</p>')),
 
             Select::make('course_placement.reserve_language_placement')
                 ->label('Do you want to make a reservation to take the Language Placement Test on ' . date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) . '?')
@@ -149,12 +159,29 @@ trait CoursePlacementTrait{
                     $this->autoSaveCourse('language_challenge_choice', $state);
                 }),
             Radio::make('course_placement.language1_skill')
-                ->label('Check that apply to your number 1 ranked language choice')
+                ->label('Which of the following is true about your number 1 ranked language choice? (Select one) ')
                 ->options(LanguageCapability::asSameArray())
                 ->reactive()
                 ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('language1_skill', $state);
+                }),
+            CheckboxList::make('course_placement.language1_skill_list')
+                ->label('Also, which of the following applies to your number 1 ranked language choice? (Check all that applies) ')
+                ->options(LanguageFacts::asSameArray())
+                ->reactive()
+                >afterStateHydrated(function (CheckboxList $component, $state) {
+                    if(is_string($state)){
+                        $component->state(explode(',', $state));
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
+                    }
+                })
+                ->afterStateUpdated(function(Livewire $livewire, CheckboxList $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $input = is_array($state) ? implode(',', $state) : $state;
+                    $this->autoSaveCourse('language1_skill_list', $input);
                 }),
             
             
