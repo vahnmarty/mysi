@@ -8,10 +8,13 @@ use Filament\Pages\Page;
 use App\Enums\RecordType;
 use App\Enums\PaymentType;
 use App\Models\Application;
+use App\Mail\RemoveFromWaitlist;
 use App\Models\NotificationLetter;
 use Filament\Pages\Actions\Action;
 use Illuminate\Support\HtmlString;
 use App\Models\NotificationMessage;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Mail;
 use App\Enums\NotificationStatusType;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Checkbox;
@@ -24,7 +27,6 @@ use Illuminate\Contracts\Support\Htmlable;
 use net\authorize\api\contract\v1 as AnetAPI;
 use Filament\Forms\Concerns\InteractsWithForms;
 use net\authorize\api\controller as AnetController;
-use Illuminate\Contracts\View\View;
 
 class ViewNotification extends Page {
 
@@ -232,6 +234,10 @@ class ViewNotification extends Page {
             'candidate_decision_date' => now(),
             'candidate_decision_status' => 'Waitlist Removed',
         ]);
+
+        $admission_email = config('settings.si.admissions.email');
+
+        Mail::to($admission_email)->send(new RemoveFromWaitlist($app));
 
         return redirect(request()->header('Referer'));
     }
