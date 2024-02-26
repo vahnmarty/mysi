@@ -169,3 +169,11 @@ if (! function_exists('env_variable')) {
     }
 }
 
+
+if (! function_exists('app_variable')) {
+    function app_variable($config, $column = 'value') {
+        $variable = \App\Models\AppVariable::where('config', $config)->first();
+        
+        return $variable?->$column;
+    }
+}

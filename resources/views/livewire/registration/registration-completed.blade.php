@@ -23,10 +23,10 @@
                 <h3 class="font-bold text-primary-red">{{ $registration->student->getFullName() }}</h3>
                 <div class="grid grid-cols-2 gap-8 mt-3">
                     <div class="p-4 bg-gray-200 border">
-                        Your Email Address
+                        {{ $registration->student->si_email }}
                     </div>
                     <div class="p-4 bg-gray-200 border">
-                        Your Password
+                        {{ $registration->student->si_email_password }}
                     </div>
                 </div>
 
@@ -50,13 +50,13 @@
                 </p>
                 <div class="mt-4 space-y-4">
                     <div>
-                        <p class="font-bold">Cat Camp (available Tuesday, March 21, 2023 at 10:00 am PT)</p>
-                        <a class="text-link" href="https://www.siprograms.com/camps/cat-camp" target = "_blank">https://www.siprograms.com/camps/cat-camp</a>
+                        <p class="font-bold">{{ app_variable('cat_camp_title') }}</p>
+                        <a class="text-link" href="{{ app_variable('cat_camp_url') }}" target = "_blank">{{ app_variable('cat_camp_url') }}</a>
                     </div>
                     <div>
-                        <p class="font-bold">Rising 9th Grade Summer Classes (available Tuesday, March 21, 2023 at 10:00 am PT)</p>
-                        <a class="text-link" href="https://www.siprograms.com/camps/cat-camp" target = "_blank">
-                            https://www.siprograms.com/academics/9th-grade
+                        <p class="font-bold">{{ app_variable('rising_9th_grade_title') }}</p>
+                        <a class="text-link" href="{{ app_variable('rising_9th_grade_title') }}" target = "_blank">
+                            {{ app_variable('rising_9th_grade_title') }}
                         </a>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="mt-8">
-                <p class="font-bold">Upload SFUSD Freshman Health Form: Due by July 1, 2023</p>
+                <p class="font-bold">Upload SFUSD Freshman Health Form: Due by {{ app_variable('health_form_due_date', 'display_value') }}</p>
 
                 <p class="mt-3">
                     Please download: <a class="text-link" href="{{ asset('files/SIFROSHHealthForm202324.pdf') }}" target = "_blank"><u>SFUSD Freshman Health Form</u></a>. Note that this form requires a doctor’s signature.
@@ -85,12 +85,14 @@
 
             <div class="p-4 bg-white border rounded-md shadow-md">
                 <h3 class="text-xl font-bold text-primary-red">SI Athletics Ticket to Play Medical Clearance Form</h3>
-                <p class="mt-1 text-sm font-bold text-gray-500">Due: June 1, 2023 – August 1, 2023</p>
+                <p class="mt-1 text-sm font-bold text-gray-500">
+                    Due: {{ app_variable('family_id_start_date', 'display_value') }} – {{ app_variable('family_id_end_date', 'display_value') }}
+                </p>
                 <div class="mt-3 text-sm">
                     To participate in SI Athletics, including tryouts, you must register to play through SI’s <a 
                     class="text-link" href="https://www.familyid.com/st-ignatius-college-preparatory/2023-24-athletic-registration" target="blank"><u>FamilyID system</u></a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
-                    to Play Medical Clearance Form.&nbsp;&nbsp;The ticket to play requires a physical exam with a doctor.&nbsp;&nbsp;We strongly encourage you to schedule this exam between June 1, 2023 and August 1, 2023 to maintain athletic 
-                    eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on June 1.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
+                    to Play Medical Clearance Form.&nbsp;&nbsp;The ticket to play requires a physical exam with a doctor.&nbsp;&nbsp;We strongly encourage you to schedule this exam between {{ app_variable('family_id_start_date', 'display_value') }}  and {{ app_variable('family_id_end_date', 'display_value') }} to maintain athletic 
+                    eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on {{ app_variable('family_id_start_date', 'display_value') }}.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
                 </div>
                 <p class="mt-3 text-sm">
                     Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf" target="_blank"><u>here</u></a>.
