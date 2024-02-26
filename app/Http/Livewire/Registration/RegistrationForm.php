@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Registration;
 
 use Auth;
+use App\Models\Account;
 use Livewire\Component;
 use App\Models\Registration;
 use Illuminate\Support\HtmlString;
@@ -17,6 +18,7 @@ use App\Http\Livewire\Registration\Forms\ParentFormTrait;
 use App\Http\Livewire\Registration\Forms\AddressFormTrait;
 use App\Http\Livewire\Registration\Forms\SiblingFormTrait;
 use App\Http\Livewire\Registration\Forms\StudentFormTrait;
+use App\Http\Livewire\Registration\Forms\CoCurricularTrait;
 use App\Http\Livewire\Registration\Forms\MagisProgramTrait;
 use App\Http\Livewire\Registration\Forms\EmergencyFormTrait;
 use App\Http\Livewire\Registration\Forms\FamilyDynamicsTrait;
@@ -28,7 +30,7 @@ class RegistrationForm extends Component implements HasForms
     use InteractsWithForms;
 
     # Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait, SiblingFormTrait, FamilyDynamicsTrait, DirectoryTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, MagisProgramTrait, CoursePlacementTrait, SiblingFormTrait, FamilyDynamicsTrait, DirectoryTrait, CoCurricularTrait;
 
     # Model
     public Registration $registration;
@@ -45,6 +47,16 @@ class RegistrationForm extends Component implements HasForms
     public function render()
     {
         return view('livewire.registration.registration-form');
+    }
+
+    public function getAccount()
+    {
+        return Account::findOrFail(accountId());
+    }
+
+    public function getRecord()
+    {
+        return $this->registration;
     }
 
     public function mount($uuid)
@@ -160,6 +172,10 @@ class RegistrationForm extends Component implements HasForms
                 ->collapsed(true),
             Section::make('Course Placement')
                 ->schema($this->getCoursePlacementForm())
+                ->collapsible()
+                ->collapsed(true),
+            Section::make('SI Co-Curriculars')
+                ->schema($this->getCurricularForm())
                 ->collapsible()
                 ->collapsed(true),
         ];

@@ -55,7 +55,7 @@ trait ParentFormTrait{
                             if($statePath == 'data.parents')
                             {
                                 $items = $component->getState();
-                                $parents = ParentModel::where('account_id', $this->app->account_id)->get();
+                                $parents = ParentModel::where('account_id', accountId())->get();
                                 
                                 if(count($parents) > 1){
                                     foreach($parents as $parent){
@@ -82,7 +82,7 @@ trait ParentFormTrait{
                     Hidden::make('id')
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
                             if(!$state){
-                                $parentModel = ParentModel::create(['account_id' => $this->app->account_id]);
+                                $parentModel = ParentModel::create(['account_id' => accountId()]);
                                 $set('id', $parentModel->id);
                             }
                         }),
@@ -332,8 +332,28 @@ trait ParentFormTrait{
                             0 => 'No'
                         ])
                         ->required()
-                        ->lazy()
-                        ->afterStateUpdated(function(Closure $get, $state){
+                        ->reactive()
+                        ->afterStateUpdated(function(Closure $get, Closure $set, $state){
+
+                            if($state == 1)
+                            {   
+                                $parentsRepeater = $get('../../parents');
+
+                                foreach($parentsRepeater as $repeaterItemUuid => $parentItem){
+                                    if($get('id') != $parentItem['id'])
+                                    {
+                                        # Backend
+                                        $parentModel = ParentModel::find($parentItem['id']);
+                                        $parentModel->is_primary_contact = false;
+                                        $parentModel->save();
+                                        
+                                        # Frontend
+                                        $set('../../parents.'. $repeaterItemUuid.'.is_primary_contact', 0);
+                                    }
+                                    
+                                }
+                            }
+                            
                             $this->autoSaveParent($get('id'),'is_primary_contact', $state);
                         }),
                     Select::make('has_legal_custody')

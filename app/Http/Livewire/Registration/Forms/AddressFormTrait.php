@@ -81,7 +81,7 @@ trait AddressFormTrait{
                             if(!$id){
 
                                 $address = Address::create([
-                                    'account_id'    => $this->app->account_id,
+                                    'account_id'    => $this->getRecord()->account_id,
                                     'address_type'  => $state
                                 ]);
 

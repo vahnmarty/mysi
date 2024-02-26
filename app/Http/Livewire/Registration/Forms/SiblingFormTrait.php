@@ -42,7 +42,9 @@ trait SiblingFormTrait{
                             if($statePath == 'data.siblings')
                             {
                                 $items = $component->getState();
-                                $siblings = Child::where('account_id', $this->app->account_id)->where('id', '!=', $this->app->child_id)->get();
+                                $siblings = Child::where('account_id', $this->getRecord()->account_id)
+                                    ->where('id', '!=', $this->getRecord()->child_id)
+                                    ->get();
 
                                 foreach($siblings as $index => $child){
                                     $existing = collect($items)->where('id', $child->id)->first();
@@ -60,7 +62,7 @@ trait SiblingFormTrait{
                     Hidden::make('id')
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
                             if(!$state){
-                                $child = Child::create(['account_id' => $this->app->account_id]);
+                                $child = Child::create(['account_id' => $this->getRecord()->account_id]);
                                 $set('id', $child->id);
                             }
                         }),

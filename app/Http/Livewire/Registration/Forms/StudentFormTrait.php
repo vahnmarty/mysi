@@ -173,13 +173,13 @@ trait StudentFormTrait{
                             $this->autoSaveStudent('current_school_not_listed', $state);
                         }),
                 ]),
-            Select::make('student.tshirt_size')
-                ->options(ShirtSize::asSameArray())
-                ->label('T-Shirt Size (Adult/Unisex)')
-                ->lazy()
-                ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('tshirt_size', $state);
-                }),
+            // Select::make('student.tshirt_size')
+            //     ->options(ShirtSize::asSameArray())
+            //     ->label('T-Shirt Size (Adult/Unisex)')
+            //     ->lazy()
+            //     ->afterStateUpdated(function($state){
+            //         $this->autoSaveStudent('tshirt_size', $state);
+            //     }),
             // Select::make('student.performing_arts_flag')
             //     ->options([
             //         1 => 'Yes',

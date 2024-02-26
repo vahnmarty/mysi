@@ -170,7 +170,7 @@ trait CoursePlacementTrait{
                 ->label('Also, which of the following applies to your number 1 ranked language choice? (Check all that applies) ')
                 ->options(LanguageFacts::asSameArray())
                 ->reactive()
-                >afterStateHydrated(function (CheckboxList $component, $state) {
+                ->afterStateHydrated(function (CheckboxList $component, $state) {
                     if(is_string($state)){
                         $component->state(explode(',', $state));
                     }else{
