@@ -125,12 +125,12 @@ trait CoCurricularTrait{
                     $input = is_array($state) ? implode(',', $state) : $state;
                     $this->autoSaveStudent('sports', $input);
                 }),
-            Select::make('student.tshirt_size')
+            Select::make('student.t_shirt_size')
                 ->options(ShirtSize::asSameArray())
                 ->label('T-Shirt Size (Adult/Unisex)')
                 ->lazy()
                 ->afterStateUpdated(function($state){
-                    $this->autoSaveStudent('tshirt_size', $state);
+                    $this->autoSaveStudent('t_shirt_size', $state);
                 }),
         ];
     }
