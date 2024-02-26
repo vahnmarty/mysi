@@ -82,6 +82,7 @@ class RegistrationForm extends Component implements HasForms
         $data['parents_matrix'] = $this->getParentsMatrix();
         $data['family_dynamics'] = $this->getRelationshipMatrix();
         $data['siblings_matrix'] = $this->getSiblingsMatrix();
+        $data['student_directory'] = [$this->registration->student->toArray()];
         $data['parents_directory'] = $account->parents->toArray();
         $data['application_status'] = $appStatus->toArray();
         $data['autosave'] = true;
