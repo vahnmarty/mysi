@@ -7,6 +7,7 @@ use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\Child;
 use App\Models\School;
+use App\Models\Account;
 use App\Enums\GradeLevel;
 use App\Enums\RacialType;
 use Illuminate\Support\HtmlString;
@@ -213,8 +214,10 @@ trait SiblingFormTrait{
         $model->save();
     }
 
-    public function syncMatrix(Closure $get)
+    public function getSiblingsMatrix()
     {
-        
+        $account = Account::find(accountId());
+
+        return $account->children()->where('id', '!=', $this->registration->child_id)->get()->toArray();
     }
 }

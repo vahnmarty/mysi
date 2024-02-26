@@ -10,14 +10,18 @@ use App\Enums\ParentType;
 use App\Enums\PartnerType;
 use App\Enums\SiblingType;
 use App\Models\FamilyMatrix;
+use App\Models\FamilyDynamic;
 use App\Enums\AddressLocation;
 use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use App\Models\Parents as ParentModel;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Actions\Action;
@@ -171,15 +175,38 @@ trait FamilyDynamicsTrait{
                     //     ->label('')
                     //     ->content(new HtmlString('<div class="w-24"></div>')),
                 ]),
-                TableRepeater::make('relationship_matrix')
+                Repeater::make('family_dynamics')
                     ->label('')
                     ->disableItemCreation()
                     ->disableItemDeletion()
                     ->disableItemMovement()
-                    ->hideLabels()
                     ->columnSpan('full')
-                    ->extraAttributes(['id' => 'table-relationship-matrix'])
-                    ->schema($this->relationshipMatrixColumns())
+                    ->schema([
+                        Grid::make(3)
+                            ->schema([
+                                Hidden::make('id'),
+                                TextInput::make('full_name')->label('')->disabled(),
+                                Hidden::make('relationship_full_name'),
+                                Select::make('relationship')
+                                    ->columnSpan(2)
+                                    ->options(PartnerType::asSameArray())
+                                    ->label(fn(Closure $get) => 'Relationship to ' . $get('relationship_full_name') )
+                                    ->inlineLabel()
+                                    ->lazy()
+                                    ->afterStateUpdated(function(Closure $get, $state){
+                                        $this->autoSaveFamily($get('id'), 'relationship', $state);
+                                    }),
+                            ])
+                    ])
+                // TableRepeater::make('family_dynamics')
+                //     ->label('')
+                //     ->disableItemCreation()
+                //     ->disableItemDeletion()
+                //     ->disableItemMovement()
+                //     ->hideLabels()
+                //     ->columnSpan('full')
+                //     ->extraAttributes(['id' => 'table-relationship-matrix'])
+                //     ->schema($this->relationshipMatrixColumns())
         ];
     }
 
@@ -205,24 +232,43 @@ trait FamilyDynamicsTrait{
     public function getRelationshipMatrix()
     {
         $array = [];
+        
         foreach($this->getParentsMatrix() as $parent){
-            $item = [
-                'parent_id' => $parent['id'],
-                'name' => $parent['first_name']
-            ];
 
+            $parentModel = ParentModel::find($parent['id']);
             
-
             foreach($this->getParentsMatrix() as $y => $partner){
-                if($partner['id'] == $parent['id']){
-                    $item['partner_' . $y] = 'Self';
-                }else{
-                    $item['partner_' . $y] = '';
+
+                if($parent['id'] != $partner['id'])
+                {
+                    $relationship = FamilyDynamic::firstOrCreate([
+                        'account_id' => accountId(),
+                        'model_type' => ParentModel::class,
+                        'model_id' => $parent['id'],
+                        'related_type' => ParentModel::class,
+                        'related_id' => $partner['id']
+                    ]);
+    
+                    $array[] = $relationship;
                 }
+                
                 
             }
 
-            $array[] = $item;
+            foreach($this->getSiblingsMatrix() as $y => $sibling){
+
+                $relationship = FamilyDynamic::firstOrCreate([
+                    'account_id' => accountId(),
+                    'model_type' => ParentModel::class,
+                    'model_id' => $parent['id'],
+                    'related_type' => Child::class,
+                    'related_id' => $sibling['id']
+                ]);
+
+                $array[] = $relationship;
+                
+            }
+
         }
 
         return $array;
@@ -230,8 +276,10 @@ trait FamilyDynamicsTrait{
 
     public function relationshipMatrixColumns()
     {
+        $matrix = FamilyDynamic::where('account_id', accountId())->get();
         $array = [];
-        $array[] = Hidden::make('parent_id');
+        
+        $array[] = Hidden::make('id');
         $array[] = TextInput::make('name')->disabled();
         
         foreach($this->getParentsMatrix() as $i => $partner){
@@ -244,5 +292,12 @@ trait FamilyDynamicsTrait{
 
 
         return $array;
+    }
+
+    public function autoSaveFamily($id, $column, $value)
+    {
+        $model = FamilyDynamic::find($id);
+        $model->$column = $value;
+        $model->save();
     }
 }

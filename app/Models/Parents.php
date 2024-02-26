@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\AddressLocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Parents extends Model
@@ -39,5 +41,15 @@ class Parents extends Model
     public function scopeFromPrimaryAddress($query)
     {
         return $query->where('address_location', AddressLocation::PrimaryAddress);
+    }
+
+    // public function relationships(): MorphMany
+    // {
+    //     return $this->morphMany(FamilyDynamic::class, 'related');
+    // }
+
+    public function relationships()
+    {
+        return $this->hasMany(FamilyDynamic::class, 'model_id')->where('model_type', self::class);
     }
 }

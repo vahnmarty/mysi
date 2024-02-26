@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Enums\Gender;
 use App\Enums\GradeLevel;
+use App\Models\FamilyDynamic;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Child extends Model
@@ -131,5 +133,10 @@ class Child extends Model
     public function getPronounPersonalAttribute()
     {
         return $this->gender == Gender::Male ? 'him' : 'her';
+    }
+
+    public function relationships(): MorphMany
+    {
+        return $this->morphMany(FamilyDynamic::class, 'related');
     }
 }
