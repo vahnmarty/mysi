@@ -7,7 +7,7 @@
             <div class="mt-8 text-center">
                 <h1 class="text-3xl font-bold font-heading">Registration <span class="text-primary-blue">Completed</span></h1>
                 <p class="mt-6">
-                    Thank you for completing registration for the 2023-2024 School Year.  
+                    Thank you for completing registration for the {{ app_variable('academic_school_year') }} School Year.  
                     We are excited to welcome your family to SI
                 </p>
             </div>
@@ -69,44 +69,35 @@
                 <p class="mt-3">Please review the Next Steps below to complete the registration process.</p>
             </div>
 
-            <div class="mt-8">
-                <p class="font-bold">Upload SFUSD Freshman Health Form: Due by {{ app_variable('health_form_due_date', 'display_value') }}</p>
-
-                <p class="mt-3">
-                    Please download: <a class="text-link" href="{{ asset('files/SIFROSHHealthForm202324.pdf') }}" target = "_blank"><u>SFUSD Freshman Health Form</u></a>. Note that this form requires a doctor’s signature.
-                </p>
-
-                <form action="" class="px-8 py-12 mt-8 bg-red-100 border border-red-300 rounded-md">
-                    {{ $this->healthForm }}
-                </form>
-            </div>
-
-            <div class="my-8 border border-dashed border-primary-red"></div>
-
-            <div class="p-4 bg-white border rounded-md shadow-md">
-                <h3 class="text-xl font-bold text-primary-red">SI Athletics Ticket to Play Medical Clearance Form</h3>
-                <p class="mt-1 text-sm font-bold text-gray-500">
-                    Due: {{ app_variable('family_id_start_date', 'display_value') }} – {{ app_variable('family_id_end_date', 'display_value') }}
-                </p>
-                <div class="mt-3 text-sm">
-                    To participate in SI Athletics, including tryouts, you must register to play through SI’s <a 
-                    class="text-link" href="https://www.familyid.com/st-ignatius-college-preparatory/2023-24-athletic-registration" target="blank"><u>FamilyID system</u></a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
-                    to Play Medical Clearance Form.&nbsp;&nbsp;The ticket to play requires a physical exam with a doctor.&nbsp;&nbsp;We strongly encourage you to schedule this exam between {{ app_variable('family_id_start_date', 'display_value') }}  and {{ app_variable('family_id_end_date', 'display_value') }} to maintain athletic 
-                    eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on {{ app_variable('family_id_start_date', 'display_value') }}.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
+            <div class="mt-8 space-y-8">
+                @livewire('registration.upload-health-form', ['registrationUuid' => $registration->uuid])
+                
+                <div class="p-4 bg-white border rounded-md shadow-md">
+                    <h3 class="text-xl font-bold text-primary-red">SI Athletics Ticket to Play Medical Clearance Form</h3>
+                    <p class="mt-1 text-sm font-bold text-gray-500">
+                        Due: {{ app_variable('family_id_start_date', 'display_value') }} – {{ app_variable('family_id_end_date', 'display_value') }}
+                    </p>
+                    <div class="mt-3 text-sm">
+                        To participate in SI Athletics, including tryouts, you must register to play through SI’s <a 
+                        class="text-link" href="https://www.familyid.com/st-ignatius-college-preparatory/2023-24-athletic-registration" target="blank"><u>FamilyID system</u></a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
+                        to Play Medical Clearance Form.&nbsp;&nbsp;The ticket to play requires a physical exam with a doctor.&nbsp;&nbsp;We strongly encourage you to schedule this exam between {{ app_variable('family_id_start_date', 'display_value') }}  and {{ app_variable('family_id_end_date', 'display_value') }} to maintain athletic 
+                        eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on {{ app_variable('family_id_start_date', 'display_value') }}.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
+                    </div>
+                    <p class="mt-3 text-sm">
+                        Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf" target="_blank"><u>here</u></a>.
+                    </p>
                 </div>
-                <p class="mt-3 text-sm">
-                    Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf" target="_blank"><u>here</u></a>.
-                </p>
-            </div>
 
-            <div class="p-4 mt-4 bg-white border rounded-md shadow-md">
-                <h3 class="text-xl font-bold text-primary-red">
-                    Visit the Wildcat Welcome Portal Now!
-                </h3>
-                <div class="mt-3 text-sm">
-                    We will be in touch throughout the summer.&nbsp;&nbsp;Look for our Wildcats Welcome Newsletter every other Thursday in your inbox.&nbsp;&nbsp;Stay informed all summer by visiting our <a style="color: #0086e7; cursor: pointer;" href="http://www.siprep.org/welcome" target="_blank"><u>Wildcat Welcome Portal</u></a>.&nbsp;&nbsp;
-                We will be updating this site throughout the summer.&nbsp;&nbsp;Answers to any questions that may arise over the summer can usually be found on the Welcome Portal.
+                <div class="p-4 mt-4 bg-white border rounded-md shadow-md">
+                    <h3 class="text-xl font-bold text-primary-red">
+                        Visit the Wildcat Welcome Portal Now!
+                    </h3>
+                    <div class="mt-3 text-sm">
+                        We will be in touch throughout the summer.&nbsp;&nbsp;Look for our Wildcats Welcome Newsletter every other Thursday in your inbox.&nbsp;&nbsp;Stay informed all summer by visiting our <a style="color: #0086e7; cursor: pointer;" href="http://www.siprep.org/welcome" target="_blank"><u>Wildcat Welcome Portal</u></a>.&nbsp;&nbsp;
+                    We will be updating this site throughout the summer.&nbsp;&nbsp;Answers to any questions that may arise over the summer can usually be found on the Welcome Portal.
+                    </div>
                 </div>
+                
             </div>
 
             <div class="mt-8">

@@ -17,8 +17,6 @@ class RegistrationCompleted extends Component implements HasForms
 
     public $departments = [];
 
-    public $sfusd_file;
-
     public function render()
     {
         return view('livewire.registration.registration-completed');
@@ -30,29 +28,7 @@ class RegistrationCompleted extends Component implements HasForms
 
         $this->departments = $this->getDepartments();
 
-        $this->healthForm->fill([
-            'sfusd_file' => ''
-        ]);
-    }
-
-    protected function getForms(): array 
-    {
-        return [
-            'healthForm' => $this->makeForm()
-                ->schema($this->getHealthForm()),
-        ];
-    } 
-
-    protected function getHealthForm(): array
-    {
-        return [
-           FileUpload::make('sfusd_file')
-                ->label(new HtmlString('<p>Upload your SFUSD Freshman Health Form here. Please use the following naming convention for the file:</p>
-                <strong class="text-danger">{Student_First_Name}_{Student_Last_Name}_{Name_of_File}.pdf</strong></p>'))
-                ->helperText(new HtmlString("(The file doesn't have to be a PDF).)<p><strong>NOTE:</strong> Do NOT upload the Ticket to Play Medical Clearance Form here.</p>"))
-                ->multiple()
-                ->required(),
-        ];
+ 
     }
     
 

@@ -194,6 +194,7 @@ trait FamilyDynamicsTrait{
                                     ->label(fn(Closure $get) => 'Relationship to ' . $get('partner_full_name') )
                                     ->inlineLabel()
                                     ->lazy()
+                                    ->required()
                                     ->afterStateUpdated(function(Closure $get, $state){
                                         $this->autoSaveFamily($get('id'), 'relationship', $state);
                                     }),

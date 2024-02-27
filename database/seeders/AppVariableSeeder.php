@@ -14,6 +14,11 @@ class AppVariableSeeder extends Seeder
     public function run(): void
     {
         AppVariable::firstOrCreate([
+            'config' => 'academic_school_year',
+            'value' => '2023 - 2024',
+        ]);
+
+        AppVariable::firstOrCreate([
             'config' => 'cat_camp_title',
             'value' => 'Cat Camp (available Tuesday, March 21, 2023 at 10:00 am PT)',
         ]);

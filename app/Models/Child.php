@@ -21,7 +21,11 @@ class Child extends Model
         'pronoun_subject',
         'pronoun_possessive',
         'pronoun_personal',
-        'official_school'
+        'official_school',
+    ];
+
+    protected $casts = [
+        'health_form_file' => 'array'
     ];
 
     public function getFullName()
