@@ -19,6 +19,11 @@ class AppVariableSeeder extends Seeder
         ]);
 
         AppVariable::firstOrCreate([
+            'config' => 'class_year',
+            'value' => '2027',
+        ]);
+
+        AppVariable::firstOrCreate([
             'config' => 'cat_camp_title',
             'value' => 'Cat Camp (available Tuesday, March 21, 2023 at 10:00 am PT)',
         ]);
