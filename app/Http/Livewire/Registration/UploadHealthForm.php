@@ -16,7 +16,7 @@ class UploadHealthForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $health_form_file;
+    public $health_form_file, $completed;
 
     public Registration $registration;
 
@@ -24,6 +24,8 @@ class UploadHealthForm extends Component implements HasForms
 
     public function render()
     {
+        $this->completed = !empty($this->health_form_file);
+        
         return view('livewire.registration.upload-health-form');
     }
 
@@ -38,6 +40,8 @@ class UploadHealthForm extends Component implements HasForms
         $this->form->fill([
             'health_form_file' => $student->health_form_file
         ]);
+
+        
     }
 
     protected function getFormSchema()
