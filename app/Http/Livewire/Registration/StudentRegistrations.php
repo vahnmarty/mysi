@@ -130,6 +130,10 @@ class StudentRegistrations extends Component implements HasTable, HasForms
                     if(!$record->started()){
                         $record->started_at = now();
                         $record->save();
+
+                        $record->application()->appStatus()->update([
+                            'registration_started' => 1
+                        ]);
                     }
 
                     return redirect()->route('registration.form', $record->uuid);

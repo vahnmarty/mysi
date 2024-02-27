@@ -15,6 +15,7 @@ use App\Enums\AddressLocation;
 use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
+use App\Models\GuardianRelationship;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -186,11 +187,11 @@ trait FamilyDynamicsTrait{
                             ->schema([
                                 Hidden::make('id'),
                                 TextInput::make('full_name')->label('')->disabled(),
-                                Hidden::make('relationship_full_name'),
+                                Hidden::make('partner_full_name'),
                                 Select::make('relationship')
                                     ->columnSpan(2)
                                     ->options(PartnerType::asSameArray())
-                                    ->label(fn(Closure $get) => 'Relationship to ' . $get('relationship_full_name') )
+                                    ->label(fn(Closure $get) => 'Relationship to ' . $get('partner_full_name') )
                                     ->inlineLabel()
                                     ->lazy()
                                     ->afterStateUpdated(function(Closure $get, $state){
@@ -198,15 +199,6 @@ trait FamilyDynamicsTrait{
                                     }),
                             ])
                     ])
-                // TableRepeater::make('family_dynamics')
-                //     ->label('')
-                //     ->disableItemCreation()
-                //     ->disableItemDeletion()
-                //     ->disableItemMovement()
-                //     ->hideLabels()
-                //     ->columnSpan('full')
-                //     ->extraAttributes(['id' => 'table-relationship-matrix'])
-                //     ->schema($this->relationshipMatrixColumns())
         ];
     }
 
@@ -215,11 +207,6 @@ trait FamilyDynamicsTrait{
         $model = FamilyMatrix::find($id);
         $model->$column = $value;
         $model->save();
-    }
-
-    public function refreshMatrix()
-    {
-        $this->data['parents_matrix'] = $this->getParentsMatrix();
     }
 
     public function getParentsMatrix()
@@ -241,32 +228,16 @@ trait FamilyDynamicsTrait{
 
                 if($parent['id'] != $partner['id'])
                 {
-                    $relationship = FamilyDynamic::firstOrCreate([
+
+                    $relationship = $parentModel->guardianRelationships()->firstOrCreate([
                         'account_id' => accountId(),
-                        'model_type' => ParentModel::class,
-                        'model_id' => $parent['id'],
-                        'related_type' => ParentModel::class,
-                        'related_id' => $partner['id']
+                        'partner_id' => $partner['id'],
                     ]);
+
     
                     $array[] = $relationship;
                 }
                 
-                
-            }
-
-            foreach($this->getSiblingsMatrix() as $y => $sibling){
-
-                $relationship = FamilyDynamic::firstOrCreate([
-                    'account_id' => accountId(),
-                    'model_type' => ParentModel::class,
-                    'model_id' => $parent['id'],
-                    'related_type' => Child::class,
-                    'related_id' => $sibling['id']
-                ]);
-
-                $array[] = $relationship;
-                
             }
 
         }
@@ -274,29 +245,10 @@ trait FamilyDynamicsTrait{
         return $array;
     }
 
-    public function relationshipMatrixColumns()
-    {
-        $matrix = FamilyDynamic::where('account_id', accountId())->get();
-        $array = [];
-        
-        $array[] = Hidden::make('id');
-        $array[] = TextInput::make('name')->disabled();
-        
-        foreach($this->getParentsMatrix() as $i => $partner){
-            $array[] = Select::make('partner_' . $i)
-                        ->label('Relationship to ' .$partner['first_name'])
-                        ->options(PartnerType::asSelectArray())
-                        ->lazy()
-                        ->disabled(fn($state) => $state == 'Self');
-        }
-
-
-        return $array;
-    }
 
     public function autoSaveFamily($id, $column, $value)
     {
-        $model = FamilyDynamic::find($id);
+        $model = GuardianRelationship::find($id);
         $model->$column = $value;
         $model->save();
     }

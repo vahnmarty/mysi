@@ -43,13 +43,18 @@ class Parents extends Model
         return $query->where('address_location', AddressLocation::PrimaryAddress);
     }
 
-    // public function relationships(): MorphMany
+    // public function relationships()
     // {
-    //     return $this->morphMany(FamilyDynamic::class, 'related');
+    //     return $this->hasMany(FamilyDynamic::class, 'model_id')->where('model_type', self::class);
     // }
 
-    public function relationships()
+    public function guardianRelationships()
     {
-        return $this->hasMany(FamilyDynamic::class, 'model_id')->where('model_type', self::class);
+        return $this->hasMany(GuardianRelationship::class, 'parent_id');
+    }
+
+    public function guardianPartner()
+    {
+        return $this->belongsTo(GuardianRelationship::class, 'partner_id');
     }
 }
