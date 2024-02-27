@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClubResource\Pages;
-use App\Filament\Resources\ClubResource\RelationManagers;
-use App\Models\Club;
+use App\Filament\Resources\SportResource\Pages;
+use App\Filament\Resources\SportResource\RelationManagers;
+use App\Models\Sport;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -13,11 +13,11 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ClubResource extends Resource
+class SportResource extends Resource
 {
-    protected static ?string $model = Club::class;
+    protected static ?string $model = Sport::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-lightning-bolt';
 
     protected static ?string $navigationGroup = 'Settings';
 
@@ -35,8 +35,8 @@ class ClubResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                ->sortable()
-                ->searchable()
+                    ->sortable()
+                    ->searchable()
             ])
             ->filters([
                 //
@@ -59,7 +59,9 @@ class ClubResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListClubs::route('/'),
+            'index' => Pages\ListSports::route('/'),
+            //'create' => Pages\CreateSport::route('/create'),
+            //'edit' => Pages\EditSport::route('/{record}/edit'),
         ];
     }    
 }
