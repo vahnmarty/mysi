@@ -8,7 +8,7 @@
         Upload SFUSD Freshman Health Form: Due by {{ app_variable('health_form_due_date', 'display_value') }}
     </p>
     <p class="mt-3">
-        Please download: <a class="text-link" href="{{ asset('files/SIFROSHHealthForm202324.pdf') }}" target = "_blank"><u>SFUSD Freshman Health Form</u></a>. Note that this form requires a doctor’s signature.
+        Please download: <a class="text-link" href="{{ asset('files/SIFreshmanHealthForm.pdf') }}" target = "_blank"><u>SFUSD Freshman Health Form</u></a>. Note that this form requires a doctor’s signature.
     </p>
     <div class="mt-3 text-sm">
         <form wire:submit.prevent="uploadHealthForm">

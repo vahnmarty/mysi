@@ -50,7 +50,7 @@ class UploadHealthForm extends Component implements HasForms
             FileUpload::make('health_form_file')
                 ->label(new HtmlString('<p>Upload your SFUSD Freshman Health Form here. Please use the following naming convention for the file:</p>
                 <strong class="text-danger">{Student_First_Name}_{Student_Last_Name}_{Name_of_File}.pdf</strong></p>'))
-                ->helperText(new HtmlString("(The file doesn’t have to be a PDF.)<p><strong>NOTE:</strong> Do NOT upload the Ticket to Play Medical Clearance Form here.</p>"))
+                ->helperText(new HtmlString("(The file doesn’t have to be a PDF.)<p class='mt-4'><strong>NOTE:</strong> Do NOT upload the Ticket to Play Medical Clearance Form here.</p>"))
                 ->maxSize(25000)
                 ->reactive()
                 ->enableOpen()

@@ -79,7 +79,7 @@
                     </p>
                     <div class="mt-3 text-sm">
                         To participate in SI Athletics, including tryouts, you must register to play through SI’s <a 
-                        class="text-link" href="https://www.familyid.com/st-ignatius-college-preparatory/2023-24-athletic-registration" target="blank"><u>FamilyID system</u></a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
+                        class="text-link" href="{{ app_variable('family_id_url') }}" target="blank"><u>FamilyID system</u></a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
                         to Play Medical Clearance Form.&nbsp;&nbsp;The ticket to play requires a physical exam with a doctor.&nbsp;&nbsp;We strongly encourage you to schedule this exam between {{ app_variable('family_id_start_date', 'display_value') }}  and {{ app_variable('family_id_end_date', 'display_value') }} to maintain athletic 
                         eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on {{ app_variable('family_id_start_date', 'display_value') }}.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
                     </div>
@@ -97,6 +97,24 @@
                     We will be updating this site throughout the summer.&nbsp;&nbsp;Answers to any questions that may arise over the summer can usually be found on the Welcome Portal.
                     </div>
                 </div>
+
+                <div class="p-4 mt-4 bg-white border rounded-md shadow-md">
+                    <h3 class="text-xl font-bold text-primary-red">
+                        SI Big Cat/Little Cat Program
+                    </h3>
+                    <div class="mt-3 space-y-3 text-sm">
+                        <p>Hello Incoming Wildcats! </p>
+                        <p>
+                            Welcome to the St. Ignatius family!  Our primary goal is to create a comfortable transition into the SI community, specifically through our Big Cat Program.  This is a Big Brother/Big Sister dynamic that works to encourage and include all individuals.  We hope that our Big Cat/Little Cat program will foster friendships between our freshmen and senior classes.  These relationships will help you on your journey through the start of freshman year and ease any first-year jitters we all experience.  We plan to host fun and interactive activities that will get you more familiar with our campus, your class of @{class_year_variable}, and our overall school environment.
+                        </p>
+                        <p>
+                            The answers you provided in the SI Co-Curriculars section of the Registration form will help us pair you with a Big Cat that has similar interests as you.
+                        </p>
+                        <p>
+                            We’re so excited to meet you!  Go Cats!
+                        </p>
+                    </div>
+                </div>
                 
             </div>
 
@@ -104,11 +122,11 @@
                 <p>For questions about a specific topic, please feel free to email the individuals below.</p>
 
                 <div class="grid grid-cols-4 gap-4 mt-4">
-                    @foreach($departments as $dept)
+                    @foreach($directory as $item)
                     <div class="p-3 bg-gray-100 border rounded-md">
-                        <h4 class="font-bold">{{ $dept['department'] }}</h4>
-                        <p>{{ $dept['person'] }}</p>
-                        <a href="mailto:{{ $dept['email']}}" class="text-sm text-link">{{ $dept['email'] }}</a>
+                        <h4 class="font-bold">{{ $item['name'] }}</h4>
+                        <p>{{ $item['representative_name'] }}</p>
+                        <a href="mailto:{{ $item['representative_email']}}" class="text-sm text-link">{{ $item['representative_email'] }}</a>
                     </div>
                     @endforeach
                 </div>
