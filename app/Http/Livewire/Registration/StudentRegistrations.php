@@ -131,7 +131,7 @@ class StudentRegistrations extends Component implements HasTable, HasForms
                         $record->started_at = now();
                         $record->save();
 
-                        $record->application()->appStatus()->update([
+                        $record->application->appStatus()->update([
                             'registration_started' => 1
                         ]);
                     }
