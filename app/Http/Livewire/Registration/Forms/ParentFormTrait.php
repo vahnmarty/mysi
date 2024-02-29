@@ -50,6 +50,15 @@ trait ParentFormTrait{
                 ->minItems(1)
                 ->maxItems(4)
                 ->registerListeners([
+                    'repeater::createItem' => [
+                        function (): void {
+                            Notification::make()
+                                ->title('New Parent Form Added')
+                                ->body('Make sure to REFRESH this page after adding a new parent.')
+                                ->warning()
+                                ->send();
+                        }
+                    ],
                     'repeater::deleteItem' => [
                         function (Component $component, string $statePath, string $uuidToDelete): void {
                             if($statePath == 'data.parents')
