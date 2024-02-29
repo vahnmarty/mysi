@@ -55,8 +55,8 @@
                     </div>
                     <div>
                         <p class="font-bold">{{ app_variable('rising_9th_grade_title') }}</p>
-                        <a class="text-link" href="{{ app_variable('rising_9th_grade_title') }}" target = "_blank">
-                            {{ app_variable('rising_9th_grade_title') }}
+                        <a class="text-link" href="{{ app_variable('rising_9th_grade_url') }}" target = "_blank">
+                            {{ app_variable('rising_9th_grade_url') }}
                         </a>
                     </div>
                 </div>
