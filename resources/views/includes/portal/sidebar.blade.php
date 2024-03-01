@@ -135,7 +135,6 @@
                         <strong>Notification</strong>
                     </a>
                 </li>
-                @endif
 
                 <x-sidebar-item align="start" href="{{ url('hspt-scores') }}">
                     <x-slot name="icon">
@@ -143,6 +142,9 @@
                     </x-slot>
                     HSPT Scores
                 </x-sidebar-item>
+                @endif
+
+                
 
 
                 @php
