@@ -37,6 +37,11 @@ class AppVariableSeeder extends Seeder
             ['config' => 'registration_start_date'],
             ['value' => 'March 16, 2024 at 12 am PDT']
         );
+
+        AppVariable::firstOrCreate(
+            ['config' => 'registration_end_date'],
+            ['value' => '6:00 am PDT on March 22, 2024']
+        );
         
         AppVariable::firstOrCreate(
             ['config' => 'number_of_applicants'],

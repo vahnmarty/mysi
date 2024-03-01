@@ -100,7 +100,6 @@ class ViewNotification extends Page {
     protected function getActions(): array
     {
         $notification_setting = notification_setting('registration_end_date');
-        $registration_end_date = date(('g:i a T \o\n F j, Y'), strtotime($notification_setting->value));
         $class_year = config('settings.class_year');
 
         return [
@@ -113,7 +112,7 @@ class ViewNotification extends Page {
                 ->form([
                     Placeholder::make('note')
                         ->label('')
-                        ->content(new HtmlString('NOTE:  You must make a deposit payment of <strong> $'.number_format($this->deposit_amount,2).'</strong> before '. $registration_end_date .' to reserve your spot in the SI Class of '. $class_year .'.')),
+                        ->content(new HtmlString('NOTE:  You must make a deposit payment of <strong> $'.number_format($this->deposit_amount,2).'</strong> before '. app_variable('registration_end_date') .' to reserve your spot in the SI Class of '. $class_year .'.')),
                     Fieldset::make('Payment Information')
                         ->label(new HtmlString('<strong>Payment Information</strong>'))
                         ->columns(3)
