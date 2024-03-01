@@ -21,6 +21,7 @@ class Child extends Model
         'pronoun_subject',
         'pronoun_possessive',
         'pronoun_personal',
+        'pronoun_subject_capital',
         'official_school',
     ];
 
@@ -137,6 +138,11 @@ class Child extends Model
     public function getPronounPersonalAttribute()
     {
         return $this->gender == Gender::Male ? 'him' : 'her';
+    }
+
+    public function getPronounSubjectCapitalAttribute()
+    {
+        return $this->gender == Gender::Male ? 'He' : 'She';
     }
 
     public function relationships(): MorphMany

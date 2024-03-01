@@ -21,7 +21,9 @@ class Application extends Model
          'status', 
          'record_type', 
          'file_learning_documentation_url',
-         'primary_parent'
+         'primary_parent',
+         'scholarship_type',
+         'course_label'
     ];
 
     protected $casts = [
@@ -310,20 +312,76 @@ class Application extends Model
         $appStatus = $this->appStatus;
         $array = [];
 
-        if($appStatus->english_class){
-            $array[] = $appStatus->english_class;
-        }
-
-        if($appStatus->math_class){
-            $array[] = $appStatus->math_class;
-        }
-
-        if($appStatus->bio_class){
-            $array[] = $appStatus->bio_class;
+        if($appStatus){
+            if($appStatus->english_class){
+                $array[] = $appStatus->english_class;
+            }
+    
+            if($appStatus->math_class){
+                $array[] = $appStatus->math_class;
+            }
+    
+            if($appStatus->bio_class){
+                $array[] = $appStatus->bio_class;
+            }
         }
 
         return $array;
         
+    }
+
+    public function honorsCount()
+    {
+        $count = 0;
+        $appStatus = $this->appStatus;
+
+        if($appStatus->honors_math){
+            $count++;
+        }
+
+        if($appStatus->honors_english){
+            $count++;
+        }
+
+        if($appStatus->honors_bio){
+            $count++;
+        }
+
+        return $count;
+    }
+
+    public function getScholarshipTypeAttribute()
+    {
+        $appStatus = $this->appStatus;
+
+        if($appStatus){
+            $count = $this->honorsCount();
+
+            if($count == 3){
+                return 'a Loyola';
+            }
+
+            if($count == 2){
+                return 'a Jesuit';
+            }
+
+            if($count == 1){
+                return 'an Ignatian';
+            }
+        }
+
+        return null;
+    }
+
+    public function getCourseLabelAttribute()
+    {
+        if($this->appStatus){
+            if($this->classList() > 1){
+                return 'courses';
+            }
+        }
+
+        return 'course';
     }
 
     public function survey()
