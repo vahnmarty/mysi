@@ -5,14 +5,9 @@
 
             @if($decision_status == 'Accepted')
             <div class="mt-8">
-                @php
-                $registration_start_date = notification_setting('registration_start_date')->value;
-
-
-                @endphp
                 <h4 class="font-bold text-primary-red">
                     Congratulations on enrolling as a student in the SI Class of {{ config('settings.class_year') }}! 
-                    Please check back here on <u>{{ date('F j, Y', strtotime($registration_start_date)) }} at {{ date('g a T', strtotime($registration_start_date)) }}</u> for next steps and registration information.
+                    Please check back here on <u>{{ app_variable('registration_start_date') }}</u> for next steps and registration information.
                 </h4>
 
                 <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
@@ -56,7 +51,7 @@
                 
                 @if($app->applicationAccepted())
                 <p class="mt-8 font-bold text-gray-900">
-                    NOTE: In order to reserve your spot in the SI Class of {{ config('settings.class_year') }}, you must click the Enroll at SI button AND make a deposit payment before {{ date(('g:i a T \o\n F j, Y'), strtotime( notification_setting('registration_end_date')?->value  ) ) }}. Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.
+                    NOTE: In order to reserve your spot in the SI Class of {{ config('settings.class_year') }}, you must click the Enroll at SI button AND make a deposit payment before {{  app_variable('registration_end_date') }}. Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.
                 </p>
                 @endif
     
