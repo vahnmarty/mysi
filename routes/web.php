@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Livewire\SampleForm;
+use App\Http\Livewire\SiPrepShop;
 use App\Http\Livewire\SurveyForm;
 use App\Http\Livewire\ContactPage;
 use App\Http\Livewire\SamplePayment;
@@ -17,10 +18,11 @@ use App\Http\Livewire\NotificationPreview;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
+use App\Http\Livewire\Page\StudentHsptScores;
 use App\Http\Controllers\Admin\AuthController;
+
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
-
 use App\Http\Livewire\Admission\ViewApplications;
 use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Notifications\FinancialAid;
@@ -96,6 +98,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
     Route::get('accommodation-documents', AccommodationDocuments::class)->name('application.accommodation-documents');
     Route::get('help', ContactPage::class)->name('help');
+    Route::get('prep-shop', SiPrepShop::class)->name('si-prep-shop');
     Route::get('supplemental-recommendation', SupplementalRecommendationPage::class)->name('application.supplemental-recommendation');
     Route::get('supplemental-recommendation/{uuid}', SupplementalRecommendationRequestForm::class)->name('application.supplemental-recommendation-request');
     Route::get('notifications', ApplicationNotification::class)->name('notifications.index');
@@ -110,6 +113,8 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('registration/{uuid}/completed', RegistrationCompleted::class)->name('registration.completed');
 
     Route::get('survey/{uuid}', SurveyForm::class)->name('survey-form');
+
+    Route::get('hspt-scores', StudentHsptScores::class);
 });
 
 

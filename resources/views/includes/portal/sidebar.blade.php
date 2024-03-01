@@ -137,6 +137,13 @@
                 </li>
                 @endif
 
+                <x-sidebar-item align="start" href="{{ url('hspt-scores') }}">
+                    <x-slot name="icon">
+                        <x-heroicon-o-clipboard-list class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    HSPT Scores
+                </x-sidebar-item>
+
 
                 @php
                     $freshmen_application_start_date = notification_setting('freshmen_application_start_date');
@@ -285,6 +292,14 @@
                         </li> 
                     </x-slot>
                 </x-sidebar-menu> -->
+
+                <x-sidebar-item href="{{ url('prep-shop') }}" :active="request()->is('prep-shop')">
+                    <x-slot name="icon">
+                        <x-heroicon-o-shopping-cart class="flex-shrink-0 w-5 h-5" />
+                    </x-slot>
+                    SI Prep Shop
+                </x-sidebar-item>
+
                 <x-sidebar-item href="{{ url('help') }}" :active="request()->is('help')">
                     <x-slot name="icon">
                         <x-heroicon-o-question-mark-circle class="flex-shrink-0 w-5 h-5" />
