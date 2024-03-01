@@ -37,7 +37,6 @@ export default {
                     800: '#800000',
                     900: '#800000',
                 },
-                //primary: colors.blue,
                 primary: {
                     50: '#A71930',
                     100: '#A71930',
@@ -51,7 +50,7 @@ export default {
                     900: '#A71930',
                 },
                 success: colors.green,
-                warning: colors.yellow,
+                warning: colors.blue,
             },
             animation: {
                 'spin-slow': 'spin 2s linear infinite',

@@ -202,12 +202,19 @@ class ViewNotification extends Page {
 
                     return false;
                 }),
-            Action::make('remove_waitlist')
-                ->label('Remove from Waitlist')
+            Action::make('remain_waitlist')
+                ->label('Remain on Waitlist')
                 ->requiresConfirmation()
-                ->action('removeWaitlist')
-                ->color('primary')
-                ->visible(fn() => $this->app->waitlisted() && !$this->app->waitlistRemoved() ),
+                ->action('remainWaitlist')
+                ->color('warning')
+                ->visible(fn() => $this->app->waitlisted()  ),
+
+            // Action::make('remove_waitlist')
+            //     ->label('Remove from Waitlist')
+            //     ->requiresConfirmation()
+            //     ->action('removeWaitlist')
+            //     ->color('primary')
+            //     ->visible(fn() => $this->app->waitlisted() && !$this->app->waitlistRemoved() ),
 
         ];
     }
@@ -224,6 +231,14 @@ class ViewNotification extends Page {
         $this->initSurveyForm($app, 'Declined');
 
         return redirect(request()->header('Referer'));
+    }
+
+    public function remainWaitlist()
+    {
+        Notification::make()
+            ->title('No function yet. Come back soon.')
+            ->warning()
+            ->send();
     }
 
     public function removeWaitlist()
