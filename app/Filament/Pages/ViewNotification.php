@@ -206,7 +206,7 @@ class ViewNotification extends Page {
                 ->requiresConfirmation()
                 ->action('remainWaitlist')
                 ->color('warning')
-                ->visible(fn() => $this->app->waitlisted()  ),
+                ->visible(fn() => $this->app->waitlisted() && !$this->app->waitlistRemoved() ),
 
             // Action::make('remove_waitlist')
             //     ->label('Remove from Waitlist')
@@ -234,10 +234,11 @@ class ViewNotification extends Page {
 
     public function remainWaitlist()
     {
-        Notification::make()
-            ->title('No function yet. Come back soon.')
-            ->warning()
-            ->send();
+        return redirect()->to('https://forms.gle/XZaF9LCwa6rDQw7g9');
+        // Notification::make()
+        //     ->title('No function yet. Come back soon.')
+        //     ->warning()
+        //     ->send();
     }
 
     public function removeWaitlist()
