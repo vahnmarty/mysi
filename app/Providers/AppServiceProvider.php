@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Schema::defaultStringLength(40);
+        Schema::defaultStringLength(100);
 
         Filament::serving(function () {
 

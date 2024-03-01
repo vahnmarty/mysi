@@ -15,5 +15,6 @@ final class SurveySchoolDecisionType extends Enum
     use EnumCustomTrait;
     
     const Accepted = 'Accepted';
-    const Declined = 'Declined';
+    const WaitListed = 'Wait Listed';
+    const NotAccepted = 'Not Accepted';
 }

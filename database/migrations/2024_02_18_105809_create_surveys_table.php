@@ -16,13 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('application_id');
             $table->uuid('uuid');
             $table->string('type');
-            $table->string('other_school')->nullable();
-            $table->string('most_important_reason')->nullable();
-            $table->string('most_important_reason_comment')->nullable();
-            $table->string('second_important_reason')->nullable();
-            $table->string('second_important_reason_comment')->nullable();
-            $table->string('third_important_reason')->nullable();
-            $table->string('third_important_reason_comment')->nullable();
+            $table->string('other_school', 150)->nullable();
+            $table->string('most_important_reason', 150)->nullable();
+            $table->string('most_important_reason_comment', 300)->nullable();
+            $table->string('second_important_reason', 150)->nullable();
+            $table->string('second_important_reason_comment', 300)->nullable();
+            $table->string('third_important_reason', 150)->nullable();
+            $table->string('third_important_reason_comment', 300)->nullable();
             $table->longtext('experience')->nullable();
             $table->longtext('si_admission_process')->nullable();
             $table->timestamp('submitted_at')->nullable();
@@ -32,11 +32,11 @@ return new class extends Migration
         Schema::create('survey_schools', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('survey_id');
-            $table->string('school_name')->nullable();
-            $table->string('school_decision')->nullable();
-            $table->string('applied_for_aid')->nullable();
-            $table->string('amount_aid')->nullable();
-            $table->string('comment')->nullable();
+            $table->string('school_name', 150)->nullable();
+            $table->string('school_decision', 50)->nullable();
+            $table->string('applied_for_aid', 50)->nullable();
+            $table->float('amount_aid')->nullable();
+            $table->string('comment', 150)->nullable();
             $table->timestamps();
         });
     }
