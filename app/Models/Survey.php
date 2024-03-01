@@ -30,4 +30,9 @@ class Survey extends Model
     {
         return !empty($this->submitted_at);
     }
+
+    public function getStatus()
+    {
+        return $this->submitted() ? 'Completed' : 'Not completed';
+    }
 }

@@ -10,7 +10,11 @@
                     Please check back here on <u>{{ app_variable('registration_start_date') }}</u> for next steps and registration information.
                 </h4>
 
-                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
+                @if($app->survey?->submitted())
+                <p class="mt-4 underline">Please take our survey (Completed)</p>
+                @else
+                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not Completed)</a>
+                @endif
             </div>
             @elseif($decision_status == 'Declined')
             <div class="mt-8">
@@ -18,7 +22,11 @@
                     This is a confirmation that you declined your acceptance to SI. We wish you all the best in high school.
                 </h4>
 
-                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not completed)</a>
+                @if($app->survey?->submitted())
+                <p class="mt-4 underline">Please take our survey (Completed)</p>
+                @else
+                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not Completed)</a>
+                @endif
             </div>
             @elseif($decision_status == 'Waitlist Removed')
             <div class="mt-8">

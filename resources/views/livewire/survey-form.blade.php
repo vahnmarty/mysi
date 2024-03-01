@@ -24,10 +24,10 @@
         </p>
         @else
         <p>
-            We truly appreciated your application to St. Ignatius College Preparatory this year. Please answer the following questions to assist us in evaluating our admissions process and to decline your acceptance at St. Ignatius College Preparatory.
+            We truly appreciated your application to St. Ignatius College Preparatory this year.  Please answer the following questions to assist us in evaluating our admissions process and understand what led you to decline your acceptance at St. Ignatius College Preparatory.
         </p>
         @endif
-        <form class="mt-8" wire:submit.prevent="submit">
+        <form class="mt-8" wire:submit.prevent="submit" novalidate>
 
             {{ $this->form }}
 

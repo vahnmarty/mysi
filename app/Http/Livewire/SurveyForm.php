@@ -29,6 +29,13 @@ class SurveyForm extends Component implements HasForms
     public Survey $survey;
 
     public $completed;
+
+    protected $messages = [
+        'data.other_school' => 'Please enter a school name',
+        'data.schools.*.school_name' => 'Please enter a school name',
+        'data.schools.*.school_decision' => 'Please select an option',
+        'data.schools.*.applied_for_aid' => 'Please select an option',
+    ];
     
     public function render()
     {
@@ -68,11 +75,15 @@ class SurveyForm extends Component implements HasForms
                 ->visible(fn() => $this->type == 'Declined')
                 ->inlineLabel(),
             Placeholder::make('school_desc')
-                ->label('Please list, in order of preference, the schools to which you applied , the admission decision (accepted/waitlisted/not accepted), and Financial Aid or scholarship information, if applicable:'),
+                ->label('Please list, in order of preference, the schools to which you applied, the admission decision (accepted/waitlisted/not accepted), and Financial Aid or scholarship information, if applicable:'),
             TableRepeater::make('schools')
                 ->relationship()
                 ->label('')
                 ->defaultItems(1)
+                ->minItems(1)
+                ->maxItems(10)
+                ->validationAttribute('schools')
+                ->extraAttributes(['id' => 'table-survey-schools'])
                 ->hideLabels()
                 ->createItemButtonLabel('Add')
                 ->columnSpan('full')
@@ -95,34 +106,38 @@ class SurveyForm extends Component implements HasForms
                         ->required(),
                     TextInput::make('amount_aid')
                         ->label("Amount of Aid or Scholarship Offered")
+                        ->numeric()
                         ->prefix('$'),
                     TextInput::make('comment')
                         ->label("Comment")
                         ->maxLength(100),
                 ]),
-            Fieldset::make('Rank the three(3) most important reasons for choosing SI:')   
+            Fieldset::make('Rank the three most important reasons for '. ($this->type == 'Declined' ? 'not ' : '')  .'choosing SI:')   
                 ->columns(2)
                 ->schema([
                     Select::make('most_important_reason')
                         ->label('Most Important Reason')
+                        ->reactive()
                         ->inlineLabel()
-                        ->options(SurveyReasonType::asSameArray()),
+                        ->options(fn() => $this->getReasonArray('most_important_reason')),
                     TextInput::make('most_important_reason_comment')
                         ->label('Comment')
                         ->maxLength(100)
                         ->inlineLabel(),
                     Select::make('second_important_reason')
                         ->label('Second Important Reason')
+                        ->reactive()
                         ->inlineLabel()
-                        ->options(SurveyReasonType::asSameArray()),
+                        ->options(fn() => $this->getReasonArray('second_important_reason')),
                     TextInput::make('second_important_reason_comment')
                         ->label('Comment')
                         ->maxLength(100)
                         ->inlineLabel(),
                     Select::make('third_important_reason')
                         ->label('Third Important Reason')
+                        ->reactive()
                         ->inlineLabel()
-                        ->options(SurveyReasonType::asSameArray()),
+                        ->options(fn() => $this->getReasonArray('third_important_reason')),
                     TextInput::make('third_important_reason_comment')
                         ->label('Comment')
                         ->inlineLabel()
@@ -144,5 +159,28 @@ class SurveyForm extends Component implements HasForms
         $this->survey->update($data);
         $this->survey->submitted_at = now();
         $this->survey->save();
+
+        $notificationMessage = NotificationMessage::where('application_id', $this->survey->application_id)->first();
+
+        return redirect()->route('notifications.show', ['uuid' => $notificationMessage->uuid]);
+    }
+
+    private function getReasonArray($column)
+    {
+        $options = SurveyReasonType::asSameArray();
+        $fields = ['most_important_reason', 'second_important_reason', 'third_important_reason'];
+
+        foreach($fields as $field)
+        {
+            if($column != $field)
+            {
+                if( !empty($this->data[$field]) ){
+                    unset($options[$this->data[$field]]);
+                }
+            }
+            
+        }
+        
+        return $options;
     }
 }
