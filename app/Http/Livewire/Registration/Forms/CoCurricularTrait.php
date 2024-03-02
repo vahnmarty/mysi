@@ -68,6 +68,7 @@ trait CoCurricularTrait{
                 }),
             Select::make('student.performing_arts_programs')
                 ->multiple()
+                ->preload()
                 ->options(ArtProgramsType::asSameArray() + ['Other' => 'Other'])
                 ->required()
                 ->label('Please select all the programs you are interested in')

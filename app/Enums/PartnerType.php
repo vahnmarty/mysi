@@ -15,10 +15,18 @@ final class PartnerType extends Enum
     use EnumCustomTrait;
     
     //const Self = 'Self';
-    const HusbandWife = 'Husband/Wife';
+    const Husband = 'Husband';
+    const Wife = 'Wife';
     const Partner = 'Partner';
-    const Ex = 'Ex-Husband/Ex-Wife';
+    const ExHusband = 'Ex-husband';
+    const ExWife = 'Ex-wife';
+    const ExPartner = 'Ex-partner';
     const Parent = 'Parent';
+    const Child = 'Child';
+    const Sibling = 'Sibling';
+    const InLaws = 'In-laws';
     const Other = 'Other';
-    const NoRelationship = 'No Relationship';
+    const NoRelationship = 'No relationship';
+
+    
 }

@@ -13,6 +13,7 @@ use App\Models\FamilyMatrix;
 use App\Models\FamilyDynamic;
 use App\Enums\AddressLocation;
 use App\Enums\LivingSituationType;
+use App\Enums\PrimaryLanguageType;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use App\Models\GuardianRelationship;
@@ -115,6 +116,30 @@ trait FamilyDynamicsTrait{
                     //         }
                     //     }),
                 ]),
+            Repeater::make('family_dynamics')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->columnSpan('full')
+                ->schema([
+                    Grid::make(3)
+                        ->schema([
+                            Hidden::make('id'),
+                            TextInput::make('full_name')->label('')->disabled(),
+                            Hidden::make('partner_full_name'),
+                            Select::make('relationship')
+                                ->columnSpan(2)
+                                ->options(PartnerType::asSameArray())
+                                ->label(fn(Closure $get) => 'Relationship to ' . $get('partner_full_name') )
+                                ->inlineLabel()
+                                ->lazy()
+                                ->required()
+                                ->afterStateUpdated(function(Closure $get, $state){
+                                    $this->autoSaveFamily($get('id'), 'relationship', $state);
+                                }),
+                        ])
+                ]),
             TableRepeater::make('siblings_matrix')
                 ->label('')
                 ->disableItemCreation()
@@ -176,30 +201,38 @@ trait FamilyDynamicsTrait{
                     //     ->label('')
                     //     ->content(new HtmlString('<div class="w-24"></div>')),
                 ]),
-                Repeater::make('family_dynamics')
-                    ->label('')
-                    ->disableItemCreation()
-                    ->disableItemDeletion()
-                    ->disableItemMovement()
-                    ->columnSpan('full')
-                    ->schema([
-                        Grid::make(3)
-                            ->schema([
-                                Hidden::make('id'),
-                                TextInput::make('full_name')->label('')->disabled(),
-                                Hidden::make('partner_full_name'),
-                                Select::make('relationship')
-                                    ->columnSpan(2)
-                                    ->options(PartnerType::asSameArray())
-                                    ->label(fn(Closure $get) => 'Relationship to ' . $get('partner_full_name') )
-                                    ->inlineLabel()
-                                    ->lazy()
-                                    ->required()
-                                    ->afterStateUpdated(function(Closure $get, $state){
-                                        $this->autoSaveFamily($get('id'), 'relationship', $state);
-                                    }),
-                            ])
-                    ])
+                Select::make('primary_language_spoken')
+                    ->multiple()
+                    ->options(PrimaryLanguageType::asSameArray())
+                    ->preload()
+                    ->required()
+                    ->label('What is the primary language spoken at home?')
+                    ->lazy()
+                    ->afterStateHydrated(function (Select $component, $state) {
+                        if(is_string($state)){
+                            $component->state(explode(',', $state));
+                        }else{
+                            $data = is_array($state) ? $state : [];
+                            $component->state($data);
+                        }
+                    })
+                    ->afterStateUpdated(function(Closure $get, $state){
+                        $input = is_array($state) ? implode(',', $state) : $state;
+                        $this->autoSaveAccount('primary_language_spoken', $input);
+                    }),
+                TextInput::make('other_primary_language_spoken')
+                    ->label('If Other, please add here:')
+                    ->lazy()
+                    ->maxLength(100)
+                    ->visible(function(Closure $get){
+                        $array1 = $get('primary_language_spoken');
+                        $array2 = ['Other'];
+                        return array_intersect($array1, $array2);
+                    })
+                    ->afterStateUpdated(function($state){
+                        $this->autoSaveAccount('other_primary_language_spoken', $state);
+                    }),
+                
         ];
     }
 

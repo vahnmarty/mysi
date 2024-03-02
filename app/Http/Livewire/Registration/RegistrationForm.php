@@ -85,6 +85,8 @@ class RegistrationForm extends Component implements HasForms
         $data['student_directory'] = [$this->registration->student->toArray()];
         $data['parents_directory'] = $account->parents->toArray();
         $data['application_status'] = $appStatus->toArray();
+        $data['primary_language_spoken'] = $account->primary_language_spoken;
+        $data['other_primary_language_spoken'] = $account->other_primary_language_spoken;
         $data['autosave'] = true;
 
         $data['healthcare'] = $registration
@@ -202,6 +204,12 @@ class RegistrationForm extends Component implements HasForms
         $appStatus->save();
 
         return redirect(request()->header('Referer'));
+    }
+
+    public function autoSaveAccount($column, $value)
+    {
+        $account = Account::find(accountId());
+        return $this->__autoSave($account, $column, $value);
     }
 
     public function __autoSave($model, $column, $value)
