@@ -22,6 +22,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use App\Forms\Components\WordTextArea;
 use App\Models\Parents as ParentModel;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Component;
@@ -278,10 +279,11 @@ trait ParentFormTrait{
                             $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveParent($get('id'),'graduation_year', $state);
                         }),
-                    Grid::make(3)
+                    Fieldset::make('Undergraduate Program')
+                        ->columns(3)
                         ->schema([
                             TextInput::make('undergraduate_school')
-                                ->label('Undergraduate School')
+                                ->label('School')
                                 ->lazy()
                                 ->maxLength(100)
                                 ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
@@ -305,11 +307,28 @@ trait ParentFormTrait{
                                     $livewire->validateOnly($component->getStatePath());
                                     $this->autoSaveParent($get('id'),'undergraduate_school_state', $state);
                                 }),
+                            TextInput::make('undergraduate_degree')
+                                ->label('Degree')
+                                ->lazy()
+                                ->maxLength(75)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'undergraduate_degree', $state);
+                                }),
+                            TextInput::make('undergraduate_major')
+                                ->label('Major')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'undergraduate_major', $state);
+                                }),
                         ]),
-                    Grid::make(3)
+                    Fieldset::make('Graduate Program')
+                        ->columns(3)
                         ->schema([
                             TextInput::make('graduate_school')
-                                ->label('Graduate School')
+                                ->label('School')
                                 ->lazy()
                                 ->maxLength(100)
                                 ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
@@ -333,6 +352,22 @@ trait ParentFormTrait{
                                     $livewire->validateOnly($component->getStatePath());
                                     $this->autoSaveParent($get('id'),'graduate_school_state', $state);
                                 }),
+                            TextInput::make('graduate_degree')
+                                ->label('Degree')
+                                ->lazy()
+                                ->maxLength(75)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'graduate_degree', $state);
+                                }),
+                            TextInput::make('graduate_major')
+                                ->label('Major')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'graduate_major', $state);
+                                }),
                         ]),
                     Select::make('is_primary_contact')
                         ->label('Is this parent the Primary Contact? (Only 1 parent can be the Primary Contact)')
@@ -342,6 +377,18 @@ trait ParentFormTrait{
                         ])
                         ->required()
                         ->reactive()
+                        ->disabled(fn(Closure $get) => ParentModel::where('account_id', accountId())->count() == 1)
+                        ->afterStateHydrated(function(Closure $get, Closure $set, $state){
+                            $parentsCount = ParentModel::where('account_id', accountId())->count();
+
+                            if($parentsCount == 1){
+                                $set('is_primary_contact', 1);
+
+                                $parent = ParentModel::find($get('id'));
+                                $parent->is_primary_contact = 1;
+                                $parent->save();
+                            }
+                        })
                         ->afterStateUpdated(function(Closure $get, Closure $set, $state){
 
                             if($state == 1)
