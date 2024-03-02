@@ -122,14 +122,6 @@ class SystemVariables extends Page implements HasForms
                             ->lazy(),
                         ]),
                 ]),
-            Section::make('Registration')
-                ->schema([
-                    Grid::make(4)
-                        ->schema([
-                            DatePicker::make('registration.challenge_test_date')
-                            ->label("Challenge Test date")
-                        ]),
-                ]),
 
         ];
     } 
@@ -158,7 +150,6 @@ class SystemVariables extends Page implements HasForms
         $this->updateEnv('ACADEMIC_YEAR', $data['academic_year']);
         $this->updateEnv('CLASS_YEAR', $data['class_year']);
         $this->updateEnv('NUMBER_OF_APPLICANTS', $data['number_of_applicants']);
-        $this->updateEnv('CHALLENGE_TEST_DATE', $data['registration']['challenge_test_date']);
         
         
         foreach($data['timeline'] as $config => $value){

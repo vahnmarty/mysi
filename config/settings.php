@@ -18,7 +18,6 @@ return [
     'number_of_applicants' => env('NUMBER_OF_APPLICANTS'),
 
     'registration' =>[
-        'challenge_test_date' => env('CHALLENGE_TEST_DATE')
     ]
 
 ];
