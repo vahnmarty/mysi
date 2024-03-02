@@ -1,6 +1,6 @@
 <div class="p-4 bg-white border rounded-md shadow-md">
     @if($completed)
-    <h3 class="text-xl font-bold text-primary-blue">SI Deans’ Office Required Form (Completed)</h3>
+    <h3 class="text-xl font-bold text-primary-red">SI Deans’ Office Required Form (Completed)</h3>
     @else
     <h3 class="text-xl font-bold text-primary-red">SI Deans’ Office Required Form</h3>
     @endif

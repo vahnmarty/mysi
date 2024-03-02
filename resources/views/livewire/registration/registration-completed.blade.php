@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold font-heading">Registration <span class="text-primary-blue">Completed</span></h1>
                 <p class="mt-6">
                     Thank you for completing registration for the {{ app_variable('academic_school_year') }} School Year.  
-                    We are excited to welcome your family to SI
+                    We are excited to welcome your family to SI.
                 </p>
             </div>
         </div>
@@ -113,6 +113,43 @@
                         <p>
                             We’re so excited to meet you!  Go Cats!
                         </p>
+                    </div>
+                </div>
+
+                <div class="p-4 mt-4 bg-white border rounded-md shadow-md">
+                    <h3 class="text-xl font-bold text-primary-red">
+                        Visit the SI Prep Shop
+                    </h3>
+                    <div class="mt-3 space-y-3 text-sm">
+                        <p>
+                            If you would like to purchase SI-branded merchandise, visit The Prep Shop at <a  class="text-link" href="https://siprepshop.com." target="_blank">https://siprepshop.com.</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="p-4 mt-4 bg-white border rounded-md shadow-md">
+                    <h3 class="text-xl font-bold text-primary-red">
+                        A Message from the SI Librarians
+                    </h3>
+                    <div class="mt-3 space-y-3 text-sm">
+                        <p>Dear member of the class of 2028.</p>
+                        <p>We are excited to meet you. Our names are Ms. Brancoli and Ms. Wenger, and we are the librarians here at SI.</p>
+                        <p>First, we need you to complete <a href="https://docs.google.com/forms/d/e/1FAIpQLScfuBbTGHqfOVvDYPnCvCuBiH8FPwRzjhVgbc4rOb_hrN5qfw/viewform?usp=sf_link" target="_blank" class="text-link">this form</a> by May 17th.</p>
+                        <p>Next, we want to tell you about the mandatory tech training that you will complete. You will receive information about this tech training, including the course invitation, in your SI email.</p>
+                        <p>This online training will take approximately four hours to complete, and you will need to complete it between August 1st and August 10th. Don’t worry. We will remind you, but you will need to check your email regularly for information.</p>
+                        <p>What do librarians at SI do? To start, we answer questions.</p>
+                        <div>
+                            <p>You might have one of these questions this summer:</p>
+                            <ol class="pl-8 list-decimal">
+                                <li>I lost my email password and I can’t log on. What do I do?</li>
+                                <li>How do I get my textbooks?</li>
+                                <li>Who do I contact about __ (a sport, a club, etc)?</li>
+                                <li>Any other school related questions.</li>
+                            </ol>
+                        </div>
+                        <p>If you find yourself with any of the above, please email us at <a class="text-link"  href="mailto:si_librarians@siprep.org">si_librarians@siprep.org</a>. We are here to help.</p>
+                        <p>We can’t wait to start learning with you,</p>
+                        <p>Ms. Brancoli and Ms. Wenger</p>
                     </div>
                 </div>
                 
