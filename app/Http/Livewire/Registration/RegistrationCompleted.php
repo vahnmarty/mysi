@@ -27,7 +27,7 @@ class RegistrationCompleted extends Component implements HasForms
     {
         $this->registration = Registration::whereUuid($uuid)->firstOrFail();
 
-        $this->directory = ContactDirectory::get()->toArray();
+        $this->directory = ContactDirectory::orderBy('sort')->get()->toArray();
     }
     
 }

@@ -21,6 +21,8 @@ class ContactDirectoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
+    protected static ?string $navigationLabel = 'Directory';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,6 +37,7 @@ class ContactDirectoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('sort')
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('representative_name')
@@ -49,6 +52,7 @@ class ContactDirectoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
