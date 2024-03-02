@@ -224,3 +224,16 @@ display: none;
 #table-survey-schools sup{
     display: none !important;
 }
+
+#table-si-directory th{
+    @apply font-bold color-red-800;
+}
+
+#table-si-directory th::before{
+    content: '*';
+    @apply inline-block;
+}
+
+#table-si-directory sup{
+    display: none !important;
+}

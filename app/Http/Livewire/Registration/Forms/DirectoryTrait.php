@@ -31,14 +31,18 @@ trait DirectoryTrait{
         return [
             Placeholder::make('si_directory_description')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian. ')),
+                ->content(new HtmlString('<p>* This section is to be completed by a parent/guardian.</p>
+                    <p class="mt-4">
+                        SI maintains a directory of current students and their parents/guardians.  Please let us know what information you would like to share with the rest of our community.
+                    </p>
+                ')),
             TableRepeater::make('student_directory')
                 ->label('')
                 ->disableItemCreation()
                 ->disableItemDeletion()
                 ->disableItemMovement()
                 ->hideLabels()
-                ->extraAttributes(['id' => 'table-student-directory'])
+                ->extraAttributes(['id' => 'table-si-directory'])
                 ->columnSpan('full')
                 ->schema([
                     Hidden::make('id')->reactive(),
@@ -95,7 +99,7 @@ trait DirectoryTrait{
                 ->disableItemDeletion()
                 ->disableItemMovement()
                 ->hideLabels()
-                ->extraAttributes(['id' => 'table-parent-directory'])
+                ->extraAttributes(['id' => 'table-si-directory'])
                 ->columnSpan('full')
                 ->schema([
                     Hidden::make('id')->reactive(),
