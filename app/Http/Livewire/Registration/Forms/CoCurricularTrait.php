@@ -10,6 +10,7 @@ use App\Models\Sport;
 use App\Models\School;
 use App\Enums\ShirtSize;
 use App\Enums\RacialType;
+use App\Enums\AffinityType;
 use App\Enums\ReligionType;
 use App\Enums\ArtProgramsType;
 use App\Rules\PhoneNumberRule;
@@ -128,11 +129,43 @@ trait CoCurricularTrait{
                 }),
             Select::make('student.t_shirt_size')
                 ->options(ShirtSize::asSameArray())
-                ->label('T-Shirt Size (Adult/Unisex)')
+                ->label('T-Shirt Size (Adult/Unisex) z')
                 ->lazy()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('t_shirt_size', $state);
                 }),
+            
+            Placeholder::make('affinity_text')
+                ->label('')
+                ->content(new HtmlString('<div class="text-sm">
+                    <p>
+                        Affinity groups at St. Ignatius are inclusive gatherings where individuals with shared social identities come together voluntarily.  These groups provide a safe space for students who share a common identity, often marginalized, to discuss issues related to that identity, forge connections, and access resources and support from peers and faculty/staff moderators.  Embracing diverse dimensions such as cultural or spiritual identities, affinity groups are instrumental in cultivating awareness and appreciation for diversity within the St. Ignatius community.  They actively contribute to the positive exploration and development of students\' identities, empowering members to contribute to a more inclusive school community.
+                    </p>
+                    <p class="mt-4">
+                    If you wish to join any affinity group(s) at this time, kindly select from the current available affinity groups at SI.  Affinity groups are intended for individuals who identify as members of the group and can share their experiences from a first-person perspective ("I").
+                    </p>
+                </div>')),
+            Select::make('student.affinity')
+                ->multiple()
+                ->options(AffinityType::asSameArray())
+                ->required()
+                ->label('')
+                ->lazy()
+                ->preload()
+                ->searchable()
+                ->afterStateHydrated(function (Select $component, $state) {
+                    if(is_string($state)){
+                        $component->state(explode(',', $state));
+                    }else{
+                        $data = is_array($state) ? $state : [];
+                        $component->state($data);
+                    }
+                })
+                ->afterStateUpdated(function(Closure $get, $state){
+                    $input = is_array($state) ? implode(',', $state) : $state;
+                    $this->autoSaveStudent('affinity', $input);
+                }),
+            
         ];
     }
 

@@ -17,5 +17,6 @@ final class ShirtSize extends Enum
     const Small = 'Small';
     const Medium = 'Medium';
     const Large = 'Large';
-    const ExtraLarge = 'Extra-Large';
+    const XLarge = 'X-Large';
+    const XXLarge = 'XX-Large';
 }
