@@ -52,30 +52,23 @@ trait CoursePlacementTrait{
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.english_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
 
                         <p>NOTE:  Any interested freshman students will have an opportunity to apply for Honors English in the spring semester of their freshman year for the following school year (sophomore year).</p>
-
                     </div>
+                </div>')),
+            Placeholder::make('course_placement.math_placement')
+                ->label('')
+                ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">
                     <div class="space-y-4">
                         <h3 class="font-bold text-primary-blue">Math Placement</h3>
 
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.math_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
 
                         <p>
-                            If you want to challenge your math placement, you are required to take the Challenge Test on '. date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) .'.    
-                        </p>
-                    </div>
-
-                    <div class="space-y-4">
-                        <h3 class="font-bold text-primary-blue">Biology Placement</h3>
-
-                        <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.bio_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
-
-                        <p>
-                            If you want to challenge your biology placement, you are required to take the Challenge Test on '. date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) .'.    
+                            If you want to challenge your math placement, you are required to take the Challenge Test on '. app_variable('challenge_test_date') .'.    
                         </p>
                     </div>
                 </div>')),
             Select::make('course_placement.math_challenge')
-                ->label('Do you want to make a reservation to take the Math Challenge Test on ' . date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) . '?')
+                ->label('Do you want to make a reservation to take the Math Challenge Test on ' . app_variable('challenge_test_date') . '?')
                 ->options([
                     1 => 'Yes',
                     0 => 'No'
@@ -85,6 +78,31 @@ trait CoursePlacementTrait{
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('math_challenge', $state);
+                }),
+            Placeholder::make('course_placement.biology_placement')
+                ->label('')
+                ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-primary-blue">Biology Placement</h3>
+
+                        <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.bio_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
+
+                        <p>
+                            If you want to challenge your biology placement, you are required to take the Challenge Test on '. app_variable('challenge_test_date') . '? 
+                        </p>
+                    </div>
+                </div>')),
+            Select::make('course_placement.biology_challenge')
+                ->label('Do you want to make a reservation to take the Biology Challenge Test on ' . app_variable('challenge_test_date') . '?')
+                ->options([
+                    1 => 'Yes',
+                    0 => 'No'
+                ])
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('biology_challenge', $state);
                 }),
             Placeholder::make('course_placement.language_selection')
                 ->label('')
@@ -178,7 +196,18 @@ trait CoursePlacementTrait{
                         $component->state($data);
                     }
                 })
-                ->afterStateUpdated(function(Livewire $livewire, CheckboxList $component, Closure $get, $state){
+                ->afterStateUpdated(function(Livewire $livewire, CheckboxList $component, Closure $get, Closure $set, $state){
+                    if(in_array(LanguageFacts::level0, $state)){
+
+                        if($state[0] == LanguageFacts::level0){
+                            array_shift($state);
+                            $set('course_placement.language1_skill_list', $state);
+                        }else{
+                            $state = [LanguageFacts::level0];
+                            $set('course_placement.language1_skill_list', $state);
+                        }
+                        
+                    }
                     $livewire->validateOnly($component->getStatePath());
                     $input = is_array($state) ? implode(',', $state) : $state;
                     $this->autoSaveCourse('language1_skill_list', $input);
