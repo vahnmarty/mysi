@@ -313,15 +313,15 @@ class Application extends Model
         $array = [];
 
         if($appStatus){
-            if($appStatus->english_class){
+            if($appStatus->honors_english){
                 $array[] = $appStatus->english_class;
             }
     
-            if($appStatus->math_class){
+            if($appStatus->honors_math){
                 $array[] = $appStatus->math_class;
             }
     
-            if($appStatus->bio_class){
+            if($appStatus->honors_bio){
                 $array[] = $appStatus->bio_class;
             }
         }
@@ -357,7 +357,7 @@ class Application extends Model
         if($appStatus){
             $count = $this->honorsCount();
 
-            if($count == 3){
+            if($count == 1){
                 return 'a Loyola';
             }
 
@@ -365,7 +365,7 @@ class Application extends Model
                 return 'a Jesuit';
             }
 
-            if($count == 1){
+            if($count == 3){
                 return 'an Ignatian';
             }
         }

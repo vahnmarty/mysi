@@ -50,32 +50,6 @@
 
     @livewire('notifications')
 
-    <script>
-
-        Livewire.on('leftAsterisk', event => {
-            setTimeout(() => {
-                leftAsterisk();
-            }, 100);
-        })
-
-
-        leftAsterisk();
-
-        function leftAsterisk()
-        {
-            
-            //const labels = document.querySelectorAll('.filament-forms-field-wrapper-label');
-        
-            //labels.forEach(label => {
-            //    const domSpan = label.querySelector('span');
-            //    if(domSpan.querySelector('sup') !== null){
-            //        label.innerHTML = `<span class="-mr-2 font-medium text-primary-red">*</span>${label.innerHTML}`;
-            //    }
-            //});
-        }
-        
-    </script>
-
 </body>
 
 </html>

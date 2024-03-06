@@ -6,8 +6,11 @@
             @if($decision_status == 'Accepted')
             <div class="mt-8">
                 <h4 class="font-bold text-primary-red">
-                    Congratulations on enrolling as a student in the SI Class of {{ config('settings.class_year') }}! 
-                    Please check back here on <u>{{ app_variable('registration_start_date') }}</u> for next steps and registration information.
+                    You have successfully reserved your spot for the SI Class of {{ app_variable('settings.class_year') }}!  We are thrilled to have you join our school community!  Registration will open on <u>{{ app_variable('registration_start_date') }}</u>.  Please log back into the MySI portal at that time to register for the {{ app_variable('academic_school_year') }}!  school year. 
+                </h4>
+                
+                <h4 class="mt-4 font-bold text-primary-red">
+                    In the meantime, feel free to browse our Summer Programs offering for the incoming Frosh class and visit the SI Prep Shop in person or online.  Click on the SI Prep Shop link on the menu for store hours.  Welcome to SI!
                 </h4>
 
                 @if($app->survey?->submitted())
@@ -184,7 +187,7 @@
             </div>
 
             <div class="mt-8">
-                <x-filament::page></x-filament::page>
+                <x-custom-filament-page></x-custom-filament-page>
             </div>
         </div>
     </div>

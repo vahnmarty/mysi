@@ -21,7 +21,9 @@ class ContactDirectoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationLabel = 'Directory';
+    protected static ?string $navigationLabel = 'Contact Directory';
+
+    protected static ?string $pluralLabel = 'Contact Directory';
 
     public static function form(Form $form): Form
     {

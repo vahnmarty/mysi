@@ -24,6 +24,9 @@ class NotificationSettingResource extends Resource
 
     protected static ?string $navigationLabel = 'School Timeline';
 
+    protected static ?string $modelLabel = 'School Timeline';
+
+    protected static ?string $pluralLabel = 'School Timeline';
 
     public static function form(Form $form): Form
     {

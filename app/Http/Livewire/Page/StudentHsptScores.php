@@ -42,8 +42,8 @@ class StudentHsptScores extends Component implements HasTable
     protected function getTableActions(): array
     {
         return [ 
-            Action::make('see_scores')
-                ->label('See Scores')
+            //Action::make('see_scores')
+                //->label('See Scores')
         ];
     }
 

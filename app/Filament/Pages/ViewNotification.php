@@ -14,6 +14,7 @@ use Filament\Pages\Actions\Action;
 use Illuminate\Support\HtmlString;
 use App\Models\NotificationMessage;
 use Illuminate\Contracts\View\View;
+use App\Filament\CustomFilamentPage;
 use Illuminate\Support\Facades\Mail;
 use App\Enums\NotificationStatusType;
 use Filament\Forms\Contracts\HasForms;
@@ -28,7 +29,7 @@ use net\authorize\api\contract\v1 as AnetAPI;
 use Filament\Forms\Concerns\InteractsWithForms;
 use net\authorize\api\controller as AnetController;
 
-class ViewNotification extends Page {
+class ViewNotification extends CustomFilamentPage {
 
     
     protected static string $view = 'filament.pages.view-notification';
