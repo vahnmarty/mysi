@@ -6,6 +6,8 @@ use App\Models\Survey;
 use Livewire\Component;
 use App\Models\Application;
 use App\Enums\SurveyReasonType;
+use App\Enums\DeclineReasonType;
+use App\Enums\AcceptanceReasonType;
 use App\Models\NotificationMessage;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -22,7 +24,7 @@ class SurveyForm extends Component implements HasForms
 {
     use InteractsWithForms;
     
-    public $type;
+    public $type; // 'Accepted' || Declined
 
     public $data = [];
 
@@ -167,7 +169,15 @@ class SurveyForm extends Component implements HasForms
 
     private function getReasonArray($column)
     {
-        $options = SurveyReasonType::asSameArray();
+
+        if($this->type == 'Accepted'){
+            $options = AcceptanceReasonType::asSameArray();
+        }else{
+            $options = DeclineReasonType::asSameArray();
+        }
+        
+
+
         $fields = ['most_important_reason', 'second_important_reason', 'third_important_reason'];
 
         foreach($fields as $field)

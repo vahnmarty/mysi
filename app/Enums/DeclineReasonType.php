@@ -10,7 +10,7 @@ use App\Enums\Traits\EnumCustomTrait;
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-final class SurveyReasonType extends Enum
+final class DeclineReasonType extends Enum
 {
     use EnumCustomTrait;
     

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('accounts', function (Blueprint $table) {
             $table->after('record_type_id', function(Blueprint $table){
-                $table->string('primary_language_spoken', 500);
-                $table->string('other_primary_language_spoken', 200);
+                $table->string('primary_language_spoken', 500)->nullable();
+                $table->string('other_primary_language_spoken', 200)->nullable();
             });
         });
     }
