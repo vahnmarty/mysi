@@ -36,12 +36,24 @@ trait CoCurricularTrait{
                 <p>* This section is to be completed by a student.</p>
                 <p class="mt-8">SI offers a variety of clubs, activities, and teams that you can join based on your interests.  For more information about our clubs, click <a href="https://families.siprep.org/students/clubs" target="_blank" class="text-link">here</a>.</p>
             ')),
+            Select::make('student.is_interested_club')
+                ->label("Would you be interested in joining any of our clubs?")
+                ->options([
+                    1 => 'Yes',
+                    0 => 'No'
+                ])
+                ->lazy()
+                ->required()
+                ->afterStateUpdated(function($state){
+                    $this->autoSaveStudent('is_interested_club', $state);
+                }),
             Select::make('student.clubs')
                 ->multiple()
                 ->maxItems(3)
                 ->options(Club::getNameArray())
                 ->preload()
                 ->required()
+                ->visible(fn(Closure $get) => $get('student.is_interested_club'))
                 ->label('Choose the top 3 clubs that interest you:')
                 ->lazy()
                 ->afterStateHydrated(function (Select $component, $state) {
@@ -107,12 +119,24 @@ trait CoCurricularTrait{
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('instruments', $state);
                 }),
+            Select::make('student.is_interested_sports')
+                ->label("Would you be interested in joining any of our sports teams?")
+                ->options([
+                    1 => 'Yes',
+                    0 => 'No'
+                ])
+                ->lazy()
+                ->required()
+                ->afterStateUpdated(function($state){
+                    $this->autoSaveStudent('is_interested_sports', $state);
+                }),
             Select::make('student.sports')
                 ->multiple()
                 ->maxItems(3)
                 ->options(Sport::getNameArray())
                 ->required()
                 ->label('Choose the top 3 sports you would like to participate in at SI:')
+                ->visible(fn(Closure $get) => $get('student.is_interested_sports'))
                 ->lazy()
                 ->preload()
                 ->afterStateHydrated(function (Select $component, $state) {
@@ -138,12 +162,12 @@ trait CoCurricularTrait{
             Placeholder::make('affinity_text')
                 ->label('')
                 ->content(new HtmlString('<div class="text-sm">
-                    <h3 class="font-bold text-primary-blue">SI Affinity Groups</h3>
+                    <h3 class="text-lg font-bold text-primary-blue">SI Affinity Groups</h3>
                     <p class="mt-4">
                         Affinity groups at St. Ignatius are inclusive gatherings where individuals with shared social identities come together voluntarily.  These groups provide a safe space for students who share a common identity, often marginalized, to discuss issues related to that identity, forge connections, and access resources and support from peers and faculty/staff moderators.  Embracing diverse dimensions such as cultural or spiritual identities, affinity groups are instrumental in cultivating awareness and appreciation for diversity within the St. Ignatius community.  They actively contribute to the positive exploration and development of students\' identities, empowering members to contribute to a more inclusive school community.
                     </p>
                     <p class="mt-4">
-                    If you wish to join any affinity group(s) at this time, kindly select from the current available affinity groups at SI.  Affinity groups are intended for individuals who identify as members of the group and can share their experiences from a first-person perspective ("I").
+                        If you wish to join any affinity group(s) at this time, kindly select from the current available affinity groups at SI.  Affinity groups are intended for individuals who identify as members of the group and can share their experiences from a first-person perspective ("I").
                     </p>
                 </div>')),
             Select::make('student.affinity')

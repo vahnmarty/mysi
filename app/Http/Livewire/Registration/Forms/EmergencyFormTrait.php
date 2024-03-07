@@ -41,7 +41,7 @@ trait EmergencyFormTrait{
                 ->label('')
                 ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             TextInput::make('emergency_contact.full_name')
-                ->label('Emergency Contact Name (if parents/guardians are unavailable):')
+                ->label('Full Name (if parents/guardians are unavailable):')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
@@ -49,7 +49,7 @@ trait EmergencyFormTrait{
                     $this->autoSaveEmergency('full_name', $state);
                 }),
             Select::make('emergency_contact.relationship')
-                ->label('Emergency Contact Relationship')
+                ->label('Relationship to Student')
                 ->lazy()
                 ->required()
                 ->options(EmergencyContactRelationshipType::asSameArray())
@@ -58,7 +58,7 @@ trait EmergencyFormTrait{
                     $this->autoSaveEmergency('relationship', $state);
                 }),
             TextInput::make('emergency_contact.home_phone')
-                ->label("Emergency Contact Home Phone")
+                ->label("Home Phone")
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
@@ -74,7 +74,7 @@ trait EmergencyFormTrait{
                     $this->autoSaveEmergency('home_phone', $state);
                 }),
             TextInput::make('emergency_contact.mobile_phone')
-                ->label("Emergency Contact Mobile Phone")
+                ->label("Mobile Phone")
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
@@ -90,7 +90,7 @@ trait EmergencyFormTrait{
                     $this->autoSaveEmergency('mobile_phone', $state);
                 }),
             TextInput::make('emergency_contact.work_phone')
-                ->label("Emergency Contact Work Phone")
+                ->label("Work Phone")
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
@@ -106,7 +106,7 @@ trait EmergencyFormTrait{
                     $this->autoSaveEmergency('work_phone', $state);
                 }),
             TextInput::make('emergency_contact.work_phone_ext')
-                ->label('Emergency Contact Work Phone Extension')
+                ->label('Work Phone Extension')
                 ->lazy()
                 ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());

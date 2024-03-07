@@ -128,7 +128,7 @@ trait SiblingFormTrait{
                         }),
                     Select::make('current_grade')
                         ->label('Current Grade')
-                        ->options(GradeLevel::asSameArray())
+                        ->options(GradeLevel::asSameArray() + ['Not in School' => 'Not in School'])
                         ->preload()
                         ->lazy()
                         ->required()
@@ -151,7 +151,7 @@ trait SiblingFormTrait{
                         ->reactive()
                         ->searchable(fn (Select $component) => !$component->isDisabled())
                         ->getSearchResultsUsing(fn (string $search) => School::search($search)->orderBy('name')->get()->take(50)->pluck('name', 'name'))
-                        ->disabled(fn(Closure $get) => $get('current_grade') == GradeLevel::PostCollege)
+                        ->disabled(fn(Closure $get) => in_array($get('current_grade'), [GradeLevel::PostCollege, 'Not in School']) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveSibling($get('id'), 'current_school', $state);
                         }),

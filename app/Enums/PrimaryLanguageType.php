@@ -15,15 +15,16 @@ final class PrimaryLanguageType extends Enum
     use EnumCustomTrait;
     
     const English = 'English';
-    const Spanish = 'Spanish';
-    const Mandarin = 'Mandarin';
-    const Cantonese = 'Cantonese';
-    const Tagalog = 'Tagalog';
-    const Vietnamese = 'Vietnamese';
+
     const Arabic = 'Arabic';
+    const Cantonese = 'Cantonese';
     const French = 'French';
     const Korean = 'Korean';
-    const Russian = 'Russian';
-    const Portuguese = 'Portuguese';
+    const Mandarin = 'Mandarin';
     const Other = 'Other';
+    const Portuguese = 'Portuguese';
+    const Russian = 'Russian';
+    const Spanish = 'Spanish';
+    const Tagalog = 'Tagalog';
+    const Vietnamese = 'Vietnamese';
 }

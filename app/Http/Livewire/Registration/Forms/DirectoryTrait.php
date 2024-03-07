@@ -33,7 +33,7 @@ trait DirectoryTrait{
                 ->label('')
                 ->content(new HtmlString('<p>* This section is to be completed by a parent/guardian.</p>
                     <p class="mt-4">
-                        SI maintains a directory of current students and their parents/guardians.  Please let us know what information you would like to share with the rest of our community.
+                    SI maintains a directory of current students and their parents/guardians.  This directory can be used to foster collaboration among families for carpools, volunteering, school activities and other general community support.  Please let us know what information you would like to share with the rest of our community.  This information will be available around August.
                     </p>
                 ')),
             TableRepeater::make('student_directory')

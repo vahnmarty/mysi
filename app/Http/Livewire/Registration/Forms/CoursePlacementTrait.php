@@ -24,6 +24,7 @@ use App\Enums\FamilySpiritualityType;
 use Filament\Forms\Components\Select;
 use App\Forms\Components\WordTextArea;
 
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
@@ -31,6 +32,7 @@ use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\CheckboxList;
+use App\Forms\Components\CustomCheckboxList;
 use Filament\Forms\Components\TextInput\Mask;
 use App\Enums\EmergencyContactRelationshipType;
 use Wiebenieuwenhuis\FilamentCharCounter\Textarea;
@@ -43,6 +45,9 @@ trait CoursePlacementTrait{
             Placeholder::make('course_placement.section_accomod_form')
                 ->label('')
                 ->content(new HtmlString('* This section is to be completed by the student.')),
+
+            # English
+
             Placeholder::make('course_placement.english_placement')
                 ->label('')
                 ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">
@@ -50,10 +55,16 @@ trait CoursePlacementTrait{
                         <h3 class="font-bold text-primary-blue">English Placement</h3>
 
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.english_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
-
-                        <p>NOTE:  Any interested freshman students will have an opportunity to apply for Honors English in the spring semester of their freshman year for the following school year (sophomore year).</p>
                     </div>
                 </div>')),
+            Checkbox::make('course_placement.english_placement_opt')
+                ->visible(fn(Closure $get) => $get('application_status.english_class'))
+                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements."),
+            Placeholder::make('course_placement.english_placement_note')
+                ->label('')
+                ->content(fn(Closure $get) => new HtmlString('<p>NOTE: Any interested Frosh students will have an opportunity to apply for Honors English in the spring semester of their Frosh year for the following school year (Sophomore year).</p>')),
+
+            # Math
             Placeholder::make('course_placement.math_placement')
                 ->label('')
                 ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">
@@ -61,12 +72,20 @@ trait CoursePlacementTrait{
                         <h3 class="font-bold text-primary-blue">Math Placement</h3>
 
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.math_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
-
+                    </div>
+                </div>')),
+            Checkbox::make('course_placement.math_placement_opt')
+                ->visible(fn(Closure $get) => $get('application_status.math_class'))
+                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements."),
+            Placeholder::make('course_placement.math_placement_note')
+                ->label('')
+                ->content(fn(Closure $get) => new HtmlString('
+                    <div class="space-y-4">
                         <p>
                             If you want to challenge your math placement, you are required to take the Challenge Test on '. app_variable('challenge_test_date') .'.    
                         </p>
                     </div>
-                </div>')),
+                ')),
             Select::make('course_placement.math_challenge')
                 ->label('Do you want to make a reservation to take the Math Challenge Test on ' . app_variable('challenge_test_date') . '?')
                 ->options([
@@ -79,6 +98,9 @@ trait CoursePlacementTrait{
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('math_challenge', $state);
                 }),
+
+            # Biology
+            
             Placeholder::make('course_placement.biology_placement')
                 ->label('')
                 ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">
@@ -86,7 +108,15 @@ trait CoursePlacementTrait{
                         <h3 class="font-bold text-primary-blue">Biology Placement</h3>
 
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.bio_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
-
+                    </div>
+                </div>')),
+            Checkbox::make('course_placement.biology_placement_opt')
+                ->visible(fn(Closure $get) => $get('application_status.bio_class'))
+                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements."),
+            Placeholder::make('course_placement.biology_placement_note')
+                ->label('')
+                ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">
+                    <div class="space-y-4">
                         <p>
                             If you want to challenge your biology placement, you are required to take the Challenge Test on '. app_variable('challenge_test_date') . '? 
                         </p>
@@ -108,7 +138,7 @@ trait CoursePlacementTrait{
                 ->label('')
                 ->content(new HtmlString("<div>
                     <h3 class='font-bold text-primary-blue'>Language Selection</h3>
-                    <p class='mt-8 text-sm'>
+                    <p class='mt-4'>
                     <strong class='text-primary-red'>Please indicate your language choice in the text boxes below:</strong> Options are French, Latin, Mandarin and Spanish
                     (NOTE:  French for beginners is not offered.  You will need to take a Placement Test and place into French 3 or above in order to take the class.
                     </p>
@@ -151,10 +181,10 @@ trait CoursePlacementTrait{
                 }),
             Placeholder::make('course_placement.advance_section')
                 ->label('')
-                ->content(new HtmlString('<p class="text-sm">To place above the beginning level of your Language Choice, you must take the Placement Test on ' .  date('F d, Y', strtotime(config('settings.registration.challenge_test_date')))  .'.</p>')),
+                ->content(new HtmlString('<p>To place above the beginning level of your Language Choice, you must take the Placement Test on ' . app_variable('challenge_test_date')  .'.</p>')),
 
             Select::make('course_placement.reserve_language_placement')
-                ->label('Do you want to make a reservation to take the Language Placement Test on ' . date('F d, Y', strtotime(config('settings.registration.challenge_test_date'))) . '?')
+                ->label('Do you want to make a reservation to take the Language Placement Test on ' . app_variable('challenge_test_date') . '?')
                 ->options([
                     1 => 'Yes',
                     0 => 'No'
@@ -184,11 +214,11 @@ trait CoursePlacementTrait{
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('language1_skill', $state);
                 }),
-            CheckboxList::make('course_placement.language1_skill_list')
+            CustomCheckboxList::make('course_placement.language1_skill_list')
                 ->label('Also, which of the following applies to your number 1 ranked language choice? (Check all that applies) ')
                 ->options(LanguageFacts::asSameArray())
                 ->reactive()
-                ->afterStateHydrated(function (CheckboxList $component, $state) {
+                ->afterStateHydrated(function (CustomCheckboxList $component, $state) {
                     if(is_string($state)){
                         $component->state(explode(',', $state));
                     }else{
@@ -196,22 +226,27 @@ trait CoursePlacementTrait{
                         $component->state($data);
                     }
                 })
-                ->afterStateUpdated(function(Livewire $livewire, CheckboxList $component, Closure $get, Closure $set, $state){
-                    if(in_array(LanguageFacts::level0, $state)){
+                ->afterStateUpdated(function(Livewire $livewire, CustomCheckboxList $component, Closure $get, Closure $set, $state){
+                    // if(in_array(LanguageFacts::level0, $state)){
 
-                        if($state[0] == LanguageFacts::level0){
-                            array_shift($state);
-                            $set('course_placement.language1_skill_list', $state);
-                        }else{
-                            $state = [LanguageFacts::level0];
-                            $set('course_placement.language1_skill_list', $state);
-                        }
+                    //     if($state[0] == LanguageFacts::level0){
+                    //         array_shift($state);
+                    //         $set('course_placement.language1_skill_list', $state);
+                    //     }else{
+                    //         $state = [LanguageFacts::level0];
+                    //         $set('course_placement.language1_skill_list', $state);
+                    //     }
                         
+                    // }
+
+                    if(in_array(LanguageFacts::level0, $state)){
+                        $state = [LanguageFacts::level0];
                     }
                     $livewire->validateOnly($component->getStatePath());
                     $input = is_array($state) ? implode(',', $state) : $state;
                     $this->autoSaveCourse('language1_skill_list', $input);
-                }),
+                })
+                ->disableOptionWhen(LanguageFacts::level0),
             
             
         ];

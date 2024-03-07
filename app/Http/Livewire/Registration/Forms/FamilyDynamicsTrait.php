@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Registration\Forms;
 
 use Closure;
+use Livewire\Component as Livewire;
 use App\Models\Child;
 use App\Models\Account;
 use App\Models\Address;
@@ -60,7 +61,7 @@ trait FamilyDynamicsTrait{
                         ->required()
                         ->disabled(),
                     Select::make('relationship_type')
-                        ->label('Relationship to Applicant')
+                        ->label('Relationship to Student')
                         ->disableLabel()
                         ->options(ParentType::asSameArray())
                         ->required()
@@ -206,7 +207,7 @@ trait FamilyDynamicsTrait{
                     ->options(PrimaryLanguageType::asSameArray())
                     ->preload()
                     ->required()
-                    ->label('What is the primary language spoken at home?')
+                    ->label("What is(are) the primary language(s) spoken at home?")
                     ->lazy()
                     ->afterStateHydrated(function (Select $component, $state) {
                         if(is_string($state)){
@@ -229,7 +230,13 @@ trait FamilyDynamicsTrait{
                         $array2 = ['Other'];
                         return array_intersect($array1, $array2);
                     })
-                    ->afterStateUpdated(function($state){
+                    ->required(function(Closure $get){
+                        $array1 = $get('primary_language_spoken');
+                        $array2 = ['Other'];
+                        return array_intersect($array1, $array2);
+                    })
+                    ->afterStateUpdated(function(Livewire $livewire, TextInput $component, $state){
+                        $livewire->validateOnly($component->getStatePath());
                         $this->autoSaveAccount('other_primary_language_spoken', $state);
                     }),
                 

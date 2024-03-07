@@ -44,6 +44,10 @@ class RegistrationForm extends Component implements HasForms
 
     public $open;
 
+    protected $messages = [
+        'data.other_primary_language_spoken.required' => 'Please enter a language.',
+    ];
+
     public function render()
     {
         return view('livewire.registration.registration-form');

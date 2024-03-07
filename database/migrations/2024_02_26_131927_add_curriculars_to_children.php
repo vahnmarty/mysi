@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('children', function (Blueprint $table) {
+            $table->boolean('is_interested_club')->nullable();
             $table->string('clubs', 1028)->nullable();
+            $table->boolean('is_interested_sports')->nullable();
             $table->string('sports', 1028)->nullable();
             $table->string('instruments', 1028)->nullable();
         });
@@ -24,7 +26,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('children', function (Blueprint $table) {
+            $table->dropColumn('is_interested_club');
             $table->dropColumn('clubs');
+            $table->dropColumn('is_interested_sports');
             $table->dropColumn('sports');
             $table->dropColumn('instruments');
         });

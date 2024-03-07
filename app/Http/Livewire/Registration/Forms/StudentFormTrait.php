@@ -92,14 +92,14 @@ trait StudentFormTrait{
             TextInput::make('student.personal_email')
                 ->email()
                 ->rules(['email:rfc,dns'])
-                ->label('Personal Email (If none, use a parent’s email address.)')
+                ->label('Personal Email (If none, use a parent\'s/guardian\'s email address.)')
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('personal_email', $state);
                 }),
             TextInput::make('student.mobile_phone')
-                ->label('Mobile Phone (If none, use a parent’s mobile phone.)')
+                ->label('Mobile Phone (If none, use a parent\'s/guardian\'s mobile phone.))')
                 ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
@@ -109,7 +109,12 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('mobile_phone', $state);
                 }),
             CheckboxList::make('student.race')
-                ->label(new HtmlString('<div>How do you identify racially?</div><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
+                ->label(new HtmlString('
+                    <div>
+                        How does your child identify racially??
+                    </div>
+                    <div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>
+                '))
                 ->options(RacialType::asSameArray())
                 ->columns(3)
                 ->lazy()
@@ -132,7 +137,7 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
             TagsInput::make('student.ethnicity')
-                ->label(new HtmlString('<div>What is your ethnicity?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
+                ->label(new HtmlString('<div>What is your child\'s ethnicity?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
                 ->placeholder('')
@@ -220,7 +225,7 @@ trait StudentFormTrait{
             //     }),
             Select::make('student.religion')
                 ->options(ReligionType::asSelectArray())
-                ->label("Applicant's Religion")
+                ->label("Student's Religion")
                 ->lazy()
                 ->required()
                 ->afterStateUpdated(function($state){

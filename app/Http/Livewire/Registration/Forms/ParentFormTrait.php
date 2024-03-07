@@ -52,12 +52,15 @@ trait ParentFormTrait{
                 ->maxItems(4)
                 ->registerListeners([
                     'repeater::createItem' => [
-                        function (): void {
-                            Notification::make()
-                                ->title('New Parent Form Added')
-                                ->body('Make sure to REFRESH this page after adding a new parent.')
-                                ->warning()
-                                ->send();
+                        function (Component $component, string $statePath): void {
+                            if($statePath == 'data.parents'){
+                                Notification::make()
+                                    ->title('New Parent Form Added')
+                                    ->body('Make sure to REFRESH this page after adding a new parent.')
+                                    ->warning()
+                                    ->send();
+                            }
+                            
                         }
                     ],
                     'repeater::deleteItem' => [
@@ -370,7 +373,7 @@ trait ParentFormTrait{
                                 }),
                         ]),
                     Select::make('is_primary_contact')
-                        ->label('Is this parent the Primary Contact? (Only 1 parent can be the Primary Contact)')
+                        ->label("Is this parent/guardian the primary contact?  (Only 1 parent/guardian can be the primary contact.)")
                         ->options([
                             1 => 'Yes',
                             0 => 'No'
@@ -413,7 +416,7 @@ trait ParentFormTrait{
                             $this->autoSaveParent($get('id'),'is_primary_contact', $state);
                         }),
                     Select::make('has_legal_custody')
-                        ->label('Does this parent have legal custody of the student?')
+                        ->label("Does this parent/guardian have legal custody of the student?")
                         ->options([
                             1 => 'Yes',
                             0 => 'No'
@@ -424,7 +427,7 @@ trait ParentFormTrait{
                             $this->autoSaveParent($get('id'),'has_legal_custody', $state);
                         }),
                     Select::make('is_pickup_allowed')
-                        ->label('Is it okay for this parent to pickup the student at SI?')
+                        ->label("Is it okay for this parent/guardian to pick up the student at SI?")
                         ->options([
                             1 => 'Yes',
                             0 => 'No'
