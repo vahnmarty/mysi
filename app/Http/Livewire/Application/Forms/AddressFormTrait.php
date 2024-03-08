@@ -154,7 +154,7 @@ trait AddressFormTrait{
                             
                         })
                 ])
-                ->createItemButtonLabel(fn(Closure $get) => count($get('addresses')) ? 'Add Another Address' : 'Add Address')
+                ->createItemButtonLabel(fn(Closure $get) => count($get('addresses') ?? []) ? 'Add Another Address' : 'Add Address')
         ];
     }
 
