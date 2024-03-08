@@ -6,12 +6,15 @@ use App\Models\User;
 use App\Models\Child;
 use App\Models\Parents;
 use App\Models\Application;
+use App\Filament\Widgets\Widget\GroupWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
-class ApplicationSummary extends BaseWidget
+class ApplicationSummary extends GroupWidget
 {
     protected static ?string $header = 'App';
+
+    public $title = 'People and Application Summary';
 
     protected $listeners = ['goto'];
 

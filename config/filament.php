@@ -140,7 +140,7 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-            PeopleApplicationSummaryTitle::class,
+            // PeopleApplicationSummaryTitle::class,
             // Widgets\AccountWidget::class,
             // Widgets\FilamentInfoWidget::class,
         ],
