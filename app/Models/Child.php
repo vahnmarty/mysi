@@ -18,6 +18,7 @@ class Child extends Model
     protected $guarded = [];
 
     protected $appends = [
+        'full_name',
         'pronoun_subject',
         'pronoun_possessive',
         'pronoun_personal',
@@ -32,6 +33,11 @@ class Child extends Model
     public function getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->getFullName();
     }
 
     public function application()
