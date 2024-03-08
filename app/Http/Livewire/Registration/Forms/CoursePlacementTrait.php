@@ -57,9 +57,14 @@ trait CoursePlacementTrait{
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.english_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
                     </div>
                 </div>')),
-            Checkbox::make('course_placement.english_placement_opt')
+            Checkbox::make('course_placement.english_placement_opt_out')
                 ->visible(fn(Closure $get) => $get('application_status.english_class'))
-                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements."),
+                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements.")
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Checkbox $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('english_placement_opt_out', $state);
+                }),
             Placeholder::make('course_placement.english_placement_note')
                 ->label('')
                 ->content(fn(Closure $get) => new HtmlString('<p>NOTE: Any interested Frosh students will have an opportunity to apply for Honors English in the spring semester of their Frosh year for the following school year (Sophomore year).</p>')),
@@ -74,9 +79,14 @@ trait CoursePlacementTrait{
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.math_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
                     </div>
                 </div>')),
-            Checkbox::make('course_placement.math_placement_opt')
+            Checkbox::make('course_placement.math_placement_opt_out')
                 ->visible(fn(Closure $get) => $get('application_status.math_class'))
-                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements."),
+                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements.")
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Checkbox $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('math_placement_opt_out', $state);
+                }),
             Placeholder::make('course_placement.math_placement_note')
                 ->label('')
                 ->content(fn(Closure $get) => new HtmlString('
@@ -110,9 +120,14 @@ trait CoursePlacementTrait{
                         <p>You have been placed in: <u><strong class="text-primary-red">&nbsp;&nbsp;&nbsp;'. $get('application_status.bio_class') .'&nbsp;&nbsp;&nbsp;</strong></u></p>
                     </div>
                 </div>')),
-            Checkbox::make('course_placement.biology_placement_opt')
+            Checkbox::make('course_placement.biology_placement_opt_out')
                 ->visible(fn(Closure $get) => $get('application_status.bio_class'))
-                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements."),
+                ->label("Opt out and take the next level below.  Students who opt out of any Honors course now will still be eligible for Honors courses in the future based on GPA requirements.")
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Checkbox $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveCourse('biology_placement_opt_out', $state);
+                }),
             Placeholder::make('course_placement.biology_placement_note')
                 ->label('')
                 ->content(fn(Closure $get) => new HtmlString('<div class="space-y-8">

@@ -79,6 +79,20 @@ trait MagisProgramTrait{
                 ])
                 ->required()
                 ->reactive()
+                ->disabled(function(Closure $get){
+                    $types = ['A', 'B', 'B1'];
+                    $fa = $get('application_status.financial_aid');
+
+                    return in_array($fa, $types);
+                })
+                ->afterStateHydrated(function(Livewire $livewire, Radio $component, Closure $get, Closure $set, $state){
+                    $types = ['A', 'B', 'B1'];
+                    $fa = $get('application_status.financial_aid');
+
+                    if(in_array($fa, $types)){
+                        $set('magis_program.is_interested', 1);
+                    }
+                })
                 ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveProgram('is_interested', $state);
