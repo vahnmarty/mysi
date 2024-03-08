@@ -125,13 +125,6 @@
             </x-slot>
             HSPT Scores
         </x-sidebar-item>
-
-        <x-sidebar-item href="{{ url('prep-shop') }}" :active="request()->is('prep-shop')">
-            <x-slot name="icon">
-                <x-heroicon-o-shopping-cart class="flex-shrink-0 w-5 h-5" />
-            </x-slot>
-            SI Prep Shop
-        </x-sidebar-item>
         @endif
 
         

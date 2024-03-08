@@ -30,7 +30,7 @@
             </div>
             <div class="mt-8 text-center">
                 <h1 class="text-5xl font-bold font-heading">Thank <span class="text-primary-blue">You</span></h1>
-                <p class="mt-6">Thank you for submitting your application to St. Ignatius College Preparatory. If you have any questions regarding the Admission process, please visit our website at <a href="https://www.siprep.org/admissions" class="text-link hover:underline">https://www.siprep.org/admissions</a> or email us at <a href="mailto:admissions@siprep.org" class="text-link hover:underline">admissions@siprep.org</a>.</p>
+                <p class="mt-6">Thank you for submitting your application to St. Ignatius College Preparatory. If you have any questions regarding the Admission process, please visit our website at <a href="https://www.siprep.org/admissions" class="text-link">https://www.siprep.org/admissions</a> or email us at <a href="mailto:admissions@siprep.org" class="text-link">admissions@siprep.org</a>.</p>
                 <a href="{{ url('admission') }}" class="mt-8 btn-primary">Back to Applications</a>
             </div>
         </div>

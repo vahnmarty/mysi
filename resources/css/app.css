@@ -237,3 +237,7 @@ display: none;
 #table-si-directory sup{
     display: none !important;
 }
+
+a.text-link{
+    @apply hover:underline;
+}

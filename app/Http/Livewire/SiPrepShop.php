@@ -25,7 +25,7 @@ class SiPrepShop extends Component implements HasTable
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('date')->dateTime('F d, Y'),
+            TextColumn::make('date')->dateTime('l, F d, Y'),
             TextColumn::make('morning_schedule')
                 ->label('Morning Schedule'),
             TextColumn::make('afternoon_schedule')

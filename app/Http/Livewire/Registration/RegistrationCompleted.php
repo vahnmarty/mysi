@@ -88,7 +88,7 @@ class RegistrationCompleted extends Component implements HasForms
                 ->label('')
                 ->content(new HtmlString('<div>
                     <p>
-                        Login today to your new <a  href="https://mail.google.com" target="_blank" class="text-link"><u>SI Google Account</u></a> and access your email using the credentials below. Make sure to use <b>@siprep.org</b>, not @gmail.com.
+                        Login today to your new <a  href="https://mail.google.com" target="_blank" class="text-link">SI Google Account</a> and access your email using the credentials below. Make sure to use <b>@siprep.org</b>, not @gmail.com.
                     </p>
                 </div>')),
             Placeholder::make('student.full_name')
@@ -119,11 +119,11 @@ class RegistrationCompleted extends Component implements HasForms
                         You will receive important information via your SI email account throughout the summer, including messages about upcoming activities and your first assignment in June. SI students are expected to check their email inbox daily.
                     </p>
                     <p class="mt-4">
-                        If you would like to change your password, you must change it via the SI website by going to <a class="text-link" href="https://www.siprep.org/pw" target="_blank"><u>https://www.siprep.org/pw</u></a>.
+                        If you would like to change your password, you must change it via the SI website by going to <a class="text-link" href="https://www.siprep.org/pw" target="_blank">https://www.siprep.org/pw</a>.
                         Do not use the “Forgot my password” link in the Google login box.
                     </p>
                     <p class="mt-4">
-                        If you have any difficulties with your email account, please contact <a class="text-link" href="mailto:SI_librarians@siprep.org?subject=Problems with Email Account" target="_blank"><u>SI_librarians@siprep.org</u></a>.
+                        If you have any difficulties with your email account, please contact <a class="text-link" href="mailto:SI_librarians@siprep.org?subject=Problems with Email Account" target="_blank">SI_librarians@siprep.org</a>.
                     </p>
 
                     <div class="mt-6">
@@ -221,7 +221,7 @@ class RegistrationCompleted extends Component implements HasForms
                             Upload SFUSD Freshman Health Form: Due by '. app_variable('health_form_due_date', 'display_value').'
                         </p>
                         <p>
-                            Please download: <a class="text-link" href="'.asset('files/SIFreshmanHealthForm.pdf').'" target = "_blank"><u>SFUSD Freshman Health Form</u></a>. Note that this form requires a doctor\'s signature.
+                            Please download: <a class="text-link" href="'.asset('files/SIFreshmanHealthForm.pdf').'" target = "_blank">SFUSD Freshman Health Form</a>. Note that this form requires a doctor\'s signature.
                         </p>
                     </div>')),
                     FileUpload::make('student.health_form_file')
@@ -314,12 +314,12 @@ class RegistrationCompleted extends Component implements HasForms
                         </p>
                         <div class="mt-3 text-sm">
                             To participate in SI Athletics, including tryouts, you must register to play through SI’s <a 
-                            class="text-link" href="' . app_variable('family_id_url') . '" target="blank"><u>FamilyID system</u></a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
+                            class="text-link" href="' . app_variable('family_id_url') . '" target="blank">FamilyID system</a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
                             to Play Medical Clearance Form.&nbsp;&nbsp;The ticket to play requires a physical exam with a doctor.&nbsp;&nbsp;We strongly encourage you to schedule this exam between ' . app_variable('family_id_start_date', 'display_value') . '  and ' . app_variable('family_id_end_date', 'display_value') . ' to maintain athletic 
                             eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on ' . app_variable('family_id_start_date', 'display_value') . '.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
                         </div>
                         <p class="mt-3 text-sm">
-                            Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf" target="_blank"><u>here</u></a>.
+                            Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf" target="_blank">here</a>.
                         </p>
                     </div>'))
                 ]),

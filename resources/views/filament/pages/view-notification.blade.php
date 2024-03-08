@@ -10,13 +10,13 @@
                 </h4>
                 
                 <h4 class="mt-4 font-bold text-primary-red">
-                    In the meantime, feel free to browse our <a href="https://www.siprograms.com/" target="_blank" class="text-link">SI Summer Programs</a> offerings for the incoming Frosh class and visit the SI Prep Shop in person or <a href="https://www.siprograms.com/" target="_blank" class="text-link">online</a>.  Click on the SI Prep Shop link on the menu for store hours.  Welcome to SI!
+                    In the meantime, feel free to browse our <a href="https://www.siprograms.com/" target="_blank" class="text-link">SI Summer Programs</a> offerings for the incoming Frosh class and visit the SI Prep Shop in person or <a href="https://siprepshop.com/" target="_blank" class="text-link">online</a>.  Click on the SI Prep Shop link on the menu for store hours.  Welcome to SI!
                 </h4>
 
                 @if($app->survey?->submitted())
                 <p class="mt-4 underline">Please take our survey (Completed)</p>
                 @else
-                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not Completed)</a>
+                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 text-link">Please take our survey (Not Completed)</a>
                 @endif
             </div>
             @elseif($decision_status == 'Declined')
@@ -28,7 +28,7 @@
                 @if($app->survey?->submitted())
                 <p class="mt-4 underline">Please take our survey (Completed)</p>
                 @else
-                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 underline text-link">Please take our survey (Not Completed)</a>
+                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 text-link">Please take our survey (Not Completed)</a>
                 @endif
             </div>
             @elseif($decision_status == 'Waitlist Removed')
@@ -73,7 +73,7 @@
                 <div class="mt-8">
                     <a href="#" x-data="{}"
                     x-on:click.prevent="$dispatch('open-modal', 'show-faq')" 
-                    class="text-xl font-bold underline text-link">Waitlist FAQ</a>
+                    class="text-xl font-bold text-link">Waitlist FAQ</a>
                 </div>
 
                 <x-modal name="show-faq" :show="false"  maxWidth="4xl">
