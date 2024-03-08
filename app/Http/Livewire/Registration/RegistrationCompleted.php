@@ -258,7 +258,7 @@ class RegistrationCompleted extends Component implements HasForms
                     Placeholder::make('ipad_policy_verbiage')
                         ->label('')
                         ->content(new HtmlString('<p>
-                        All students are required to have a fully charged iPad with them at school each day.  For more information, please check out our Technology page <a href="https://www.siprep.org/academics/technology" target="_blank" class="text-link">here</a>.
+                        All students are required to have a fully charged iPad with them at school each day. Students must have the iPads they will use for school by July 29th. For more information, please check out our Technology page <a href="https://www.siprep.org/academics/technology" target="_blank" class="text-link">here</a>.
                         </p>')),
                 ]),
         ];
