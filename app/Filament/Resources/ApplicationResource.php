@@ -170,7 +170,7 @@ class ApplicationResource extends Resource
                     ->label('Honors Bio'),
                 Tables\Columns\SelectColumn::make("appStatus.financial_aid")
                     ->label('With F/A')
-                    ->options(['A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D', 'E' => 'E']),
+                    ->options(['A' => 'A', 'B' => 'B', 'B1' => 'B1', 'C' => 'C', 'D' => 'D', 'E' => 'E']),
                 Tables\Columns\TextColumn::make("appStatus.deposit_amount")
                     ->label('Deposit Amount'),
                 Tables\Columns\TextColumn::make("appStatus.candidate_decision_status")
