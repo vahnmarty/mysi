@@ -92,6 +92,7 @@ class ViewNotification extends CustomFilamentPage {
         return [
             Checkbox::make('checked')
                 ->columnSpan('full')
+                ->required()
                 ->label('By checking the box, I acknowledged the Financial Aid')
                 ->lazy()
                 ->required()
@@ -260,6 +261,8 @@ class ViewNotification extends CustomFilamentPage {
 
     public function acknowledgeFinancialAid()
     {
+        $data = $this->form->getState();
+        
         $appStatus = $this->app->appStatus;
         $appStatus->fa_acknowledged_at = now();
         $appStatus->save();

@@ -376,7 +376,7 @@ class Application extends Model
     public function getCourseLabelAttribute()
     {
         if($this->appStatus){
-            if($this->classList() > 1){
+            if($this->honorsCount() > 1){
                 return 'courses';
             }
         }

@@ -115,7 +115,7 @@
         <li class="px-8 py-1 text-sm transition {{ request()->is('notifications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
             <a href="{{ url('notifications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                 <x-heroicon-o-bell class="flex-shrink-0 w-5 h-5" />
-                <strong>Notification</strong>
+                <strong>Admissions Decision</strong>
             </a>
         </li>
 
@@ -229,6 +229,14 @@
         @endif
 
 
+        @if(now()->gte($notif_start_date) && now()->lt($notif_end_date) || empty($notif_start_date)  || empty($notif_end_date))
+        <x-sidebar-item href="{{ url('prep-shop') }}" :active="request()->is('prep-shop')">
+            <x-slot name="icon">
+                <x-heroicon-o-shopping-cart class="flex-shrink-0 w-5 h-5" />
+            </x-slot>
+            SI Prep Shop
+        </x-sidebar-item>
+        @endif
         
 
         <x-sidebar-item href="{{ url('help') }}" :active="request()->is('help')">
