@@ -151,6 +151,38 @@ trait CoCurricularTrait{
                     $input = is_array($state) ? implode(',', $state) : $state;
                     $this->autoSaveStudent('sports', $input);
                 }),
+            Placeholder::make('student.order_of_interest')
+                ->label('')
+                ->content(new HtmlString("<div>
+                    Please indicate your order of interest regarding the 3 groups above.
+                </div>")),
+            Select::make('student.interest1')
+                ->label('First Choice')
+                ->inlineLabel()
+                ->options(fn() => $this->getInterestArray(1))
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveStudent('interest1', $state);
+                }),
+            Select::make('student.interest2')
+                ->label('Second Choice')
+                ->inlineLabel()
+                ->options(fn() => $this->getInterestArray(2))
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveStudent('interest2', $state);
+                }),
+            Select::make('student.interest3')
+                ->label('Third Choice')
+                ->inlineLabel()
+                ->options(fn() => $this->getInterestArray(3))
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveStudent('interest3', $state);
+                }),
             Select::make('student.t_shirt_size')
                 ->options(ShirtSize::asSameArray())
                 ->label('T-Shirt Size (Adult/Unisex)')
@@ -192,6 +224,28 @@ trait CoCurricularTrait{
                 }),
             
         ];
+    }
+
+    private function getInterestArray($exceptNumber)
+    {
+        $orgs = ['Clubs', 'Performing Arts Programs', 'Sports'];
+        $orgs = array_combine($orgs, $orgs);
+        $data = $this->data['student'];
+        $selected = [];
+    
+
+        foreach(range(1,3) as $i => $choice)
+        {
+            if($choice != $exceptNumber)
+            {
+                if( !empty($data['interest' . $choice]) ){
+                    unset($orgs[$data['interest' . $choice]]);
+                }
+            }
+            
+        }
+        
+        return $orgs;
     }
 
 }

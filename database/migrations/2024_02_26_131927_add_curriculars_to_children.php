@@ -17,6 +17,9 @@ return new class extends Migration
             $table->boolean('is_interested_sports')->nullable();
             $table->string('sports', 1028)->nullable();
             $table->string('instruments', 1028)->nullable();
+            $table->string('interest1', 100)->nullable();
+            $table->string('interest2', 100)->nullable();
+            $table->string('interest3', 100)->nullable();
         });
     }
 
@@ -31,6 +34,9 @@ return new class extends Migration
             $table->dropColumn('is_interested_sports');
             $table->dropColumn('sports');
             $table->dropColumn('instruments');
+            $table->dropColumn('interest1');
+            $table->dropColumn('interest2');
+            $table->dropColumn('interest3');
         });
     }
 };
