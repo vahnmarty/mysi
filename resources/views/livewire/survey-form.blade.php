@@ -20,11 +20,11 @@
 
         @if($type == 'Accepted')
         <p>
-            Please answer the following questions to assist us in evaluating our admissions process and to complete your registration at St. Ignatius College Preparatory.
+            Welcome to the SI Class of {{ app_variable('class_year') }}! Please answer the following questions to assist us in evaluating our admissions process.
         </p>
         @else
         <p>
-            We truly appreciated your application to St. Ignatius College Preparatory this year.  Please answer the following questions to assist us in evaluating our admissions process and understand what led you to decline your acceptance at St. Ignatius College Preparatory.
+            We truly appreciated your application to St. Ignatius College Preparatory. Please answer the following questions about our admissions process and the reasons that led you to decline your acceptance to SI.
         </p>
         @endif
         <form class="mt-8" wire:submit.prevent="submit" novalidate>

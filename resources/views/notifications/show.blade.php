@@ -37,7 +37,7 @@
                     <div class="flex gap-3">
                         <x-heroicon-o-newspaper class="w-10 h-10 shadow-sm text-primary-red"/>
                         <div>
-                            <p class="text-base font-bold">Financial Aid Assistance</p>
+                            <p class="text-base font-bold">Financial Assistance Letter</p>
                             <div class="flex items-center gap-4">
                                 <a target="_blank" href="{{ route('notifications.financial-aid', $app->uuid) }}" class="underline">View</a>
                                 @if($notification->fa_acknowledged_at)

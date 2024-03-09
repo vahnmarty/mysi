@@ -77,7 +77,7 @@ class SurveyForm extends Component implements HasForms
                 ->visible(fn() => $this->type == 'Declined')
                 ->inlineLabel(),
             Placeholder::make('school_desc')
-                ->label('Please list, in order of preference, the schools to which you applied, the admission decision (accepted/waitlisted/not accepted), and Financial Aid or scholarship information, if applicable:'),
+                ->label('Please list the schools you applied to, the admission decision (accepted/waitlisted/not accepted), and any Financial Assistance or scholarship information (if applicable):'),
             TableRepeater::make('schools')
                 ->relationship()
                 ->label('')

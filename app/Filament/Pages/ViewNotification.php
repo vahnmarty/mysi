@@ -93,7 +93,7 @@ class ViewNotification extends CustomFilamentPage {
             Checkbox::make('checked')
                 ->columnSpan('full')
                 ->required()
-                ->label('By checking the box, I acknowledged the Financial Aid')
+                ->label('By checking this box, I acknowledge the Financial Assistance letter.')
                 ->lazy()
                 ->required()
         ];

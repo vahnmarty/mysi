@@ -22,7 +22,7 @@
             @elseif($decision_status == 'Declined')
             <div class="mt-8">
                 <h4 class="font-bold text-primary-red">
-                    This is a confirmation that you declined your acceptance to SI. We wish you all the best in high school.
+                    This is confirmation that you declined your acceptance for the SI Class of {{ app_variable('class_year') }}. We wish you all the best in high school!
                 </h4>
 
                 @if($app->survey?->submitted())
