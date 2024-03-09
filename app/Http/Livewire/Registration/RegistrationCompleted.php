@@ -162,7 +162,7 @@ class RegistrationCompleted extends Component implements HasForms
                 ->content(new HtmlString('<div class="space-y-3">
                 <p>Hello Incoming Wildcats! </p>
                 <p>
-                    Welcome to the St. Ignatius family!  Our primary goal is to create a comfortable transition into the SI community, specifically through our Big Cat Program.  This is a Big Brother/Big Sister dynamic that works to encourage and include all individuals.  We hope that our Big Cat/Little Cat program will foster friendships between our freshmen and senior classes.  These relationships will help you on your journey through the start of Frosh year and ease any first-year jitters we all experience.  We plan to host fun and interactive activities that will get you more familiar with our campus, your class of '. app_variable('class_year').', and our overall school environment.
+                    Welcome to the St. Ignatius family!  Our primary goal is to create a comfortable transition into the SI community, specifically through our Big Cat Program.  This is a Big Brother/Big Sister dynamic that works to encourage and include all individuals.  We hope that our Big Cat/Little Cat program will foster friendships between our Frosh and Senior classes.  These relationships will help you on your journey through the start of Frosh year and ease any first-year jitters we all experience.  We plan to host fun and interactive activities that will get you more familiar with our campus, your class of '. app_variable('class_year').', and our overall school environment.
                 </p>
                 <p>
                     The answers you provided in the SI Co-Curriculars section of the Registration form will help us pair you with a Big Cat that has similar interests as you.
@@ -177,7 +177,7 @@ class RegistrationCompleted extends Component implements HasForms
     protected function getRequiredTasks($data): array
     {
         return [
-            Card::make()
+            Grid::make()
                 ->columns(1)
                 ->schema([
                     Placeholder::make('tech_training')
@@ -186,7 +186,7 @@ class RegistrationCompleted extends Component implements HasForms
                     Placeholder::make('librarian_message')
                         ->label('')
                         ->content(fn(Closure $get) => new HtmlString('<div class="space-y-3">
-                        <p>Dear member of the class of 2028.</p>
+                        <p>Dear Member of the Class of '. app_variable('class_year') .'.</p>
                         <p>We are excited to meet you. Our names are Ms. Brancoli and Ms. Wenger, and we are the librarians here at SI.</p>
                         <p>First, we need you to complete <a href="https://docs.google.com/forms/d/e/1FAIpQLScfuBbTGHqfOVvDYPnCvCuBiH8FPwRzjhVgbc4rOb_hrN5qfw/viewform?usp=sf_link" target="_blank" class="text-link">this form</a> by May 17th.</p>
                         <p>Next, we want to tell you about the mandatory tech training that you will complete. You will receive information about this tech training, including the course invitation, in your SI email.</p>
@@ -194,10 +194,10 @@ class RegistrationCompleted extends Component implements HasForms
                         <p>What do librarians at SI do? To start, we answer questions.</p>
                         <div>
                             <p>You might have one of these questions this summer:</p>
-                            <ol class="pl-8 list-decimal">
+                            <ol class="pl-8 list-disc">
                                 <li>I lost my email password and I can’t log on. What do I do?</li>
                                 <li>How do I get my textbooks?</li>
-                                <li>Who do I contact about __ (a sport, a club, etc)?</li>
+                                <li>Who do I contact about ________________ (a sport, a club, etc.)?</li>
                                 <li>Any other school related questions.</li>
                             </ol>
                         </div>
@@ -206,7 +206,7 @@ class RegistrationCompleted extends Component implements HasForms
                         <p>Ms. Brancoli and Ms. Wenger</p>
                     </div>'))
                 ]),
-            Card::make()
+            Grid::make()
                 ->columns(1)
                 ->schema([
                     Placeholder::make('dean_title')
@@ -217,15 +217,15 @@ class RegistrationCompleted extends Component implements HasForms
                     Placeholder::make('required_form')
                         ->label('')
                         ->content(fn(Closure $get) => new HtmlString('<div class="space-y-3">
-                        <p class="text-sm font-bold text-gray-500">
-                            Upload SFUSD Freshman Health Form: Due by '. app_variable('health_form_due_date', 'display_value').'
+                        <p class="font-bold text-gray-500 ">
+                            Upload SFUSD Frosh Health Form: Due by '. app_variable('health_form_due_date', 'display_value').'
                         </p>
                         <p>
-                            Please download: <a class="text-link" href="'.asset('files/SIFreshmanHealthForm.pdf').'" target = "_blank">SFUSD Freshman Health Form</a>. Note that this form requires a doctor\'s signature.
+                            Please download: <a class="text-link" href="'.asset('files/SIFreshmanHealthForm.pdf').'" target = "_blank">SFUSD Frosh Health Form</a>. Note that this form requires a doctor\'s signature.
                         </p>
                     </div>')),
                     FileUpload::make('student.health_form_file')
-                        ->label(new HtmlString('<p>Upload your SFUSD Freshman Health Form here.  Please use the following naming convention for the file:</p>
+                        ->label(new HtmlString('<p>Upload your SFUSD Frosh Health Form here.  Please use the following naming convention for the file:</p>
                         <strong class="text-danger">{Student_First_Name}_{Student_Last_Name}_{Name_of_File}.pdf</strong></p>'))
                         ->helperText(new HtmlString("(The file doesn’t have to be a PDF.)<p class='mt-4'><strong>NOTE:</strong> Do NOT upload the Ticket to Play Medical Clearance Form here.</p>"))
                         ->maxSize(25000)
@@ -247,7 +247,7 @@ class RegistrationCompleted extends Component implements HasForms
                         })
                         ->required(),
                 ]),
-            Card::make()
+            Grid::make()
                 ->columns(1)
                 ->schema([
                     Placeholder::make('ipad_policy')
@@ -274,7 +274,7 @@ class RegistrationCompleted extends Component implements HasForms
     protected function getAdditionalOptions($data): array
     {
         return [
-            Card::make()
+            Grid::make()
                 ->columns(1)
                 ->schema([
                     Placeholder::make('si_summer_programs')
@@ -300,7 +300,7 @@ class RegistrationCompleted extends Component implements HasForms
                         </div>
                     </div>'))
                 ]),
-            Card::make()
+            Grid::make()
                 ->columns(1)
                 ->schema([
                     Placeholder::make('clearance_form_title')
@@ -309,21 +309,21 @@ class RegistrationCompleted extends Component implements HasForms
                     Placeholder::make('si_athletics')
                         ->label('')
                         ->content(new HtmlString('<div>
-                        <p class="mt-1 text-sm font-bold text-gray-500">
+                        <p class="mt-1 font-bold text-gray-500">
                             Due: ' . app_variable('family_id_start_date', 'display_value') . ' – ' . app_variable('family_id_end_date', 'display_value') . '
                         </p>
-                        <div class="mt-3 text-sm">
+                        <div class="mt-3">
                             To participate in SI Athletics, including tryouts, you must register to play through SI’s <a 
                             class="text-link" href="' . app_variable('family_id_url') . '" target="blank">FamilyID system</a>.&nbsp;&nbsp;As a part of this process, you will be required to upload SI’s Ticket 
                             to Play Medical Clearance Form.&nbsp;&nbsp;The ticket to play requires a physical exam with a doctor.&nbsp;&nbsp;We strongly encourage you to schedule this exam between ' . app_variable('family_id_start_date', 'display_value') . '  and ' . app_variable('family_id_end_date', 'display_value') . ' to maintain athletic 
                             eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on ' . app_variable('family_id_start_date', 'display_value') . '.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
                         </div>
-                        <p class="mt-3 text-sm">
+                        <p class="mt-3 ">
                             Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf" target="_blank">here</a>.
                         </p>
                     </div>'))
                 ]),
-            Card::make()
+            Grid::make()
                 ->columns(1)
                 ->schema([
                     Placeholder::make('prep_shop_title')
@@ -348,13 +348,21 @@ class RegistrationCompleted extends Component implements HasForms
 
         foreach($directories as $dir)
         {
+            if(!empty($dir['url'])){
+                $title = '<a href="'.$dir['url'].'" class="block font-bold hover:underline" target="_blank">'.$dir['name'].'</a>';
+            }else{
+                $title = '<h4 class="font-bold ">'.$dir['name'].'</h4>';
+            }
+            
             $directoryForm[] = Placeholder::make('dir' . $dir['id'])
                 ->label('')
-                ->content(new HtmlString('<div class="p-3 bg-gray-100 border rounded-md">
-                <h4 class="font-bold">'.$dir['name'].'</h4>
-                <p>'. $dir['representative_name'].'</p>
-                <a href="mailto:'.$dir['representative_email'].'" class="text-sm text-link">'.$dir['representative_email'].'</a>
-            </div>'));
+                ->content(new HtmlString('
+                    <div class="p-3 bg-gray-100 border rounded-md">
+                        '.$title.'
+                        <p>'. $dir['representative_name'].'</p>
+                        <a href="mailto:'.$dir['representative_email'].'" class=" text-link">'.$dir['representative_email'].'</a>
+                    </div>
+                '));
         }
 
         return [

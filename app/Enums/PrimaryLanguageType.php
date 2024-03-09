@@ -21,10 +21,12 @@ final class PrimaryLanguageType extends Enum
     const French = 'French';
     const Korean = 'Korean';
     const Mandarin = 'Mandarin';
-    const Other = 'Other';
     const Portuguese = 'Portuguese';
     const Russian = 'Russian';
     const Spanish = 'Spanish';
     const Tagalog = 'Tagalog';
     const Vietnamese = 'Vietnamese';
+
+
+    const Other = 'Other';
 }

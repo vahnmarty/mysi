@@ -99,7 +99,7 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('personal_email', $state);
                 }),
             TextInput::make('student.mobile_phone')
-                ->label('Mobile Phone (If none, use a parent\'s/guardian\'s mobile phone.))')
+                ->label('Mobile Phone (If none, use a parent\'s/guardian\'s mobile phone.)')
                 ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')

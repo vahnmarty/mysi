@@ -241,3 +241,11 @@ display: none;
 a.text-link{
     @apply hover:underline;
 }
+
+.filament-forms-radio-component label{
+    @apply text-base;
+}
+
+.filament-forms-checkbox-list-component-option-label-text{
+    @apply text-base;
+}

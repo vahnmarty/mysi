@@ -30,6 +30,7 @@ class ContactDirectoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name'),
+                Forms\Components\TextInput::make('url')->activeUrl(),
                 Forms\Components\TextInput::make('representative_name'),
                 Forms\Components\TextInput::make('representative_email'),
                 Forms\Components\TextInput::make('representative_phone'),
@@ -41,7 +42,11 @@ class ContactDirectoryResource extends Resource
         return $table
             ->reorderable('sort')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('url')
+                    ->label('URL')
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('representative_name')
                     ->label('Person'),
                 Tables\Columns\TextColumn::make('representative_email')

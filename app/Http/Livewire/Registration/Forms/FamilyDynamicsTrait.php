@@ -163,7 +163,7 @@ trait FamilyDynamicsTrait{
                         ->disabled()
                         ->disableLabel(),
                     Select::make('relationship_type')
-                        ->label('Relationship to Applicant')
+                        ->label('Relationship to Student')
                         ->disableLabel()
                         ->options(SiblingType::asSameArray())
                         ->required()
