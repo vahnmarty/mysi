@@ -34,6 +34,12 @@ class Registration extends Model
         return $this->belongsTo(Application::class);
     }
 
+    public function registrationFee()
+    {
+        return $this->through('application')->has('payment');
+        return $this->hasOne(Payment::class)->where('payment_type', 'RegFee')->latest();
+    }
+
     public function completed()
     {
         return $this->application->appStatus->registration_completed;

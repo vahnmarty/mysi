@@ -147,7 +147,7 @@ class RegistrationCompleted extends Component implements HasForms
             Placeholder::make('wildcat_portal')
                 ->label('')
                 ->content(new HtmlString('<div>
-                    We will be in touch throughout the summer.&nbsp;&nbsp;Look for our Wildcats Welcome Newsletter every other Thursday in your inbox.&nbsp;&nbsp;Stay informed all summer by visiting our <a style="color: #0086e7; cursor: pointer;" href="http://www.siprep.org/welcome" target="_blank"><u>Wildcat Welcome Portal</u></a>.&nbsp;&nbsp;
+                    We will be in touch throughout the summer.&nbsp;&nbsp;Look for our Wildcats Welcome Newsletter every other Thursday in your inbox.&nbsp;&nbsp;Stay informed all summer by visiting our <a style="color: #0086e7; cursor: pointer;" href="http://www.siprep.org/welcome" target="_blank">Wildcat Welcome Portal</a>.&nbsp;&nbsp;
                         
                     We will be updating this site throughout the summer.&nbsp;&nbsp;Answers to any questions that may arise over the summer can usually be found on the Welcome Portal.
                 </div>')),
@@ -206,6 +206,9 @@ class RegistrationCompleted extends Component implements HasForms
                         <p>Ms. Brancoli and Ms. Wenger</p>
                     </div>'))
                 ]),
+            Placeholder::make('border_line')
+                ->label('')
+                ->content(new HtmlString('<div class="border-t border-dashed border-primary-red"></div>')),
             Grid::make()
                 ->columns(1)
                 ->schema([
@@ -300,6 +303,9 @@ class RegistrationCompleted extends Component implements HasForms
                         </div>
                     </div>'))
                 ]),
+             Placeholder::make('border_line')
+                ->label('')
+                ->content(new HtmlString('<div class="border-t border-dashed border-primary-red"></div>')),
             Grid::make()
                 ->columns(1)
                 ->schema([
@@ -349,7 +355,7 @@ class RegistrationCompleted extends Component implements HasForms
         foreach($directories as $dir)
         {
             if(!empty($dir['url'])){
-                $title = '<a href="'.$dir['url'].'" class="block font-bold hover:underline" target="_blank">'.$dir['name'].'</a>';
+                $title = '<a href="'.$dir['url'].'" class="block font-bold hover:underline text-color-link" target="_blank">'.$dir['name'].'</a>';
             }else{
                 $title = '<h4 class="font-bold ">'.$dir['name'].'</h4>';
             }

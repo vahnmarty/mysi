@@ -25,6 +25,7 @@ export default {
                 'primary-red': '#A71930',
                 'primary-blue': '#002664',
                 'link': '#0096FF',
+                'color-link': '#0096FF',
                 danger: {
                     50: '#800000',
                     100: '#800000',

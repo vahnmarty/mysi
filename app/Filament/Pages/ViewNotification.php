@@ -27,6 +27,7 @@ use Filament\Forms\Components\Placeholder;
 use Illuminate\Contracts\Support\Htmlable;
 use net\authorize\api\contract\v1 as AnetAPI;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Notifications\Registration\PaymentReceipt;
 use net\authorize\api\controller as AnetController;
 
 class ViewNotification extends CustomFilamentPage {
@@ -205,7 +206,7 @@ class ViewNotification extends CustomFilamentPage {
                 }),
             Action::make('remain_waitlist')
                 ->label('Remain on Waitlist')
-                ->requiresConfirmation()
+                //->requiresConfirmation()
                 ->action('remainWaitlist')
                 ->color('warning')
                 ->visible(fn() => $this->app->waitlisted() && !$this->app->waitlistRemoved() ),
@@ -279,6 +280,8 @@ class ViewNotification extends CustomFilamentPage {
     {
         $app = $this->app;
 
+        
+
         $paymentRecord = Payment::firstOrCreate(
             [
             'application_id' => $this->app->id,
@@ -308,6 +311,8 @@ class ViewNotification extends CustomFilamentPage {
                 'account_id' => accountId(),
                 'record_type_id' => RecordType::Student,
             ]);
+
+            Auth::user()->notify( new PaymentReceipt($registration));
 
             $this->initSurveyForm($app, 'Accepted');
 

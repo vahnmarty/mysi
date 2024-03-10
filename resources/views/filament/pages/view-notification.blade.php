@@ -73,7 +73,7 @@
                 <div class="mt-8">
                     <a href="#" x-data="{}"
                     x-on:click.prevent="$dispatch('open-modal', 'show-faq')" 
-                    class="text-xl font-bold text-link">Waitlist FAQ</a>
+                    class="text-xl font-bold text-color-link">Waitlist FAQ</a>
                 </div>
 
                 <x-modal name="show-faq" :show="false"  maxWidth="4xl">
@@ -108,7 +108,7 @@
                         <div class="flex gap-3">
                             <x-heroicon-o-check-circle class="w-10 h-10 text-green-500 shadow-sm"/>
                             <div>
-                                <p class="text-base font-bold">Financial Aid Assistance</p>
+                                <p class="text-base font-bold">Financial Assistance Letter</p>
                                 <div class="flex items-center gap-4">
                                     <a href="#" x-data="{}"
                                     x-on:click.prevent="$dispatch('open-modal', 'show-financial-aid')" 
@@ -122,7 +122,7 @@
                         <div class="flex gap-3">
                             <x-heroicon-o-newspaper class="w-10 h-10 shadow-sm text-primary-red"/>
                             <div>
-                                <p class="text-base font-bold">Financial Aid Assistance</p>
+                                <p class="text-base font-bold">Financial Assistance Letter</p>
                                 <div class="flex items-center gap-4">
                                     <a href="#" x-data="{}"
                                     x-on:click.prevent="$dispatch('open-modal', 'show-financial-aid')" 
