@@ -112,7 +112,7 @@ display: none;
 
 
 .filament-forms-field-wrapper-label span{
-    @apply font-bold;
+    @apply text-base font-bold;
 }
 
 #table-parent-matrix th{
@@ -188,7 +188,7 @@ display: none;
 }
 
 .html-content a{
-    @apply underline text-link;
+    @apply text-link;
 }
 
 .html-content h2{

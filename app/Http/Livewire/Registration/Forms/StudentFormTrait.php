@@ -29,7 +29,7 @@ trait StudentFormTrait{
         return [
             Placeholder::make('student_form_description')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
+                ->content(new HtmlString('<p>* This section is to be completed by a parent/guardian.</p>')),
             TextInput::make('student.first_name')
                 ->label('Legal First Name')
                 ->lazy()
@@ -111,9 +111,9 @@ trait StudentFormTrait{
             CheckboxList::make('student.race')
                 ->label(new HtmlString('
                     <div>
-                        How does your child identify racially??
+                        How does your child identify racially?
                     </div>
-                    <div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>
+                    <div class="text-sm" style="font-weight: 500">* Select all that apply to you.</div>
                 '))
                 ->options(RacialType::asSameArray())
                 ->columns(3)
@@ -137,7 +137,8 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
             TagsInput::make('student.ethnicity')
-                ->label(new HtmlString('<div>What is your child\'s ethnicity?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
+                ->label(new HtmlString('<div>What is your child\'s ethnicity?</div>
+                    <div class="text-sm" style="font-weight: 500">* If more than one, separate ethnicities with a comma.</div>'))
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
                 ->placeholder('')
