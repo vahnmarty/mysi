@@ -193,7 +193,7 @@ trait CoCurricularTrait{
             
             Placeholder::make('affinity_text')
                 ->label('')
-                ->content(new HtmlString('<div class="text-sm">
+                ->content(new HtmlString('<div>
                     <h3 class="text-lg font-bold text-primary-blue">SI Affinity Groups</h3>
                     <p class="mt-4">
                         Affinity groups at St. Ignatius are inclusive gatherings where individuals with shared social identities come together voluntarily.  These groups provide a safe space for students who share a common identity, often marginalized, to discuss issues related to that identity, forge connections, and access resources and support from peers and faculty/staff moderators.  Embracing diverse dimensions such as cultural or spiritual identities, affinity groups are instrumental in cultivating awareness and appreciation for diversity within the St. Ignatius community.  They actively contribute to the positive exploration and development of students\' identities, empowering members to contribute to a more inclusive school community.

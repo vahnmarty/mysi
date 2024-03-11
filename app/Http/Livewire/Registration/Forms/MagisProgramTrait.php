@@ -42,7 +42,7 @@ trait MagisProgramTrait{
                 ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
             Placeholder::make('accommodation_text')
                 ->label('')
-                ->content(new HtmlString("<div class='text-sm'>
+                ->content(new HtmlString("<div>
                     <div>
 
                         The Magis High School Program is an academic, social and cultural support program for highly motivated students that are underrepresented at St. Ignatius and institutions of higher education.  The Magis Program exists to aid students and families, offering support in navigating the college preparatory system through various workshops, college tours, identity formation experiences and community programming throughout the duration of the high school experience.
