@@ -206,9 +206,9 @@ class ViewNotification extends CustomFilamentPage {
                 }),
             Action::make('remain_waitlist')
                 ->label('Remain on Waitlist')
-                //->requiresConfirmation()
                 ->action('remainWaitlist')
                 ->color('warning')
+                ->url('https://forms.gle/XZaF9LCwa6rDQw7g9', shouldOpenInNewTab: true)
                 ->visible(fn() => $this->app->waitlisted() && !$this->app->waitlistRemoved() ),
 
             // Action::make('remove_waitlist')
