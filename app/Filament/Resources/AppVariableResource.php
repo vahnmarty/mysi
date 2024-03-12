@@ -41,7 +41,9 @@ class AppVariableResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('config'),
+                Tables\Columns\TextColumn::make('config')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('value')->limit(50),
                 Tables\Columns\TextColumn::make('display_value')
                     ->label('Display'),
