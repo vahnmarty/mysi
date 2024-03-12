@@ -74,6 +74,7 @@ class NotificationService{
         $variables = [
             'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
             'system' => config('settings'),
+            'app' => AppVariable::get()->pluck('value', 'config')->toArray(),
             'parents_name' => $account->getParentsName(),
             'parents_name_salutation' => $account->getParentsName(withSalutation:true),
             'student' => $app->student->toArray(),
