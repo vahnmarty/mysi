@@ -39,7 +39,7 @@ trait MagisProgramTrait{
         return [
             Placeholder::make('section_accomod_form')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
+                ->content(new HtmlString('* This section is to be completed by the student.')),
             Placeholder::make('accommodation_text')
                 ->label('')
                 ->content(new HtmlString("<div>
@@ -56,7 +56,7 @@ trait MagisProgramTrait{
                     </ul>
                 </div>")),
             Radio::make('magis_program.first_gen')
-                ->label("Is your child a first-generation college-bound student?")
+                ->label("Are you a first-generation college-bound student?")
                 ->helperText("(neither parent holds a bachelor's degree from a US college or university)")
                 ->options([
                     1 => 'Yes',
@@ -70,7 +70,7 @@ trait MagisProgramTrait{
                     $this->autoSaveProgram('first_gen', $state);
                 }),
             Radio::make('magis_program.is_interested')
-                ->label("Is your child interested in joining the Magis Program at this time?")
+                ->label("Are you interested in joining the Magis Program at this time?")
                 ->helperText("(If yes, more information about the program and the Magis First-Year Student Retreat will be emailed to you.)")
                 ->options([
                     1 => 'Yes',

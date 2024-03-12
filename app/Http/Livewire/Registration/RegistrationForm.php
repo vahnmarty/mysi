@@ -169,14 +169,17 @@ class RegistrationForm extends Component implements HasForms
                 ->schema($this->getAccommodationForm())
                 ->collapsible()
                 ->collapsed(true),
-            Section::make('St. Ignatius Magis Program')
-                ->schema($this->getMagisProgramForm())
-                ->collapsible()
-                ->collapsed(true),
+            
             Section::make('SI Directory')
                 ->schema($this->getSIDirectoryForm())
                 ->collapsible()
                 ->collapsed(true),
+
+            Section::make('St. Ignatius Magis Program')
+                ->schema($this->getMagisProgramForm())
+                ->collapsible()
+                ->collapsed(true),
+                
             Section::make('Course Placement')
                 ->schema($this->getCoursePlacementForm())
                 ->collapsible()

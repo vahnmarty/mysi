@@ -33,7 +33,7 @@ trait CoCurricularTrait{
             Placeholder::make('co_curricular_description')
                 ->label('')
                 ->content(new HtmlString('
-                <p>* This section is to be completed by a student.</p>
+                <p>* This section is to be completed by the student.</p>
                 <p class="mt-8">SI offers a variety of clubs, activities, and teams that you can join based on your interests.  For more information about our clubs, click <a href="https://families.siprep.org/students/clubs" target="_blank" class="text-link">here</a>.</p>
             ')),
             Select::make('student.is_interested_club')
