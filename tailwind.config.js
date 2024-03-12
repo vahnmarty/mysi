@@ -25,6 +25,7 @@ export default {
                 'primary-red': '#A71930',
                 'primary-blue': '#002664',
                 'link': '#0096FF',
+                'color-link': '#0096FF',
                 danger: {
                     50: '#800000',
                     100: '#800000',
@@ -37,7 +38,6 @@ export default {
                     800: '#800000',
                     900: '#800000',
                 },
-                //primary: colors.blue,
                 primary: {
                     50: '#A71930',
                     100: '#A71930',
@@ -51,7 +51,7 @@ export default {
                     900: '#A71930',
                 },
                 success: colors.green,
-                warning: colors.yellow,
+                warning: colors.blue,
             },
             animation: {
                 'spin-slow': 'spin 2s linear infinite',

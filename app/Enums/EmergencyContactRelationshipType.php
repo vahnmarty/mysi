@@ -16,4 +16,9 @@ final class EmergencyContactRelationshipType extends Enum
     
     const AuntUncle = 'Aunt/Uncle';
     const BrotherSister = 'Brother/Sister';
+    const Cousin = 'Cousin';
+    const Grandparent = 'Grandparent';
+    const Neighbor = 'Neighbor';
+    const Friend = 'Friend';
+    const Other = 'Other';
 }

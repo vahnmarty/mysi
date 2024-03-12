@@ -18,9 +18,15 @@ class NotificationSettingResource extends Resource
 {
     protected static ?string $model = NotificationSetting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-bell';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static ?string $navigationGroup = 'Settings';
+
+    protected static ?string $navigationLabel = 'School Timeline';
+
+    protected static ?string $modelLabel = 'School Timeline';
+
+    protected static ?string $pluralLabel = 'School Timeline';
 
     public static function form(Form $form): Form
     {
@@ -118,5 +124,5 @@ class NotificationSettingResource extends Resource
             //'create' => Pages\CreateNotificationSetting::route('/create'),
             //'edit' => Pages\EditNotificationSetting::route('/{record}/edit'),
         ];
-    }    
+    }
 }

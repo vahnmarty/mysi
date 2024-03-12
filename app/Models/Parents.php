@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\AddressLocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Parents extends Model
@@ -33,5 +36,25 @@ class Parents extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function scopeFromPrimaryAddress($query)
+    {
+        return $query->where('address_location', AddressLocation::PrimaryAddress);
+    }
+
+    // public function relationships()
+    // {
+    //     return $this->hasMany(FamilyDynamic::class, 'model_id')->where('model_type', self::class);
+    // }
+
+    public function guardianRelationships()
+    {
+        return $this->hasMany(GuardianRelationship::class, 'parent_id');
+    }
+
+    public function guardianPartner()
+    {
+        return $this->belongsTo(GuardianRelationship::class, 'partner_id');
     }
 }

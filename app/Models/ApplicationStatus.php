@@ -12,4 +12,14 @@ class ApplicationStatus extends Model
     protected $table = 'application_status';
     
     protected $guarded = [];
+
+    public function withHonors()
+    {
+        return $this->honors_math || $this->honors_english || $this->honors_bio;
+    }
+
+    public function withFA()
+    {
+        return !empty($this->financial_aid);
+    }
 }

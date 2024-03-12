@@ -10,7 +10,10 @@ use App\Models\Application;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use App\Models\NotificationLetter;
+use App\Enums\CandidateDecisionType;
 use App\Enums\NotificationStatusType;
+use App\Services\NotificationService;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -70,31 +73,94 @@ class ApplicationResource extends Resource
                 Tables\Columns\TextColumn::make("status")->label('App Status'),
                 Tables\Columns\TextColumn::make('appStatus.application_status')
                     ->label('Notification Status')
+                    ->color('secondary')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => $state ?? '-- N/A --')
                     ->action(
                         Tables\Actions\Action::make('update_status')
+                            ->disabled(fn(Application $record) => $record->appStatus?->candidate_decision)
                             ->requiresConfirmation()
                             ->modalHeading('Update Notification Status')
                             ->modalSubheading('The applicant will receive a notification once you confirm.')
-                            ->modalButton('Send Notification')
+                            ->modalButton('Save')
                             ->mountUsing(fn (Forms\ComponentContainer $form, Application $record) => $form->fill([
                                 'application_status' => $record->appStatus?->application_status,
+                                'math_class' => $record->appStatus->math_class,
+                                'english_class' => $record->appStatus->english_class,
+                                'bio_class' => $record->appStatus->bio_class,
                             ]))
                             ->form([
                                 Forms\Components\Select::make('application_status')
                                     ->label('Status')
                                     ->options(NotificationStatusType::asSelectArray())
-                                    ->required(),
+                                    ->required()
+                                    ->reactive(),
+                                Forms\Components\Grid::make(1)
+                                    ->reactive()
+                                    ->visible(fn(Closure $get) => $get('application_status') == NotificationStatusType::Accepted)
+                                    ->schema([
+                                        Forms\Components\Toggle::make('with_honors')
+                                            ->label('With Honors?')
+                                            ->disabled()
+                                            ->onColor('success')
+                                            ->offColor('secondary')
+                                            ->onIcon('heroicon-s-check')
+                                            ->offIcon('heroicon-s-x')
+                                            ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                                $component->state($record->appStatus?->withHonors() );
+                                            }),
+                                            Forms\Components\Toggle::make('with_fa')
+                                            ->label('With Financial Aid?')
+                                            ->disabled()
+                                            ->onColor('success')
+                                            ->offColor('secondary')
+                                            ->onIcon('heroicon-s-check')
+                                            ->offIcon('heroicon-s-x')
+                                            ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                                $component->state($record->appStatus?->withFA() );
+                                            }),
+                                        Forms\Components\TextInput::make('math_class')
+                                            ->label('Math Class')
+                                            ->disabled()
+                                            ->visible(fn($state) => !empty($state)),
+                                        Forms\Components\TextInput::make('english_class')
+                                            ->label('English Class')
+                                            ->disabled()
+                                            ->visible(fn($state) => !empty($state)),
+                                        Forms\Components\TextInput::make('bio_class')
+                                            ->disabled()
+                                            ->label('Bio Class')
+                                            ->disabled()
+                                            ->visible(fn($state) => !empty($state)),
+                                    ])
                             ])
                             ->action(function (Application $record, $data): void {
+                                
+                                $application_status = $data['application_status'];
+
+                                // if($application_status == NotificationStatusType::Accepted && $data['with_honors']){
+                                //     $application_status = 'Accepted With Honors';
+                                // }
+
                                 $appStatus = $record->appStatus;
-                                $appStatus->application_status = $data['application_status'];
+                                $appStatus->application_status = $application_status;
+                                $appStatus->candidate_decision_status = CandidateDecisionType::NotificationSent;
                                 $appStatus->save();
 
-                                $account = $record->account;
+                                $record->notificationMessages()->delete();
 
-                                foreach($account->users as $user){
-                                    $user->notify(new ApplicationReviewed);
+                                if($data['application_status'] != NotificationStatusType::NoResponse)
+                                {
+                                    $service = new NotificationService;
+                                    $letterType = $service->createMessage($record);
+
+                                    Notification::make()
+                                        ->title('Notification Set.')
+                                        ->body('Status: ' . $letterType )
+                                        ->success()
+                                        ->send();
                                 }
+                                
                             }),
                         ),
                 Tables\Columns\ToggleColumn::make("appStatus.honors_english")
@@ -103,11 +169,12 @@ class ApplicationResource extends Resource
                     ->label('Honors Math'),
                 Tables\Columns\ToggleColumn::make("appStatus.honors_bio")
                     ->label('Honors Bio'),
-                Tables\Columns\ToggleColumn::make("with_financial_aid")
-                    ->label('With F/A'),
-                Tables\Columns\TextColumn::make("deposit_amount")
+                Tables\Columns\SelectColumn::make("appStatus.financial_aid")
+                    ->label('With F/A')
+                    ->options(['A' => 'A', 'B' => 'B', 'B1' => 'B1', 'C' => 'C', 'D' => 'D', 'E' => 'E']),
+                Tables\Columns\TextColumn::make("appStatus.deposit_amount")
                     ->label('Deposit Amount'),
-                Tables\Columns\TextColumn::make("appStatus.candidate_decision")
+                Tables\Columns\TextColumn::make("appStatus.candidate_decision_status")
                     ->label('Decision'),
             ])
             ->filters([
@@ -204,7 +271,8 @@ class ApplicationResource extends Resource
                 //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
+
     public static function getRelations(): array
     {
         return [
@@ -220,5 +288,6 @@ class ApplicationResource extends Resource
             'view' => Pages\ViewApplication::route('/{record}'),
             'edit' => Pages\EditApplication::route('/{record}/edit'),
         ];
-    }    
+    }
+
 }

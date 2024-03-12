@@ -19,6 +19,7 @@ use App\Enums\Salutation;
 use Illuminate\View\View;
 use App\Enums\AddressType;
 use App\Models\Application;
+use App\Models\Registration;
 use App\Enums\ConditionBoolean;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
@@ -28,6 +29,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -79,7 +81,7 @@ class StudentRegistrations extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId())->where('current_grade', GradeLevel::Grade8);
+        return Registration::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 
@@ -87,17 +89,17 @@ class StudentRegistrations extends Component implements HasTable, HasForms
         return [
             TextColumn::make('student_name')
                 ->label('Student Name')
-                ->formatStateUsing(fn(Child $record) => $record->getFullName() ),
+                ->formatStateUsing(fn(Registration $record) => $record->student?->getFullName() ),
             TextColumn::make('mobile_phone')
                 ->label('Mobile Phone')
-                ->formatStateUsing(fn($state) => format_phone($state)),
-            TextColumn::make('personal_email')
+                ->formatStateUsing(fn(Registration $record) => format_phone($record->student?->mobile_phone)),
+            TextColumn::make('student.personal_email')
                 ->label('Email'),
-            TextColumn::make('current_school')
+            TextColumn::make('student.current_school')
                 ->label('Current School')
                 ->wrap()
-                ->formatStateUsing(fn(Child $record) => $record->getCurrentSchool()),
-            TextColumn::make('current_grade')
+                ->formatStateUsing(fn(Registration $record) => $record->student?->getCurrentSchool()),
+            TextColumn::make('student.current_grade')
                 ->label('Current Grade'),
         ];
     }
@@ -120,22 +122,26 @@ class StudentRegistrations extends Component implements HasTable, HasForms
             //     ->url(fn(Child $record) => route('application.show', $record->application->uuid))
             //     ->extraAttributes(['class' => 'app-status'])
             //     ->color(''),
-            Action::make('apply')
-                ->label(function(Child $record){
-                    return $record->registration ? 'Edit' : 'Apply';
-                })
-                ->action(function(Child $record){
+            Action::make('edit')
+                ->label(fn(Registration $record) => $record->started() ? 'Edit' : 'Register' )
+                ->visible(fn(Registration $record) => !$record->completed())
+                ->action(function(Registration $record){
 
-                    if($record->registration){
-                        return redirect()->route('registration.form', $record->registration->uuid);
+                    if(!$record->started()){
+                        $record->started_at = now();
+                        $record->save();
+
+                        $record->application->appStatus()->update([
+                            'registration_started' => 1
+                        ]);
                     }
-                    $registration = $record->registration()->create([
-                        'account_id' => accountId(),
-                        'record_type_id' => RecordType::Student
-                    ]);
 
-                    return redirect()->route('registration.form', $registration->uuid);
+                    return redirect()->route('registration.form', $record->uuid);
                 }),
+            Action::make('view')
+                ->label('View')
+                ->visible(fn(Registration $record) => $record->completed())
+                ->url(fn(Registration $record) => route('registration.completed', $record->uuid) )
             // ViewColumn::make('pipe')
             //     ->label('')
             //     ->view('filament.tables.columns.pipe')

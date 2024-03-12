@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Str;
 use App\Enums\RecordType;
+use App\Enums\CandidateDecisionType;
+use App\Enums\NotificationStatusType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +21,9 @@ class Application extends Model
          'status', 
          'record_type', 
          'file_learning_documentation_url',
-         'primary_parent'
+         'primary_parent',
+         'scholarship_type',
+         'course_label'
     ];
 
     protected $casts = [
@@ -62,7 +66,17 @@ class Application extends Model
 
     public function payment()
     {
-        return $this->hasOne(Payment::class)->latest();
+        return $this->hasOne(Payment::class)->where('payment_type', 'AppFee')->latest();
+    }
+
+    public function applicationFee()
+    {
+        return $this->hasOne(Payment::class)->where('payment_type', 'AppFee')->latest();
+    }
+
+    public function registration()
+    {
+        return $this->hasOne(Registration::class);
     }
 
     public function scopeHasPromoCode( $query )
@@ -160,6 +174,54 @@ class Application extends Model
         return $this->appStatus?->application_submitted;
     }
 
+    public function hasRegistered()
+    {
+        return $this->registration;
+    }
+
+    public function applicationAccepted()
+    {
+        return $this->appStatus->application_status == NotificationStatusType::Accepted;
+    }
+
+    public function candidateAccepted()
+    {
+        return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted;
+    }
+
+    public function enrolled()
+    {
+        return $this->appStatus->candidate_decision_status == CandidateDecisionType::Accepted && $this->hasRegistered();
+    }
+
+    public function notAccepted()
+    {
+        return $this->appStatus->application_status == NotificationStatusType::NotAccepted;
+    }
+
+    public function fa_acknowledged():bool | null
+    {
+        return !empty($this->appStatus->fa_acknowledged_at);
+    }
+
+    public function declined()
+    {
+        $decision = $this->appStatus?->candidate_decision;
+
+        if(!is_null($decision)){
+            return $decision == false;
+        }
+
+        return false;
+    }
+
+    public function waitlisted()
+    {
+        $decision = $this->appStatus?->application_status;
+
+        return $decision == NotificationStatusType::WaitListed;
+    }
+
     public function scopeIncomplete($query)
     {
         return $query->whereHas('appStatus', function($statusQuery){
@@ -175,28 +237,12 @@ class Application extends Model
     }
 
 
-    public function familyMatrix()
-    {
-        return [
-
-        ];
-    }
 
     public function supplementalRecommendationRequest()
     {
         return $this->hasMany(SupplementalRecommendationRequest::class);
     }
 
-    // public function current_school()
-    // {
-    //     return $this->hasManyThrough(
-    //         School::class,
-    //         Child::class,
-    //         'current_school',
-    //         'name'
-    //     );
-        
-    // }
 
     public function getFileLearningDocumentationUrlAttribute()
     {
@@ -239,5 +285,107 @@ class Application extends Model
         $app_end_date = $freshmen_application_end_date->value;
 
         return now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date);
+    }
+
+    public function notificationMessages()
+    {
+        return $this->hasMany(NotificationMessage::class);
+    }
+
+    public function notificationMessage()
+    {
+        return $this->hasOne(NotificationMessage::class)->latest();
+    }
+
+    public function hasFinancialAid()
+    {
+        return !empty($this->appStatus->financial_aid);
+    }
+
+    public function waitlistRemoved()
+    {
+        return $this->appStatus?->candidate_decision == 3;
+    }
+
+    public function classList(): array
+    {
+        $appStatus = $this->appStatus;
+        $array = [];
+
+        if($appStatus){
+            if($appStatus->honors_english){
+                $array[] = $appStatus->english_class;
+            }
+    
+            if($appStatus->honors_math){
+                $array[] = $appStatus->math_class;
+            }
+    
+            if($appStatus->honors_bio){
+                $array[] = $appStatus->bio_class;
+            }
+        }
+
+        return $array;
+        
+    }
+
+    public function honorsCount()
+    {
+        $count = 0;
+        $appStatus = $this->appStatus;
+
+        if($appStatus->honors_math){
+            $count++;
+        }
+
+        if($appStatus->honors_english){
+            $count++;
+        }
+
+        if($appStatus->honors_bio){
+            $count++;
+        }
+
+        return $count;
+    }
+
+    public function getScholarshipTypeAttribute()
+    {
+        $appStatus = $this->appStatus;
+
+        if($appStatus){
+            $count = $this->honorsCount();
+
+            if($count == 1){
+                return 'a Loyola';
+            }
+
+            if($count == 2){
+                return 'a Jesuit';
+            }
+
+            if($count == 3){
+                return 'an Ignatian';
+            }
+        }
+
+        return null;
+    }
+
+    public function getCourseLabelAttribute()
+    {
+        if($this->appStatus){
+            if($this->honorsCount() > 1){
+                return 'courses';
+            }
+        }
+
+        return 'course';
+    }
+
+    public function survey()
+    {
+        return $this->hasOne(Survey::class);
     }
 }

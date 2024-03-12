@@ -1,5 +1,5 @@
 <header class="relative">
-    <div class="py-2 lg:py-6 bg-primary-red">
+    <div class="py-2 lg:py-6 {{ has_registered() ? 'bg-primary-blue' : 'bg-primary-red' }}">
         <div class="px-4 mx-auto lg:px-8">
             <div class="flex items-center justify-between">
                 
@@ -27,7 +27,7 @@
                     <div class="hidden pl-8 lg:block">
                         <a href="{{ url('/') }}">
                             <h4 class="text-4xl font-extrabold text-white font-heading">MySI Portal</h4>
-                            <p class="text-xl text-white font-heading">St. Ignatius College Preparatory</p>
+                            <p class="text-xl text-white font-heading">St. Ignatius College Preparatory @if(has_registered())&reg; @endif</p>
                         </a>
                     </div>
                     
@@ -77,7 +77,7 @@
                         
                         <x-dropdown>
                             <x-slot name="trigger">
-                                <button class="flex p-1 transition duration-200 ease-in-out hover:bg-red-900" type="button">
+                                <button class="flex p-1 transition duration-200 ease-in-out hover:bg-gray-900/10" type="button">
                                     <div class="hidden mr-3 text-right lg:block">
                                         <p class="text-sm text-white">{{ Auth::user()->name }}</p>
                                         <p class="text-xs text-gray-100">{{ Auth::user()->username ? '@' . Auth::user()->username : Auth::user()->email }}</p>

@@ -129,3 +129,51 @@ if (! function_exists('notification_setting')) {
         return \App\Models\NotificationSetting::where('config', $config)->first();
     }
 }
+
+
+if (! function_exists('is_date')) {
+    function is_date($input) {
+        $date = \DateTime::createFromFormat('Y-m-d', $input);
+        
+        // Check if $input is a valid date string in the 'Y-m-d' format
+        return $date && $date->format('Y-m-d') === $input;
+    }
+}
+
+if (! function_exists('has_registered')) {
+    function has_registered() {
+        if(auth()->check()){
+            $account = \Auth::user()->account;
+            
+            return $account?->hasRegisteredStudent();
+        }
+    }
+}
+
+if (! function_exists('has_enrolled')) {
+    function has_enrolled() {
+        if(auth()->check()){
+            $account = \Auth::user()->account;
+            
+            return $account?->hasEnrolledStudent();
+        }
+    }
+}
+
+if (! function_exists('env_variable')) {
+    function env_variable($name) {
+        return [
+            'variable' => $name,
+            'value' => env($name)
+        ];
+    }
+}
+
+
+if (! function_exists('app_variable')) {
+    function app_variable($config, $column = 'value') {
+        $variable = \App\Models\AppVariable::where('config', $config)->first();
+        
+        return $variable?->$column;
+    }
+}

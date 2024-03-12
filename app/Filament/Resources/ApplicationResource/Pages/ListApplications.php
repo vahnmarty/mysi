@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ApplicationResource\Pages;
 
+use Closure;
 use App\Filament\Resources\ApplicationResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -21,4 +22,10 @@ class ListApplications extends ListRecords
     {
         return 'Actions';
     }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return null;
+    }
+    
 }

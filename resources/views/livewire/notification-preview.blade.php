@@ -19,7 +19,7 @@
                 </div>
             </header>
 
-            <article class="mt-16">
+            <article class="mt-16 html-content">
                 {!! $content !!}
             </article>
 

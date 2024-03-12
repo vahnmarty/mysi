@@ -22,7 +22,9 @@ class NotificationLetterResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static ?string $navigationGroup = 'Settings';
+
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {
@@ -77,6 +79,7 @@ class NotificationLetterResource extends Resource
             'index' => Pages\ListNotificationLetters::route('/'),
             'create' => Pages\CreateNotificationLetter::route('/create'),
             'edit' => Pages\EditNotificationLetter::route('/{record}/edit'),
+            'variables' => Pages\NotificationVariables::route('/variables')
         ];
     }    
 }

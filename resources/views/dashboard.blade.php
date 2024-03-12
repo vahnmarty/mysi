@@ -14,14 +14,14 @@
                 For those that submitted an application for the SI Class of 2028, you will receive your Admissions decision using this system on March 15, 2024 at 4pm. Make sure to save your username and password in a secure location.
             </p>
             <p>
-                Please visit the <a href="https://www.siprep.org/admissions/timeline" target="_blank" class="underline text-link">Timeline</a> on our Admissions website for next steps. Use the navigation links located on the left-hand side of your screen to explore MySI.
+                Please visit the <a href="https://www.siprep.org/admissions/timeline" target="_blank" class="text-link">Timeline</a> on our Admissions website for next steps. Use the navigation links located on the left-hand side of your screen to explore MySI.
             </p>
             <p>
-                If you have any questions about the application process, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="underline text-link ">admissions@siprep.org</a>  or <a href="tel:(415) 731-7500 ext. 5274" class="underline text-link">(415) 731-7500 ext. 5274</a>.
+                If you have any questions about the application process, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="text-link ">admissions@siprep.org</a>  or <a href="tel:(415) 731-7500 ext. 5274" class="text-link">(415) 731-7500 ext. 5274</a>.
             </p>
 
             <p>
-                If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="underline text-link ">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are experiencing. A screenshot will help greatly in resolving your technical issue.
+                If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="text-link ">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are experiencing. A screenshot will help greatly in resolving your technical issue.
             </p>
             
         </div>

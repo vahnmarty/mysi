@@ -37,56 +37,88 @@ trait EmergencyFormTrait{
     public function getEmergencyForm()
     {
         return [
-            Placeholder::make('section_health_form')
+            Placeholder::make('emergency_contact.section_health_form')
                 ->label('')
                 ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
-            TextInput::make('name')
-                ->label('Emergency Contact Name (if parents/guardians are unavailable):')
+            TextInput::make('emergency_contact.full_name')
+                ->label('Full Name (if parents/guardians are unavailable):')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->auto('first_name', $state);
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveEmergency('full_name', $state);
                 }),
-            Select::make('relationship')
-                ->label('Emergency Contact Relationship')
+            Select::make('emergency_contact.relationship')
+                ->label('Relationship to Student')
                 ->lazy()
                 ->required()
                 ->options(EmergencyContactRelationshipType::asSameArray())
-                ->afterStateUpdated(function($state){
-                    //$this->auto('first_name', $state);
+                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveEmergency('relationship', $state);
                 }),
-            TextInput::make('home_phone')
-                ->label("Emergency Contact Home Phone")
+            TextInput::make('emergency_contact.home_phone')
+                ->label("Home Phone")
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->autoSaveStudent('mobile_phone', $state);
+                ->afterStateHydrated(function(Closure $set, $state){
+                    if(!$state){
+                        $set('emergency_contact.home_phone', '');
+                    }
+                })
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveEmergency('home_phone', $state);
                 }),
-            TextInput::make('mobile_phone')
-                ->label("Emergency Contact Mobile Phone")
+            TextInput::make('emergency_contact.mobile_phone')
+                ->label("Mobile Phone")
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->autoSaveStudent('mobile_phone', $state);
+                ->afterStateHydrated(function(Closure $set, $state){
+                    if(!$state){
+                        $set('emergency_contact.mobile_phone', '');
+                    }
+                })
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveEmergency('mobile_phone', $state);
                 }),
-            TextInput::make('work_phone')
-                ->label("Emergency Contact Work Phone")
+            TextInput::make('emergency_contact.work_phone')
+                ->label("Work Phone")
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->autoSaveStudent('mobile_phone', $state);
+                ->afterStateHydrated(function(Closure $set, $state){
+                    if(!$state){
+                        $set('emergency_contact.work_phone', '');
+                    }
+                })
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveEmergency('work_phone', $state);
+                }),
+            TextInput::make('emergency_contact.work_phone_ext')
+                ->label('Work Phone Extension')
+                ->lazy()
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveEmergency('work_phone_ext', $state);
                 }),
             
             
         ];
+    }
+
+    private function autoSaveEmergency($column, $value)
+    {
+        $this->autoSave($column, $value, 'emergency_contact');
     }
 }

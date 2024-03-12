@@ -31,10 +31,29 @@ trait AddressFormTrait{
             Repeater::make('addresses')
                 ->label('')
                 ->disableItemMovement()
-                ->disableItemCreation()
-                ->disableItemDeletion()
                 ->minItems(1)
                 ->maxItems(4)
+                ->registerListeners([
+                    'repeater::deleteItem' => [
+                        function (Component $component, string $statePath, string $uuidToDelete): void {
+
+                            if($statePath == 'data.addresses')
+                            {
+                                $items = $component->getState();
+                                $addresses = Address::where('account_id', $this->registration->account_id)->get();
+
+                                foreach($addresses as $index => $address){
+                                    $existing = collect($items)->where('id', $address->id)->first();
+
+                                    if(!$existing){
+                                        $address->delete();
+                                    }
+                                }
+                            }
+                            
+                        },
+                    ],
+                ])
                 ->schema([
                     Hidden::make('id'),
                     Select::make('address_type')
@@ -62,7 +81,7 @@ trait AddressFormTrait{
                             if(!$id){
 
                                 $address = Address::create([
-                                    'account_id'    => $this->app->account_id,
+                                    'account_id'    => $this->getRecord()->account_id,
                                     'address_type'  => $state
                                 ]);
 

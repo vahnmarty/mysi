@@ -36,41 +36,57 @@ trait HealthFormTrait{
     public function getHealthForm()
     {
         return [
-            Placeholder::make('section_health_form')
+            Placeholder::make('healthcare.section_health_form')
                 ->label('')
                 ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
-            TextInput::make('medical_insurance_company')
+            TextInput::make('healthcare.medical_insurance_company')
                 ->label('Medical Insurance Company')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->auto('first_name', $state);
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveHealth('medical_insurance_company', $state);
                 }),
-            TextInput::make('medical_policy_number')
+            TextInput::make('healthcare.medical_policy_number')
                 ->label('Medical Policy Number')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->auto('first_name', $state);
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveHealth('medical_policy_number', $state);
                 }),
-            TextInput::make('physician_name')
+            TextInput::make('healthcare.physician_name')
                 ->label("Physician's Name")
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->auto('first_name', $state);
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveHealth('physician_name', $state);
                 }),
-            TextInput::make('physician_phone')
+            TextInput::make('healthcare.physician_phone')
                 ->label("Physician's Phone")
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000) 000-0000'))
                 ->rules([new PhoneNumberRule, 'doesnt_start_with:1'])
                 ->validationAttribute('Phone Number')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
-                    //$this->autoSaveStudent('mobile_phone', $state);
+                ->afterStateHydrated(function(Closure $set, $state){
+                    if(!$state){
+                        $set('healthcare.physician_phone', '');
+                    }
+                })
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveHealth('physician_phone', $state);
                 }),
-            WordTextArea::make('prescribed_medications')
+            TextInput::make('healthcare.physician_phone_ext')
+                ->label('Physician Phone Extension')
+                ->lazy()
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveHealth('physician_phone_ext', $state);
+                }),
+            WordTextArea::make('healthcare.prescribed_medications')
                 ->label("Prescribed Medications, Time and Dosages (If not applicable, type 'N/A') ")
                 ->helperText("Please limit your answer to 75 words.")
                 ->lazy()
@@ -82,9 +98,9 @@ trait HealthFormTrait{
                 ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
-                    //$this->autoSave('why_did_you_apply', $state);
+                    $this->autoSaveHealth('prescribed_medications', $state);
                 }),
-            WordTextArea::make('allergies')
+            WordTextArea::make('healthcare.allergies')
                 ->label("Allergies (Drug, Food, etc.) and other Dietary Restrictions (If not applicable, type 'N/A') ")
                 ->helperText("Please limit your answer to 75 words.")
                 ->lazy()
@@ -96,9 +112,9 @@ trait HealthFormTrait{
                 ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
-                    //$this->autoSave('why_did_you_apply', $state);
+                    $this->autoSaveHealth('allergies', $state);
                 }),
-            WordTextArea::make('other_issues')
+            WordTextArea::make('healthcare.other_issues')
                 ->label("Please list anything that you would like to share with us regarding your child's physical or mental health that we should know about in order to best support your child. (If not applicable, type 'N/A') ")
                 ->helperText("Please limit your answer to 75 words.")
                 ->lazy()
@@ -110,10 +126,15 @@ trait HealthFormTrait{
                 ])
                 ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
-                    //$this->autoSave('why_did_you_apply', $state);
+                    $this->autoSaveHealth('other_issues', $state);
                 }),
             
             
         ];
+    }
+
+    private function autoSaveHealth($column, $value)
+    {
+        $this->autoSave($column, $value, 'healthcare');
     }
 }

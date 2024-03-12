@@ -12,14 +12,17 @@ use App\Enums\AddressType;
 use App\Enums\ParentSuffix;
 use App\Rules\MaxWordCount;
 use App\Enums\EmploymentStatus;
+use App\Enums\MaritalStatusType;
 use App\Enums\LivingSituationType;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Grid;
 use Livewire\Component as Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use App\Forms\Components\WordTextArea;
 use App\Models\Parents as ParentModel;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Component;
@@ -48,12 +51,24 @@ trait ParentFormTrait{
                 ->minItems(1)
                 ->maxItems(4)
                 ->registerListeners([
+                    'repeater::createItem' => [
+                        function (Component $component, string $statePath): void {
+                            if($statePath == 'data.parents'){
+                                Notification::make()
+                                    ->title('New Parent Form Added')
+                                    ->body('Make sure to REFRESH this page after adding a new parent.')
+                                    ->warning()
+                                    ->send();
+                            }
+                            
+                        }
+                    ],
                     'repeater::deleteItem' => [
                         function (Component $component, string $statePath, string $uuidToDelete): void {
                             if($statePath == 'data.parents')
                             {
                                 $items = $component->getState();
-                                $parents = ParentModel::where('account_id', $this->app->account_id)->get();
+                                $parents = ParentModel::where('account_id', accountId())->get();
                                 
                                 if(count($parents) > 1){
                                     foreach($parents as $parent){
@@ -80,16 +95,17 @@ trait ParentFormTrait{
                     Hidden::make('id')
                         ->afterStateHydrated(function(Hidden $component, Closure $set, Closure $get, $state){
                             if(!$state){
-                                $parentModel = ParentModel::create(['account_id' => $this->app->account_id]);
+                                $parentModel = ParentModel::create(['account_id' => accountId()]);
                                 $set('id', $parentModel->id);
                             }
                         }),
-                    Select::make('relationship')
+                    Select::make('relationship_type')
+                        ->label('Relationship')
                         ->options(ParentType::asSameArray())
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Closure $get, $state){
-                            $this->autoSaveParent($get('id'),'relationship', $state);
+                            $this->autoSaveParent($get('id'),'relationship_type', $state);
                         }),
                     Select::make('salutation')
                         ->options(Salutation::asSameArray())
@@ -203,18 +219,46 @@ trait ParentFormTrait{
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_phone_ext', $state);
                         }),
-                    WordTextArea::make('schools_attended')
-                        ->label('List all high schools, colleges, or graduate schools you have attended.')
-                        ->lazy()
-                        ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
-                            $livewire->validateOnly($component->getStatePath());
-                            $this->autoSaveParent($get('id'),'schools_attended', $state);
-                        })
-                        ->wordLimit(75)
-                        ->rules([
-                            new MaxWordCount(75, 100)
-                        ])
-                        ->helperText('(Please limit answer to 75 words.)'),
+                    // WordTextArea::make('schools_attended')
+                    //     ->label('List all high schools, colleges, or graduate schools you have attended.')
+                    //     ->lazy()
+                    //     ->afterStateUpdated(function(Livewire $livewire, WordTextArea $component, Closure $get, $state){
+                    //         $livewire->validateOnly($component->getStatePath());
+                    //         $this->autoSaveParent($get('id'),'schools_attended', $state);
+                    //     })
+                    //     ->wordLimit(75)
+                    //     ->rules([
+                    //         new MaxWordCount(75, 100)
+                    //     ])
+                    //     ->helperText('(Please limit answer to 75 words.)'),
+                    Grid::make(3)
+                        ->schema([
+                            TextInput::make('high_school')
+                                ->label('High School')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'high_school', $state);
+                                }),
+                            TextInput::make('high_school_city')
+                                ->label('City')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'high_school_city', $state);
+                                }),
+                            Select::make('high_school_state')
+                                ->label('State')
+                                ->options(us_states())
+                                ->searchable()
+                                ->lazy()
+                                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'high_school_state', $state);
+                                }),
+                        ]),
                     Select::make('si_alumni_flag')
                         ->label('Graduated from SI?')
                         ->options([
@@ -238,6 +282,171 @@ trait ParentFormTrait{
                             $livewire->validateOnly($component->getStatePath());
                             $this->autoSaveParent($get('id'),'graduation_year', $state);
                         }),
+                    Fieldset::make('Undergraduate Program')
+                        ->label(new HtmlString('<p class="text-base font-bold text-gray-700">Undergraduate Program</p>'))
+                        ->columns(3)
+                        ->schema([
+                            TextInput::make('undergraduate_school')
+                                ->label('School')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'undergraduate_school', $state);
+                                }),
+                            TextInput::make('undergraduate_school_city')
+                                ->label('City')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'undergraduate_school_city', $state);
+                                }),
+                            Select::make('undergraduate_school_state')
+                                ->label('State')
+                                ->options(us_states())
+                                ->searchable()
+                                ->lazy()
+                                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'undergraduate_school_state', $state);
+                                }),
+                            TextInput::make('undergraduate_degree')
+                                ->label('Degree')
+                                ->lazy()
+                                ->maxLength(75)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'undergraduate_degree', $state);
+                                }),
+                            TextInput::make('undergraduate_major')
+                                ->label('Major')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'undergraduate_major', $state);
+                                }),
+                        ]),
+                    Fieldset::make('Graduate Program')
+                        ->label(new HtmlString('<p class="text-base font-bold text-gray-700">Graduate Program</p>'))
+                        ->columns(3)
+                        ->schema([
+                            TextInput::make('graduate_school')
+                                ->label('School')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'graduate_school', $state);
+                                }),
+                            TextInput::make('graduate_school_city')
+                                ->label('City')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'graduate_school_city', $state);
+                                }),
+                            Select::make('graduate_school_state')
+                                ->label('State')
+                                ->options(us_states())
+                                ->searchable()
+                                ->lazy()
+                                ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'graduate_school_state', $state);
+                                }),
+                            TextInput::make('graduate_degree')
+                                ->label('Degree')
+                                ->lazy()
+                                ->maxLength(75)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'graduate_degree', $state);
+                                }),
+                            TextInput::make('graduate_major')
+                                ->label('Major')
+                                ->lazy()
+                                ->maxLength(100)
+                                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
+                                    $livewire->validateOnly($component->getStatePath());
+                                    $this->autoSaveParent($get('id'),'graduate_major', $state);
+                                }),
+                        ]),
+                    Select::make('is_primary_contact')
+                        ->label("Is this parent/guardian the primary contact?  (Only 1 parent/guardian can be the primary contact.)")
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ])
+                        ->required()
+                        ->reactive()
+                        ->disabled(fn(Closure $get) => ParentModel::where('account_id', accountId())->count() == 1)
+                        ->afterStateHydrated(function(Closure $get, Closure $set, $state){
+                            $parentsCount = ParentModel::where('account_id', accountId())->count();
+
+                            if($parentsCount == 1){
+                                $set('is_primary_contact', 1);
+
+                                $parent = ParentModel::find($get('id'));
+                                $parent->is_primary_contact = 1;
+                                $parent->save();
+                            }
+                        })
+                        ->afterStateUpdated(function(Closure $get, Closure $set, $state){
+
+                            if($state == 1)
+                            {   
+                                $parentsRepeater = $get('../../parents');
+
+                                foreach($parentsRepeater as $repeaterItemUuid => $parentItem){
+                                    if($get('id') != $parentItem['id'])
+                                    {
+                                        # Backend
+                                        $parentModel = ParentModel::find($parentItem['id']);
+                                        $parentModel->is_primary_contact = false;
+                                        $parentModel->save();
+                                        
+                                        # Frontend
+                                        $set('../../parents.'. $repeaterItemUuid.'.is_primary_contact', 0);
+                                    }
+                                    
+                                }
+                            }
+                            
+                            $this->autoSaveParent($get('id'),'is_primary_contact', $state);
+                        }),
+                    Select::make('has_legal_custody')
+                        ->label("Does this parent/guardian have legal custody of the student?")
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ])
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'has_legal_custody', $state);
+                        }),
+                    Select::make('is_pickup_allowed')
+                        ->label("Is it okay for this parent/guardian to pick up the student at SI?")
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ])
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'is_pickup_allowed', $state);
+                        }),
+                    Select::make('marital_status')
+                        ->label('What is your marital status?')
+                        ->options(MaritalStatusType::asSameArray())
+                        ->required()
+                        ->lazy()
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $this->autoSaveParent($get('id'),'marital_status', $state);
+                        }),
                 ])
                 
         ];
@@ -245,9 +454,9 @@ trait ParentFormTrait{
 
     private function autoSaveParent($id, $column, $value)
     {
-        // $model = ParentModel::find($id);
-        // $model->$column = $value;
-        // $model->save();
+        $model = ParentModel::find($id);
+        $model->$column = $value;
+        $model->save();
     }
 
 }

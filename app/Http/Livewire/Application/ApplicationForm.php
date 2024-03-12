@@ -106,8 +106,8 @@ class ApplicationForm extends Component implements HasForms
         $data['autosave'] = true;
         $data['placement_test_date'] = settings('placement_test_date');
 
-        if($this->app->payment){
-            $this->amount = $this->app->payment?->final_amount;
+        if($this->app->applicationFee){
+            $this->amount = $this->app->applicationFee?->final_amount;
         }
 
         $this->form->fill($data);
@@ -144,7 +144,7 @@ class ApplicationForm extends Component implements HasForms
                 ->collapsible()
                 ->collapsed(true),
             Section::make('Family Information')
-                ->description(new HtmlString('If all family members are not listed, <a  href="?active=matrix#matrix" class="underline text-link">click here</a> to refresh this tab.'))
+                ->description(new HtmlString('If all family members are not listed, <a  href="?active=matrix#matrix" class="text-link">click here</a> to refresh this tab.'))
                 ->schema($this->getFamilyMatrix())
                 ->collapsible()
                 ->collapsed(fn() => $this->active == 'matrix' ? false : true )
@@ -256,13 +256,15 @@ class ApplicationForm extends Component implements HasForms
         $payment = Payment::firstOrCreate(
             [
             'application_id' => $this->app->id,
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
+            'payment_type' => PaymentType::AppFee
         ],
             [ 
             'initial_amount' => config('settings.payment.application_fee'),
-            'final_amount' => config('settings.payment.application_fee')
+            'final_amount' => config('settings.payment.application_fee'),
         ]
         );
+        
     }
 
     function authorizeCreditCard(Payment $payment, $data)
@@ -436,7 +438,18 @@ class ApplicationForm extends Component implements HasForms
 
         $app = Application::with('appStatus')->find($this->app->id);
 
-        $paymentRecord = $app->payment;
+        $paymentRecord = $app->applicationFee;
+
+        if(!$paymentRecord){
+
+            Notification::make()
+                ->title('System Error: Payment Issue')
+                ->body('Please contact support.')
+                ->danger()
+                ->send();
+
+            return false;
+        }
 
         if($this->amount <= 0){
 
@@ -468,6 +481,7 @@ class ApplicationForm extends Component implements HasForms
 
         }else{
 
+            
             $payment = $this->authorizeCreditCard($paymentRecord, $data['billing']);
 
             if($payment instanceof Payment){

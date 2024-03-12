@@ -14,6 +14,10 @@ class EditNotificationLetter extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+
+            Actions\Action::make('view_variables')
+                ->label('View Variables')
+                ->url(url('admin/notification-letters/variables'))
         ];
     }
 }

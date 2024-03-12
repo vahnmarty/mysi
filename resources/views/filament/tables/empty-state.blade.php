@@ -9,7 +9,7 @@
 
         <x-slot name="description">
             The application will appear once an 8th grade student is added.  
-            Only 8th grade students may apply.  <a href="{{ url('children') }}" class="underline text-link">Click here</a> to create a child record.
+            Only 8th grade students may apply.  <a href="{{ url('children') }}" class=" text-link">Click here</a> to create a child record.
         </x-slot>
     </x-tables::empty-state>
 </div>

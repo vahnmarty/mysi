@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use App\Enums\GradeLevel;
+use App\Models\FamilyDynamic;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Child extends Model
@@ -14,9 +17,27 @@ class Child extends Model
 
     protected $guarded = [];
 
+    protected $appends = [
+        'full_name',
+        'pronoun_subject',
+        'pronoun_possessive',
+        'pronoun_personal',
+        'pronoun_subject_capital',
+        'official_school',
+    ];
+
+    protected $casts = [
+        'health_form_file' => 'array'
+    ];
+
     public function getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->getFullName();
     }
 
     public function application()
@@ -76,6 +97,11 @@ class Child extends Model
         return $this->current_school == 'Not Listed' ? $this->current_school_not_listed : $this->current_school;
     }
 
+    public function getOfficialSchoolAttribute()
+    {
+        return $this->getCurrentSchool();
+    }
+
     public function getExpectedGraduationYear()
     {
         if(is_numeric($this->current_grade)){
@@ -103,5 +129,30 @@ class Child extends Model
         }
         
         return null;
+    }
+
+    public function getPronounSubjectAttribute()
+    {
+        return $this->gender == Gender::Male ? 'he' : 'she';
+    }
+    
+    public function getPronounPossessiveAttribute()
+    {
+        return $this->gender == Gender::Male ? 'his' : 'her';
+    }
+
+    public function getPronounPersonalAttribute()
+    {
+        return $this->gender == Gender::Male ? 'him' : 'her';
+    }
+
+    public function getPronounSubjectCapitalAttribute()
+    {
+        return $this->gender == Gender::Male ? 'He' : 'She';
+    }
+
+    public function relationships(): MorphMany
+    {
+        return $this->morphMany(FamilyDynamic::class, 'related');
     }
 }

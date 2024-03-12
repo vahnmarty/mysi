@@ -39,10 +39,10 @@ trait MagisProgramTrait{
         return [
             Placeholder::make('section_accomod_form')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
+                ->content(new HtmlString('* This section is to be completed by the student.')),
             Placeholder::make('accommodation_text')
                 ->label('')
-                ->content(new HtmlString("<div class='text-sm'>
+                ->content(new HtmlString("<div>
                     <div>
 
                         The Magis High School Program is an academic, social and cultural support program for highly motivated students that are underrepresented at St. Ignatius and institutions of higher education.  The Magis Program exists to aid students and families, offering support in navigating the college preparatory system through various workshops, college tours, identity formation experiences and community programming throughout the duration of the high school experience.
@@ -50,22 +50,59 @@ trait MagisProgramTrait{
                     </div>
                     <p class='mt-8'>The Magis Program supports St. Ignatius students who identity with <strong>at least one</strong> of the following criteria:</p>
                     <ul class='pl-8 mt-8 list-disc'>
-                        <li>Students who are first-generation college-bound (neither parent holds a bachelor’s degree from a US college or university)</li>
+                        <li>Students who are first-generation college-bound (Neither parent holds a bachelor’s degree from a US college or university)</li>
                         <li>Students receiving financial assistance   </li>
                         <li>Students of color historically underrepresented in higher education </li>
                     </ul>
                 </div>")),
-            Radio::make('first_gen_student')
-                ->label('Are you a first-generation college-bound student?')
-                ->helperText("(neither parent holds a bachelor's degree from a US college or university)")
-                ->options(CommonOption::asSameArray())
-                ->required(),
-            Radio::make('magis_program')
-                ->label('Are you interested in joining the Magis Program at this time?')
+            Radio::make('magis_program.first_gen')
+                ->label("Are you a first-generation college-bound student?")
+                ->helperText("(Neither parent holds a bachelor's degree from a US college or university)")
+                ->options([
+                    1 => 'Yes',
+                    0 => 'No',
+                    2 => 'Unsure'
+                ])
+                ->required()
+                ->reactive()
+                ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveProgram('first_gen', $state);
+                }),
+            Radio::make('magis_program.is_interested')
+                ->label("Are you interested in joining the Magis Program at this time?")
                 ->helperText("(If yes, more information about the program and the Magis First-Year Student Retreat will be emailed to you.)")
-                ->options(CommonOption::asSameArray())
-                ->required(),
+                ->options([
+                    1 => 'Yes',
+                    0 => 'No',
+                    2 => 'Unsure'
+                ])
+                ->required()
+                ->reactive()
+                ->disabled(function(Closure $get){
+                    $types = ['A', 'B', 'B1'];
+                    $fa = $get('application_status.financial_aid');
+
+                    return in_array($fa, $types);
+                })
+                ->afterStateHydrated(function(Livewire $livewire, Radio $component, Closure $get, Closure $set, $state){
+                    $types = ['A', 'B', 'B1'];
+                    $fa = $get('application_status.financial_aid');
+
+                    if(in_array($fa, $types)){
+                        $set('magis_program.is_interested', 1);
+                    }
+                })
+                ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
+                    $livewire->validateOnly($component->getStatePath());
+                    $this->autoSaveProgram('is_interested', $state);
+                }),
             
         ];
+    }
+
+    private function autoSaveProgram($column, $value)
+    {
+        $this->autoSave($column, $value, 'magis_program');
     }
 }

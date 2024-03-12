@@ -33,6 +33,10 @@ html, body{
     @apply inline-flex items-center px-12 py-3 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-red-700 border border-transparent rounded-md dark:bg-gray-200 dark:text-gray-800 hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
 }
 
+.btn-success{
+    @apply inline-flex items-center px-12 py-3 text-xs font-semibold tracking-widest text-white transition duration-150 ease-in-out bg-green-600 border border-transparent rounded-md dark:bg-gray-200 dark:text-gray-800 hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+}
+
 
 .filament-tables-empty-state svg{
     @apply text-white;
@@ -108,7 +112,7 @@ display: none;
 
 
 .filament-forms-field-wrapper-label span{
-    @apply font-bold;
+    @apply text-base font-bold;
 }
 
 #table-parent-matrix th{
@@ -172,7 +176,7 @@ display: none;
   }
 
 #table-parent-matrix th:last-child:before{
-    content: 'hello';
+    content: '';
 }
 
 .flex.items-center:has(.hide-checkbox-label){
@@ -181,4 +185,67 @@ display: none;
 
 #table-parent-matrix sup, #table-sibling-matrix sup{
     display: none !important;
+}
+
+.html-content a{
+    @apply text-link;
+}
+
+.html-content h2{
+    @apply text-xl;
+}
+
+.html-content ul{
+    @apply pl-8 list-disc;
+}
+
+.filament-header-heading{
+    @apply text-2xl font-semibold font-heading text-primary-blue;
+}
+
+#table-survey-schools th{
+    @apply font-bold color-red-800;
+}
+
+#table-survey-schools th::before{
+    content: '*';
+    @apply inline-block;
+}
+
+#table-survey-schools th:nth-child(4):before, #table-survey-schools th:nth-child(5):before, #table-survey-schools th:nth-child(6):before {
+    content: '';
+    display: none !important;
+}
+
+#table-survey-schools th:nth-child(4),#table-survey-schools th:nth-child(5) {
+    @apply text-gray-700;
+}
+
+#table-survey-schools sup{
+    display: none !important;
+}
+
+#table-si-directory th{
+    @apply font-bold color-red-800;
+}
+
+#table-si-directory th::before{
+    content: '*';
+    @apply inline-block;
+}
+
+#table-si-directory sup{
+    display: none !important;
+}
+
+a.text-link{
+    @apply hover:underline;
+}
+
+.filament-forms-radio-component label{
+    @apply text-base;
+}
+
+.filament-forms-checkbox-list-component-option-label-text{
+    @apply text-base;
 }

@@ -3,11 +3,14 @@
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Livewire\SampleForm;
+use App\Http\Livewire\SiPrepShop;
+use App\Http\Livewire\SurveyForm;
 use App\Http\Livewire\ContactPage;
 use App\Http\Livewire\SamplePayment;
 use Illuminate\Support\Facades\Http;
 use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
+use App\Filament\Pages\ViewNotification;
 use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Livewire\Profile\MyProfile;
 use App\Http\Livewire\RecommendationForm;
@@ -15,12 +18,13 @@ use App\Http\Livewire\NotificationPreview;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
+use App\Http\Livewire\Page\StudentHsptScores;
 use App\Http\Controllers\Admin\AuthController;
+
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
 use App\Http\Livewire\Admission\ViewApplications;
 use App\Http\Livewire\Auth\CreateAccountPassword;
-
 use App\Http\Livewire\Notifications\FinancialAid;
 use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
@@ -32,9 +36,11 @@ use App\Http\Livewire\Registration\RegistrationForm;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
+use App\Http\Livewire\Admission\ApplicationNotification;
 use App\Http\Livewire\Application\HealthcareInformation;
 use App\Http\Livewire\Registration\StudentRegistrations;
 use App\Http\Livewire\Application\AccommodationDocuments;
+use App\Http\Livewire\Registration\RegistrationCompleted;
 use App\Http\Livewire\Application\EmergencyContactInformation;
 use App\Http\Livewire\Application\UploadAccommodationDocuments;
 use App\Http\Livewire\Application\SupplementalRecommendationPage;
@@ -92,10 +98,11 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
     Route::get('accommodation-documents', AccommodationDocuments::class)->name('application.accommodation-documents');
     Route::get('help', ContactPage::class)->name('help');
+    Route::get('prep-shop', SiPrepShop::class)->name('si-prep-shop');
     Route::get('supplemental-recommendation', SupplementalRecommendationPage::class)->name('application.supplemental-recommendation');
     Route::get('supplemental-recommendation/{uuid}', SupplementalRecommendationRequestForm::class)->name('application.supplemental-recommendation-request');
-    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('notifications/{uuid}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::get('notifications', ApplicationNotification::class)->name('notifications.index');
+    Route::get('notifications/{uuid}', ViewNotification::class)->name('notifications.show');
     Route::get('notifications/{uuid}/pdf', [NotificationController::class, 'pdf'])->name('notifications.pdf');
     Route::get('notifications/{uuid}/financial-aid', FinancialAid::class)->name('notifications.financial-aid');
     Route::get('transactions', TransactionHistory::class)->name('transactions.index');
@@ -103,6 +110,11 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 
     Route::get('registration', StudentRegistrations::class)->name('registration.index');
     Route::get('registration/{uuid}', RegistrationForm::class)->name('registration.form');
+    Route::get('registration/{uuid}/completed', RegistrationCompleted::class)->name('registration.completed');
+
+    Route::get('survey/{uuid}', SurveyForm::class)->name('survey-form');
+
+    Route::get('hspt-scores', StudentHsptScores::class);
 });
 
 

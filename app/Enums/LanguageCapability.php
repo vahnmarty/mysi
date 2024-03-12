@@ -18,8 +18,5 @@ final class LanguageCapability extends Enum
     const level1 = "I speak this language every day";
     const level2 = "I understand this language but do not speak this language";
     const level3 = "I speak this language occasionally with family and/or friends";
-    const level4 = "My current school is a language immersion program";
-    const level5 = "I am currently taking or have taken this language at my current school";
-    const level6 = "I am currently taking a course in this language outside of school";
     const level0 = "None of the above";
 }

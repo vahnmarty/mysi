@@ -50,7 +50,7 @@ class PayApplicationFee extends Component implements HasForms
 
             $this->app = $app;
 
-            $this->amount = $app->payment->final_amount ?? config('settings.payment.application_fee');
+            $this->amount = $app->applicationFee->final_amount ?? config('settings.payment.application_fee');
 
             $this->form->fill();  
             
@@ -149,7 +149,7 @@ class PayApplicationFee extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        $paymentRecord = $this->app->payment;
+        $paymentRecord = $this->app->applicationFee;
 
         $payment = $this->authorizeCreditCard($paymentRecord, $data);
 

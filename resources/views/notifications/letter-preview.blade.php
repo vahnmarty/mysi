@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 
 @section('content')
-<div>
+<div >
     
     <div class="px-8 mx-auto max-w-7xl">
         <div class="p-10 mt-8 bg-white border rounded-lg shadow-lg">
@@ -19,11 +19,10 @@
                 </div>
             </header>
 
-            <article class="mt-16">
+            <article class="mt-16 html-content">
                 {!! $content !!}
             </article>
 
-            <p class="mt-8 font-bold text-gray-900">NOTE:  In order to reserve your spot in the SI Class of 2027, you must click the Enroll at SI button AND make a deposit payment before 6:00 am PT on Friday, March 24, 2023.   Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.</p>
 
             <div class="mt-8">
                 <a href="{{ url('notification-sample/' . $notification->id .'?application_id=' . $app->id . '&pdf=true') }}" target="_blank" class="btn-primary">Download</a>
