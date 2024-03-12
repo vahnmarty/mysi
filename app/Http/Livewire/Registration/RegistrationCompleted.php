@@ -295,6 +295,7 @@ class RegistrationCompleted extends Component implements HasForms
                         <div class="mt-4 space-y-4">
                             <div>
                                 <p class="font-bold">' . app_variable('cat_camp_title'). '</p>
+                                <div>' . app_variable('cat_camp_description').'</div>
                                 <a class="text-link" href="' .app_variable('cat_camp_url').' " target = "_blank">'.app_variable('cat_camp_url').'</a>
                             </div>
                             <div>

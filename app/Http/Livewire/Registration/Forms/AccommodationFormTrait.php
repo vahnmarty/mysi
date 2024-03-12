@@ -41,14 +41,11 @@ trait AccommodationFormTrait{
         return [
             Placeholder::make('accommodation.section_accomod_form')
                 ->label('')
-                ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
+                ->content(new HtmlString('<p>* This section is to be completed by a parent/guardian. If you submitted this documentation during Admissions Application season and there are no changes to the documentation, please skip this section.</p>')),
             Placeholder::make('accommodation.accommodation_text')
                 ->label('')
                 ->content(new HtmlString("
-                <p>
-                    If you submitted this documentation during Admissions Application season and there are no changes to the documentation, please skip this section.
-                </p>
-                <div class='mt-4'>
+                <div>
                     St. Ignatius welcomes all types of learners.  Our <strong>CATS (Center for Academics and Targeted Support)</strong> program provides academic support and accommodations to students that have learning differences or other diagnosis(es) that may impact learning. If your child would like to access services from CATS, please upload documentation below. Documentation can be (but is not limited to):  an IEP, 504 Plan, psychological educational evaluation or doctor's letter.  Documents must contain a specific diagnosis.  If you have further questions, please contact our CATS Director, Gianna Galletta, at <a href='mailto:ggalletta@siprep.org' class='text-link'>ggalletta@siprep.org</a>.  We look forward to working with you!
                 </div>")),
             FileUpload::make('accommodation.cats_file')
