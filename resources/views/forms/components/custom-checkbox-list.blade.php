@@ -157,12 +157,8 @@
                     >
                         <input
                             disabled
-                            @if ($isBulkToggleable())
-                                x-on:change="checkIfAllCheckboxesAreChecked()"
-                            @endif
                             wire:loading.attr="disabled"
                             type="checkbox"
-                            value="{{ $optionValue }}"
                             dusk="filament.forms.{{ $getStatePath() }}"
                             {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
                             {{
