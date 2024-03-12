@@ -50,14 +50,14 @@ trait MagisProgramTrait{
                     </div>
                     <p class='mt-8'>The Magis Program supports St. Ignatius students who identity with <strong>at least one</strong> of the following criteria:</p>
                     <ul class='pl-8 mt-8 list-disc'>
-                        <li>Students who are first-generation college-bound (neither parent holds a bachelor’s degree from a US college or university)</li>
+                        <li>Students who are first-generation college-bound (Neither parent holds a bachelor’s degree from a US college or university)</li>
                         <li>Students receiving financial assistance   </li>
                         <li>Students of color historically underrepresented in higher education </li>
                     </ul>
                 </div>")),
             Radio::make('magis_program.first_gen')
                 ->label("Are you a first-generation college-bound student?")
-                ->helperText("(neither parent holds a bachelor's degree from a US college or university)")
+                ->helperText("(Neither parent holds a bachelor's degree from a US college or university)")
                 ->options([
                     1 => 'Yes',
                     0 => 'No',
