@@ -299,8 +299,16 @@ class RegistrationCompleted extends Component implements HasForms
                             </div>
                             <div>
                                 <p class="font-bold">' . app_variable('rising_9th_grade_title').'</p>
+                                <div>' . app_variable('rising_9th_grade_description').'</div>
                                 <a class="text-link" href="' .app_variable('rising_9th_grade_url').'" target = "_blank">
                                     ' .app_variable('rising_9th_grade_url').'
+                                </a>
+                            </div>
+                            <div>
+                                <p class="font-bold">' . app_variable('frosh_athletics_title').'</p>
+                                <div>' . app_variable('frosh_athletics_description').'</div>
+                                <a class="text-link" href="' .app_variable('frosh_athletics_url').'" target = "_blank">
+                                    ' .app_variable('frosh_athletics_url').'
                                 </a>
                             </div>
                         </div>
@@ -328,7 +336,7 @@ class RegistrationCompleted extends Component implements HasForms
                             eligibility for the entire school year.&nbsp;&nbsp;The FamilyID website will open for registration on ' . app_variable('family_id_start_date', 'display_value') . '.&nbsp;&nbsp;Please do not register until you are ready to upload your ticket to play.
                         </div>
                         <p class="mt-3 ">
-                            Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf" target="_blank">here</a>.
+                            Download SI’s Ticket to Play Medical Clearance Form <a class="text-link" href="'.app_variable('medical_form_url').'" target="_blank">here</a>.
                         </p>
                     </div>'))
                 ]),

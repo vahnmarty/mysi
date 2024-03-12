@@ -71,34 +71,34 @@ class SystemVariables extends Page implements HasForms
                             ->required()
                             ->lazy(),
                         ]),
-                    Grid::make(4)
-                        ->schema([
-                            TextInput::make('academic_year')
-                                ->label('Academic Year (YYYY - YYYY)')
-                                ->required()
-                                ->placeholder('YYYY - YYYY')
-                                ->required(),
-                        ]),
+                    // Grid::make(4)
+                    //     ->schema([
+                    //         TextInput::make('academic_year')
+                    //             ->label('Academic Year (YYYY - YYYY)')
+                    //             ->required()
+                    //             ->placeholder('YYYY - YYYY')
+                    //             ->required(),
+                    //     ]),
                 ]),
             Section::make('Notification Letter Variables')
                 ->schema([
-                    Grid::make(4)
-                        ->schema([
-                            DatePicker::make('timeline.notification_date')
-                                ->label("Notification Date"),
-                        ]),
-                    Grid::make(4)
-                        ->schema([
-                            DateTimePicker::make('timeline.acceptance_deadline_date')
-                                ->label("Acceptance Deadline Date"),
-                        ]),
-                    Grid::make(4)
-                        ->schema([
-                            DateTimePicker::make('timeline.registration_start_date')
-                                ->label("Registration Start Date"),
-                            DateTimePicker::make('timeline.registration_end_date')
-                                ->label("Registration End Date"),
-                        ]),
+                    // Grid::make(4)
+                    //     ->schema([
+                    //         DatePicker::make('timeline.notification_date')
+                    //             ->label("Notification Date"),
+                    //     ]),
+                    // Grid::make(4)
+                    //     ->schema([
+                    //         DateTimePicker::make('timeline.acceptance_deadline_date')
+                    //             ->label("Acceptance Deadline Date"),
+                    //     ]),
+                    // Grid::make(4)
+                    //     ->schema([
+                    //         DateTimePicker::make('timeline.registration_start_date')
+                    //             ->label("Registration Start Date"),
+                    //         DateTimePicker::make('timeline.registration_end_date')
+                    //             ->label("Registration End Date"),
+                    //     ]),
                     Grid::make(4)
                         ->schema([
                             TextInput::make('payment.tuition_fee')
@@ -107,20 +107,20 @@ class SystemVariables extends Page implements HasForms
                             ->required()
                             ->lazy(),
                         ]),
-                    Grid::make(4)
-                        ->schema([
-                            TextInput::make('class_year')
-                            ->label("Class Year")
-                            ->required()
-                            ->lazy(),
-                        ]),
-                    Grid::make(4)
-                        ->schema([
-                            TextInput::make('number_of_applicants')
-                            ->label("Number of Applicants")
-                            ->required()
-                            ->lazy(),
-                        ]),
+                    // Grid::make(4)
+                    //     ->schema([
+                    //         TextInput::make('class_year')
+                    //         ->label("Class Year")
+                    //         ->required()
+                    //         ->lazy(),
+                    //     ]),
+                    // Grid::make(4)
+                    //     ->schema([
+                    //         TextInput::make('number_of_applicants')
+                    //         ->label("Number of Applicants")
+                    //         ->required()
+                    //         ->lazy(),
+                    //     ]),
                 ]),
 
         ];
@@ -147,16 +147,16 @@ class SystemVariables extends Page implements HasForms
 
         $this->updateEnv('PAYMENT_APPLICATION_FEE', $data['payment']['application_fee']);
         $this->updateEnv('PAYMENT_TUITION_FEE', $data['payment']['tuition_fee']);
-        $this->updateEnv('ACADEMIC_YEAR', $data['academic_year']);
-        $this->updateEnv('CLASS_YEAR', $data['class_year']);
-        $this->updateEnv('NUMBER_OF_APPLICANTS', $data['number_of_applicants']);
+        //$this->updateEnv('ACADEMIC_YEAR', $data['academic_year']);
+        //$this->updateEnv('CLASS_YEAR', $data['class_year']);
+        //$this->updateEnv('NUMBER_OF_APPLICANTS', $data['number_of_applicants']);
         
         
-        foreach($data['timeline'] as $config => $value){
-            $setting = NotificationSetting::where('config', $config)->first();
-            $setting->value = $value;
-            $setting->save();
-        }
+        // foreach($data['timeline'] as $config => $value){
+        //     $setting = NotificationSetting::where('config', $config)->first();
+        //     $setting->value = $value;
+        //     $setting->save();
+        // }
     }
 
     public function updateEnv($env, $value, $config = null)

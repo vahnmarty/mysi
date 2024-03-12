@@ -74,6 +74,7 @@ class ApplicationResource extends Resource
                 Tables\Columns\TextColumn::make('appStatus.application_status')
                     ->label('Notification Status')
                     ->color('secondary')
+                    ->sortable()
                     ->formatStateUsing(fn ($state) => $state ?? '-- N/A --')
                     ->action(
                         Tables\Actions\Action::make('update_status')

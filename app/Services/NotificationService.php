@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Application;
+use App\Models\AppVariable;
 use App\Models\NotificationLetter;
 use App\Models\NotificationSetting;
 use App\Enums\NotificationStatusType;
@@ -28,6 +29,7 @@ class NotificationService{
         $variables = [
             'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
             'system' => config('settings'),
+            'app' => AppVariable::get()->pluck('value', 'config')->toArray(),
             'parents_name' => $account->getParentsName(),
             'parents_name_salutation' => $account->getParentsName(withSalutation:true),
             'student' => $app->student->toArray(),

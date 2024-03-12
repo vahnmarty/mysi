@@ -94,28 +94,31 @@ class NotificationController extends Controller
         }
     }
 
-    public function sample(Request $request, $id)
+    public function sample(Request $request, $letterId)
     {
         $request->validate([
             'application_id' => 'required'
         ]);
 
-        $notification = NotificationLetter::findOrFail($id);
+        $app = Application::findOrFail($request->application_id);
 
-        $app = Application::with('student', 'account', 'appStatus')->findOrFail($request->application_id);
+        $appStatus = $app->appStatus;
+
+        $notification = NotificationLetter::find($letterId);
 
         $account = $app->account;
 
         $variables = [
-            'application' => $app->toArray(),
-            'application_status' => $app->appStatus->toArray(),
             'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
             'system' => config('settings'),
-            'student' => $app->student->toArray(),
             'parents_name' => $account->getParentsName(),
             'parents_name_salutation' => $account->getParentsName(withSalutation:true),
+            'student' => $app->student->toArray(),
+            'application' => $app->toArray(),
+            'application_status' => $app->appStatus->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
-            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray(),
+            'class_list' => $app->classList()
         ];
 
         $content = $this->parseContent($notification->content, $variables);
@@ -135,22 +138,52 @@ class NotificationController extends Controller
         $replaceCallback = function($matches) use ($variables) {
             $variableName = trim($matches[1], '{}');
 
-            $field = Arr::get($variables, $variableName);
+            $field = \Arr::get($variables, $variableName);
 
             if(!empty($field)){
 
-                if(is_date($field)){
-                    return date('F d, Y', strtotime($field));
+
+                if($variableName == 'class_list')
+                {
+                    $classes = $field;
+                    if(is_array($field))
+                    {
+                        $html = '<ul style="padding-left: 15px; list-style: disc;">';
+                        
+                        if(count($classes)){
+                            foreach($classes as $class)
+                            {
+                                $html .= '<li><strong>' . $class . '</strong></li>';
+                            }
+                        }else{
+
+                            $html .= '<li><strong>No class information.</strong></li>';
+                        }
+                        
+
+                        $html .= '</ul>';
+
+                        return $html;
+                    }
+                    return '<strong>CLASS</strong>';
+                }else{
+    
+                    if($this->special_cases($variableName)){
+                        $type = $this->special_cases($variableName, returnArray: true) ;
+                        return $this->transformSpecialCases($field, $type);
+                    }
+
+                    if(is_date($field)){
+                        return date('F d, Y', strtotime($field));
+                    }
                 }
 
-                if($this->special_cases($variableName)){
-                    $type = $this->special_cases($variableName, returnArray: true) ;
-                    return $this->transformSpecialCases($field, $type);
-                }
+                
 
                 return $field;
             }
             
+            //return ''; // leaving blank??
 
             return $matches[0]; // If the variable doesn't exist in the array, leave it unchanged
         };
@@ -164,10 +197,16 @@ class NotificationController extends Controller
     public function special_cases($input, $returnArray = false)
     {
         $array = [
+            //'timeline.notification_date' => 'date_with_day',
             'timeline.acceptance_deadline_date' => 'date_description',
-            'timeline.registration_start_date' => 'date_with_day',
+            'timeline.registration_start_date' => 'date_timezone_display',
             'timeline.registration_end_date' => 'date_description',
-            'system.payment.tuition_fee' => 'money',
+            'system.payment.tuition_fee' => 'number',
+            'application_status.total_financial_aid_amount' => 'number',
+            'application_status.annual_financial_aid_amount' => 'number',
+            'application_status.deposit_amount' => 'number',
+            'system.number_of_applicants' => 'number'
+
         ];
         
         if($returnArray){
@@ -187,8 +226,16 @@ class NotificationController extends Controller
             return date(('l, F j, Y'), strtotime($input));
         }
 
+        if($type == 'date_timezone_display'){
+            return date(('F j, Y'), strtotime($input)) . ' at ' . date(('g a T'), strtotime($input));
+        }
+
         if($type == 'money'){
             return number_format($input, 2);
+        }
+
+        if($type == 'number'){
+            return number_format($input);
         }
     }
 }

@@ -57,6 +57,11 @@ class AppVariableSeeder extends Seeder
             ['config' => 'cat_camp_title'],
             ['value' => 'Cat Camp (available Tuesday, March 21, 2023 at 10:00 am PT)']
         );
+
+        AppVariable::firstOrCreate(
+            ['config' => 'cat_camp_description'],
+            ['value' => '<-- insert description -->']
+        );
         
         AppVariable::firstOrCreate(
             ['config' => 'cat_camp_url'],
@@ -67,15 +72,40 @@ class AppVariableSeeder extends Seeder
             ['config' => 'rising_9th_grade_title'],
             ['value' => 'Rising 9th Grade Summer Classes (available Tuesday, March 21, 2023 at 10:00 am PT)']
         );
+
+        AppVariable::firstOrCreate(
+            ['config' => 'rising_9th_grade_description'],
+            ['value' => '<-- insert description -->']
+        );
         
         AppVariable::firstOrCreate(
             ['config' => 'rising_9th_grade_url'],
+            ['value' => 'https://www.siprograms.com/academics/9th-grade']
+        );
+
+        AppVariable::firstOrCreate(
+            ['config' => 'frosh_athletics_title'],
+            ['value' => '<-- insert title -->']
+        );
+
+        AppVariable::firstOrCreate(
+            ['config' => 'frosh_athletics_description'],
+            ['value' => '<-- insert description -->']
+        );
+        
+        AppVariable::firstOrCreate(
+            ['config' => 'frosh_athletics_url'],
             ['value' => 'https://www.siprograms.com/academics/9th-grade']
         );
         
         AppVariable::firstOrCreate(
             ['config' => 'health_form_due_date'],
             ['value' => '2024-03-25', 'display_value' => 'March 25, 2024']
+        );
+
+        AppVariable::firstOrCreate(
+            ['config' => 'medical_form_url'],
+            ['value' => 'https://resources.finalsite.net/images/v1674767044/siprep/t6goeoxvhp5mj2nzsgcu/MedicalClearanceFormTemplate.pdf']
         );
         
         AppVariable::firstOrCreate(
