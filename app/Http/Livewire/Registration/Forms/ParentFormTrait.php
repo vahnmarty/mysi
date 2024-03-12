@@ -283,6 +283,7 @@ trait ParentFormTrait{
                             $this->autoSaveParent($get('id'),'graduation_year', $state);
                         }),
                     Fieldset::make('Undergraduate Program')
+                        ->label(new HtmlString('<p class="text-base font-bold text-gray-700">Undergraduate Program</p>'))
                         ->columns(3)
                         ->schema([
                             TextInput::make('undergraduate_school')
@@ -328,6 +329,7 @@ trait ParentFormTrait{
                                 }),
                         ]),
                     Fieldset::make('Graduate Program')
+                        ->label(new HtmlString('<p class="text-base font-bold text-gray-700">Graduate Program</p>'))
                         ->columns(3)
                         ->schema([
                             TextInput::make('graduate_school')

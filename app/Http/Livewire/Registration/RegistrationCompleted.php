@@ -250,6 +250,9 @@ class RegistrationCompleted extends Component implements HasForms
                         })
                         ->required(),
                 ]),
+            Placeholder::make('border_line')
+                ->label('')
+                ->content(new HtmlString('<div class="border-t border-dashed border-primary-red"></div>')),
             Grid::make()
                 ->columns(1)
                 ->schema([
@@ -329,6 +332,9 @@ class RegistrationCompleted extends Component implements HasForms
                         </p>
                     </div>'))
                 ]),
+            Placeholder::make('border_line')
+                ->label('')
+                ->content(new HtmlString('<div class="border-t border-dashed border-primary-red"></div>')),
             Grid::make()
                 ->columns(1)
                 ->schema([
