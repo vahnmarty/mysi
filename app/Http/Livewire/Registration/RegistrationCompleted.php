@@ -285,7 +285,7 @@ class RegistrationCompleted extends Component implements HasForms
                 ->schema([
                     Placeholder::make('si_summer_programs')
                         ->label('')
-                        ->content(new HtmlString('<h3 class="text-xl font-bold text-primary-red">SI Summer Programs </h3>')),
+                        ->content(new HtmlString('<h3 class="text-xl font-bold text-primary-red">SI Summer Programs (Available Monday, March 25, 2024 at 10:00 am PDT) </h3>')),
                     Placeholder::make('cat_camp')
                         ->label('')
                         ->content(new HtmlString('<div>
