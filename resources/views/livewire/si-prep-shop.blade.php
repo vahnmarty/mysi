@@ -15,7 +15,7 @@
             {{ $this->table }}
         </div>
 
-        <p class="mt-8">Go Cats!</p>
+        <p class="mt-8"><FONT SIZE = "5">Go Cats!</FONT></p>
     </section>
 
 </div>
