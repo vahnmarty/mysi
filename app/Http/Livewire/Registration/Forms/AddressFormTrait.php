@@ -147,11 +147,15 @@ trait AddressFormTrait{
                         ->rules(['doesnt_start_with:1'])
                         ->validationAttribute('Phone Number')
                         ->lazy()
+                        ->afterStateHydrated(function(Closure $get,Closure $set, $state){
+                            if(empty($state)){
+                                $set('phone_number', '');
+                            }
+                        })
                         ->afterStateUpdated(function(Closure $get, $state){
                             if($get('id')){
                                 $this->autoSaveAddress($get('id'), 'phone_number', $state);
                             }
-                            
                         })
                 ])
                 ->createItemButtonLabel(fn(Closure $get) => count($get('addresses')) ? 'Add Another Address' : 'Add Address')
