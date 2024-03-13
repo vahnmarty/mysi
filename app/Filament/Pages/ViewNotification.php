@@ -106,6 +106,28 @@ class ViewNotification extends CustomFilamentPage {
         $class_year = app_variable('class_year');
 
         return [
+            Action::make('enroll_express')
+                ->label('Enroll at SI')
+                ->action('enrollExpress')
+                ->color('success')
+                ->visible(function(){
+                    $app = $this->app;
+                    $deposit0 = $this->deposit_amount == 0;
+                    
+                    if( $app->applicationAccepted() ){
+                        if($app->hasRegistered() || $app->declined() || $app->enrolled()) {
+                            return false;
+                        }
+
+                        if($app->hasFinancialAid()){
+                            return $deposit0 && $app->fa_acknowledged();
+                        }
+                        
+                        return $deposit0;
+                    }
+
+                    return false;
+                }),
             Action::make('enroll')
                 ->label('Enroll at SI')
                 ->action('enroll')
@@ -167,6 +189,7 @@ class ViewNotification extends CustomFilamentPage {
                 })
                 ->visible(function(){
                     $app = $this->app;
+                    $has_amount = $this->deposit_amount > 0;
                     
                     if( $app->applicationAccepted() ){
                         if($app->hasRegistered() || $app->declined() || $app->enrolled()) {
@@ -174,10 +197,10 @@ class ViewNotification extends CustomFilamentPage {
                         }
 
                         if($app->hasFinancialAid()){
-                            return $app->fa_acknowledged();
+                            return $has_amount && $app->fa_acknowledged();
                         }
 
-                        return true;
+                        return $has_amount > 0 && true;
                     }
 
                     return false;
@@ -238,10 +261,6 @@ class ViewNotification extends CustomFilamentPage {
     public function remainWaitlist()
     {
         return redirect()->to('https://forms.gle/XZaF9LCwa6rDQw7g9');
-        // Notification::make()
-        //     ->title('No function yet. Come back soon.')
-        //     ->warning()
-        //     ->send();
     }
 
     public function removeWaitlist()
@@ -276,11 +295,31 @@ class ViewNotification extends CustomFilamentPage {
         return $this->app->appStatus->application_status == 'Accepted';
     }
 
-    public function checkout($form)
+    public function enrollExpress()
     {
         $app = $this->app;
 
-        
+        $app->appStatus()->update([
+            'candidate_decision' => true,
+            'candidate_decision_date' => now(),
+            'candidate_decision_status' => 'Accepted'
+        ]);
+
+        $registration = $app->registration()->firstOrCreate([
+            'child_id' => $app->child_id
+        ],[
+            'account_id' => accountId(),
+            'record_type_id' => RecordType::Student,
+        ]);
+
+        $this->initSurveyForm($app, 'Accepted');
+
+        return redirect(request()->header('Referer'));
+    }
+
+    public function checkout($form)
+    {
+        $app = $this->app;
 
         $paymentRecord = Payment::firstOrCreate(
             [
