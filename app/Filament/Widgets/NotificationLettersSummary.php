@@ -14,6 +14,11 @@ class NotificationLettersSummary extends GroupWidget
 
     public $title = 'Notification Letter Summary';
 
+    public function canViewWidget()
+    {
+        return auth()->user()->isAdmin();
+    }
+
     protected function getColumns(): int
     {
         return 3;

@@ -13,6 +13,11 @@ class StudentDecisionSummary extends GroupWidget
 {
     public $title = 'Student Decision Summary';
 
+    public function canViewWidget()
+    {
+        return auth()->user()->isAdmin();
+    }
+
     protected function getColumns(): int
     {
         return 3;
@@ -25,6 +30,7 @@ class StudentDecisionSummary extends GroupWidget
                     DB::table('application_status')
                     ->where('application_status', NotificationStatusType::Accepted)
                     ->where('candidate_decision', 1)
+                    ->where('candidate_decision_status', 'Accepted')
                     ->count()
                 )
                 ->color('warning')
@@ -33,37 +39,11 @@ class StudentDecisionSummary extends GroupWidget
                     DB::table('application_status')
                     ->where('application_status', NotificationStatusType::Accepted)
                     ->where('candidate_decision', 0)
+                    ->where('candidate_decision_status', 'Declined')
                     ->count()
                 )
                 ->color('warning')
                 ->icon('heroicon-o-badge-check'),
-            EmptyCard::make('empty', 0),
-
-
-            Card::make('Accepted Enrollment - Deposit Paid', 
-                DB::table('application_status')
-                    ->select('application_status', 'payments.*')
-                    ->join('payments', 'application_status.application_id', '=', 'payments.application_id')
-                    ->where('payment_type', 'RegFee')
-                    ->where('application_status', NotificationStatusType::Accepted)
-                    ->whereNotNull('transaction_id')
-                    ->count()
-                )
-                ->color('warning')
-                ->icon('heroicon-o-cube-transparent'),
-            Card::make('Accepted Enrollment - Deposit Not Paid', 
-                DB::table('application_status')
-                    ->select('application_status', 'payments.*')
-                    ->join('payments', 'application_status.application_id', '=', 'payments.application_id')
-                    ->where('application_status', NotificationStatusType::Accepted)
-                    ->where('payment_type', 'RegFee')
-                    ->whereNull('transaction_id')
-                    ->count()
-                )
-                ->color('warning')
-                ->icon('heroicon-o-cube-transparent'),
-
-            EmptyCard::make('empty', 0),
         ];
     }
 }

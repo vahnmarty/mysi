@@ -24,10 +24,6 @@ class SettingResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static function shouldRegisterNavigation(): bool
-    {
-        return auth()->user()->isAdmin();
-    }
 
     public static function form(Form $form): Form
     {
