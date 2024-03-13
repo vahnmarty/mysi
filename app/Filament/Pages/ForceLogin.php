@@ -26,6 +26,11 @@ class ForceLogin extends Page implements HasForms
 
     public $account, $account_id, $user;
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     protected function getFormSchema() : array
     {
         return [

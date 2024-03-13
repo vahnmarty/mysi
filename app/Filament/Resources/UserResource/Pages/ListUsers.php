@@ -13,7 +13,11 @@ class ListUsers extends ListRecords
     protected function getActions(): array
     {
         return [
-            //Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['password'] = bcrypt($data['password']);
+                    return $data;
+                }),
         ];
     }
 

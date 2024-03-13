@@ -139,9 +139,14 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
         return $this->getNameAttribute();
     }
 
-    public function canAccessFilament(): bool
+    public function isAdmin()
     {
         return $this->hasRole('admin');
+    }
+
+    public function canAccessFilament(): bool
+    {
+        return $this->hasRole('admin') || $this->hasRole('staff');
     }
 
     public function hasSubmittedApplications()

@@ -18,6 +18,12 @@ class ApplicationSummary extends GroupWidget
 
     protected $listeners = ['goto'];
 
+    public function canViewWidget()
+    {
+        return auth()->user()->isAdmin();
+    }
+
+
     protected function getCards(): array
     {
         return [

@@ -22,6 +22,11 @@ class DebugApplications extends Page implements HasTable
 
     protected static string $view = 'filament.pages.debug-applications';
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     public function mount()
     {
         

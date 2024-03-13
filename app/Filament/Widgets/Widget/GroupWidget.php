@@ -9,10 +9,17 @@ class GroupWidget extends StatsOverviewWidget
 {
     public $title;
 
+    public $show = true;
+
     protected static string $view = 'filament.widgets.group-widget';
 
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    protected function canViewWidget()
+    {
+        return $this->show;
     }
 }

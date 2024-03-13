@@ -31,6 +31,11 @@ class ApplicationResource extends Resource
 
     public $status = 'submitted';
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     public static function form(Form $form): Form
     {
         return $form

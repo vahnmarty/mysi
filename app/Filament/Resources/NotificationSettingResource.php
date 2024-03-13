@@ -28,6 +28,11 @@ class NotificationSettingResource extends Resource
 
     protected static ?string $pluralLabel = 'School Timeline';
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     public static function form(Form $form): Form
     {
         $years = range(2000, date('Y') + 10);

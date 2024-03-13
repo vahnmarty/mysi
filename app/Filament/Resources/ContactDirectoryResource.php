@@ -25,6 +25,11 @@ class ContactDirectoryResource extends Resource
 
     protected static ?string $pluralLabel = 'Contact Directory';
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     public static function form(Form $form): Form
     {
         return $form

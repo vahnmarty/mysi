@@ -1,5 +1,6 @@
-<x-filament::widget class="filament-stats-overview-widget">
 
+<x-filament::widget class="filament-stats-overview-widget">
+    @if($this->canViewWidget())
     <h2 class="mb-8 text-xl font-semibold">{{ $title }}</h2>
     <div
         {!! ($pollingInterval = $this->getPollingInterval()) ? "wire:poll.{$pollingInterval}" : '' !!}
@@ -10,4 +11,6 @@
             @endforeach
         </x-filament::stats>
     </div>
+    @endif
 </x-filament::widget>
+

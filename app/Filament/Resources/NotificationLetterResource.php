@@ -26,6 +26,11 @@ class NotificationLetterResource extends Resource
 
     protected static ?int $navigationSort = 10;
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     public static function form(Form $form): Form
     {
         return $form

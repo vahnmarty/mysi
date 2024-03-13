@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use App\Models\User;
 use Filament\Tables;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\UserResource\RelationManagers;
 
 class UserResource extends Resource
 {
@@ -24,9 +25,14 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->where('id', '!=', 1);
+        return parent::getEloquentQuery()->role('staff');
     }
 
 
@@ -34,10 +40,22 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('first_name')->disabled(),
-                Forms\Components\TextInput::make('last_name')->disabled(),
-                Forms\Components\TextInput::make('email'),
-                Forms\Components\DatePicker::make('email_verified_at'),
+                Forms\Components\TextInput::make('first_name')
+                    ->required(),
+                Forms\Components\TextInput::make('last_name')
+                    ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->required()
+                    ->unique(table: 'users'),
+                Forms\Components\TextInput::make('password')
+                    ->required()
+                    ->hiddenOn('edit'),
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->maxItems(1)
+                    ->options(Role::where('name', 'staff')->get()->pluck('name', 'id'))
+                    ->required(),
             ]);
     }
 
@@ -57,6 +75,8 @@ class UserResource extends Resource
                     ->label('Email')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->label('Email Verification Date')
                     ->dateTime('m/d/Y h:i a'),
@@ -65,7 +85,7 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                //Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('verify')
                     ->label('Verify Email')
                     ->hidden(fn(User $record) => $record->email_verified_at)

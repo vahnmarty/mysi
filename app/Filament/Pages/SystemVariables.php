@@ -36,6 +36,10 @@ class SystemVariables extends Page implements HasForms
 
     protected static ?string $navigationLabel = 'System Variables';
 
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
 
     public function mount()
     {
