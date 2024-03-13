@@ -103,7 +103,7 @@ class ViewNotification extends CustomFilamentPage {
     protected function getActions(): array
     {
         $notification_setting = notification_setting('registration_end_date');
-        $class_year = config('settings.class_year');
+        $class_year = app_variable('class_year');
 
         return [
             Action::make('enroll')

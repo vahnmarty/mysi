@@ -41,7 +41,7 @@ trait AccommodationFormTrait{
         return [
             Placeholder::make('accommodation.section_accomod_form')
                 ->label('')
-                ->content(new HtmlString('<p>* This section is to be completed by a parent/guardian. If you submitted this documentation during Admissions Application season and there are no changes to the documentation, please skip this section.</p>')),
+                ->content(new HtmlString('<p>* This section is to be completed by a parent/guardian.</p>')),
             Placeholder::make('accommodation.accommodation_text')
                 ->label('')
                 ->content(new HtmlString("
@@ -73,6 +73,7 @@ trait AccommodationFormTrait{
                     1 => 'Yes',
                     0 => 'No'
                 ])
+                ->required()
                 ->reactive()
                 ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
@@ -85,6 +86,7 @@ trait AccommodationFormTrait{
                     1 => 'Yes',
                     0 => 'No'
                 ])
+                ->required()
                 ->reactive()
                 ->afterStateUpdated(function(Livewire $livewire, Radio $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());

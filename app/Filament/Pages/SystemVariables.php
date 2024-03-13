@@ -46,9 +46,9 @@ class SystemVariables extends Page implements HasForms
                 'application_fee' => config('settings.payment.application_fee'),
                 'tuition_fee' => config('settings.payment.tuition_fee')
             ],
-            'academic_year' =>  config('settings.academic_year'),
-            'number_of_applicants' => config('settings.number_of_applicants'),
-            'class_year' => config('settings.class_year'),
+            //'academic_year' =>  config('settings.academic_year'),
+            //'number_of_applicants' => config('settings.number_of_applicants'),
+            //'class_year' => config('settings.class_year'),
             'timeline' => $timeline,
             'registration' => config('settings.registration')
         ]);

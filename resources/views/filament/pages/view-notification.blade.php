@@ -62,7 +62,7 @@
                 
                 @if($app->applicationAccepted())
                 <p class="mt-8 font-bold text-gray-900">
-                    NOTE: In order to reserve your spot in the SI Class of {{ config('settings.class_year') }}, you must click the Enroll at SI button AND make a deposit payment before {{  app_variable('registration_end_date') }}. Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.
+                    NOTE: In order to reserve your spot in the SI Class of {{ app_variable('class_year') }}, you must click the Enroll at SI button AND make a deposit payment before {{  app_variable('registration_end_date') }}. Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.
                 </p>
                 @endif
     
