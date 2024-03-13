@@ -2,9 +2,13 @@
 
 use Filament\Pages;
 use Filament\Widgets;
+use App\Filament\Pages\Dashboard;
 use Filament\Http\Middleware\Authenticate;
+use App\Filament\Widgets\ApplicationSummary;
 use Illuminate\Session\Middleware\StartSession;
+use App\Filament\Widgets\StudentDecisionSummary;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use App\Filament\Widgets\NotificationLettersSummary;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -106,7 +110,7 @@ return [
         'namespace' => 'App\\Filament\\Pages',
         'path' => app_path('Filament/Pages'),
         'register' => [
-            //Pages\Dashboard::class,
+            Dashboard::class,
         ],
     ],
 
@@ -140,7 +144,9 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-            // PeopleApplicationSummaryTitle::class,
+            ApplicationSummary::class,
+            NotificationLettersSummary::class,
+            StudentDecisionSummary::class,
             // Widgets\AccountWidget::class,
             // Widgets\FilamentInfoWidget::class,
         ],
