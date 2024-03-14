@@ -179,6 +179,18 @@ class Application extends Model
         return $this->registration;
     }
 
+    public function scopeNotificationRead($query, $bool = true)
+    {
+        return $query->whereHas('appStatus', function($q) use ($bool){
+            if($bool){
+                $q->where('notification_read', $bool);
+            }else{
+                $q->where('notification_read', false)->orWhereNull('notification_read');
+            }
+            
+        });
+    }
+
     public function applicationAccepted()
     {
         return $this->appStatus->application_status == NotificationStatusType::Accepted;

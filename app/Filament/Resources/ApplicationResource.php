@@ -184,6 +184,7 @@ class ApplicationResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
+                    ->label('App Status')
                     ->options([
                         'submitted' => 'Submitted',
                         'incomplete' => 'Incomplete',
@@ -199,6 +200,23 @@ class ApplicationResource extends Resource
 
                         return $query;
                     }),
+                Tables\Filters\SelectFilter::make('notification_status')
+                    ->label('Notification Status')
+                    ->options(NotificationStatusType::asSameArray())
+                    ->query(function (Builder $query, array $data){
+                        if($data['value']){
+                            return $query->whereHas('appStatus', function($q) use ($data){
+                                $q->where('application_status', $data['value']);
+                            });
+                        }
+                        return $query;
+                    }),
+                Tables\Filters\TernaryFilter::make('notification_read')
+                    ->label('Notification Read')
+                    ->queries(
+                        true: fn (Builder $query) => $query->notificationRead(),
+                        false: fn (Builder $query) => $query->notificationRead(false),
+                    )
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label('View App'),

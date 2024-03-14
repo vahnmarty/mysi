@@ -14,6 +14,8 @@ class NotificationLettersSummary extends GroupWidget
 
     public $title = 'Notification Letter Summary';
 
+    protected $listeners = ['goto'];
+
     public function canViewWidget()
     {
         return auth()->user()->isAdmin();
@@ -33,7 +35,11 @@ class NotificationLettersSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-clipboard-check'),
+                ->icon('heroicon-o-clipboard-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-primary-100',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=Accepted")',
+                ]),
             Card::make('All Accepted - Letters Read', 
                     DB::table('application_status')
                     ->where('application_status', NotificationStatusType::Accepted)
@@ -41,7 +47,11 @@ class NotificationLettersSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-badge-check'),
+                ->icon('heroicon-o-badge-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-primary-100',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=Accepted&tableFilters[notification_read][value]=1")',
+                ]),
             EmptyCard::make('empty', 0),
 
 
@@ -51,7 +61,11 @@ class NotificationLettersSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-cube-transparent'),
+                ->icon('heroicon-o-cube-transparent')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-primary-100',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=' . NotificationStatusType::WaitListed . ' ")',
+                ]),
             Card::make('Wait Listed - Letters Read',
                 DB::table('application_status')
                     ->where('application_status', NotificationStatusType::WaitListed)
@@ -59,7 +73,11 @@ class NotificationLettersSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-badge-check'),
+                ->icon('heroicon-o-badge-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-primary-100',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=' . NotificationStatusType::WaitListed . '&tableFilters[notification_read][value]=1")',
+                ]),
 
             EmptyCard::make('empty', 0),
             
@@ -70,7 +88,11 @@ class NotificationLettersSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-exclamation-circle'),
+                ->icon('heroicon-o-exclamation-circle')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-primary-100',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=' . NotificationStatusType::NotAccepted . ' ")',
+                ]),
             Card::make('Not Accepted - Letters Read',
                 DB::table('application_status')
                     ->where('application_status', NotificationStatusType::NotAccepted)
@@ -78,7 +100,16 @@ class NotificationLettersSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-badge-check'),
+                ->icon('heroicon-o-badge-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-primary-100',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=' . NotificationStatusType::NotAccepted . '&tableFilters[notification_read][value]=1")',
+                ]),
         ];
+    }
+
+    public function goto($url)
+    {
+        return redirect($url);
     }
 }
