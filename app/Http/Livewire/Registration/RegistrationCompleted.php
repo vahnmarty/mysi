@@ -123,7 +123,7 @@ class RegistrationCompleted extends Component implements HasForms
                         Do not use the “Forgot my password” link in the Google login box.
                     </p>
                     <p class="mt-4">
-                        If you have any difficulties with your email account, please contact <a class="text-link" href="mailto:SI_librarians@siprep.org?subject=Problems with Email Account" target="_blank">SI_librarians@siprep.org</a>.
+                        If you have any difficulties with your email account, please contact <a class="text-link" href="mailto:si_librarians@siprep.org?subject=Problems with Email Account" target="_blank">si_librarians@siprep.org</a>.
                     </p>
 
                     <div class="mt-6">
@@ -290,7 +290,7 @@ class RegistrationCompleted extends Component implements HasForms
                         ->label('')
                         ->content(new HtmlString('<div>
                         <p>
-                            If you are interested in exclusive rising 9th grade programs this summer before the school year begins, please click on these two SI Summer programs links:
+                            If you are interested in exclusive rising 9th grade programs this summer before the school year begins, please see the offerings below:
                         </p>
                         <div class="mt-4 space-y-4">
                             <div>
