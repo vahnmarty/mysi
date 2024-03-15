@@ -59,11 +59,14 @@ class ListApplications extends ListRecords
         {
             $app = $appStatus->application;
 
-            $appStatus->candidate_decision_status = CandidateDecisionType::NotificationSent;
+            $appStatus->update([
+                'candidate_decision_status' => CandidateDecisionType::NotificationSent
+            ]);
 
             $app->notificationMessages()->delete();
             $service = new NotificationService;
             $letterType = $service->createMessage($app);
+            
 
             $count++;
         }

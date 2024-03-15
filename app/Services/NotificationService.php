@@ -24,6 +24,10 @@ class NotificationService{
 
         $notification = NotificationLetter::where('title', $letterType)->first();
 
+        if(!$notification){
+            \Log::debug($letterType);
+        }
+
         $account = $app->account;
 
         $variables = [
@@ -39,6 +43,9 @@ class NotificationService{
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray(),
             'class_list' => $app->classList()
         ];
+
+        
+        
 
         $content = $this->parseContent($notification->content, $variables);
 
