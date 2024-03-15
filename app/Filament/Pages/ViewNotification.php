@@ -351,8 +351,10 @@ class ViewNotification extends CustomFilamentPage {
                 'record_type_id' => RecordType::Student,
             ]);
 
-            Auth::user()->notify( new PaymentReceipt($registration));
-
+            if(config('app.env') == 'production'){
+                Auth::user()->notify( new PaymentReceipt($registration));
+            }
+            
             $this->initSurveyForm($app, 'Accepted');
 
             return redirect(request()->header('Referer'));
