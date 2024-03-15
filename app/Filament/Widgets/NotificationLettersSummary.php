@@ -14,6 +14,8 @@ class NotificationLettersSummary extends GroupWidget
 
     public $title = 'Notification Letter Summary';
 
+    protected static ?string $pollingInterval = null;
+
     protected $listeners = ['goto'];
 
     public function canViewWidget()

@@ -13,6 +13,8 @@ class StudentDecisionSummary extends GroupWidget
 {
     public $title = 'Student Decision Summary';
 
+    protected static ?string $pollingInterval = null;
+
     protected $listeners = ['goto'];
 
     public function canViewWidget()

@@ -14,6 +14,8 @@ class ApplicationSummary extends GroupWidget
 {
     protected static ?string $header = 'App';
 
+    protected static ?string $pollingInterval = null;
+
     public $title = 'People and Application Summary';
 
     protected $listeners = ['goto'];

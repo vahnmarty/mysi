@@ -14,6 +14,8 @@ class FinancialAidSummary extends GroupWidget
 {
     public $title = 'Financial Aid Summary';
 
+    protected static ?string $pollingInterval = null;
+
     protected function getColumns(): int
     {
         return 3;
