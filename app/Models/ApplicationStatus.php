@@ -13,6 +13,11 @@ class ApplicationStatus extends Model
     
     protected $guarded = [];
 
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
+    }
+
     public function withHonors()
     {
         return $this->honors_math || $this->honors_english || $this->honors_bio;
