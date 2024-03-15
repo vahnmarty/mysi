@@ -216,7 +216,24 @@ class ApplicationResource extends Resource
                     ->queries(
                         true: fn (Builder $query) => $query->notificationRead(),
                         false: fn (Builder $query) => $query->notificationRead(false),
-                    )
+                    ),
+                Tables\Filters\SelectFilter::make('candidate_decision_status')
+                    ->label('Candidate Status')
+                    ->options([
+                        'Accepted' => 'Accepted',
+                        'Declined' => 'Declined'
+                    ])
+                    ->query(function (Builder $query, array $data){
+                        if($data['value'] == 'Accepted'){
+                            return $query->enrolled();
+                        }
+
+                        if($data['value'] == 'Declined'){
+                            return $query->declinedAcceptance();
+                        }
+
+                        return $query;
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label('View App'),

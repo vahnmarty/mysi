@@ -13,6 +13,8 @@ class StudentDecisionSummary extends GroupWidget
 {
     public $title = 'Student Decision Summary';
 
+    protected $listeners = ['goto'];
+
     public function canViewWidget()
     {
         return auth()->user()->isAdmin();
@@ -34,7 +36,11 @@ class StudentDecisionSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-clipboard-check'),
+                ->icon('heroicon-o-clipboard-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-gray-300',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[candidate_decision_status][value]=Accepted")',
+                ]),
             Card::make('All Accepted - Declined Enrollment', 
                     DB::table('application_status')
                     ->where('application_status', NotificationStatusType::Accepted)
@@ -43,7 +49,16 @@ class StudentDecisionSummary extends GroupWidget
                     ->count()
                 )
                 ->color('warning')
-                ->icon('heroicon-o-badge-check'),
+                ->icon('heroicon-o-badge-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-gray-300',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[candidate_decision_status][value]=Declined")',
+                ]),
         ];
+    }
+
+    public function goto($url)
+    {
+        return redirect($url);
     }
 }

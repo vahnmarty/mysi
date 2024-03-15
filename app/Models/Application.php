@@ -39,6 +39,8 @@ class Application extends Model
         });
     }
 
+    # Relationships
+
     public function student()
     {
         return $this->belongsTo(Child::class, 'child_id');
@@ -79,6 +81,46 @@ class Application extends Model
         return $this->hasOne(Registration::class);
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function legacies()
+    {
+        return $this->hasMany(Legacy::class);
+    }
+
+    public function appStatus()
+    {
+        return $this->hasOne(ApplicationStatus::class);
+    }
+
+    public function archive()
+    {
+        return $this->hasOne(ApplicationArchive::class)->latest();
+    }
+
+    public function notificationMessages()
+    {
+        return $this->hasMany(NotificationMessage::class);
+    }
+
+    public function notificationMessage()
+    {
+        return $this->hasOne(NotificationMessage::class)->latest();
+    }
+
+    public function survey()
+    {
+        return $this->hasOne(Survey::class);
+    }
+
+
+    // End of Relationships
+
+    # Scopes
+
     public function scopeHasPromoCode( $query )
     {
         return $query->whereHas('payments', function($pQuery){
@@ -92,6 +134,66 @@ class Application extends Model
             $pQuery->whereNull('transaction_id');
         });
     }
+
+    public function scopeUnpaid( $query )
+    {
+        return $query->whereHas('payments', function($pQuery){
+            $pQuery->whereNull('transaction_id')->orWhere('total_amount','<=' ,0);
+        });
+    }
+
+    public function scopeSubmitted($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->where('application_submitted', true);
+        });
+    }
+
+    public function scopeNotificationRead($query, $bool = true)
+    {
+        return $query->whereHas('appStatus', function($q) use ($bool){
+            if($bool){
+                $q->where('notification_read', $bool);
+            }else{
+                $q->where('notification_read', false)->orWhereNull('notification_read');
+            }
+            
+        });
+    }
+
+    public function scopeIncomplete($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->whereNull('application_submitted')->orWhere('application_submitted', false);
+        });
+    }
+
+    public function scopeHasNotifications($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->whereNotNull('application_submitted');
+        });
+    }
+
+    public function scopeEnrolled($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->where('candidate_decision_status', 'Accepted');
+        });
+    }
+
+    public function scopeDeclinedAcceptance($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->where('candidate_decision_status', 'Declined');
+        });
+    }
+
+
+
+    // End of Scopes
+
+    # Custom Functions
 
     public function isPaid()
     {
@@ -108,29 +210,7 @@ class Application extends Model
 
         return false;
     }
-
     
-    public function scopeUnpaid( $query )
-    {
-        return $query->whereHas('payments', function($pQuery){
-            $pQuery->whereNull('transaction_id')->orWhere('total_amount','<=' ,0);
-        });
-    }
-
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
-
-    public function legacies()
-    {
-        return $this->hasMany(Legacy::class);
-    }
-
-    public function appStatus()
-    {
-        return $this->hasOne(ApplicationStatus::class);
-    }
 
     public function getPrimaryParentAttribute()
     {
@@ -143,10 +223,7 @@ class Application extends Model
         return $primaryParent;
     }
 
-    public function archive()
-    {
-        return $this->hasOne(ApplicationArchive::class)->latest();
-    }
+    
 
     public function getRecordTypeAttribute()
     {
@@ -162,12 +239,7 @@ class Application extends Model
         return '';
     }
 
-    public function scopeSubmitted($query)
-    {
-        return $query->whereHas('appStatus', function($statusQuery){
-            $statusQuery->where('application_submitted', true);
-        });
-    }
+    
 
     public function isSubmitted()
     {
@@ -179,17 +251,7 @@ class Application extends Model
         return $this->registration;
     }
 
-    public function scopeNotificationRead($query, $bool = true)
-    {
-        return $query->whereHas('appStatus', function($q) use ($bool){
-            if($bool){
-                $q->where('notification_read', $bool);
-            }else{
-                $q->where('notification_read', false)->orWhereNull('notification_read');
-            }
-            
-        });
-    }
+    
 
     public function applicationAccepted()
     {
@@ -234,19 +296,7 @@ class Application extends Model
         return $decision == NotificationStatusType::WaitListed;
     }
 
-    public function scopeIncomplete($query)
-    {
-        return $query->whereHas('appStatus', function($statusQuery){
-            $statusQuery->whereNull('application_submitted')->orWhere('application_submitted', false);
-        });
-    }
-
-    public function scopeHasNotifications($query)
-    {
-        return $query->whereHas('appStatus', function($statusQuery){
-            $statusQuery->whereNotNull('application_submitted');
-        });
-    }
+    
 
 
 
@@ -299,15 +349,7 @@ class Application extends Model
         return now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date);
     }
 
-    public function notificationMessages()
-    {
-        return $this->hasMany(NotificationMessage::class);
-    }
-
-    public function notificationMessage()
-    {
-        return $this->hasOne(NotificationMessage::class)->latest();
-    }
+    
 
     public function hasFinancialAid()
     {
@@ -396,8 +438,5 @@ class Application extends Model
         return 'course';
     }
 
-    public function survey()
-    {
-        return $this->hasOne(Survey::class);
-    }
+    
 }
