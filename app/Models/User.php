@@ -16,6 +16,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\Auth\ForgotUsername as ForgotUsernameNotification;
 
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Spatie\Permission\Contracts\Role;
+
 class User extends Authenticatable implements FilamentUser,MustVerifyEmail
 {
     use SoftDeletes;
@@ -146,7 +151,7 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
 
     public function canAccessFilament(): bool
     {
-        return $this->hasRole('admin') || $this->hasRole('staff');
+        return $this->hasAnyRole(['admin', 'staff', 'fa_limited']);
     }
 
     public function hasSubmittedApplications()
@@ -236,5 +241,35 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
                 }
             }
         }
+    }
+
+    public function scopeNotRole(Builder $query, $roles, $guard = null): Builder 
+    { 
+         if ($roles instanceof Collection) { 
+             $roles = $roles->all(); 
+         } 
+  
+         if (! is_array($roles)) { 
+             $roles = [$roles]; 
+         } 
+  
+         $roles = array_map(function ($role) use ($guard) { 
+             if ($role instanceof Role) { 
+                 return $role; 
+             } 
+  
+             $method = is_numeric($role) ? 'findById' : 'findByName'; 
+             $guard = $guard ?: $this->getDefaultGuardName(); 
+  
+             return $this->getRoleClass()->{$method}($role, $guard); 
+         }, $roles); 
+  
+         return $query->whereHas('roles', function ($query) use ($roles) { 
+             $query->where(function ($query) use ($roles) { 
+                 foreach ($roles as $role) { 
+                     $query->where(config('permission.table_names.roles').'.id', '!=' , $role->id); 
+                 } 
+             }); 
+         }); 
     }
 }

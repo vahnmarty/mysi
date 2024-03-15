@@ -32,7 +32,7 @@ class UserResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->role('staff');
+        return parent::getEloquentQuery()->notRole(['admin', 'user']);
     }
 
 
@@ -46,6 +46,7 @@ class UserResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('email')
                     ->required()
+                    ->hiddenOn('edit')
                     ->unique(table: 'users'),
                 Forms\Components\TextInput::make('password')
                     ->required()
@@ -54,7 +55,7 @@ class UserResource extends Resource
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->maxItems(1)
-                    ->options(Role::where('name', 'staff')->get()->pluck('name', 'id'))
+                    ->options(Role::whereNotIn('name', ['admin', 'user'])->get()->pluck('name', 'id'))
                     ->required(),
             ]);
     }

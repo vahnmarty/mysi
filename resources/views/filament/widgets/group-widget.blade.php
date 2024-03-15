@@ -6,9 +6,9 @@
     $columns = (int) $this->getColumns();
 @endphp
 
-
+@if ($this->canViewWidget())
 <x-filament::widget class="filament-stats-overview-widget">
-    @if ($this->canViewWidget())
+    
         <h2 class="mb-8 text-xl font-semibold">{{ $title }}</h2>
         <div {!! ($pollingInterval = $this->getPollingInterval()) ? "wire:poll.{$pollingInterval}" : '' !!}>
 
@@ -27,5 +27,8 @@
             </div>
 
         </div>
-    @endif
+  
 </x-filament::widget>
+@else
+<div style="display:none"></div>
+@endif
