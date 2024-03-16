@@ -16,6 +16,8 @@ class FinancialAidSummary extends GroupWidget
 
     protected static ?string $pollingInterval = null;
 
+    protected $listeners = ['goto'];
+
     protected function getColumns(): int
     {
         return 3;
@@ -31,17 +33,36 @@ class FinancialAidSummary extends GroupWidget
         {
             foreach($types as $type)
             {
-                $cards[] = Card::make($type . ' - Total # Recipients', $this->getTotalRecipients($type));
-                $cards[] = Card::make($type . ' - Letters Read', $this->getLettersRead($type));
+                $cards[] = Card::make($type . ' - Total # Recipients', $this->getTotalRecipients($type))
+                            ->extraAttributes([
+                                'class' => 'cursor-pointer hover:bg-primary-100',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]='.$type.'")',
+                            ]);
+                $cards[] = Card::make($type . ' - Letters Read', $this->getLettersRead($type))
+                            ->extraAttributes([
+                                'class' => 'cursor-pointer hover:bg-primary-100',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][isActive]=1&tableFilters[financial_aid][value]='.$type.'")',
+                            ]);
                 $cards[] = Card::make($type . ' - Total # Accepted Enrollment', 
                             DB::table('application_status')
                             ->where('financial_aid', 'LIKE', '%'.$type.'%')
                             ->whereNotNull('fa_acknowledged_at')
                             ->where('candidate_decision_status', 'Accepted')
                             ->count()
-                        );
-                $cards[] = Card::make($type . ' - Total $ Value', $this->getAnnualFinancialAidAmountTotal($type));
-                $cards[] = Card::make($type . ' -  $ Value Accepted Enrollment', $this->getAnnualFinancialAidAmountTotalAccepted($type));
+                        )->extraAttributes([
+                            'class' => 'cursor-pointer hover:bg-primary-100',
+                            'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][isActive]=1&tableFilters[financial_aid][value]='.$type.'&tableFilters[candidate_decision_status][value]=Accepted")',
+                        ]);
+                $cards[] = Card::make($type . ' - Total $ Value', $this->getAnnualFinancialAidAmountTotal($type))
+                            ->extraAttributes([
+                                'class' => 'cursor-pointer hover:bg-primary-100',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]='.$type.'")',
+                            ]);
+                $cards[] = Card::make($type . ' -  $ Value Accepted Enrollment', $this->getAnnualFinancialAidAmountTotalAccepted($type))
+                            ->extraAttributes([
+                                'class' => 'cursor-pointer hover:bg-primary-100',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][isActive]=1&tableFilters[financial_aid][value]='.$type.'&tableFilters[candidate_decision_status][value]=Accepted")',
+                            ]);
                 $cards[] = EmptyCard::make('z', 0);
             }
 
@@ -126,5 +147,10 @@ class FinancialAidSummary extends GroupWidget
         ->sum('annual_financial_aid_amount');
 
         return '$' . number_format($sum);
+    }
+
+    public function goto($url)
+    {
+        return redirect($url);
     }
 }
