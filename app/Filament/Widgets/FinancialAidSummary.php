@@ -79,19 +79,30 @@ class FinancialAidSummary extends GroupWidget
                     DB::table('application_status')
                         ->whereIn('financial_aid', $fas)
                         ->count()
-                    );
+                    )
+                    ->extraAttributes([
+                        'class' => 'cursor-pointer hover:bg-primary-100',
+                        'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[with_fa][value]=1")',
+                    ]);
         $cards[] = Card::make('Total # Accepted Enrollment', 
                     DB::table('application_status')
                         ->whereIn('financial_aid', $fas)
                         ->where('candidate_decision_status', 'Accepted')
                         ->count()
-                    );
+                    )
+                    ->extraAttributes([
+                        'class' => 'cursor-pointer hover:bg-primary-100',
+                        'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[with_fa][value]=1&tableFilters[candidate_decision_status][value]=Accepted")',
+                    ]);
         $cards[] = Card::make('Total # Declined Enrollment', 
                     DB::table('application_status')
                         ->whereIn('financial_aid', $fas)
                         ->where('candidate_decision_status', 'Declined')
                         ->count()
-                    );
+                    )->extraAttributes([
+                        'class' => 'cursor-pointer hover:bg-primary-100',
+                        'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[with_fa][value]=1&tableFilters[candidate_decision_status][value]=Declined")',
+                    ]);
         $cards[] = Card::make('Total $ Value', 
                     '$' . number_format(DB::table('application_status')
                         ->whereIn('financial_aid', $fas)

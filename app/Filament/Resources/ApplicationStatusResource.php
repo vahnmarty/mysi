@@ -53,20 +53,35 @@ class ApplicationStatusResource extends Resource
                 Tables\Columns\TextColumn::make("candidate_decision_status")
                     ->label("Student Decision"),
                 Tables\Columns\TextColumn::make("financial_aid")
-                    ->label("FA"),
+                    ->label("FA")
+                    ->sortable(),
                 Tables\Columns\TextColumn::make("deposit_amount")
                     ->label("Deposit Amount"),
                 Tables\Columns\TextColumn::make("annual_financial_aid_amount")
                     ->label("Annual FA Amount"),
             ])
             ->filters([
+                Tables\Filters\TernaryFilter::make('with_fa')
+                    ->label('With FA')
+                    ->nullable()
+                    ->attribute('financial_aid')
+                    ->queries(
+                        true: fn (Builder $query) => $query->where('financial_aid', '!=', ''),
+                        false: fn (Builder $query) => $query->whereNull('financial_aid'),
+                        blank: fn (Builder $query) => $query,
+                    ),
                 Tables\Filters\SelectFilter::make('financial_aid')
                     ->label('Financial Aid')
                     ->options(array_combine(['A', 'B', 'B1', 'C', 'D'], ['A', 'B', 'B1', 'C', 'D'])),
-                Tables\Filters\Filter::make('fa_acknowledged_at')
+                Tables\Filters\TernaryFilter::make('fa_acknowledged_at')
                     ->label('Letters Read')
-                    ->query(fn (Builder $query): Builder => $query->whereNotNull('fa_acknowledged_at')),
-                    Tables\Filters\SelectFilter::make('candidate_decision_status')
+                    ->nullable()
+                    ->queries(
+                        true: fn (Builder $query) => $query->where('fa_acknowledged_at', '!=', ''),
+                        false: fn (Builder $query) => $query->whereNull('fa_acknowledged_at')->orWhere('fa_acknowledged_at', ''),
+                        blank: fn (Builder $query) => $query,
+                    ),
+                Tables\Filters\SelectFilter::make('candidate_decision_status')
                     ->label('Student Decision')
                     ->options([
                         'Accepted' => 'Accepted',
