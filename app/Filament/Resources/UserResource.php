@@ -25,10 +25,16 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
-    protected static function shouldRegisterNavigation(): bool
+    public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->isAdmin();
     }
+
+    public static function canViewAny(): bool
+    {
+        return self::shouldRegisterNavigation();
+    }
+
 
     public static function getEloquentQuery(): Builder
     {

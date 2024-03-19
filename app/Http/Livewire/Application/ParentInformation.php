@@ -76,13 +76,17 @@ class ParentInformation extends Component implements HasTable, HasForms
     {
         $user = Auth::user();
 
-        Parents::create([
-            'account_id' => accountId(),
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'mobile_phone' => $user->phone,
-            'personal_email' => $user->email,
-        ]);
+        if(accountId()){
+            Parents::create([
+                'account_id' => accountId(),
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'mobile_phone' => $user->phone,
+                'personal_email' => $user->email,
+            ]);
+        }
+
+        
     }
 
     public function getTableQuery()

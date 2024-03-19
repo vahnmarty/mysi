@@ -19,7 +19,7 @@ class StudentDecisionSummary extends GroupWidget
 
     public function canViewWidget()
     {
-        return auth()->user()->isAdmin();
+        return auth()->user()->isAdmin() || auth()->user()->hasRole('fa_limited');
     }
 
     protected function getColumns(): int
@@ -28,6 +28,15 @@ class StudentDecisionSummary extends GroupWidget
     }
 
     protected function getCards(): array
+    {
+        if(auth()->user()->isAdmin()){
+            return $this->cardsFromAdmin();
+        }
+
+        return $this->cardsFromApplicationStatus();
+    }
+
+    public function cardsFromAdmin()
     {
         return [
             Card::make('All Accepted - Accepted Enrollment', 
@@ -55,6 +64,38 @@ class StudentDecisionSummary extends GroupWidget
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-gray-300',
                     'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[candidate_decision_status][value]=Declined")',
+                ]),
+        ];
+    }
+
+    public function cardsFromApplicationStatus()
+    {
+        return [
+            Card::make('All Accepted - Accepted Enrollment', 
+                    DB::table('application_status')
+                    ->where('application_status', NotificationStatusType::Accepted)
+                    ->where('candidate_decision', 1)
+                    ->where('candidate_decision_status', 'Accepted')
+                    ->count()
+                )
+                ->color('warning')
+                ->icon('heroicon-o-clipboard-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-gray-300',
+                    'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[candidate_decision_status][value]=Accepted")',
+                ]),
+            Card::make('All Accepted - Declined Enrollment', 
+                    DB::table('application_status')
+                    ->where('application_status', NotificationStatusType::Accepted)
+                    ->where('candidate_decision', 0)
+                    ->where('candidate_decision_status', 'Declined')
+                    ->count()
+                )
+                ->color('warning')
+                ->icon('heroicon-o-badge-check')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:bg-gray-300',
+                    'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[candidate_decision_status][value]=Declined")',
                 ]),
         ];
     }

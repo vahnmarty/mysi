@@ -61,7 +61,7 @@ Route::redirect('/', 'login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:user'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('user/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,7 +84,7 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 });
 
 
-Route::group(['middleware' => 'auth', 'verified'], function(){
+Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
 
     Route::get('parents', ParentInformation::class)->name('application.parents');
     Route::get('children', ChildrenInformation::class)->name('application.children');
