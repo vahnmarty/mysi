@@ -66,8 +66,19 @@ class FinancialAidSummary extends GroupWidget
                 $cards[] = EmptyCard::make('z', 0);
             }
 
-            $cards[] = Card::make('E - Total', $this->getTotalRecipients('E'));
-            $cards[] = Card::make('E - Letters Read', $this->getLettersRead('E'));
+
+            $cards[] = Card::make('E - Total # Recipients', $this->getTotalRecipients('E'))
+                            ->extraAttributes([
+                                'class' => 'cursor-pointer hover:bg-primary-100',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]=E")',
+                            ]);
+
+            $cards[] = Card::make('E - Letters Read', $this->getLettersRead('E'))
+                            ->extraAttributes([
+                                'class' => 'cursor-pointer hover:bg-primary-100',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]=E")',
+                            ]);
+            
             $cards[] = EmptyCard::make('z', 0);
 
         }
