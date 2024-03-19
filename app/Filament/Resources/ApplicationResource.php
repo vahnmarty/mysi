@@ -148,13 +148,11 @@ class ApplicationResource extends Resource
                                 
                                 $application_status = $data['application_status'];
 
-                                // if($application_status == NotificationStatusType::Accepted && $data['with_honors']){
-                                //     $application_status = 'Accepted With Honors';
-                                // }
-
                                 $appStatus = $record->appStatus;
                                 $appStatus->application_status = $application_status;
                                 $appStatus->candidate_decision_status = CandidateDecisionType::NotificationSent;
+                                $appStatus->notification_read = false;
+                                //$appStatus->notification_read_date = null; // If it's a new notification, must be unread.
                                 $appStatus->save();
 
                                 $record->notificationMessages()->delete();
@@ -186,6 +184,10 @@ class ApplicationResource extends Resource
                     ->label('Deposit Amount'),
                 Tables\Columns\TextColumn::make("appStatus.candidate_decision_status")
                     ->label('Decision'),
+                Tables\Columns\TextColumn::make("appStatus.candidate_decision_date")
+                    ->label('Decision Date')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
