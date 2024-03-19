@@ -160,11 +160,11 @@ class ViewNotification extends CustomFilamentPage {
                         ->minLength(13)
                         ->maxLength(16),
                     TextInput::make('billing.card_cvv')
-                        ->maxLength(3)
+                        ->maxLength(4)
                         ->minLength(3)
                         ->required()
-                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{000}'))
-                        ->label('CVV'),
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{0000}'))
+                        ->label('CVV (3 or 4)'),
                     TextInput::make('billing.card_expiration')
                         ->label(new HtmlString('Expiration <strong>(MM/YYYY)</strong>'))
                         ->placeholder('e.g. 06/2030')
