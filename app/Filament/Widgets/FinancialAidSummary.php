@@ -84,7 +84,7 @@ class FinancialAidSummary extends GroupWidget
         }
 
 
-        $fas = ['A', 'B', 'B1', 'C', 'D'];
+        $fas = ['A', 'B', 'B1', 'C', 'D', 'E'];
 
         $cards[] = Card::make('Total # Recipients', 
                     DB::table('application_status')
