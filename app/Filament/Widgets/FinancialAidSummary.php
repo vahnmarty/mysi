@@ -29,7 +29,7 @@ class FinancialAidSummary extends GroupWidget
 
         $cards = [];
 
-        if( Auth::user()->hasAnyRole(['admin', 'staff']))
+        if( Auth::user()->hasAnyRole(['admin', 'staff', 'fa_limited']))
         {
             foreach($types as $type)
             {

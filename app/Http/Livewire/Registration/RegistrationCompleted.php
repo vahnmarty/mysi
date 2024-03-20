@@ -186,24 +186,18 @@ class RegistrationCompleted extends Component implements HasForms
                     Placeholder::make('librarian_message')
                         ->label('')
                         ->content(fn(Closure $get) => new HtmlString('<div class="space-y-3">
-                        <p>Dear Member of the Class of '. app_variable('class_year') .'.</p>
-                        <p>We are excited to meet you. Our names are Ms. Brancoli and Ms. Wenger, and we are the librarians here at SI.</p>
-                        <p>First, we need you to complete <a href="https://docs.google.com/forms/d/e/1FAIpQLScfuBbTGHqfOVvDYPnCvCuBiH8FPwRzjhVgbc4rOb_hrN5qfw/viewform?usp=sf_link" target="_blank" class="text-link">this form</a> by May 17th.</p>
-                        <p>Next, we want to tell you about the mandatory tech training that you will complete. You will receive information about this tech training, including the course invitation, in your SI email.</p>
-                        <p>This online training will take approximately four hours to complete, and you will need to complete it between August 1st and August 10th. Don’t worry. We will remind you, but you will need to check your email regularly for information.</p>
-                        <p>What do librarians at SI do? To start, we answer questions.</p>
-                        <div>
-                            <p>You might have one of these questions this summer:</p>
-                            <ol class="pl-8 list-disc">
-                                <li>I lost my email password and I can’t log on. What do I do?</li>
-                                <li>How do I get my textbooks?</li>
-                                <li>Who do I contact about ________________ (a sport, a club, etc.)?</li>
-                                <li>Any other school related questions.</li>
-                            </ol>
-                        </div>
-                        <p>If you find yourself with any of the above, please email us at <a class="text-link"  href="mailto:si_librarians@siprep.org">si_librarians@siprep.org</a>. We are here to help.</p>
-                        <p>We can’t wait to start learning with you,</p>
-                        <p>Ms. Brancoli and Ms. Wenger</p>
+                        <p>Please complete the following two steps to hit the ground running.</p>
+                        <p class="font-bold">Step 1: Get Comfortable with your SI email</p>
+                        <p>
+                        Complete this <a href="https://docs.google.com/forms/d/e/1FAIpQLScfuBbTGHqfOVvDYPnCvCuBiH8FPwRzjhVgbc4rOb_hrN5qfw/viewform" target="_blank" class="text-link">form</a> by May 17th to make sure you are able to access your SI email.
+                        </p>
+                        <p class="font-bold">Step 2: Complete the Mandatory Tech Training August 1-August 10</p>
+                        <p>
+                        You will receive your Mandatory Tech Training course invitation in your email by August 1st at 9am. The online course will be available between August 1st and August 10th and will take approximately four hours to complete. More information is available <a href="https://families.siprep.org/parents/welcome/technology-onboarding" target="_blank" class="text-link">here</a>.
+                        </p>
+                        <p>
+                        If you have questions about the above information, please email <a href="mailto:si_librarians@siprep.org" class="text-link">si_librarians@siprep.org</a>.
+                        </p>
                     </div>'))
                 ]),
             Placeholder::make('border_line')
