@@ -72,7 +72,8 @@ class ApplicationStatusResource extends Resource
                     ),
                 Tables\Filters\SelectFilter::make('financial_aid')
                     ->label('Financial Aid')
-                    ->options(array_combine(['A', 'B', 'B1', 'C', 'D'], ['A', 'B', 'B1', 'C', 'D'])),
+                    ->options(array_combine(['A', 'B', 'C', 'D'], ['A', 'B', 'C', 'D']))
+                    ->query(fn($data, Builder $query) => $query->where('financial_aid', 'LIKE', '%' . $data['value'] . '%' )),
                 Tables\Filters\TernaryFilter::make('fa_acknowledged_at')
                     ->label('Letters Read')
                     ->nullable()
