@@ -21,7 +21,7 @@ class ApplicationStatusResource extends Resource
 
     protected static ?string $navigationGroup = 'Administration';
 
-    protected static ?string $navigationLabel = 'Applications-FA';
+    protected static ?string $navigationLabel = 'Applications - FA';
 
     protected static ?string $pluralLabel = 'Applications';
 
