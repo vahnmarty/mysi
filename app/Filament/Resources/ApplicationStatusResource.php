@@ -19,14 +19,16 @@ class ApplicationStatusResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    protected static ?string $navigationLabel = 'Applications (FA)';
+    protected static ?string $navigationGroup = 'Administration';
 
-    protected static ?string $pluralLabel = 'Applications (FA)';
+    protected static ?string $navigationLabel = 'Applications-FA';
 
-    protected static function shouldRegisterNavigation(): bool
-    {
-        return !auth()->user()->isAdmin();
-    }
+    protected static ?string $pluralLabel = 'Applications';
+
+    // protected static function shouldRegisterNavigation(): bool
+    // {
+    //     return !auth()->user()->isAdmin();
+    // }
 
     public static function form(Form $form): Form
     {
