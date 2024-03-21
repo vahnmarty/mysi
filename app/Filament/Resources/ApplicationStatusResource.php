@@ -78,7 +78,7 @@ class ApplicationStatusResource extends Resource
                     ->label('Letters Read')
                     ->nullable()
                     ->queries(
-                        true: fn (Builder $query) => $query->where('fa_acknowledged_at', '!=', ''),
+                        true: fn (Builder $query) => $query->whereNotNull('fa_acknowledged_at'),
                         false: fn (Builder $query) => $query->whereNull('fa_acknowledged_at')->orWhere('fa_acknowledged_at', ''),
                         blank: fn (Builder $query) => $query,
                     ),
