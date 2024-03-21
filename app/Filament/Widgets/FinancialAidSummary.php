@@ -76,7 +76,7 @@ class FinancialAidSummary extends GroupWidget
             $cards[] = Card::make('E - Letters Acknowledged', $this->getLettersRead('E'))
                             ->extraAttributes([
                                 'class' => 'cursor-pointer hover:bg-primary-100',
-                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]=E")',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][value]=1&tableFilters[financial_aid][value]=E")',
                             ]);
             
             $cards[] = EmptyCard::make('z', 0);
