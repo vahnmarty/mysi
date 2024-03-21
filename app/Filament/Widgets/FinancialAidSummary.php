@@ -41,7 +41,7 @@ class FinancialAidSummary extends GroupWidget
                 $cards[] = Card::make($type . ' - Letters Acknowledged', $this->getLettersRead($type))
                             ->extraAttributes([
                                 'class' => 'cursor-pointer hover:bg-primary-100',
-                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][isActive]=1&tableFilters[financial_aid][value]='.$type.'")',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][value]=1&tableFilters[financial_aid][value]='.$type.'")',
                             ]);
                 $cards[] = Card::make($type . ' - Total # Accepted Enrollment', 
                             DB::table('application_status')
@@ -51,7 +51,7 @@ class FinancialAidSummary extends GroupWidget
                             ->count()
                         )->extraAttributes([
                             'class' => 'cursor-pointer hover:bg-primary-100',
-                            'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][isActive]=1&tableFilters[financial_aid][value]='.$type.'&tableFilters[candidate_decision_status][value]=Accepted")',
+                            'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][value]=1&tableFilters[financial_aid][value]='.$type.'&tableFilters[candidate_decision_status][value]=Accepted")',
                         ]);
                 $cards[] = Card::make($type . ' - Total $ Value', $this->getAnnualFinancialAidAmountTotal($type))
                             ->extraAttributes([
@@ -61,7 +61,7 @@ class FinancialAidSummary extends GroupWidget
                 $cards[] = Card::make($type . ' -  $ Value Accepted Enrollment', $this->getAnnualFinancialAidAmountTotalAccepted($type))
                             ->extraAttributes([
                                 'class' => 'cursor-pointer hover:bg-primary-100',
-                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][isActive]=1&tableFilters[financial_aid][value]='.$type.'&tableFilters[candidate_decision_status][value]=Accepted")',
+                                'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][value]=1&tableFilters[financial_aid][value]='.$type.'&tableFilters[candidate_decision_status][value]=Accepted")',
                             ]);
                 $cards[] = EmptyCard::make('z', 0);
             }
