@@ -28,7 +28,7 @@
                 @if($app->survey?->submitted())
                 <p class="mt-4 underline">Please take our survey (Completed)</p>
                 @else
-                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 text-link">Please take our survey (Not Completed)</a>
+                <a href="{{ route('survey-form', $app->survey?->uuid) }}" class="block mt-4 font-bold text-link">Please take our survey (Not Completed)</a>
                 @endif
             </div>
             @elseif($decision_status == 'Waitlist Removed')
