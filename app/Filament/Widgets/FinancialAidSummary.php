@@ -38,7 +38,7 @@ class FinancialAidSummary extends GroupWidget
                                 'class' => 'cursor-pointer hover:bg-primary-100',
                                 'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]='.$type.'")',
                             ]);
-                $cards[] = Card::make($type . ' - Letters Read', $this->getLettersRead($type))
+                $cards[] = Card::make($type . ' - Letters Acknowledged', $this->getLettersRead($type))
                             ->extraAttributes([
                                 'class' => 'cursor-pointer hover:bg-primary-100',
                                 'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[fa_acknowledged_at][isActive]=1&tableFilters[financial_aid][value]='.$type.'")',
@@ -73,7 +73,7 @@ class FinancialAidSummary extends GroupWidget
                                 'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]=E")',
                             ]);
 
-            $cards[] = Card::make('E - Letters Read', $this->getLettersRead('E'))
+            $cards[] = Card::make('E - Letters Acknowledged', $this->getLettersRead('E'))
                             ->extraAttributes([
                                 'class' => 'cursor-pointer hover:bg-primary-100',
                                 'wire:click' => '$emitUp("goto", "admin/application-statuses?tableFilters[financial_aid][value]=E")',
