@@ -189,6 +189,12 @@ class Application extends Model
         });
     }
 
+    public function scopeCandidateAcceptedNotification($query)
+    {
+        return $query->whereHas('appStatus', function($statusQuery){
+            $statusQuery->where('candidate_decision_status', 'Accepted');
+        });
+    }
 
 
     // End of Scopes

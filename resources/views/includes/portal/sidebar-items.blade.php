@@ -59,8 +59,8 @@
         @endphp
 
         @if(now()->gte($transfer_start_date) && now()->lt($transfer_start_date))
-        <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
-            <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+        <li class="px-8 py-1 text-sm transition {{ request()->is('transfer-applications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+            <a href="{{ url('transfer-applications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                 <x-heroicon-o-switch-horizontal class="flex-shrink-0 w-5 h-5" />
                 <strong>Transfer Application</strong>
             </a>
@@ -76,8 +76,8 @@
         @endphp
 
         @if(now()->gte($placement_start_date) && now()->lt($placement_end_date))
-        <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
-            <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+        <li class="px-8 py-1 text-sm transition {{ request()->is('course-placement*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+            <a href="{{ url('course-placement') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                 <x-heroicon-o-book-open class="flex-shrink-0 w-5 h-5" />
                 <strong>Course Placement</strong>
             </a>
@@ -95,12 +95,14 @@
         @endphp
 
         @if(now()->gte($reg_start_date) && now()->lt($reg_end_date) || empty($reg_start_date)  || empty($reg_end_date))
-        <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
-            <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
-                <x-heroicon-o-identification class="flex-shrink-0 w-5 h-5" />
-                <strong>Registration</strong>
-            </a>
-        </li>
+            @if(Auth::user()->isAcceptedRegistration())
+            <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                    <x-heroicon-o-identification class="flex-shrink-0 w-5 h-5" />
+                    <strong>Registration</strong>
+                </a>
+            </li>
+            @endif
         @endif
 
         @php
