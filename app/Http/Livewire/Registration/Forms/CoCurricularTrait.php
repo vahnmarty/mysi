@@ -205,7 +205,6 @@ trait CoCurricularTrait{
             Select::make('student.affinity')
                 ->multiple()
                 ->options(AffinityType::asSameArray())
-                ->required()
                 ->label('')
                 ->lazy()
                 ->preload()
