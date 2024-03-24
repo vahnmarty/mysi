@@ -9,22 +9,16 @@
                 Welcome to MySI, your gateway to St. Ignatius College Preparatory!
             </p>
             <p>
-                For those that submitted an application for the SI Class of 2028, your Admissions decision will be available on March 15, 2024 at 4pm. You can access it by clicking on the "Admissions Decision" tab on the left hand side, which will become available at 4pm.
+                Congratulations to the SI Class of {{ app_variable('class_year') }}! We are so excited to welcome our newest Wildcats this fall!
             </p>
 
             <p>
-                At the same time, you will also be able to access your student's HSPT scores. You can access these by clicking on the "HSPT Scores" tab on the left hand side, which will become available at 4pm. This tab will include your student's scores as well as important information about the HSPT scores.
+                Frosh registration will become available beginning Monday, March 25th at 10am and must be completed by Monday, April 8th at 8am. For best results, if you are using a PC, make sure you are on Windows 11. If you are using a Mac, make sure you have macOS (Big Sur) or a later version (i.e. Monterey, Ventura or Sonoma). <B>NOTE:</B> Do NOT fill out the registration form on multiple screens as this will cause problems in saving the correct version.
             </p>
 
             <p>
-                If you have any questions, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="text-link">admissions@siprep.org</a> or <a href="tel:(415) 731-7500 ext. 5274" class="text-link">(415) 731-7500 ext. 5274</a>.
+                For all things Class of {{ app_variable('class_year') }}, visit the <a href="https://families.siprep.org/parents/welcome" target="_blank">Welcome Portal</a> for our incoming frosh families!
             </p>
-            <!-- <p>
-                Please visit the <a href="https://www.siprep.org/admissions/timeline" target="_blank" class="text-link">Timeline</a> on our Admissions website for next steps. Use the navigation links located on the left-hand side of your screen to explore MySI.
-            </p>
-            <p>
-                If you have any questions about the application process, you may contact the Admissions Office at <a href="mailto:admissions@siprep.org" class="text-link ">admissions@siprep.org</a>  or <a href="tel:(415) 731-7500 ext. 5274" class="text-link">(415) 731-7500 ext. 5274</a>.
-            </p> -->
 
             <p>
                 If you have any technical issues using MySI, you may email <a href="mailto:mysi_admin@siprep.org" class="text-link ">mysi_admin@siprep.org</a> with a detailed description of what you are trying to do and what you are experiencing. A screenshot will help greatly in resolving your technical issue.
