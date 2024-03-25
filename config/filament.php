@@ -5,6 +5,7 @@ use Filament\Widgets;
 use App\Filament\Pages\Dashboard;
 use Filament\Http\Middleware\Authenticate;
 use App\Filament\Widgets\ApplicationSummary;
+use App\Filament\Widgets\RegistrationSummary;
 use Illuminate\Session\Middleware\StartSession;
 use App\Filament\Widgets\StudentDecisionSummary;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -147,6 +148,7 @@ return [
             ApplicationSummary::class,
             NotificationLettersSummary::class,
             StudentDecisionSummary::class,
+            RegistrationSummary::class,
             // Widgets\AccountWidget::class,
             // Widgets\FilamentInfoWidget::class,
         ],

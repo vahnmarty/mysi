@@ -196,6 +196,29 @@ class Application extends Model
         });
     }
 
+    public function scopeRegistrationStarted($query, $bool = true)
+    {
+        return $query->whereHas('appStatus', function($statusQuery) use($bool){
+            if($bool){
+                $statusQuery->where('registration_started', $bool);
+            }else{
+                $statusQuery->where('registration_started', '!=', true);
+            }
+            
+        });
+    }
+
+    public function scopeRegistrationCompleted($query, $bool = true)
+    {
+        return $query->whereHas('appStatus', function($statusQuery) use($bool){
+            if($bool){
+                $statusQuery->where('registration_completed', $bool);
+            }else{
+                $statusQuery->where('registration_completed', '!=', true);
+            }
+        });
+    }
+
 
     // End of Scopes
 

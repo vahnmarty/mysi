@@ -44,7 +44,7 @@ class RegistrationSummary extends GroupWidget
                 ->icon('heroicon-o-clipboard-check')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
-                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=Accepted")',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[registration_started][value]=1")',
                 ]),
             Card::make('Total # Completed Registration', 
                     DB::table('application_status')
@@ -55,9 +55,14 @@ class RegistrationSummary extends GroupWidget
                 ->icon('heroicon-o-clipboard-check')
                 ->extraAttributes([
                     'class' => 'cursor-pointer hover:bg-primary-100',
-                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[notification_status][value]=Accepted")',
+                    'wire:click' => '$emitUp("goto", "admin/applications?tableFilters[registration_completed][value]=1")',
                 ]),
         ];
+    }
+
+    public function goto($url)
+    {
+        return redirect($url);
     }
 
     

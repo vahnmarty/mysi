@@ -241,6 +241,18 @@ class ApplicationResource extends Resource
 
                         return $query;
                     }),
+                Tables\Filters\TernaryFilter::make('registration_started')
+                    ->label('Started Registration')
+                    ->queries(
+                        true: fn (Builder $query) => $query->registrationStarted(),
+                        false: fn (Builder $query) => $query->registrationStarted(false),
+                    ),
+                Tables\Filters\TernaryFilter::make('registration_completed')
+                    ->label('Registration Completed')
+                    ->queries(
+                        true: fn (Builder $query) => $query->registrationCompleted(),
+                        false: fn (Builder $query) => $query->registrationCompleted(false),
+                    ),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label('View App'),
