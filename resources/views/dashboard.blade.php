@@ -17,7 +17,7 @@
             </p>
 
             <p>
-                For all things Class of {{ app_variable('class_year') }}, visit the <a href="https://families.siprep.org/parents/welcome" target="_blank">Welcome Portal</a> for our incoming frosh families!
+                For all things Class of {{ app_variable('class_year') }}, visit the <a href="https://families.siprep.org/parents/welcome" target="_blank" class="text-link">Welcome Portal</a> for our incoming frosh families!
             </p>
 
             <p>
