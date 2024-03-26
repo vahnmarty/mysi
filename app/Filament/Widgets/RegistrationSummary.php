@@ -48,7 +48,7 @@ class RegistrationSummary extends GroupWidget
                 ]),
             Card::make('Total # Completed Registration', 
                     DB::table('application_status')
-                    ->where('registration_complete_date', 1)
+                    ->where('registration_completed', 1)
                     ->count()
                 )
                 ->color('warning')
