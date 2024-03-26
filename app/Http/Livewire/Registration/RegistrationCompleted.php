@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Registration;
 
 use Closure;
+use App\Models\Child;
 use Livewire\Component;
 use App\Models\Registration;
 use App\Models\ContactDirectory;
@@ -39,7 +40,6 @@ class RegistrationCompleted extends Component implements HasForms
         $this->registration = Registration::with('student')->whereUuid($uuid)->firstOrFail();
 
         $this->directory = ContactDirectory::orderBy('sort')->get()->toArray();
-
         
         $this->form->fill($this->registration->toArray());
     }
@@ -233,7 +233,13 @@ class RegistrationCompleted extends Component implements HasForms
                         ->multiple()
                         //->preserveFilenames()
                         ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                            return (string) $this->student->id . '_' . $this->student->first_name .'_' .$this->student->last_name  .'/' . clean_string($file->getClientOriginalName());
+                            $student = $this->registration['student'];
+                            if($student){
+                                return (string) $student['id'] . '_' . $student['first_name'] .'_' .$student['last_name']  .'/' . clean_string($file->getClientOriginalName());
+                            }
+
+                            return clean_string($file->getClientOriginalName());
+                            
                         })
                         ->afterStateHydrated(function(Closure $get, Closure $set, $state){
                         })
