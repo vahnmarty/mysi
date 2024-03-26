@@ -156,7 +156,8 @@ display: none;
 }
 
 .filament-forms-field-wrapper-label .whitespace-nowrap {
-    @apply absolute left-0 z-10 top-2;
+    z-index: 1;
+    @apply absolute left-0 top-2;
 }
 
 .input-toggle{
