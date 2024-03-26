@@ -121,15 +121,15 @@
             </a>
         </li>
 
+        
+        @endif
+
         <x-sidebar-item align="start" href="{{ url('hspt-scores') }}">
             <x-slot name="icon">
                 <x-heroicon-o-clipboard-list class="flex-shrink-0 w-5 h-5" />
             </x-slot>
             HSPT Scores
         </x-sidebar-item>
-        @endif
-
-        
 
 
         @php
