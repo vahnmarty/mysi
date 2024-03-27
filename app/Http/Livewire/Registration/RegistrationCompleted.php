@@ -88,7 +88,7 @@ class RegistrationCompleted extends Component implements HasForms
                 ->label('')
                 ->content(new HtmlString('<div>
                     <p>
-                        Login today to your new <a  href="https://mail.google.com" target="_blank" class="text-link">SI Google Account</a> and access your email using the credentials below. Make sure to use <b>@siprep.org</b>, not @gmail.com.
+                    Login today to your new <a  href="https://mail.google.com" target="_blank" class="text-link">SI Google Account</a> and access your email using the credentials below. If you already have a Google account, you will need to click on your account icon and choose <code>+add another account</code>. Make sure to use <b>@siprep.org</b>, not @gmail.com.
                     </p>
                 </div>')),
             Placeholder::make('student.full_name')
@@ -116,16 +116,15 @@ class RegistrationCompleted extends Component implements HasForms
                 ->label('')
                 ->content(fn(Closure $get) =>new HtmlString('<div class="mt-4">
                     <p>
-                        You will receive important information via your SI email account throughout the summer, including messages about upcoming activities and your first assignment in June. SI students are expected to check their email inbox daily.
+                        You will receive important information via your SI email account throughout the summer, including messages about upcoming activities and your first assignment in May. SI students are expected to check their email inbox daily.
                     </p>
                     <p class="mt-4">
                         If you would like to change your password, you must change it via the SI website by going to <a class="text-link" href="https://www.siprep.org/pw" target="_blank">https://www.siprep.org/pw</a>.
                         Do not use the “Forgot my password” link in the Google login box.
                     </p>
                     <p class="mt-4">
-                        If you have any difficulties with your email account, please contact <a class="text-link" href="mailto:si_librarians@siprep.org?subject=Problems with Email Account" target="_blank">si_librarians@siprep.org</a>.
+                        If you have any difficulties with your email account visit the <A HREF = "https://families.siprep.org/parents/welcome/tech-training" TARGET = "_blank" class="text-link">New Student Tech Training</A> page or contact <A HREF = "mailto:si_librarians@siprep.org" TARGET = "_blank" class="text-link">si_librarians@siprep.org</A>.
                     </p>
-
                     <div class="mt-6">
                         <h4 class="font-bold">Difference Between Your Email and Username</h4>
                         <p class="mt-3">
