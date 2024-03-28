@@ -88,7 +88,7 @@ class RegistrationCompleted extends Component implements HasForms
                 ->label('')
                 ->content(new HtmlString('<div>
                     <p>
-                    Login today to your new <a  href="https://mail.google.com" target="_blank" class="text-link">SI Google Account</a> and access your email using the credentials below. If you already have a Google account, you will need to click on your account icon and choose <code>+add another account</code>. Make sure to use <b>@siprep.org</b>, not @gmail.com.
+                    Login today to your new <a  href="https://mail.google.com" target="_blank" class="text-link">SI Google Account</a> and access your email using the credentials below. If you already have a Google account, you will need to click on your account icon and choose "+ Add another account." Make sure to use <b>@siprep.org</b>, not @gmail.com.
                     </p>
                 </div>')),
             Placeholder::make('student.full_name')
