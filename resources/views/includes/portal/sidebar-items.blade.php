@@ -50,22 +50,41 @@
 <div class="py-8">
     <ul class="font-medium text-gray-700">
 
-        @php
-            $transfer_student_application_start_date = notification_setting('transfer_student_application_start_date');
-            $transfer_student_application_end_date = notification_setting('transfer_student_application_end_date');
+        <x-app-menu-item 
+            start_date="{{ notification_setting('re_registration_start_date')?->value }}"
+            end_date="{{ notification_setting('re_registration_end_date')?->value }}">
+            <li class="px-8 py-1 text-sm transition {{ request()->is('reregistration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                <a href="{{ url('reregistration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                    <x-heroicon-o-view-grid-add class="flex-shrink-0 w-5 h-5" />
+                    <strong>Re-Registration</strong>
+                </a>
+            </li>
+        </x-app-menu-item>
 
-            $transfer_start_date = $transfer_student_application_start_date->value;
-            $transfer_end_date = $transfer_student_application_end_date->value;
-        @endphp
-
-        @if(now()->gte($transfer_start_date) && now()->lt($transfer_start_date))
-        <li class="px-8 py-1 text-sm transition {{ request()->is('transfer-applications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
-            <a href="{{ url('transfer-applications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
-                <x-heroicon-o-switch-horizontal class="flex-shrink-0 w-5 h-5" />
-                <strong>Transfer Application</strong>
-            </a>
-        </li>
+        @if(Auth::user()->account?->current_si_family)
+        <x-app-menu-item 
+            start_date="{{ notification_setting('re_registration_start_date')?->value }}"
+            end_date="{{ notification_setting('re_registration_end_date')?->value }}">
+            <x-sidebar-item align="start" href="{{ url('financial-aid-notifications') }}">
+                <x-slot name="icon">
+                    <x-heroicon-o-clipboard-list class="flex-shrink-0 w-5 h-5" />
+                </x-slot>
+                Financial Aid Notification
+            </x-sidebar-item>
+        </x-app-menu-item>
         @endif
+
+
+        <x-app-menu-item 
+            start_date="{{ notification_setting('transfer_application_start_date')?->value }}"
+            end_date="{{ notification_setting('transfer_application_end_date')?->value }}">
+            <li class="px-8 py-1 text-sm transition {{ request()->is('transfer-applications*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                <a href="{{ url('transfer-applications') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                    <x-heroicon-o-switch-horizontal class="flex-shrink-0 w-5 h-5" />
+                    <strong>Transfer Application</strong>
+                </a>
+            </li>
+        </x-app-menu-item>
 
         @php
             $course_placement_notification_start_date = notification_setting('course_placement_notification_start_date');
