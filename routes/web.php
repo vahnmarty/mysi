@@ -29,6 +29,7 @@ use App\Http\Livewire\Notifications\FinancialAid;
 use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Admission\TransactionHistory;
+use App\Http\Livewire\Auth\ReRegistrationLoginPage;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\PayApplicationFee;
@@ -72,6 +73,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get('login', LoginPage::class)->name('login')->middleware('guest');
+Route::get('reregistration/login', ReRegistrationLoginPage::class)->name('login.reregistration')->middleware('guest');
 Route::get('register', RegisterPage::class)->name('register')->middleware('guest');
 Route::get('account/create/{token}', CreateAccountPassword::class)->name('account.request');
 Route::get('forgot-username', ForgotUsernamePage::class)->name('forgot-username');
