@@ -49,6 +49,21 @@ class TransferApplications extends Component implements HasTable
     protected function getTableActions(): array
     {
         return [ 
+            Action::make('submitted')
+                ->label('View Application')
+                ->visible(function(Child $record){
+
+                    if($record->application){
+                        if($record->application->appStatus?->application_submitted){
+                            return true;
+                        }
+                    }
+
+                    return false;
+                })
+                ->url(fn(Child $record) => route('application.show', $record->application->uuid))
+                ->extraAttributes(['class' => 'app-status'])
+                ->color(''),
             Action::make('apply')
                 ->label(function(Child $record){
                     return $record->application ? 'Edit' : 'Apply';
