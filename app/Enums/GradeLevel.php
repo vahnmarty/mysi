@@ -47,4 +47,12 @@ final class GradeLevel extends Enum
         return $arr;
     }
 
+    public static function forTransfer()
+    {
+        return [
+            10 => 10,
+            11 => 11,
+        ];
+    }
+
 }

@@ -6,13 +6,14 @@ use Closure;
 use App\Enums\Gender;
 use App\Enums\Suffix;
 use App\Models\School;
+use App\Enums\GradeLevel;
 use App\Enums\RacialType;
 use App\Rules\PhoneNumberRule;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Livewire\Component as Livewire;
-use Filament\Forms\Components\Select;
 //use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
@@ -28,6 +29,15 @@ trait StudentFormTrait{
             Placeholder::make('student_form_description')
                 ->label('')
                 ->content(new HtmlString('* This section is to be completed by a parent/guardian.')),
+            Select::make('grade_applying_for')
+                ->options(GradeLevel::forTransfer())
+                ->label('What Grade Are You Appling For?')
+                ->lazy()
+                ->afterStateUpdated(function($state){
+                    $this->autoSave('grade_applying_for', $state);
+                })
+                ->required()
+                ->visible(fn() => $this->type == 'transfer'),
             TextInput::make('student.first_name')
                 ->label('Legal First Name')
                 ->lazy()

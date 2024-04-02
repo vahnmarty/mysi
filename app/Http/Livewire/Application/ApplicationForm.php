@@ -6,6 +6,7 @@ use Auth;
 use Mail;
 use App\Models\Payment;
 use Livewire\Component;
+use App\Enums\GradeLevel;
 use App\Enums\PaymentType;
 use App\Models\Application;
 use Illuminate\Support\HtmlString;
@@ -55,6 +56,7 @@ class ApplicationForm extends Component implements HasForms
     public $is_submitted = false;
     public $amount;
     public $active;
+    public $type = 'new';
 
     protected $queryString = ['active'];
 
@@ -94,6 +96,8 @@ class ApplicationForm extends Component implements HasForms
         $account = $this->app->account->load('addresses', 'guardians', 'parents', 'children', 'legacies');
         $user = Auth::user();
 
+        $this->type = $this->app->student->current_grade == GradeLevel::Grade8 ? 'new' : 'transfer';
+
         $data = $this->app->toArray();
         $data['student'] = $this->app->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
@@ -105,7 +109,7 @@ class ApplicationForm extends Component implements HasForms
         $data['activities'] = $this->app->activities->toArray();
         $data['autosave'] = true;
         $data['placement_test_date'] = settings('placement_test_date');
-
+        
         if($this->app->applicationFee){
             $this->amount = $this->app->applicationFee?->final_amount;
         }

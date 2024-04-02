@@ -34,6 +34,7 @@ use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\PayApplicationFee;
 use App\Http\Livewire\Registration\RegistrationForm;
+use App\Http\Livewire\Transfer\TransferApplications;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Application\AdmissionApplication;
@@ -117,6 +118,8 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('survey/{uuid}', SurveyForm::class)->name('survey-form');
 
     Route::get('hspt-scores', StudentHsptScores::class);
+
+    Route::get('transfer-applications',TransferApplications::class)->name('transfer.index');
 });
 
 
