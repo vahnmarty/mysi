@@ -108,7 +108,6 @@ class ApplicationForm extends Component implements HasForms
         $data['legacy'] = $account->legacies->toArray();
         $data['activities'] = $this->app->activities->toArray();
         $data['autosave'] = true;
-        $data['placement_test_date'] = settings('placement_test_date');
         
         if($this->app->applicationFee){
             $this->amount = $this->app->applicationFee?->final_amount;
@@ -180,6 +179,7 @@ class ApplicationForm extends Component implements HasForms
             Section::make('High School Placement Test')
                 ->schema($this->getPlacementForm())
                 ->collapsible()
+                ->hidden(fn() => $this->type == 'transfer')
                 ->collapsed(true),
             Section::make('Final Steps')
                 ->schema($this->getFinalStepsForm())
