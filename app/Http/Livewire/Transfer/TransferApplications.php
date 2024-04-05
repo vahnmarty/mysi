@@ -23,7 +23,7 @@ class TransferApplications extends Component implements HasTable
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId())->where('current_grade', GradeLevel::Freshman);
+        return Child::where('account_id', accountId())->whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore]);
     }
 
     protected function getTableColumns(): array 

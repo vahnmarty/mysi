@@ -21,9 +21,8 @@
                 </ul>
             </div>
             <div class="mb-16 md:pl-8 md:border-l md:mb-0">
-                <h1 class="text-3xl font-bold text-primary-blue">Login</h1>
-                <p class="mt-2 text-sm">Don't have an account? <a href="{{ route('register') }}"
-                    class="font-bold text-link hover:underline">Create account</a>.</p>
+                <h1 class="text-3xl text-primary-blue">Login</h1>
+                
                 
                 <x-auth-session-status class="mt-2 mb-4 text-center" :status="session('status')" />
 
@@ -45,14 +44,18 @@
                         </a>
 
                     </div>
+                    
 
 
 
                     <div x-data="{ show: $wire.entangle('show_password') }" class="flex justify-center mt-8">
                         <button x-show="!show" type="button" wire:click="next"
-                            class="justify-center w-full text-center btn-primary-fixer">Continue</button>
+                            class="justify-center text-center btn-primary-fixer">Continue</button>
                         <button x-show="show" x-cloak type="submit" class="btn-primary-fixer">Log In</button>
                     </div>
+
+                    <p class="mt-6 text-sm text-center ">Don't have an account? <a href="{{ route('register') }}"
+                    class="font-bold text-link hover:underline">Create account</a>.</p>
 
                     
                 </form>

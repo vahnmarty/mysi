@@ -30,6 +30,7 @@ use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Admission\TransactionHistory;
 use App\Http\Livewire\Auth\ReRegistrationLoginPage;
+use App\Http\Livewire\Registration\ReRegistrations;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\PayApplicationFee;
@@ -120,6 +121,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('hspt-scores', StudentHsptScores::class);
 
     Route::get('transfer-applications',TransferApplications::class)->name('transfer.index');
+    Route::get('reregistration', ReRegistrations::class)->name('registration.re');
 });
 
 
