@@ -1,6 +1,6 @@
 <div>
     <h2 class="text-2xl font-semibold font-heading text-primary-blue">
-        Registrations
+        Registration
     </h2>
 
     <section x-data="{ open: $wire.entangle('open') }">
