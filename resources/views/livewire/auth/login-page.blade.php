@@ -50,7 +50,7 @@
 
                     <div x-data="{ show: $wire.entangle('show_password') }" class="flex justify-center mt-8">
                         <button x-show="!show" type="button" wire:click="next"
-                            class="justify-center text-center btn-primary-fixer">Continue</button>
+                            class="justify-center text-center btn-primary-fixer"> <x-loading-icon/>  Continue</button>
                         <button x-show="show" x-cloak type="submit" class="btn-primary-fixer">Log In</button>
                     </div>
 
