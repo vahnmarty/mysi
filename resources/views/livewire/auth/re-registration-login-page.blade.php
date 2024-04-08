@@ -2,10 +2,10 @@
 
     <h1 class="text-4xl text-center font-base text-primary-blue">Current SI Family Login</h1>
     <div class="max-w-2xl px-4 mx-auto mt-8 text-base text-center lg:px-8">
-        <h4 class="text-xl font-semibold lg:text-xl">Welcome to St. Ignatius College Preparatory’s MySI Portal</h4>
+        <h4 class="text-xl font-semibold lg:text-xl">Welcome to St. Ignatius College Preparatory's MySI Portal</h4>
 
         <p class="mt-8 text-sm lg:text-base">
-            Enter your child’s SI email address.  If you have more than one child attending SI, choose just one of the email addresses
+            Enter your child's SI email address.  If you have more than one child attending SI, choose just one of the email addresses
         </p>
 
     </div>

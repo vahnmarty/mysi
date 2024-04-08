@@ -14,7 +14,7 @@
                     <li class="text-justify">
                         If you have <strong>never used MySI, are not a current SI family</strong> AND are looking to
                         fill out a transfer application, you will need to create an account. Enter your email
-                        address and click “Continue.” If you previously applied to SI, the system will try to find
+                        address and click "Continue". If you previously applied to SI, the system will try to find
                         your information.
 
                     </li>
