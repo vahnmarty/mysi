@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('record_type_id', 18)->nullable();
             $table->boolean('attending_si');
             $table->timestamp('started_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

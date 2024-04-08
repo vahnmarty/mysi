@@ -102,6 +102,7 @@ class ReRegistrations extends Component implements HasTable
                         $registration->account_id = accountId();
                         $registration->attending_si = true;
                         $registration->child_id = $record->id;
+                        $registration->started_at = now();
                         $registration->save();
                     }
 

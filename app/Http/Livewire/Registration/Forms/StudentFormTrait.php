@@ -95,7 +95,8 @@ trait StudentFormTrait{
                 ->label('Personal Email (If none, use a parent\'s/guardian\'s email address.)')
                 ->lazy()
                 ->required()
-                ->afterStateUpdated(function($state){
+                ->afterStateUpdated(function(Livewire $livewire, TextInput $component, $state){
+                    $validations = $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveStudent('personal_email', $state);
                 }),
             TextInput::make('student.mobile_phone')
