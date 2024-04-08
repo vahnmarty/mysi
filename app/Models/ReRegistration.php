@@ -58,4 +58,9 @@ class ReRegistration extends Model
     {
         return $this->completed_at;
     }
+
+    public function declined()
+    {
+        return !$this->attending_si;
+    }
 }

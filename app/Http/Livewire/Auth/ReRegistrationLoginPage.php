@@ -14,6 +14,7 @@ use App\Mail\AccountRequested;
 use App\Mail\SetupNewPassword;
 use App\Models\AccountRequest;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -25,9 +26,11 @@ class ReRegistrationLoginPage extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $email;
+    public $email, $parent;
 
-    public $is_existing;
+    public $parents = [];
+
+    public $is_existing, $is_invalid;
 
     public function render()
     {
@@ -49,6 +52,11 @@ class ReRegistrationLoginPage extends Component implements HasForms
                 ->lazy()
                 ->autofocus()
                 ->required(),
+            Select::make('parent')
+                ->label('Choose the parent information we will use to create the account.')
+                ->required()
+                ->visible(fn() => $this->is_existing)
+                ->options(fn() => $this->parents)
         ];
     }
 
@@ -56,13 +64,37 @@ class ReRegistrationLoginPage extends Component implements HasForms
     {
         $data  = $this->form->getState();
 
-        $this->is_existing = $this->checkIfExistingChildren($data['email']);
+        if(!empty($data['parent'])){
 
-        if($this->is_existing){
-            $this->dispatchBrowserEvent('redirect-login');
+            $parent = Parents::find($data['parent']);
+
+            if(User::where('email', $parent->personal_email)->exists()){
+                return redirect()->to('login?email=' . $parent->personal_email);
+            }
+
+            return redirect()->to('register?email=' . $parent->personal_email);
+            
+
         }else{
-            $this->dispatchBrowserEvent('redirect-register');
+            $child = $this->checkIfExistingChildren($data['email']);
+
+            if($child){
+                $this->is_existing = true;
+                $this->setParents($child->account_id);
+                //$this->dispatchBrowserEvent('redirect-login');
+            }else{
+                $this->is_invalid = true;
+                $this->dispatchBrowserEvent('redirect-login');
+            }
         }
+        
+        
+    }
+
+    public function setParents($accountId)
+    {
+        $account = Account::find($accountId);
+        $this->parents = Parents::where('account_id', $accountId)->get()->pluck('full_name', 'id')->toArray();
     }
 
     public function checkIfExistingChildren($email)

@@ -50,8 +50,8 @@
 
                     <div x-data="{ show: $wire.entangle('show_password') }" class="flex justify-center mt-8">
                         <button x-show="!show" type="button" wire:click="next"
-                            class="justify-center text-center btn-primary-fixer"> <x-loading-icon/>  Continue</button>
-                        <button x-show="show" x-cloak type="submit" class="btn-primary-fixer">Log In</button>
+                            class="justify-center text-center btn-primary-fixer"> <x-loading-icon wire:target="next"/>  Continue</button>
+                        <button x-show="show" x-cloak type="submit" class="btn-primary-fixer"><x-loading-icon wire:target="login"/> Log In</button>
                     </div>
 
                     <p class="mt-6 text-sm text-center ">Don't have an account? <a href="{{ route('register') }}"

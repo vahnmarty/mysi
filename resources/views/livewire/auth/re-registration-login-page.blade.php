@@ -42,9 +42,10 @@
             {{ $this->form }}
 
             
-            @if($is_existing)
+
+            @if($is_invalid)
             <div class="mt-4">
-                <p class="text-primary-red">* This SI email is associated with an existing MySI account.  Use your previous login information to access your account. </p>
+                <p class="text-primary-red">* This is not a valid SI email. </p>
                 <p class="mt-4 text-primary-red">
                     You will be re-directed to the Login page in <span id="countdown">15</span> seconds.
                 </p>
@@ -53,9 +54,16 @@
         
             
             
-            <div x-data="{ open: $wire.entangle('is_existing') }" class="flex justify-center mt-8">
-                <button x-show="!open" type="button" wire:click="next" class="btn-primary-fixer">Continue</button>
-                <a x-cloak  x-show="open" href="{{ url('login') }}" wire:click="next" class="btn-primary-fixer">Go to Login</a>
+            <div x-data="{ invalid: $wire.entangle('is_invalid') }" class="flex justify-center mt-8">
+
+                <button x-show="!invalid" type="button" wire:click="next" class="btn-primary-fixer">
+                    <x-loading-icon wire:target="next"/>
+                    Continue
+                </button>
+
+                <a x-cloak  x-show="invalid" href="{{ url('login') }}" class="btn-primary-fixer">
+                    Go to Login
+                </a>
             </div>
         </form>
     </div>

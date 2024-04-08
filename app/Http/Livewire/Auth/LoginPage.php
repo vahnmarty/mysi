@@ -93,7 +93,7 @@ class LoginPage extends Component implements HasForms
                 ->label('')
                 ->validationAttribute('Password')
                 ->placeholder('Password')
-                ->reactive()
+                ->lazy()
                 ->password()
                 ->required()
                 ->revealable()

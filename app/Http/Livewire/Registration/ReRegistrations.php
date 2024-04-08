@@ -60,7 +60,7 @@ class ReRegistrations extends Component implements HasTable
             Action::make('edit')
                 ->label('Edit')
                 ->url(fn(Child $record) => route('registration.re.form', $record->reregistration->uuid))
-                ->visible(fn(Child $record) => $record->reregistration && !$record->reregistration->completed())       
+                ->visible(fn(Child $record) => $record->reregistration && !$record->reregistration->completed() && !$record->reregistration->declined())       
                 ->mountUsing(fn (ComponentContainer $form, Child $record) => $form->fill()),
             Action::make('register')
                 ->label('Register')
@@ -134,5 +134,10 @@ class ReRegistrations extends Component implements HasTable
     public function getTableEmptyStateHeading(): ?string
     {
         return 'No Child Information';
+    }
+
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
     }
 }
