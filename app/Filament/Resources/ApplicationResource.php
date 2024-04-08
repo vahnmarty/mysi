@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Closure;
 use Filament\Forms;
 use Filament\Tables;
+use App\Enums\GradeLevel;
 use App\Models\PromoCode;
 use App\Models\Application;
 use Filament\Resources\Form;
@@ -190,6 +191,17 @@ class ApplicationResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('current_grade')
+                    ->label('Grade Level')
+                    ->options(GradeLevel::asSameArray())
+                    ->query(function (Builder $query, array $data){
+                        if($data['value']){
+                            return $query->whereHas('appStatus', function($q) use ($data){
+                                $q->where('application_status', $data['value']);
+                            });
+                        }
+                        return $query;
+                    }),
                 Tables\Filters\SelectFilter::make('status')
                     ->label('App Status')
                     ->options([

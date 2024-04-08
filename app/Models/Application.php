@@ -219,6 +219,13 @@ class Application extends Model
         });
     }
 
+    public function scopeGradeLevel( $query, array $grades)
+    {
+        return $query->whereHas('payments', function($pQuery){
+            $pQuery->whereNotNull('promo_code');
+        });
+    }
+
 
     // End of Scopes
 
