@@ -249,13 +249,10 @@ class ReRegistrationForm extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        dd($data);
+        $rereg = $this->registration;
+        $rereg->completed_at = now();
+        $rereg->save();
 
-        $appStatus = $this->getAppStatus();
-        $appStatus->registration_completed = true;
-        $appStatus->registration_complete_date = now();
-        $appStatus->save();
-
-        return redirect()->route('registration.completed', $this->registration->uuid);
+        dd('completed. tbd');
     }
 }
