@@ -1,6 +1,6 @@
-<div>
-    <div class="max-w-6xl px-8 mx-auto">
-        <div class="grid gap-8 border-gray-100 md:border md:rounded-md md:shadow-md md:p-8 md:grid-cols-2">
+<div class="2xl:py-12">
+    <div class="max-w-6xl px-8 mx-auto 2xl:max-w-7xl">
+        <div class="grid gap-8 border-gray-100 md:border md:rounded-md md:shadow-md md:p-8 2xl:p-16 md:grid-cols-2">
             <div>
                 <h4 class="text-xl font-semibold text-center lg:text-xl md:text-left">St. Ignatius College Preparatory's MySI Portal</h4>
 
@@ -21,7 +21,7 @@
                 </ul>
             </div>
             <div class="mb-16 md:pl-8 md:border-l md:mb-0">
-                <h1 class="text-3xl text-primary-blue">Login</h1>
+                <h1 class="text-3xl text-center text-primary-blue">Login</h1>
                 
                 
                 <x-auth-session-status class="mt-2 mb-4 text-center" :status="session('status')" />
