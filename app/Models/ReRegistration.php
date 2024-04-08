@@ -53,4 +53,9 @@ class ReRegistration extends Model
     {
         return $this->hasOne(Accommodation::class);
     }
+
+    public function completed()
+    {
+        return $this->completed_at;
+    }
 }

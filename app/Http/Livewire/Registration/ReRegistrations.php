@@ -60,7 +60,7 @@ class ReRegistrations extends Component implements HasTable
             Action::make('edit')
                 ->label('Edit')
                 ->url(fn(Child $record) => route('registration.re.form', $record->reregistration->uuid))
-                ->visible(fn(Child $record) => $record->reregistration)       
+                ->visible(fn(Child $record) => $record->reregistration && !$record->reregistration->completed())       
                 ->mountUsing(fn (ComponentContainer $form, Child $record) => $form->fill()),
             Action::make('register')
                 ->label('Register')
