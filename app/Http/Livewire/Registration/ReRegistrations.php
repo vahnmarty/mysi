@@ -115,8 +115,8 @@ class ReRegistrations extends Component implements HasTable
                 ->disabled(),
             Action::make('view')
                 ->label('View')
-                ->visible(fn(Child $record) => false)
-                ->url(fn(Child $record) => route('registration.completed', $record->uuid) )
+                ->visible(fn(Child $record) => $record->reregistration?->completed())
+                ->url(fn(Child $record) => route('registration.re.completed', $record->reregistration?->uuid) )
         ];
     }
 
