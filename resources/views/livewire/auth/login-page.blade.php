@@ -5,18 +5,18 @@
                 <h4 class="text-xl font-semibold text-center lg:text-xl md:text-left">St. Ignatius College Preparatory's MySI Portal</h4>
 
                 <ul class="pl-4 mt-8 space-y-4 text-sm list-disc lg:text-base">
-                    <li class="text-justify">If you have used MySI in the past, please login as usual.</li>
                     <li class="text-justify">
-                        If you have <strong>never used MySI</strong>, are a current SI family AND are looking to
-                        re-register your child(ren) for the upcoming school year AND/OR have a non-SI child who
-                        wants to transfer to SI, click <A class="text-link" HREF="{{ route('login.reregistration') }}">here</A>.
+                        If you used MySI to submit a Frosh application for the {{ app_variable('class_year') }} school year, please login as usual.
                     </li>
                     <li class="text-justify">
-                        If you have <strong>never used MySI, are not a current SI family</strong> AND are looking to
-                        fill out a transfer application, you will need to create an account. Enter your email
-                        address and click "Continue". If you previously applied to SI, the system will try to find
-                        your information.
+                        If you are a current SI family AND have never used MySI AND are looking to re-register your student(s) for the upcoming school year AND/OR have a non-SI student wants to transfer to SI, click <A class="text-link" HREF="{{ route('login.reregistration') }}">here</A>.
+                    </li>
+                    <li class="text-justify">
+                        If you are a prospective SI family AND do not have a MySI account AND are looking to fill out a transfer application, you will need to create an account.  Enter your email address and click "Continue".  If you previously applied to SI, the system will try to find your information.
 
+                    </li>
+                    <li>
+                        <strong>NOTE:</strong> The MySI login is not associated with other SI online resources such as the SI website, PowerSchool or FACTS.
                     </li>
                 </ul>
             </div>

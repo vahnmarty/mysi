@@ -30,7 +30,9 @@ class ReRegistrationLoginPage extends Component implements HasForms
 
     public $parents = [];
 
-    public $is_existing, $is_invalid;
+    public $is_existing, $is_invalid, $for_register;
+
+    public $user;
 
     public function render()
     {
@@ -55,7 +57,7 @@ class ReRegistrationLoginPage extends Component implements HasForms
             Select::make('parent')
                 ->label('Choose the parent information we will use to create the account.')
                 ->required()
-                ->visible(fn() => $this->is_existing)
+                ->visible(fn() => $this->is_existing && !$this->user)
                 ->options(fn() => $this->parents)
         ];
     }
@@ -81,7 +83,7 @@ class ReRegistrationLoginPage extends Component implements HasForms
             if($child){
                 $this->is_existing = true;
                 $this->setParents($child->account_id);
-                //$this->dispatchBrowserEvent('redirect-login');
+                $this->dispatchBrowserEvent('redirect-login');
             }else{
                 $this->is_invalid = true;
                 $this->dispatchBrowserEvent('redirect-login');
@@ -95,10 +97,23 @@ class ReRegistrationLoginPage extends Component implements HasForms
     {
         $account = Account::find($accountId);
         $this->parents = Parents::where('account_id', $accountId)->get()->pluck('full_name', 'id')->toArray();
+
+        if($account->user){
+            $this->user = $account->user;
+        }else{
+            $this->for_register = true;
+        }
     }
 
     public function checkIfExistingChildren($email)
     {
         return Child::where('si_email', $email)->first();
+    }
+
+    public function createAccount()
+    {
+        $data = $this->form->getState();
+
+        return redirect('register?email=' . $data['email']);
     }
 }

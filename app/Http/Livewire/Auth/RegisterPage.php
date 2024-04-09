@@ -44,6 +44,21 @@ class RegisterPage extends Component implements HasForms
         return view('livewire.auth.register-page')->layout('layouts.guest');
     }
 
+    public function mount()
+    {
+        if($this->email){
+            $parent = Parents::where('personal_email', $this->email)->first();
+            
+            $this->form->fill([
+                'first_name' => $parent->first_name,
+                'last_name' => $parent->last_name,
+                'phone' => $parent->mobile_phone,
+                'email' => $parent->personal_email
+            ]);
+        }
+        
+    }
+
     protected function getFormSchema()
     {
         return [

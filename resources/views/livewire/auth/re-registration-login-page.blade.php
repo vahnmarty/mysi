@@ -5,7 +5,7 @@
         <h4 class="text-xl font-semibold lg:text-xl">Welcome to St. Ignatius College Preparatory's MySI Portal</h4>
 
         <p class="mt-8 text-sm lg:text-base">
-            Enter your child's SI email address.  If you have more than one child attending SI, choose just one of the email addresses
+            Enter your student's SI email address.  If you have more than one student attending SI, choose just one of the email addresses.
         </p>
 
     </div>
@@ -51,19 +51,37 @@
                 </p>
             </div>
             @endif
+
+            @if($user)
+            <div class="mt-4">
+                <p class="text-primary-red">* This SI email is associated with an existing MySI account. Please use your MySI username to login </p>
+                <p class="mt-4 text-primary-red">
+                    You will be re-directed to the Login page in <span id="countdown">15</span> seconds.
+                </p>
+            </div>
+            @endif
         
             
             
-            <div x-data="{ invalid: $wire.entangle('is_invalid') }" class="flex justify-center mt-8">
+            <div x-data="{ 
+                    invalid: $wire.entangle('is_invalid'), 
+                    existing: $wire.entangle('is_existing'), 
+                    register: $wire.entangle('for_register')
+                }" class="flex justify-center mt-8">
 
-                <button x-show="!invalid" type="button" wire:click="next" class="btn-primary-fixer">
+                <button x-show="!invalid && !existing" type="button" wire:click="next" class="btn-primary-fixer">
                     <x-loading-icon wire:target="next"/>
                     Continue
                 </button>
 
-                <a x-cloak  x-show="invalid" href="{{ url('login') }}" class="btn-primary-fixer">
+                <a x-cloak  x-show="invalid || existing && !register" href="{{ url('login') }}" class="btn-primary-fixer">
                     Go to Login
                 </a>
+
+                <button x-show="register" x-cloak type="submit" wire:click="createAccount" class="btn-primary-fixer">
+                    <x-loading-icon wire:target="createAccount"/>
+                    Create Account
+                </button>
             </div>
         </form>
     </div>
