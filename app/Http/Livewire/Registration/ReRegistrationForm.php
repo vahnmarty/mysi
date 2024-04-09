@@ -12,25 +12,23 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Concerns\InteractsWithForms;
-use App\Http\Livewire\Registration\Forms\DirectoryTrait;
-use App\Http\Livewire\Registration\Forms\HealthFormTrait;
-use App\Http\Livewire\Registration\Forms\ParentFormTrait;
-use App\Http\Livewire\Registration\Forms\AddressFormTrait;
-use App\Http\Livewire\Registration\Forms\SiblingFormTrait;
-use App\Http\Livewire\Registration\Forms\StudentFormTrait;
-use App\Http\Livewire\Registration\Forms\CoCurricularTrait;
-use App\Http\Livewire\Registration\Forms\MagisProgramTrait;
-use App\Http\Livewire\Registration\Forms\EmergencyFormTrait;
-use App\Http\Livewire\Registration\Forms\FamilyDynamicsTrait;
-use App\Http\Livewire\Registration\Forms\CoursePlacementTrait;
-use App\Http\Livewire\Registration\Forms\AccommodationFormTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\DirectoryTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\HealthFormTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\ParentFormTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\AddressFormTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\StudentFormTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\CoCurricularTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\MagisProgramTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\EmergencyFormTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\FamilyDynamicsTrait;
+use App\Http\Livewire\Registration\ReregistrationForms\CoursePlacementTrait;
 
 class ReRegistrationForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
     # Traits
-    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, AccommodationFormTrait, SiblingFormTrait, FamilyDynamicsTrait, DirectoryTrait;
+    use StudentFormTrait, AddressFormTrait, ParentFormTrait, HealthFormTrait, EmergencyFormTrait, FamilyDynamicsTrait, DirectoryTrait;
 
     # Model
     public ReRegistration $registration;
@@ -50,7 +48,7 @@ class ReRegistrationForm extends Component implements HasForms
 
     public function render()
     {
-        return view('livewire.registration.registration-form');
+        return view('livewire.registration.re-registration-form');
     }
 
     public function getAccount()
@@ -82,10 +80,8 @@ class ReRegistrationForm extends Component implements HasForms
         $data['student'] = $this->registration->student->toArray();
         $data['addresses'] = $account->addresses->toArray();
         $data['parents'] = $account->parents->toArray();
-        $data['siblings'] = $account->children()->where('id', '!=', $this->registration->child_id)->get()->toArray();
         $data['parents_matrix'] = $this->getParentsMatrix();
         $data['family_dynamics'] = $this->getRelationshipMatrix();
-        $data['siblings_matrix'] = $this->getSiblingsMatrix();
         $data['student_directory'] = [$this->registration->student->toArray()];
         $data['parents_directory'] = $account->parents->toArray();
         $data['primary_language_spoken'] = $account->primary_language_spoken;
@@ -134,10 +130,6 @@ class ReRegistrationForm extends Component implements HasForms
                 ->schema($this->getParentForm())
                 ->collapsible()
                 ->collapsed(true),
-            Section::make('Sibling Information')
-                ->schema($this->getSiblingForm())
-                ->collapsible()
-                ->collapsed(true),
             Section::make('Family Dynamics')
                 ->schema($this->getFamilyMatrix())
                 ->collapsible()
@@ -148,10 +140,6 @@ class ReRegistrationForm extends Component implements HasForms
                 ->collapsed(true),
             Section::make('Emergency Contact')
                 ->schema($this->getEmergencyForm())
-                ->collapsible()
-                ->collapsed(true),
-            Section::make('School-Based Accommodation')
-                ->schema($this->getAccommodationForm())
                 ->collapsible()
                 ->collapsed(true),
             Section::make('SI Directory')
