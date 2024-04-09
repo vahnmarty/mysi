@@ -23,7 +23,13 @@ class TransferApplications extends Component implements HasTable
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId())->whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore]);
+        $schools = [
+            'St. Ignatius College Preparatory'
+        ];
+
+        return Child::where('account_id', accountId())
+            ->whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore])
+            ->whereNotIn('current_school', $schools );
     }
 
     protected function getTableColumns(): array 
@@ -116,5 +122,10 @@ class TransferApplications extends Component implements HasTable
     public function getTableEmptyStateHeading(): ?string
     {
         return 'No Child Information';
+    }
+
+    protected function getTableActionsColumnLabel(): ?string
+    {
+        return 'Action';
     }
 }

@@ -98,7 +98,7 @@ trait FinalStepsTrait{
                         ->minLength(3)
                         ->required()
                         ->mask(fn (TextInput\Mask $mask) => $mask->pattern('{000}'))
-                        ->label('CVV'),
+                        ->label('CVV (3 or 4)'),
                     TextInput::make('billing.card_expiration')
                         ->label(new HtmlString('Expiration <strong>(MM/YYYY)</strong>'))
                         ->placeholder('e.g. 06/2030')

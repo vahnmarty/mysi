@@ -46,6 +46,7 @@ use App\Http\Livewire\Registration\StudentRegistrations;
 use App\Http\Livewire\Application\AccommodationDocuments;
 use App\Http\Livewire\Registration\RegistrationCompleted;
 use App\Http\Livewire\Registration\ReRegistrationCompleted;
+use App\Http\Livewire\Registration\FinancialAidNotifications;
 use App\Http\Livewire\Application\EmergencyContactInformation;
 use App\Http\Livewire\Application\UploadAccommodationDocuments;
 use App\Http\Livewire\Application\SupplementalRecommendationPage;
@@ -126,6 +127,8 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('reregistration', ReRegistrations::class)->name('registration.re');
     Route::get('reregistration/{uuid?}', ReRegistrationForm::class)->name('registration.re.form');
     Route::get('reregistration/{uuid}/completed', ReRegistrationCompleted::class)->name('registration.re.completed');
+
+    Route::get('financial-aid-notifications', FinancialAidNotifications::class)->name('notifications.fa');
 });
 
 

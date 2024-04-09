@@ -1,6 +1,6 @@
 <div>
     <h2 class="text-2xl font-semibold font-heading text-primary-blue">
-        Transfer Applications
+        Transfer Application
     </h2>
 
     <section>

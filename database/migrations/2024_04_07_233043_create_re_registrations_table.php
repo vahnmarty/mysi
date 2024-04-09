@@ -22,6 +22,9 @@ return new class extends Migration
             $table->boolean('attending_si');
             $table->timestamp('started_at')->nullable();
             $table->timestamp('completed_at')->nullable();
+            $table->string('financial_aid')->nullable();
+            $table->float('annual_financial_aid_amount')->nullable();
+            $table->float('total_financial_aid_amount')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
