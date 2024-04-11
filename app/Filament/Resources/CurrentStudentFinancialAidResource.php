@@ -47,12 +47,14 @@ class CurrentStudentFinancialAidResource extends Resource
                     ->required()
                     ->columnSpan('full')
                     ->lazy()
+                    ->hiddenOn('edit')
                     ->afterStateUpdated(function(Closure $set, $state){
                         $child = Child::find($state);
                         $set('account_id', $child->account_id);
                     }),
                 Forms\Components\TextInput::make('account_id')
                     ->lazy()
+                    ->hiddenOn('edit')
                     ->extraInputAttributes(['readonly' => true]),
                 Forms\Components\TextInput::make('financial_aid'),
                 Forms\Components\TextInput::make('annual_financial_aid_amount')->numeric(),
@@ -78,10 +80,10 @@ class CurrentStudentFinancialAidResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make("annual_financial_aid_amount")
                     ->label("FA Annual")
-                    ->money('usd'),
+                    ->formatStateUsing(fn($state) => !empty($state) ? '$' . number_format($state, 2) : ''),
                 Tables\Columns\TextColumn::make("total_financial_aid_amount")
                     ->label("FA Total")
-                    ->money('usd'),
+                    ->formatStateUsing(fn($state) => !empty($state) ? '$' . number_format($state, 2) : ''),
             ])
             ->filters([
                 //
@@ -106,7 +108,7 @@ class CurrentStudentFinancialAidResource extends Resource
         return [
             'index' => Pages\ListCurrentStudentFinancialAids::route('/'),
             //'create' => Pages\CreateCurrentStudentFinancialAid::route('/create'),
-            'edit' => Pages\EditCurrentStudentFinancialAid::route('/{record}/edit'),
+            //'edit' => Pages\EditCurrentStudentFinancialAid::route('/{record}/edit'),
         ];
     }    
 }
