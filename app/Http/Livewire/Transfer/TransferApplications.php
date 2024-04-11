@@ -6,6 +6,7 @@ use App\Models\Child;
 use Livewire\Component;
 use App\Enums\GradeLevel;
 use App\Enums\RecordType;
+use Illuminate\View\View;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
@@ -122,6 +123,11 @@ class TransferApplications extends Component implements HasTable
     public function getTableEmptyStateHeading(): ?string
     {
         return 'No Child Information';
+    }
+
+    public function getTableEmptyState(): ?View
+    {
+        return view('filament.tables.empty-transfer-application-state');
     }
 
     protected function getTableActionsColumnLabel(): ?string

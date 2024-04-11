@@ -57,7 +57,7 @@
             <li class="px-8 py-1 text-sm transition {{ request()->is('reregistration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                 <a href="{{ url('reregistration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                     <x-heroicon-o-view-grid-add class="flex-shrink-0 w-5 h-5" />
-                    <strong>Re-Registration</strong>
+                    <strong>Re-Registration for Returning SI Students</strong>
                 </a>
             </li>
         </x-app-menu-item>
@@ -72,7 +72,7 @@
                     <x-slot name="icon">
                         <x-heroicon-o-clipboard-list class="flex-shrink-0 w-5 h-5" />
                     </x-slot>
-                    Financial Aid Notification
+                    Financial Aid Info for Returning SI Students
                 </x-sidebar-item>
             </x-app-menu-item>
             @endif
@@ -122,7 +122,11 @@
             <li class="px-8 py-1 text-sm transition {{ request()->is('registration*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                 <a href="{{ url('registration') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                     <x-heroicon-o-identification class="flex-shrink-0 w-5 h-5" />
-                    <strong>Registration</strong>
+                    @if(my_account()->hasRegisteredStudent())
+                    <strong>Required Tasks for Frosh Students</strong>
+                    @else
+                    <strong>Frosh Registration</strong>
+                    @endif
                 </a>
             </li>
             @endif

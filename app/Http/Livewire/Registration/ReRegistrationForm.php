@@ -11,6 +11,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\Placeholder;
+use Illuminate\Validation\ValidationException;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Http\Livewire\Registration\ReregistrationForms\DirectoryTrait;
 use App\Http\Livewire\Registration\ReregistrationForms\HealthFormTrait;
@@ -64,6 +65,11 @@ class ReRegistrationForm extends Component implements HasForms
     public function mount($uuid)
     {
         $registration = ReRegistration::with('account', 'student')->whereUuid($uuid)->firstOrFail();
+
+        if($registration->completed()){
+            return redirect()->route('registration.re.completed', ['uuid' => $registration->uuid]);
+        }
+        
         $this->registration = $registration;
         
         $appStatus = '';//$this->getAppStatus();
@@ -237,10 +243,53 @@ class ReRegistrationForm extends Component implements HasForms
     {
         $data = $this->form->getState();
 
+        $this->checkForPrimaryParents($data['parents']);
+
+
         $rereg = $this->registration;
         $rereg->completed_at = now();
         $rereg->save();
 
         return redirect()->route('registration.re.completed', $this->registration->uuid);
+
+        
+    }
+
+    public function checkForPrimaryParents($array)
+    {
+        $isPrimary = false;
+        $uuid = null;
+
+        if(count($array) == 1){
+            $isPrimary = true;
+        }
+
+        if(count($array) > 1)
+        {
+            
+            foreach($array as $uuid => $parent)
+            {
+                if($parent['is_primary_contact']){
+                    $isPrimary = true;
+                }
+            }
+        }
+
+        if(!$isPrimary){
+
+            Notification::make()
+                ->title('There are no parents identified as a primary contact.  ')
+                ->body('You must select 1 as a primary contact.')
+                ->danger()
+                ->send();
+                
+            throw ValidationException::withMessages([
+                'data.parents.'. $uuid. '.is_primary_contact' => 'There are no parents identified as a primary contact.  You must select 1 as a primary contact.'
+            ]);
+        }
+        
+
+        return $isPrimary;
+        
     }
 }
