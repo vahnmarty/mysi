@@ -64,7 +64,7 @@
         @endif
 
         @if(Auth::user()->account?->current_si_family)
-            @if(Auth::user()->account?->hasReregistrationFinancialAids())
+            @if(Auth::user()->account?->hasCurrentStudentFinancialAid())
             <x-app-menu-item 
                 start_date="{{ notification_setting('re_registration_start_date')?->value }}"
                 end_date="{{ notification_setting('re_registration_end_date')?->value }}">

@@ -225,4 +225,14 @@ class Account extends Model
 
         return false;
     }
+
+    public function currentStudentFinancialAids()
+    {
+        return $this->hasMany(CurrentStudentFinancialAid::class);
+    }
+
+    public function hasCurrentStudentFinancialAid()
+    {
+        return $this->currentStudentFinancialAids()->count();
+    }
 }

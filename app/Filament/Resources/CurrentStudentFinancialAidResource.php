@@ -40,8 +40,7 @@ class CurrentStudentFinancialAidResource extends Resource
                 Forms\Components\Select::make('child_id')
                     ->label('Student')
                     ->options(
-                        Child::where('current_school', 'St. Ignatius College Preparatory')
-                            ->get()
+                        Child::get()
                             ->pluck('full_name', 'id'))
                     ->searchable()
                     ->required()
