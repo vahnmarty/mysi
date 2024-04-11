@@ -36,7 +36,7 @@ class ReRegistrations extends Component implements HasTable
         ];
 
         return Child::where('account_id', accountId())
-            ->whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore])
+            ->whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore, GradeLevel::Junior])
             ->whereIn('current_school', $schools );
     }
 

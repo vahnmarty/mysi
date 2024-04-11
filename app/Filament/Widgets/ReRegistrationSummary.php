@@ -28,7 +28,7 @@ class ReRegistrationSummary extends GroupWidget
 
         return [
             Card::make('Total # SI Students', 
-                Child::whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore])
+                Child::whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore, GradeLevel::Junior])
                     ->where('current_school', $si_school )
                     ->count()
                 )
