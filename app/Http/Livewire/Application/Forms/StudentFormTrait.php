@@ -99,7 +99,6 @@ trait StudentFormTrait{
                 }),
             TextInput::make('student.personal_email')
                 ->email()
-                ->rules(['email:rfc,dns'])
                 ->label('Personal Email')
                 ->lazy()
                 ->required()
@@ -117,7 +116,10 @@ trait StudentFormTrait{
                     $this->autoSaveStudent('mobile_phone', $state);
                 }),
             CheckboxList::make('student.race')
-                ->label(new HtmlString('<div>How do you identify racially?</div><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
+                ->label(fn() => new HtmlString('<div>How do you identify racially?</div><div class="text-xs" style="font-weight: 500">*Select all that apply to you.</div>'))
+                ->extraAttributes([
+                    'id' => 'data.student.race'
+                ])
                 ->options(RacialType::asSameArray())
                 ->columns(3)
                 ->lazy()
@@ -141,6 +143,9 @@ trait StudentFormTrait{
                 }),
             TagsInput::make('student.ethnicity')
                 ->label(new HtmlString('<div>What is your ethnicity?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
+                ->extraAttributes([
+                    'id' => 'data.student.ethnicity'
+                ])
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
                 ->placeholder('')

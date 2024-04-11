@@ -49,12 +49,19 @@ class RegisterPage extends Component implements HasForms
         if($this->email){
             $parent = Parents::where('personal_email', $this->email)->first();
             
-            $this->form->fill([
-                'first_name' => $parent->first_name,
-                'last_name' => $parent->last_name,
-                'phone' => $parent->mobile_phone,
-                'email' => $parent->personal_email
-            ]);
+            if($parent){
+                $this->form->fill([
+                    'first_name' => $parent->first_name,
+                    'last_name' => $parent->last_name,
+                    'phone' => $parent->mobile_phone,
+                    'email' => $parent->personal_email
+                ]);
+            }else{
+                $this->form->fill([
+                    'email' => $this->email
+                ]);
+            }
+            
         }
         
     }

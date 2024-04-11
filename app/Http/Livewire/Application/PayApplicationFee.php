@@ -109,7 +109,7 @@ class PayApplicationFee extends Component implements HasForms
                     TextInput::make('email')
                         ->label('Email')
                         ->email()
-                        ->rules(['email:rfc,dns'])
+                        //->rules(['email:rfc,dns'])
                         ->columnSpan('full')
                         ->required()
                         ->lazy(),

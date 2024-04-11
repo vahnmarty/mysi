@@ -10,6 +10,7 @@ use App\Enums\GradeLevel;
 use App\Enums\PaymentType;
 use App\Models\Application;
 use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Grid;
 use App\Mail\NewApplicationSubmitted;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
@@ -36,6 +37,7 @@ use App\Http\Livewire\Application\Forms\PlacementFormTrait;
 use App\Http\Livewire\Application\Forms\WritingSampleTrait;
 use App\Http\Livewire\Application\Forms\ParentStatementTrait;
 use App\Http\Livewire\Application\Forms\StudentStatementTrait;
+use App\Http\Livewire\Application\Forms\ApplicationPaymentFormTrait;
 
 class ApplicationForm extends Component implements HasForms
 {
@@ -43,6 +45,8 @@ class ApplicationForm extends Component implements HasForms
 
     # Import Traits
     use StudentFormTrait, AddressFormTrait, ParentFormTrait, SiblingFormTrait, FamilyMatrixTrait, LegacyFormTrait, ReligionFormTrait, ParentStatementTrait, StudentStatementTrait, ActivityFormTrait, WritingSampleTrait, PlacementFormTrait, FinalStepsTrait;
+
+    use ApplicationPaymentFormTrait;
     
     # Model
     public Application $app;
@@ -131,9 +135,9 @@ class ApplicationForm extends Component implements HasForms
                 ->label('')
                 ->content(new HtmlString('* The application saves your work automatically after you enter your information and click out of the text box. All required fields are  <span class="font-bold text-primary-red">red</span> and have an asterisk (<span class="text-primary-red">*</span>).')),
             Section::make('Applicant Information')
+                ->schema($this->getStudentForm())
                 ->collapsible()
-                ->collapsed(true)
-                ->schema($this->getStudentForm()),
+                ->collapsed(true),
             Section::make('Address Information')
                 ->schema($this->getAddressForm())
                 ->collapsible()
@@ -179,12 +183,14 @@ class ApplicationForm extends Component implements HasForms
             Section::make('High School Placement Test')
                 ->schema($this->getPlacementForm())
                 ->collapsible()
-                ->hidden(fn() => $this->type == 'transfer')
+                ->visible(fn() => $this->type == 'new')
                 ->collapsed(true),
             Section::make('Final Steps')
                 ->schema($this->getFinalStepsForm())
                 ->collapsible()
                 ->collapsed(true),
+            $this->getPaymentForm(),
+                
         ];
     }
 

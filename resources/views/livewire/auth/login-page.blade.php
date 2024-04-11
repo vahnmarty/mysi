@@ -6,10 +6,10 @@
 
                 <ul class="pl-4 mt-8 space-y-4 text-sm list-disc lg:text-base">
                     <li class="text-justify">
-                        If you used MySI to submit a Frosh application for the {{ app_variable('class_year') }} school year, please login as usual.
+                        If you used MySI to submit a Frosh application for the {{ app_variable('academic_school_year') }} school year, please login as usual.
                     </li>
                     <li class="text-justify">
-                        If you are a current SI family AND have never used MySI AND are looking to re-register your student(s) for the upcoming school year AND/OR have a non-SI student wants to transfer to SI, click <A class="text-link" HREF="{{ route('login.reregistration') }}">here</A>.
+                        If you are a current SI family AND have never used MySI AND are looking to re-register your student(s) for the upcoming school year AND/OR have a non-SI student wanting to transfer to SI, click <A class="text-link" HREF="{{ route('login.reregistration') }}">here</A>.
                     </li>
                     <li class="text-justify">
                         If you are a prospective SI family AND do not have a MySI account AND are looking to fill out a transfer application, you will need to create an account.  Enter your email address and click "Continue".  If you previously applied to SI, the system will try to find your information.

@@ -137,7 +137,7 @@ trait ParentFormTrait{
                     TextInput::make('personal_email')
                         ->label('Preferred Email')
                         ->email()
-                        ->rules(['email:rfc,dns'])
+                        //->rules(['email:rfc,dns'])
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
@@ -171,7 +171,7 @@ trait ParentFormTrait{
                     TextInput::make('work_email')
                         ->label('Work Email')
                         ->email()
-                        ->rules(['email:rfc,dns'])
+                        //->rules(['email:rfc,dns'])
                         ->lazy()
                         ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed]) )
                         ->afterStateUpdated(function(Closure $get, $state){

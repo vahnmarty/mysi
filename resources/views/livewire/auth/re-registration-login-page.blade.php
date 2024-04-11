@@ -8,6 +8,10 @@
             Enter your student's SI email address.  If you have more than one student attending SI, choose just one of the email addresses.
         </p>
 
+        <p class="mt-3">
+            <strong>NOTE:</strong> Only use 1 account to MySI per family.
+        </p>
+
     </div>
     
     <div class="max-w-lg px-8 mx-auto">
@@ -54,7 +58,7 @@
 
             @if($user)
             <div class="mt-4">
-                <p class="text-primary-red">* This SI email is associated with an existing MySI account. Please use your MySI username to login </p>
+                <p class="text-primary-red">* This SI email is associated with an existing MySI account. Please use your MySI username to login. </p>
                 <p class="mt-4 text-primary-red">
                     You will be re-directed to the Login page in <span id="countdown">15</span> seconds.
                 </p>
