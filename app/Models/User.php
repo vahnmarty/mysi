@@ -163,8 +163,7 @@ class User extends Authenticatable implements FilamentUser,MustVerifyEmail
     {
         return $this->account?->applications()->candidateAcceptedNotification()->count();
     }
-
-
+    
     public function registration()
     {
         return $this->hasOne(Registration::class);
