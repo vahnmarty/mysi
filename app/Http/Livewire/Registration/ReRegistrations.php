@@ -37,7 +37,7 @@ class ReRegistrations extends Component implements HasTable
 
         return Child::where('account_id', accountId())
             ->whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore])
-            ->whereNotIn('current_school', $schools );
+            ->whereIn('current_school', $schools );
     }
 
     protected function getTableColumns(): array 
@@ -140,6 +140,11 @@ class ReRegistrations extends Component implements HasTable
     public function getTableEmptyStateHeading(): ?string
     {
         return 'No Child Information';
+    }
+
+    public function getTableEmptyStateDescription(): ?string
+    {
+        return 'This re-registration will only display student(s) from SI.';
     }
 
     protected function getTableActionsColumnLabel(): ?string
