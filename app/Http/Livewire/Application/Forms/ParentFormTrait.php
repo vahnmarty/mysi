@@ -176,8 +176,7 @@ trait ParentFormTrait{
                         ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed]) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_email', $state);
-                        })
-                        ->required(),
+                        }),
                     TextInput::make('work_phone')
                         ->label('Work Phone')
                         ->mask(fn (Mask $mask) => $mask->pattern('(000) 000-0000'))
@@ -191,8 +190,7 @@ trait ParentFormTrait{
                         })
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'work_phone', $state);
-                        })
-                        ->required(),
+                        }),
                     TextInput::make('work_phone_ext')
                         ->label('Work Phone Extension')
                         ->lazy()
