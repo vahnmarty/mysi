@@ -91,7 +91,7 @@ trait StudentFormTrait{
                 }),
             TextInput::make('student.personal_email')
                 ->email()
-                ->rules(['email:rfc,dns'])
+                //->rules(['email:rfc,dns'])
                 ->label('Personal Email (If none, use a parent\'s/guardian\'s email address.)')
                 ->lazy()
                 ->required()
