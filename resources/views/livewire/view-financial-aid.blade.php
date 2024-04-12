@@ -19,14 +19,13 @@
         </article>
 
         <div class="flex gap-6 pt-8 mt-8 border-t border-dashed border-primary-red">
-            
-            @if($notification->fa_acknowledged_at)
+            @if($notification->fa_acknowledged())
             <p>Acknowledged last {{ date('F d, Y', strtotime($notification->fa_acknowledged_at)) }}.</p>
             @else
             <form wire:submit.prevent="acknowledgeFinancialAid" novalidate>
                 {{ $this->form }}
                 <div class="mt-8">
-                    <button type="submit" class="btn-primary {{ !$acknowledged ? 'opacity-50' : ''}}">Acknowledge</button>
+                    <button type="submit" class="btn-primary {{ !$checked ? 'opacity-50' : ''}}">Acknowledge</button>
                 </div>
             </form>
             @endif

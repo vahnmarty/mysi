@@ -20,6 +20,7 @@ return new class extends Migration
             $table->float('annual_financial_aid_amount')->nullable();
             $table->float('total_financial_aid_amount')->nullable();
             $table->json('fa_contents')->nullable();
+            $table->timestamp('read_at')->nullable();
             $table->timestamp('fa_acknowledged_at')->nullable();
             $table->timestamp('notification_sent_at')->nullable();
             $table->timestamps();

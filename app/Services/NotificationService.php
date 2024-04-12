@@ -120,7 +120,8 @@ class NotificationService{
             'parents_name_salutation' => $account->getParentsName(withSalutation:true),
             'student' => $currentStudent->student->toArray(),
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
-            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray(),
+            'financial_aid' => $currentStudent->toArray()
         ];
 
 

@@ -23,6 +23,8 @@ class CurrentStudentFinancialAidResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    
+
     public static function shouldRegisterNavigation(): bool
     {
         return auth()->user()->isAdmin();
@@ -35,6 +37,8 @@ class CurrentStudentFinancialAidResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $types = ['F', 'G', 'H', 'I', 'J', 'G1'];
+
         return $form
             ->schema([
                 Forms\Components\Select::make('child_id')
@@ -55,7 +59,9 @@ class CurrentStudentFinancialAidResource extends Resource
                     ->lazy()
                     ->hiddenOn('edit')
                     ->extraInputAttributes(['readonly' => true]),
-                Forms\Components\TextInput::make('financial_aid'),
+                Forms\Components\Select::make('financial_aid')
+                    ->options(array_combine($types, $types))
+                    ->required(),
                 Forms\Components\TextInput::make('annual_financial_aid_amount')->numeric(),
                 Forms\Components\TextInput::make('total_financial_aid_amount')->numeric(),
                     

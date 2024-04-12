@@ -50,8 +50,18 @@ class FinancialAidNotifications extends Component implements HasTable
     protected function getTableActions(): array
     {
         return [ 
+            Action::make('read')
+                ->label('Read')
+                ->visible(fn(CurrentStudentFinancialAid $record) => !$record->fa_read())
+                ->action(function(CurrentStudentFinancialAid $record){
+                    $record->read_at = now();
+                    $record->save();
+
+                    return redirect()->route('notifications.fa.show', ['uuid' => $record->uuid]);
+                }),
             Action::make('view')
                 ->label('View')
+                ->visible(fn(CurrentStudentFinancialAid $record) => $record->fa_read())
                 ->url(fn(CurrentStudentFinancialAid $record) => route('notifications.fa.show', ['uuid' => $record->uuid]))
         ];
     }

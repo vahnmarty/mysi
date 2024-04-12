@@ -39,4 +39,14 @@ class CurrentStudentFinancialAid extends Model
     {
         return $this->belongsTo(Child::class, 'child_id');
     }
+
+    public function fa_read()
+    {
+        return $this->read_at ? true : false;
+    }
+
+    public function fa_acknowledged()
+    {
+        return $this->fa_acknowledged_at ? true : false;
+    }
 }
