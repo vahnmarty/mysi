@@ -83,6 +83,9 @@ class CurrentStudentFinancialAidResource extends Resource
                 Tables\Columns\TextColumn::make("total_financial_aid_amount")
                     ->label("FA Total")
                     ->formatStateUsing(fn($state) => !empty($state) ? '$' . number_format($state, 2) : ''),
+                Tables\Columns\TextColumn::make("fa_acknowledged_at")
+                    ->label("Date Acknowledged")
+                    ->dateTime(),
             ])
             ->filters([
                 //

@@ -10,6 +10,7 @@ use App\Http\Livewire\SamplePayment;
 use Illuminate\Support\Facades\Http;
 use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\ViewFinancialAid;
 use App\Filament\Pages\ViewNotification;
 use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Livewire\Profile\MyProfile;
@@ -19,8 +20,8 @@ use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
 use App\Http\Livewire\Page\StudentHsptScores;
-use App\Http\Controllers\Admin\AuthController;
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
 use App\Http\Livewire\Admission\ViewApplications;
@@ -129,6 +130,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('reregistration/{uuid}/completed', ReRegistrationCompleted::class)->name('registration.re.completed');
 
     Route::get('financial-aid-notifications', FinancialAidNotifications::class)->name('notifications.fa');
+    Route::get('financial-aid-notifications/{uuid}', ViewFinancialAid::class)->name('notifications.fa.show');
 });
 
 

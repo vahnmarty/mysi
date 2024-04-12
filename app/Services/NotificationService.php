@@ -7,6 +7,7 @@ use App\Models\AppVariable;
 use App\Models\NotificationLetter;
 use App\Models\NotificationSetting;
 use App\Enums\NotificationStatusType;
+use App\Models\CurrentStudentFinancialAid;
 
 class NotificationService{
 
@@ -99,6 +100,29 @@ class NotificationService{
         $variables = [
             
         ];
+
+        $contents = $this->parseContent($notification->content, $variables);
+
+        return $contents;
+    }
+
+    public function createCurrentStudentFinancialAid(CurrentStudentFinancialAid $currentStudent)
+    {
+        $notification = NotificationLetter::where('title', 'FA Letter ' . $currentStudent->financial_aid)->first();
+
+        $account = $currentStudent->account;
+
+        $variables = [
+            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'system' => config('settings'),
+            'app' => AppVariable::get()->pluck('value', 'config')->toArray(),
+            'parents_name' => $account->getParentsName(),
+            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
+            'student' => $currentStudent->student->toArray(),
+            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+        ];
+
 
         $contents = $this->parseContent($notification->content, $variables);
 

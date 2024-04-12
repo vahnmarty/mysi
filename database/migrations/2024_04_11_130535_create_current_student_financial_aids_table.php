@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('current_student_financial_aids', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('child_id');
             $table->string('financial_aid')->nullable();
             $table->float('annual_financial_aid_amount')->nullable();
             $table->float('total_financial_aid_amount')->nullable();
+            $table->json('fa_contents')->nullable();
+            $table->timestamp('fa_acknowledged_at')->nullable();
+            $table->timestamp('notification_sent_at')->nullable();
             $table->timestamps();
         });
 

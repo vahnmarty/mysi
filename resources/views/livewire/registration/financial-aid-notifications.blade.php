@@ -10,10 +10,8 @@
 
     
         <div  class="pb-32 mt-8">
-    
             
-            <div>
-            </div>
+            {{ $this->table }}
             
         </div>
     </div>
