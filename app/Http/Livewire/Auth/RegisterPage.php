@@ -118,13 +118,13 @@ class RegisterPage extends Component implements HasForms
                 ->label('')
                 ->dehydrated(false)
                 ->visible(fn(Closure $get) => User::where('email', $get('email'))->exists())
-                ->reactive()
+                ->lazy()
                 ->content(fn() => new HtmlString('<p class="-my-2 text-sm">This email already exists. <a href="forgot-password" class="text-link">Forgot Password?</a></p>')),
             Password::make('password')
                 ->disableLabel()
                 ->validationAttribute('password')
                 ->revealable()
-                ->reactive()
+                ->lazy()
                 ->required()
                 ->password()
                 ->confirmed()
@@ -183,11 +183,12 @@ class RegisterPage extends Component implements HasForms
                 if($account->users()->count()){
                     return redirect('login?email=' . $email . '&status=primary_parent');
                 }else{
-                    return redirect('login?email=' . $email . '&status=new_password');
+                    // Removed for Registration
+                    //return redirect('login?email=' . $email . '&status=new_password');
                 }
                 
             }else{
-                return redirect('login?email=' . $email . '&status=new_password');
+                return redirect('login?email=' . $email . '&status=new_password&error=else');
             }
         }
 
