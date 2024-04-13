@@ -94,7 +94,6 @@ class ApplicationForm extends Component implements HasForms
 
         if($status->application_submitted){
             $this->is_submitted = true;
-            return;
         }
 
         $account = $this->app->account->load('addresses', 'guardians', 'parents', 'children', 'legacies');

@@ -166,7 +166,8 @@ trait CoursePlacementTrait{
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('language1', $state);
-                }),
+                })
+                ->required(),
             Select::make('course_placement.language2')
                 ->label('Second Choice')
                 ->inlineLabel()
@@ -175,7 +176,8 @@ trait CoursePlacementTrait{
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('language2', $state);
-                }),
+                })
+                ->required(),
             Select::make('course_placement.language3')
                 ->label('Third Choice')
                 ->inlineLabel()
@@ -184,7 +186,8 @@ trait CoursePlacementTrait{
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('language3', $state);
-                }),
+                })
+                ->required(),
             Select::make('course_placement.language4')
                 ->label('Fourth Choice')
                 ->inlineLabel()
@@ -193,7 +196,8 @@ trait CoursePlacementTrait{
                 ->afterStateUpdated(function(Livewire $livewire, Select $component, Closure $get, $state){
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveCourse('language4', $state);
-                }),
+                })
+                ->required(),
             Placeholder::make('course_placement.advance_section')
                 ->label('')
                 ->content(new HtmlString('<p>To place above the beginning level of your Language Choice, you must take the Placement Test on ' . app_variable('challenge_test_date')  .'.</p>')),

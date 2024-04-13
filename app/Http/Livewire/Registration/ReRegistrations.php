@@ -76,8 +76,8 @@ class ReRegistrations extends Component implements HasTable
                     Select::make('si_attending')
                         ->label('Will you be attending St. Ignatius in '. app_variable('academic_school_year') .'?')
                         ->options([
+                            1 => 'Yes',
                             0 => 'No',
-                            1 => 'Yes'
                         ])
                         ->reactive()
                         ->required(),

@@ -204,7 +204,9 @@ class NotificationService{
             'application_status.total_financial_aid_amount' => 'number',
             'application_status.annual_financial_aid_amount' => 'number',
             'application_status.deposit_amount' => 'number',
-            'system.number_of_applicants' => 'number'
+            'system.number_of_applicants' => 'number',
+            'financial_aid.total_financial_aid_amount' => 'number',
+            'financial_aid.annual_financial_aid_amount' => 'number',
 
         ];
         

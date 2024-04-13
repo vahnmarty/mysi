@@ -37,7 +37,7 @@ class CurrentStudentFinancialAidResource extends Resource
 
     public static function form(Form $form): Form
     {
-        $types = ['F', 'G', 'H', 'I', 'J', 'G1'];
+        $types = ['RA', 'RB', 'RC', 'RD', 'RE'];
 
         return $form
             ->schema([
