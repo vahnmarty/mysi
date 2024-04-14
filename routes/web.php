@@ -43,6 +43,7 @@ use App\Http\Livewire\Registration\ReRegistrationForm;
 use App\Http\Livewire\Application\AdmissionApplication;
 use App\Http\Livewire\Admission\ApplicationNotification;
 use App\Http\Livewire\Application\HealthcareInformation;
+use App\Http\Livewire\Registration\SelectReregistration;
 use App\Http\Livewire\Registration\StudentRegistrations;
 use App\Http\Livewire\Application\AccommodationDocuments;
 use App\Http\Livewire\Registration\RegistrationCompleted;
@@ -126,6 +127,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
 
     Route::get('transfer-applications',TransferApplications::class)->name('transfer.index');
     Route::get('reregistration', ReRegistrations::class)->name('registration.re');
+    Route::get('reregistration/{id}/select', SelectReregistration::class)->name('registration.re.select');
     Route::get('reregistration/{uuid?}', ReRegistrationForm::class)->name('registration.re.form');
     Route::get('reregistration/{uuid}/completed', ReRegistrationCompleted::class)->name('registration.re.completed');
 
