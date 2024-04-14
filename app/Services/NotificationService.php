@@ -110,6 +110,11 @@ class NotificationService{
     {
         $notification = NotificationLetter::where('title', 'FA Letter ' . $currentStudent->financial_aid)->first();
 
+        if(!$notification){
+            dd('No notification letter for: FA Letter ' . $currentStudent->financial_aid);
+            return;
+        }
+
         $account = $currentStudent->account;
 
         $variables = [
