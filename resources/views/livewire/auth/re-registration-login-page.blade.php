@@ -82,7 +82,7 @@
                     Go to Login
                 </a>
 
-                <button x-show="register" x-cloak type="submit" wire:click="createAccount" class="btn-primary-fixer">
+                <button x-show="register" x-cloak type="button" wire:click="createAccount" class="btn-primary-fixer">
                     <x-loading-icon wire:target="createAccount"/>
                     Create Account
                 </button>
