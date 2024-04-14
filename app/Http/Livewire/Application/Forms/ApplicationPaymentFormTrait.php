@@ -46,8 +46,11 @@ trait ApplicationPaymentFormTrait{
                         ->label('Credit Card Number')
                         ->validationAttribute('Credit Card Number')
                         ->required()
-                        ->minLength(13)
-                        ->maxLength(16),
+                        ->minLength(16)
+                        ->maxLength(16)
+                        ->mask(fn(TextInput\Mask $mask) => $mask
+                            ->numeric()
+                         ),
                         //->mask(fn (TextInput\Mask $mask) => $mask->pattern('{0000}-{0000}-{0000}-{0000}')),
                     TextInput::make('billing.card_cvv')
                         ->maxLength(4)
@@ -72,7 +75,11 @@ trait ApplicationPaymentFormTrait{
                         ->required(),
                     TextInput::make('billing.zip_code')
                         ->label('Billing Zip Code')
-                        ->required(),
+                        ->required()
+                        ->maxLength(5)
+                        ->mask(fn(TextInput\Mask $mask) => $mask
+                            ->numeric()
+                         ),
                 ]);
     }
 

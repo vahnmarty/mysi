@@ -23,10 +23,17 @@ use Filament\Tables\Concerns\InteractsWithTable;
 class ReRegistrations extends Component implements HasTable
 {
     use InteractsWithTable;
+
+    public $open;
     
     public function render()
     {
         return view('livewire.registration.re-registrations');
+    }
+
+    public function mount()
+    {
+        $this->open = ReRegistration::isEnabled();
     }
 
     public function getTableQuery()

@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Enums\GradeLevel;
 use App\Enums\RecordType;
 use Illuminate\View\View;
+use App\Models\Application;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ViewColumn;
@@ -16,10 +17,17 @@ use Filament\Tables\Concerns\InteractsWithTable;
 class TransferApplications extends Component implements HasTable
 {
     use InteractsWithTable;
+
+    public $open;
     
     public function render()
     {
         return view('livewire.transfer.transfer-applications');
+    }
+
+    public function mount()
+    {
+        $this->open = Application::transferApplicationEnabled();
     }
 
     public function getTableQuery()

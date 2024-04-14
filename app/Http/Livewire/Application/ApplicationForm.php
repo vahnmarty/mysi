@@ -404,7 +404,7 @@ class ApplicationForm extends Component implements HasForms
                 }
                 // Or, print errors if the API request wasn't successful
             } else {
-                echo "Transaction Failed \n";
+                //echo "Transaction Failed \n";
                 $tresponse = $response->getTransactionResponse();
                 $code = '';
                 $message = '';
