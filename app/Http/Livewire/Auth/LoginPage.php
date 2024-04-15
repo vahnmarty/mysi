@@ -32,7 +32,9 @@ class LoginPage extends Component implements HasForms
 
     public $action;
 
-    protected $queryString = ['email', 'status'];
+    public $version;
+
+    protected $queryString = ['email', 'status', 'version'];
 
     public function render()
     {
@@ -91,7 +93,7 @@ class LoginPage extends Component implements HasForms
                 ->label('')
                 ->validationAttribute('Password')
                 ->placeholder('Password')
-                ->reactive()
+                ->lazy()
                 ->password()
                 ->required()
                 ->revealable()

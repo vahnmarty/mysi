@@ -188,6 +188,7 @@ class ViewNotification extends CustomFilamentPage {
                     $this->checkout($data['billing']);
                 })
                 ->visible(function(){
+                    return true;
                     $app = $this->app;
                     $has_amount = $this->deposit_amount > 0;
                     

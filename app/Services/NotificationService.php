@@ -7,6 +7,7 @@ use App\Models\AppVariable;
 use App\Models\NotificationLetter;
 use App\Models\NotificationSetting;
 use App\Enums\NotificationStatusType;
+use App\Models\CurrentStudentFinancialAid;
 
 class NotificationService{
 
@@ -105,6 +106,35 @@ class NotificationService{
         return $contents;
     }
 
+    public function createCurrentStudentFinancialAid(CurrentStudentFinancialAid $currentStudent)
+    {
+        $notification = NotificationLetter::where('title', 'FA Letter ' . $currentStudent->financial_aid)->first();
+
+        if(!$notification){
+            dd('No notification letter for: FA Letter ' . $currentStudent->financial_aid);
+            return;
+        }
+
+        $account = $currentStudent->account;
+
+        $variables = [
+            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'system' => config('settings'),
+            'app' => AppVariable::get()->pluck('value', 'config')->toArray(),
+            'parents_name' => $account->getParentsName(),
+            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
+            'student' => $currentStudent->student->toArray(),
+            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray(),
+            'financial_aid' => $currentStudent->toArray()
+        ];
+
+
+        $contents = $this->parseContent($notification->content, $variables);
+
+        return $contents;
+    }
+
     public function parseContent($input, $variables)
     {
 
@@ -179,7 +209,9 @@ class NotificationService{
             'application_status.total_financial_aid_amount' => 'number',
             'application_status.annual_financial_aid_amount' => 'number',
             'application_status.deposit_amount' => 'number',
-            'system.number_of_applicants' => 'number'
+            'system.number_of_applicants' => 'number',
+            'financial_aid.total_financial_aid_amount' => 'number',
+            'financial_aid.annual_financial_aid_amount' => 'number',
 
         ];
         

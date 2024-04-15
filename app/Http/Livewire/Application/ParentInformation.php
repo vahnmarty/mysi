@@ -307,7 +307,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->label('Preferred Email')
                                 ->validationAttribute('Preferred Email')
                                 ->email()
-                                ->rules(['email:rfc,dns'])
+                                //->rules(['email:rfc,dns'])
                                 // ->rules(['email:rfc,dns', 'unique:parents,personal_email,' . $this->model_id])
                                 //->unique(Parents::class, 'personal_email',  fn($livewire) => $livewire->model)
                                 ->required()

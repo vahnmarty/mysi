@@ -177,3 +177,11 @@ if (! function_exists('app_variable')) {
         return $variable?->$column;
     }
 }
+
+if (! function_exists('my_account')) {
+    function my_account() {
+        if(auth()->check()){
+            return \Auth::user()->account;
+        }
+    }
+}

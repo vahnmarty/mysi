@@ -44,6 +44,28 @@ class RegisterPage extends Component implements HasForms
         return view('livewire.auth.register-page')->layout('layouts.guest');
     }
 
+    public function mount()
+    {
+        if($this->email){
+            $parent = Parents::where('personal_email', $this->email)->first();
+            
+            if($parent){
+                $this->form->fill([
+                    'first_name' => $parent->first_name,
+                    'last_name' => $parent->last_name,
+                    'phone' => $parent->mobile_phone,
+                    'email' => $parent->personal_email
+                ]);
+            }else{
+                $this->form->fill([
+                    'email' => $this->email
+                ]);
+            }
+            
+        }
+        
+    }
+
     protected function getFormSchema()
     {
         return [
@@ -96,13 +118,13 @@ class RegisterPage extends Component implements HasForms
                 ->label('')
                 ->dehydrated(false)
                 ->visible(fn(Closure $get) => User::where('email', $get('email'))->exists())
-                ->reactive()
+                ->lazy()
                 ->content(fn() => new HtmlString('<p class="-my-2 text-sm">This email already exists. <a href="forgot-password" class="text-link">Forgot Password?</a></p>')),
             Password::make('password')
                 ->disableLabel()
                 ->validationAttribute('password')
                 ->revealable()
-                ->reactive()
+                ->lazy()
                 ->required()
                 ->password()
                 ->confirmed()
@@ -161,11 +183,12 @@ class RegisterPage extends Component implements HasForms
                 if($account->users()->count()){
                     return redirect('login?email=' . $email . '&status=primary_parent');
                 }else{
-                    return redirect('login?email=' . $email . '&status=new_password');
+                    // Removed for Registration
+                    //return redirect('login?email=' . $email . '&status=new_password');
                 }
                 
             }else{
-                return redirect('login?email=' . $email . '&status=new_password');
+                return redirect('login?email=' . $email . '&status=new_password&error=else');
             }
         }
 

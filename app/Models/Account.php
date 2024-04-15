@@ -207,4 +207,32 @@ class Account extends Model
 
         return false;;
     }
+
+    public function reregistrations()
+    {
+        return $this->hasMany(ReRegistration::class);
+    }
+
+    public function hasReregistrationFinancialAids(): bool
+    {
+        foreach($this->reregistrations as $rereg)
+        {
+            if($rereg->financial_aid){
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    public function currentStudentFinancialAids()
+    {
+        return $this->hasMany(CurrentStudentFinancialAid::class);
+    }
+
+    public function hasCurrentStudentFinancialAid()
+    {
+        return $this->currentStudentFinancialAids()->count();
+    }
 }

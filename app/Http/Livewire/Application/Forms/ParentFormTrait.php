@@ -137,7 +137,7 @@ trait ParentFormTrait{
                     TextInput::make('personal_email')
                         ->label('Preferred Email')
                         ->email()
-                        ->rules(['email:rfc,dns'])
+                        //->rules(['email:rfc,dns'])
                         ->required()
                         ->lazy()
                         ->afterStateUpdated(function(Livewire $livewire, TextInput $component, Closure $get, $state){
@@ -150,10 +150,12 @@ trait ParentFormTrait{
                         ->options(EmploymentStatus::asSameArray())
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'employment_status', $state);
-                        }),
+                        })
+                        ->required(),
                     TextInput::make('employer')
                         ->label(fn(Closure $get) => $get('employment_status') === EmploymentStatus::Retired ? 'Last Employer' : 'Employer')
                         ->lazy()
+                        ->required(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed]) )
                         ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'employer', $state);
@@ -161,6 +163,7 @@ trait ParentFormTrait{
                     TextInput::make('job_title')
                         ->label(fn(Closure $get) => $get('employment_status') === EmploymentStatus::Retired ? 'Last Job Title' : 'Job Title')
                         ->lazy()
+                        ->required(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed]) )
                         ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed, EmploymentStatus::Retired]) )
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveParent($get('id'),'job_title', $state);
@@ -168,7 +171,7 @@ trait ParentFormTrait{
                     TextInput::make('work_email')
                         ->label('Work Email')
                         ->email()
-                        ->rules(['email:rfc,dns'])
+                        //->rules(['email:rfc,dns'])
                         ->lazy()
                         ->visible(fn(Closure $get) => in_array($get('employment_status'),  [EmploymentStatus::Employed]) )
                         ->afterStateUpdated(function(Closure $get, $state){

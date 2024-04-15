@@ -196,7 +196,7 @@ class ViewApplication extends Component implements HasForms
                 ->disabled(),
             TextInput::make('student.personal_email')
                 ->email()
-                ->rules(['email:rfc,dns'])
+                //->rules(['email:rfc,dns'])
                 ->label('Personal Email')
                 ->required()
                 ->disabled(),

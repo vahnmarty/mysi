@@ -10,6 +10,7 @@ use App\Http\Livewire\SamplePayment;
 use Illuminate\Support\Facades\Http;
 use App\Http\Livewire\Auth\LoginPage;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\ViewFinancialAid;
 use App\Filament\Pages\ViewNotification;
 use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Livewire\Profile\MyProfile;
@@ -19,8 +20,8 @@ use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
 use App\Http\Livewire\Page\StudentHsptScores;
-use App\Http\Controllers\Admin\AuthController;
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
 use App\Http\Livewire\Admission\ViewApplications;
@@ -29,18 +30,25 @@ use App\Http\Livewire\Notifications\FinancialAid;
 use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
 use App\Http\Livewire\Admission\TransactionHistory;
+use App\Http\Livewire\Auth\ReRegistrationLoginPage;
+use App\Http\Livewire\Registration\ReRegistrations;
 use App\Http\Livewire\Application\LegacyInformation;
 use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\PayApplicationFee;
 use App\Http\Livewire\Registration\RegistrationForm;
+use App\Http\Livewire\Transfer\TransferApplications;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
+use App\Http\Livewire\Registration\ReRegistrationForm;
 use App\Http\Livewire\Application\AdmissionApplication;
 use App\Http\Livewire\Admission\ApplicationNotification;
 use App\Http\Livewire\Application\HealthcareInformation;
+use App\Http\Livewire\Registration\SelectReregistration;
 use App\Http\Livewire\Registration\StudentRegistrations;
 use App\Http\Livewire\Application\AccommodationDocuments;
 use App\Http\Livewire\Registration\RegistrationCompleted;
+use App\Http\Livewire\Registration\ReRegistrationCompleted;
+use App\Http\Livewire\Registration\FinancialAidNotifications;
 use App\Http\Livewire\Application\EmergencyContactInformation;
 use App\Http\Livewire\Application\UploadAccommodationDocuments;
 use App\Http\Livewire\Application\SupplementalRecommendationPage;
@@ -72,6 +80,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::get('login', LoginPage::class)->name('login')->middleware('guest');
+Route::get('reregistration/login', ReRegistrationLoginPage::class)->name('login.reregistration')->middleware('guest');
 Route::get('register', RegisterPage::class)->name('register')->middleware('guest');
 Route::get('account/create/{token}', CreateAccountPassword::class)->name('account.request');
 Route::get('forgot-username', ForgotUsernamePage::class)->name('forgot-username');
@@ -115,6 +124,15 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('survey/{uuid}', SurveyForm::class)->name('survey-form');
 
     Route::get('hspt-scores', StudentHsptScores::class);
+
+    Route::get('transfer-applications',TransferApplications::class)->name('transfer.index');
+    Route::get('reregistration', ReRegistrations::class)->name('registration.re');
+    Route::get('reregistration/{id}/select', SelectReregistration::class)->name('registration.re.select');
+    Route::get('reregistration/{uuid?}', ReRegistrationForm::class)->name('registration.re.form');
+    Route::get('reregistration/{uuid}/completed', ReRegistrationCompleted::class)->name('registration.re.completed');
+
+    Route::get('financial-aid-notifications', FinancialAidNotifications::class)->name('notifications.fa');
+    Route::get('financial-aid-notifications/{uuid}', ViewFinancialAid::class)->name('notifications.fa.show');
 });
 
 

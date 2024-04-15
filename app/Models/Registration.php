@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Str;
+use App\Enums\GradeLevel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Str;
 
 class Registration extends Model
 {
@@ -78,5 +79,14 @@ class Registration extends Model
     public function course_placement()
     {
         return $this->hasOne(CoursePlacement::class);
+    }
+
+    public function scopeForReregistration($query)
+    {
+        return $query->whereHas('application', function($appQuery){
+            $appQuery->whereHas('student', function($sQuery){
+                $sQuery->whereIn('current_grade', [GradeLevel::Freshman, GradeLevel::Sophomore]);
+            });
+        });
     }
 }

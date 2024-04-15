@@ -219,6 +219,13 @@ class Application extends Model
         });
     }
 
+    public function scopeGradeLevel( $query, array $grades)
+    {
+        return $query->whereHas('payments', function($pQuery){
+            $pQuery->whereNotNull('promo_code');
+        });
+    }
+
 
     // End of Scopes
 
@@ -371,6 +378,17 @@ class Application extends Model
     {
         $freshmen_application_start_date = notification_setting('freshmen_application_start_date');
         $freshmen_application_end_date = notification_setting('freshmen_application_hard_close_date');
+
+        $app_start_date = $freshmen_application_start_date->value;
+        $app_end_date = $freshmen_application_end_date->value;
+
+        return now()->gte($app_start_date) && now()->lt($app_end_date) || empty($app_start_date)  || empty($app_end_date);
+    }
+
+    public static function transferApplicationEnabled()
+    {
+        $freshmen_application_start_date = notification_setting('transfer_application_start_date');
+        $freshmen_application_end_date = notification_setting('transfer_application_end_date');
 
         $app_start_date = $freshmen_application_start_date->value;
         $app_end_date = $freshmen_application_end_date->value;

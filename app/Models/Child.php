@@ -50,6 +50,11 @@ class Child extends Model
         return $this->hasOne(Registration::class);
     }
 
+    public function reregistration()
+    {
+        return $this->hasOne(ReRegistration::class);
+    }
+
     public function submitted()
     {
         if($this->application)
