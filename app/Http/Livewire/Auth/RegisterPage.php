@@ -192,7 +192,11 @@ class RegisterPage extends Component implements HasForms
             }
         }
 
-        $account = $this->createAccount();
+        if(!$account){
+            $account = $this->createAccount();
+        }
+
+        
 
         $user = User::create([
             'account_id' => $account->id,
@@ -206,7 +210,16 @@ class RegisterPage extends Component implements HasForms
 
         event(new Registered($user));
 
-        $this->createParent($account, $data);
+        if(!empty($parent)){
+            $parent->update([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'mobile_phone' => $data['phone'],
+            ]);
+        }else{
+            $this->createParent($account, $data);
+        }
+        
 
         Auth::login($user);
 
