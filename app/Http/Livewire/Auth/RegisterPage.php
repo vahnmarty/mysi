@@ -192,7 +192,11 @@ class RegisterPage extends Component implements HasForms
             }
         }
 
-        $account = $this->createAccount();
+        if(!$account){
+            $account = $this->createAccount();
+        }
+
+        
 
         $user = User::create([
             'account_id' => $account->id,
