@@ -114,6 +114,18 @@ class ReRegistrationLoginPage extends Component implements HasForms
     {
         $data = $this->form->getState();
 
+        if(!empty($data['parent'])){
+
+            $parent = Parents::find($data['parent']);
+
+            if(User::where('email', $parent->personal_email)->exists()){
+                return redirect()->to('login?email=' . $parent->personal_email);
+            }
+
+            return redirect()->to('register?email=' . $parent->personal_email);
+
+        }
+
         return redirect('register?email=' . $data['email']);
     }
 }
