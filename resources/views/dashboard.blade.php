@@ -17,7 +17,7 @@
                 <strong>NOTE: </strong> Do NOT fill out the registration form on multiple screens as this will cause problems in saving the correct version.
             </p>
             <p>
-                If you have any questions about re-registration, you may contact the Jeannie Quesada at <a href="mailto:jquesada@siprep.org" class="text-link">jquesada@siprep.org</a> or <a href="tel:(415) 731-7500 ext. 5236">(415) 731-7500 ext. 5236</a>.
+                If you have any questions about re-registration, you may contact Jeannie Quesada at <a href="mailto:jquesada@siprep.org" class="text-link">jquesada@siprep.org</a> or <a href="tel:(415) 731-7500 ext. 5236">(415) 731-7500 ext. 5236</a>.
             </p>
 
             <div class="border-t"></div>
