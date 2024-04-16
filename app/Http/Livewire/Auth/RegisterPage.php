@@ -192,7 +192,7 @@ class RegisterPage extends Component implements HasForms
             }
         }
 
-        if(!$account){
+        if(empty($account)){
             $account = $this->createAccount();
         }
 
