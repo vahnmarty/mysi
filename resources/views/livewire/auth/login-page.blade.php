@@ -5,18 +5,21 @@
                 <h4 class="text-xl font-semibold text-center lg:text-xl md:text-left">St. Ignatius College Preparatory's MySI Portal</h4>
 
                 <ul class="pl-4 mt-8 space-y-4 text-sm list-disc lg:text-base">
+
+                    <li class="text-justify">
+                        <strong>Current SI Families: </strong> 
+                        <span>
+                            If you are a current SI family AND have never used MySI AND are looking to re-register your current SI student(s) for the upcoming school year AND/OR have a non-SI student who wants to apply as a transfer, click <a href="{{ route('login.reregistration') }}" class="font-bold underline text-link">HERE</a>.
+                        </span>
+                    </li>
+                    
                     <li class="text-justify">
                         <strong>Current SI Families with a MySI login:</strong> 
                         <span>
                             If you used MySI to submit a Frosh Application for the Class of {{ app_variable('class_year')}} AND are looking to re-register your current SI student(s) for the upcoming school year, please login as usual.
                         </span>
                     </li>
-                    <li class="text-justify">
-                        <strong>Current SI Families: </strong> 
-                        <span>
-                            If you are a current SI family AND have never used MySI AND are looking to re-register your current SI student(s) for the upcoming school year AND/OR have a non-SI student who wants to apply as a transfer, click <a href="{{ route('login.reregistration') }}" class="text-link">here</a>.
-                        </span>
-                    </li>
+                   
                     <li class="text-justify">
                         <strong>Prospective Transfer Applicants:</strong>
                         <span>
