@@ -12,6 +12,7 @@ use App\Mail\DeclinedReRegistration;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class SelectReregistration extends Component implements HasForms
@@ -53,6 +54,9 @@ class SelectReregistration extends Component implements HasForms
                 ])
                 ->reactive()
                 ->required(),
+            TextInput::make('transfer_school')
+                ->label('Name of School Transferring To')
+                ->visible(fn(Closure $get) => $get('si_attending') == '0'),
             Checkbox::make('confirm')
                 ->label('I confirm my decision to decline re-registration.')
                 ->reactive()
@@ -72,6 +76,7 @@ class SelectReregistration extends Component implements HasForms
             $reg = new ReRegistration;
             $reg->account_id = accountId();
             $reg->attending_si = false;
+            $reg->transfer_school = $data['transfer_school'];
             $reg->child_id = $child->id;
             $reg->save();
 
