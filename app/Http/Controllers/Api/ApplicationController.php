@@ -19,17 +19,22 @@ class ApplicationController extends Controller
             $query = $query->whereNotNull('file_learning_documentation');
         }
 
+        if($request->paginate){
+            $data = $query->paginate($request->paginate);
+            return response()->json($data);
+        }
+
         $data = $query->get();
         
-        foreach($data as $i => $app)
-        {
-            if(!empty($app['student']['current_school'])){
-                $data[$i]['current_school'] = School::where('name', $app['student']['current_school'])
-                            ->first()
-                            ->toArray();
-            }
+        // foreach($data as $i => $app)
+        // {
+        //     if(!empty($app['student']['current_school'])){
+        //         $data[$i]['current_school'] = School::where('name', $app['student']['current_school'])
+        //                     ->first()
+        //                     ->toArray();
+        //     }
             
-        }
+        // }
 
         return response()->json($data);
     }
