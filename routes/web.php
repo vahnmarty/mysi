@@ -24,6 +24,7 @@ use App\Http\Livewire\Page\StudentHsptScores;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
+use App\Http\Livewire\Page\FroshCoursePlacement;
 use App\Http\Livewire\Admission\ViewApplications;
 use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Notifications\FinancialAid;
@@ -124,6 +125,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('survey/{uuid}', SurveyForm::class)->name('survey-form');
 
     Route::get('hspt-scores', StudentHsptScores::class);
+    Route::get('course-placement', FroshCoursePlacement::class);
 
     Route::get('transfer-applications',TransferApplications::class)->name('transfer.index');
     Route::get('reregistration', ReRegistrations::class)->name('registration.re');
