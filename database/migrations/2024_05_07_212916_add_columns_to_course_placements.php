@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::table('course_placements', function (Blueprint $table) {
             $table->after('registration_id', function(Blueprint $table){
                 $table->unsignedBigInteger('child_id')->nullable();
-                $table->string('child_name', 100)->nullable();
-                $table->string('academic_year', 10)->nullable();
+                $table->string('child_name', 150)->nullable();
+                $table->string('academic_year', 12)->nullable();
             });
+
+            $table->dropColumn('final_math');
             
         });
     }
@@ -30,6 +32,7 @@ return new class extends Migration
             $table->dropColumn('child_id');
             $table->dropColumn('child_name');
             $table->dropColumn('academic_year');
+            $table->string('final_math');
         });
     }
 };
