@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('course_placements', function (Blueprint $table) {
-            $table->unsignedBigInteger('child_id')->nullable();
-            $table->string('child_name', 100)->nullable();
-            $table->string('academic_year', 10)->nullable();
+            $table->after('registration_id', function(Blueprint $table){
+                $table->unsignedBigInteger('child_id')->nullable();
+                $table->string('child_name', 100)->nullable();
+                $table->string('academic_year', 10)->nullable();
+            });
+            
         });
     }
 
