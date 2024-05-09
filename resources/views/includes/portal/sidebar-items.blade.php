@@ -47,6 +47,28 @@
     </ul>
 </div>
 
+<div>
+    <div class="px-8">
+        <div class="border-t "></div>
+    </div>
+    <ul class="font-medium text-gray-700">
+        <x-app-menu-item 
+            start_date="{{ notification_setting('course_placement_notification_start_date')?->value }}"
+            end_date="{{ notification_setting('course_placement_notification_end_date')?->value }}">
+            <li class="px-8 py-1 text-sm transition {{ request()->is('family-directory*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
+                <a href="{{ url('family-directory') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
+                    <x-heroicon-o-user-group class="flex-shrink-0 w-5 h-5" />
+                    <strong>SI Family Directory</strong>
+                </a>
+            </li>
+        </x-app-menu-item>
+    </ul>
+    <div class="px-8">
+        <div class="border-t"></div>
+    </div>
+    
+</div>
+
 <div class="py-8">
     <ul class="font-medium text-gray-700">
 

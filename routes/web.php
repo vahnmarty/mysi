@@ -18,9 +18,10 @@ use App\Http\Livewire\RecommendationForm;
 use App\Http\Livewire\NotificationPreview;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
+use App\Http\Livewire\Page\FamilyDirectory;
 use App\Http\Livewire\Auth\ResetPasswordPage;
-use App\Http\Livewire\Page\StudentHsptScores;
 
+use App\Http\Livewire\Page\StudentHsptScores;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
 use App\Http\Controllers\NotificationController;
@@ -126,6 +127,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
 
     Route::get('hspt-scores', StudentHsptScores::class);
     Route::get('course-placement', FroshCoursePlacement::class);
+    Route::get('family-directory', FamilyDirectory::class);
 
     Route::get('transfer-applications',TransferApplications::class)->name('transfer.index');
     Route::get('reregistration', ReRegistrations::class)->name('registration.re');

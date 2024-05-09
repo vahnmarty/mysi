@@ -17,4 +17,9 @@ class Address extends Model
     {
         return $this->address . ', ' . $this->city . ', ' . $this->state . ' ' . $this->zip_code;
     }
+
+    public function getShortAddress()
+    {
+        return $this->city . ', ' . $this->state;
+    }
 }
