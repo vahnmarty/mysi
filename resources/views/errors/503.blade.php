@@ -9,7 +9,7 @@
     
     <h3 class="mt-8 text-2xl font-bold">We're under maintenance.</h3>
     <p class="mt-4 text-sm text-center text-gray-700">
-        The system is currently unavailable. We are currently working on preparing it for Re-Registration.<br> Please come back on Monday, April 15 at 8 am PDT.
+        The MySI Portal is currently under system maintenance. It will be back up on Monday, May 13, 2024 at 8 am PT.<br> 
     </p>
 </div>
 @endsection
