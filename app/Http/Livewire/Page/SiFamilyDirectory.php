@@ -13,7 +13,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class FamilyDirectory extends Component implements HasTable, HasForms
+class SiFamilyDirectory extends Component implements HasTable, HasForms
 {
     use InteractsWithTable;
     use InteractsWithForms;
@@ -22,7 +22,7 @@ class FamilyDirectory extends Component implements HasTable, HasForms
     
     public function render()
     {
-        return view('livewire.page.family-directory');
+        return view('livewire.page.si-family-directory');
     }
 
     public function mount()
