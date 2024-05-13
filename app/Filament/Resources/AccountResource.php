@@ -39,12 +39,19 @@ class AccountResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')->rowIndex(),
                 Tables\Columns\TextColumn::make('account_name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('users_count')
+                    ->label("Users")
+                    ->counts('users'),
+                Tables\Columns\TextColumn::make('users.email')->sortable(),
                 Tables\Columns\TextColumn::make('phone')->searchable(),
                 Tables\Columns\TextColumn::make('sf_account_id')->label('sf_account_id'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('has_users')
+                ->query(fn (Builder $query): Builder => $query->has('users')),
+                Tables\Filters\Filter::make('multiple_users')
+                ->query(fn (Builder $query): Builder => $query->has('users', '>', 1)),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -68,6 +75,7 @@ class AccountResource extends Resource
     {
         return [
             'index' => Pages\ListAccounts::route('/'),
+            'view' => Pages\ViewAccount::route('/{record}'),
             'create' => Pages\CreateAccount::route('/create'),
             'edit' => Pages\EditAccount::route('/{record}/edit'),
         ];

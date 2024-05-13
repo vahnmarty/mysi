@@ -23,6 +23,9 @@ class UsersRelationManager extends RelationManager
                 Forms\Components\TextInput::make('email')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('created_at')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -31,19 +34,20 @@ class UsersRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('first_name'),
+                Tables\Columns\TextColumn::make('last_name'),
+                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('updated_at'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }    
 }
