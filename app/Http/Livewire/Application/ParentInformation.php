@@ -311,7 +311,8 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 // ->rules(['email:rfc,dns', 'unique:parents,personal_email,' . $this->model_id])
                                 //->unique(Parents::class, 'personal_email',  fn($livewire) => $livewire->model)
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->disabled(fn() => $this->action == CrudAction::Update),
                             Select::make('employment_status')
                                 ->label('What is your employment status?')
                                 ->reactive()
