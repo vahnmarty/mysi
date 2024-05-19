@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('family_directories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
-            $table->string('name');
-            $table->string('type');
+            $table->string('name', 200);
+            $table->string('type', 15);
             $table->boolean('share_email')->nullable();
-            $table->string('email')->nullable();
+            $table->string('email', 100)->nullable();
             $table->boolean('share_phone')->nullable();
-            $table->string('phone')->nullable();
-            $table->boolean('share_full_address')->nullable();
-            $table->boolean('address')->nullable();
+            $table->string('phone', 11)->nullable();
+            $table->boolean('share_full_address',)->nullable();
+            $table->string('address', 200)->nullable();
             $table->timestamps();
         });
     }
