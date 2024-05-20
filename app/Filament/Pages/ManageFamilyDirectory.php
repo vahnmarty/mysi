@@ -11,6 +11,7 @@ use Filament\Tables\Filters\Filter;
 use App\Jobs\ProcessFamilyDirectory;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Pages\Actions\Action as PageAction;
@@ -29,6 +30,11 @@ class ManageFamilyDirectory extends Page implements HasTable
     protected static ?int $navigationSort = 4;
 
     protected static string $view = 'filament.pages.manage-family-directory';
+
+    protected function getTablePollingInterval(): ?string
+    {
+        return '10s';
+    }
 
     protected static function shouldRegisterNavigation(): bool
     {
@@ -95,6 +101,12 @@ class ManageFamilyDirectory extends Page implements HasTable
         {
             ProcessFamilyDirectory::dispatch($account);
         }
+
+        Notification::make()
+            ->title('Processing Family Directory')
+            ->body("Please wait while cron worker is running on background.  Note that this page refreshes every 10 seconds. ")
+            ->warning()
+            ->send();
         
     }
 }
