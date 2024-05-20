@@ -6,10 +6,12 @@ use App\Models\Child;
 use App\Models\Address;
 use Livewire\Component;
 use App\Models\CoursePlacement;
+use App\Models\FamilyDirectory;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
@@ -32,22 +34,29 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId());
+        return FamilyDirectory::query();
     }
 
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('full_name')
-                ->label('Name'),
-            TextColumn::make('personal_email')
-                ->label('Personal Email'),
-            TextColumn::make('mobile_phone')
-                ->label('Mobile Phone')
-                ->formatStateUsing(fn(Child $record) => $record->share_mobile_phone ? format_phone($record->mobile_phone) : '---'),
-            TextColumn::make('address_location')
-                ->label('Address')
-                ->formatStateUsing(fn(Child $record) => $record->share_full_address ? $this->getAddress($record->address_location, full: true) : $this->getAddress($record->address_location, full: false) ),
+            TextColumn::make('name')
+                ->searchable()
+                ->sortable()
+                ->wrap(),
+            BadgeColumn::make('type')
+                ->colors([
+                    'success' => 'STUDENT',
+                    'warning' => 'PARENT',
+                ])
+                ->sortable(),
+            TextColumn::make('email')
+                ->wrap()
+                ->searchable(),
+            TextColumn::make('phone')
+                ->formatStateUsing(fn($state) => format_phone($state)),
+            TextColumn::make('address')
+                ->wrap(),
         ];
     }
 
