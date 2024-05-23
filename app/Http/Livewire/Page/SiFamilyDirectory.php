@@ -52,7 +52,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
             BadgeColumn::make('type')
                 ->colors([
                     'success' => 'STUDENT',
-                    'warning' => 'PARENT',
+                    'warning' => 'GUARDIAN',
                 ])
                 ->sortable(),
             TextColumn::make('email')
