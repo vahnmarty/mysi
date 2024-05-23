@@ -61,8 +61,8 @@ class ProcessFamilyDirectory implements ShouldQueue
             FamilyDirectory::create([
                 'account_id' => $account->id,
                 'name' => $parent->getFullName(),
-                'type' => 'PARENT',
-                'share_email' => $child->share_personal_email,
+                'type' => 'GUARDIAN',
+                'share_email' => $parent->share_personal_email,
                 'email' => $parent->personal_email,
                 'share_phone' => $parent->share_mobile_phone,
                 'phone' => $parent->mobile_phone,

@@ -37,11 +37,16 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
         return FamilyDirectory::query();
     }
 
+    public function isTableSearchable(): bool
+    {
+        return false;
+    }
+
     protected function getTableColumns(): array 
     {
         return [
             TextColumn::make('name')
-                ->searchable()
+                ->searchable(isIndividual: true)
                 ->sortable()
                 ->wrap(),
             BadgeColumn::make('type')
@@ -52,7 +57,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
                 ->sortable(),
             TextColumn::make('email')
                 ->wrap()
-                ->searchable(),
+                ->searchable(isIndividual: true),
             TextColumn::make('phone')
                 ->formatStateUsing(fn($state) => format_phone($state)),
             TextColumn::make('address')

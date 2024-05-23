@@ -38,7 +38,7 @@ class ManageFamilyDirectory extends Page implements HasTable
 
     protected static function shouldRegisterNavigation(): bool
     {
-        return auth()->user()->isAdmin();
+        return false;
     }
 
     public function getTableQuery()
