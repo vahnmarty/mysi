@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Page;
 
+use DB;
 use App\Models\Child;
+use App\Models\Account;
 use App\Models\Address;
 use Livewire\Component;
 use App\Models\CoursePlacement;
@@ -34,7 +36,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return FamilyDirectory::query();
+        return Account::where('current_si_family', true);
     }
 
     public function isTableSearchable(): bool

@@ -95,12 +95,8 @@ class ManageFamilyDirectory extends Page implements HasTable
 
     public function generate()
     {
-        $accounts = Account::where('current_si_family', true)->get();
-
-        foreach($accounts as $account)
-        {
-            ProcessFamilyDirectory::dispatch($account);
-        }
+       
+        ProcessFamilyDirectory::dispatch();
 
         Notification::make()
             ->title('Processing Family Directory')
