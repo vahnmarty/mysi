@@ -3,6 +3,8 @@
         SI Family Directory
     </h2>
 
+    
+
     <section>
         <div class="mt-8">
             {{ $this->table }}

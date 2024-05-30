@@ -9,10 +9,13 @@ use App\Models\Address;
 use Livewire\Component;
 use App\Models\CoursePlacement;
 use App\Models\FamilyDirectory;
+use Filament\Tables\Actions\Action;
+use App\Models\Views\SiDirectoryView;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -36,7 +39,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return Account::where('current_si_family', true);
+        return SiDirectoryView::query();
     }
 
     public function isTableSearchable(): bool
@@ -47,23 +50,21 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('name')
+            TextColumn::make('full_name')
+                ->label('Name')
                 ->searchable(isIndividual: true)
                 ->sortable()
                 ->wrap(),
-            BadgeColumn::make('type')
+            BadgeColumn::make('contact_type')
+                ->label('Type')
                 ->colors([
-                    'success' => 'STUDENT',
-                    'warning' => 'GUARDIAN',
+                    'success' => 'Student',
+                    'warning' => 'Guardian',
                 ])
                 ->sortable(),
-            TextColumn::make('email')
-                ->wrap()
-                ->searchable(isIndividual: true),
-            TextColumn::make('phone')
-                ->formatStateUsing(fn($state) => format_phone($state)),
-            TextColumn::make('address')
-                ->wrap(),
+            TextColumn::make('grad_year')
+                ->label('Graduation Year')
+                ->sortable(),
         ];
     }
 
@@ -85,9 +86,18 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     protected function getTableActions(): array
     {
         return [ 
-            //Action::make('see_scores')
-                //->label('See Scores')
+            Action::make('view_family')
+                ->form([
+                    TextInput::make('full_name')
+                ])
+                ->action('hello')
+                ->label('Family Contact Information')
         ];
+    }
+
+    public function hello()
+    {
+
     }
 
     public function isTablePaginationEnabled(): bool 
