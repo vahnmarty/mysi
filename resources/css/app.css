@@ -250,3 +250,15 @@ a.text-link{
 .filament-forms-checkbox-list-component-option-label-text{
     @apply text-base;
 }
+
+.table-flat .filament-table-repeater-column{
+    @apply p-0;
+}
+
+.table-flat .filament-table-repeater-column input{
+    @apply rounded-none;
+}
+
+.table-flat * :disabled {
+    @apply bg-white;
+}

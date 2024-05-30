@@ -9,16 +9,21 @@ use App\Models\Address;
 use Livewire\Component;
 use App\Models\CoursePlacement;
 use App\Models\FamilyDirectory;
+use App\Forms\Components\TextOnly;
 use Filament\Tables\Actions\Action;
 use App\Models\Views\SiDirectoryView;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\ComponentContainer;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\BadgeColumn;
+use App\Forms\Components\ReadonlyTextbox;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Awcodes\FilamentTableRepeater\Components\TableRepeater;
 
 class SiFamilyDirectory extends Component implements HasTable, HasForms
 {
@@ -87,11 +92,50 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     {
         return [ 
             Action::make('view_family')
+                ->mountUsing(function(ComponentContainer $form, $record){
+
+                    $tree = SiDirectoryView::where('account_id', $record->account_id)->get()->toArray();
+
+                    return $form->fill([
+                        'tree' => $tree
+                    ]);
+                })
                 ->form([
-                    TextInput::make('full_name')
+                    TableRepeater::make('tree')
+                        ->extraAttributes([
+                            'class' => 'table-flat'
+                        ])
+                        ->label('')
+                        ->disableItemCreation()
+                        ->disableItemDeletion()
+                        ->disableItemMovement()
+                        ->hideLabels()
+                        ->columnSpan('full')
+                        ->schema([
+                            TextOnly::make('full_name')
+                                ->label('Name')
+                                ->disabled(),
+                            TextOnly::make('contact_type')
+                                ->label('Type')
+                                ->disabled(),
+                            TextOnly::make('grad_year')
+                                ->label('Graduation Year')
+                                ->disabled(),
+                            TextOnly::make('personal_email')
+                                ->label('Email')
+                                ->disabled(),
+                            TextOnly::make('mobile_phone')
+                                ->label('Mobile')
+                                ->disabled(),
+                            TextOnly::make('home_address')
+                                ->label('Address')
+                                ->disabled(),
+                        ])
+
                 ])
                 ->action('hello')
                 ->label('Family Contact Information')
+                ->modalActions([])
         ];
     }
 

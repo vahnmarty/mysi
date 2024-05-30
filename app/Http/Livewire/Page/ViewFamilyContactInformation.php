@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Page;
 
 use Livewire\Component;
 use App\Models\FamilyDirectory;
+use App\Models\Views\SiDirectoryView;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Columns\BadgeColumn;
@@ -20,16 +21,13 @@ class ViewFamilyContactInformation extends Component implements HasTable
 
     public function getTableQuery()
     {
-        return FamilyDirectory::where('account_id', 11718);
+        return SiDirectoryView::where('account_id', 11718);
     }
 
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('name')
-                ->searchable(isIndividual: true)
-                ->sortable()
-                ->wrap(),
+            TextColumn::make('full_name'),
             BadgeColumn::make('type')
                 ->colors([
                     'success' => 'STUDENT',
