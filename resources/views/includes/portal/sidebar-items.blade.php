@@ -47,6 +47,7 @@
     </ul>
 </div>
 
+@if(Auth::user()->account?->current_si_family)
 <div>
     <div class="px-8">
         <div class="border-t "></div>
@@ -66,8 +67,8 @@
     <div class="px-8">
         <div class="border-t"></div>
     </div>
-    
 </div>
+@endif
 
 <div class="py-8">
     <ul class="font-medium text-gray-700">
