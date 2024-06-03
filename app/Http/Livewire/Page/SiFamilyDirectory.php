@@ -72,6 +72,10 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
                 ->sortable(),
         ];
     }
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'full_name';
+    }
 
     public function getAddress($type, $full = true)
     {
@@ -126,7 +130,8 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
                                 ->disabled(),
                             TextOnly::make('mobile_phone')
                                 ->label('Mobile')
-                                ->disabled(),
+                                ->disabled()
+                                ->formatStateUsing(fn($state) => format_phone($state)),
                             TextOnly::make('home_address')
                                 ->label('Address')
                                 ->disabled(),

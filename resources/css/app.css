@@ -262,3 +262,7 @@ a.text-link{
 .table-flat * :disabled {
     @apply bg-white;
 }
+
+.table-flat td{
+    @apply bg-white;
+}
