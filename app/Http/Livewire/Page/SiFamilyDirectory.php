@@ -44,7 +44,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function getTableQuery()
     {
-        return SiDirectoryView::query();
+        return FamilyDirectory::query();
     }
 
     public function isTableSearchable(): bool
@@ -94,7 +94,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
             Action::make('view_family')
                 ->mountUsing(function(ComponentContainer $form, $record){
 
-                    $tree = SiDirectoryView::where('account_id', $record->account_id)->get()->toArray();
+                    $tree = FamilyDirectory::where('account_id', $record->account_id)->get()->toArray();
 
                     return $form->fill([
                         'tree' => $tree
@@ -146,7 +146,12 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function isTablePaginationEnabled(): bool 
     {
-        return false;
+        return true;
+    }
+
+    protected function getTableRecordsPerPageSelectOptions(): array // [tl! focus:start]
+    {
+        return [100, 200, 500, 1000];
     }
 
     public function getTableEmptyStateIcon(): ?string 
@@ -156,7 +161,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
  
     public function getTableEmptyStateHeading(): ?string
     {
-        return 'No Available Course Placements';
+        return 'SI Family Directory is not available at the moment.';
     }
 
     public function getTableEmptyStateDescription(): ?string
