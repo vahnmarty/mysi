@@ -28,9 +28,12 @@
     @endpush
 
 
-    <h2 class="text-2xl font-semibold font-heading text-primary-blue">
-        SI Family Directory
-    </h2>
+    <div class="flex justify-between">
+        <h2 class="text-2xl font-semibold font-heading text-primary-blue">
+            SI Family Directory
+        </h2>
+        <p class="self-center text-xs">Last Updated On: {{ $last_updated_at }}</p>
+    </div>
 
     <div class="mt-8" wire:ignore>
         <table id="table" class="cell-border" style="width: 100%">
