@@ -71,7 +71,7 @@
     </div>
     <x-modal name="show-details" :show="false"  maxWidth="4xl">
         <div class="p-10 bg-white border rounded-lg shadow-lg">
-            @livewire('page.view-family-contact-information')
+            
         </div>
     </x-modal>
 

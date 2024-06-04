@@ -28,8 +28,10 @@ class CreateFamilyDirectoryTable extends Command
      */
     public function handle()
     {
+        $this->info('Resetting family_directories');
+
         FamilyDirectory::truncate();
-        
+
         $accounts = Account::where('current_si_family', true)->get();
 
         $bar = $this->output->createProgressBar(count($accounts));
@@ -82,5 +84,8 @@ class CreateFamilyDirectoryTable extends Command
         }
 
         $bar->finish();
+
+        $this->newLine();
+        $this->info('SI Family Directory Finished');
     }
 }
