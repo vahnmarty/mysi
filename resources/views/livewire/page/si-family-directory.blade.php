@@ -55,7 +55,8 @@
                     </td>
                     <td> {{ $item->graduation_year }}</td>
                     <td>
-                        <button type="button" class="text-link" wire:click="open(`{{ $item->account_id }}`)">View Contact Details</button>
+                        <x-loading-icon wire:target="open(`{{ $item->id }}`,`{{ $item->account_id }}`)"/>  
+                        <button type="button" class="text-link" wire:click="open(`{{ $item->id }}`,`{{ $item->account_id }}`)">View Contact Details</button>
                     </td>
                 </tr>
                 @endforeach

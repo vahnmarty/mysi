@@ -99,7 +99,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     }
 
 
-    public function open($accountId)
+    public function open($id, $accountId)
     {
         $this->account_id = $accountId;
 
