@@ -53,7 +53,7 @@
                         <span class="bg-primary-red px-2 py-0.5 rounded-md text-gray-100 text-sm ">{{ $item->contact_type }}</span>
                         @endif
                     </td>
-                    <td> {{ $item->grad_year }}</td>
+                    <td> {{ $item->graduation_year }}</td>
                     <td>
                         <button x-data
                             x-on:click.prevent="$dispatch('open-modal', 'show-details')" 
