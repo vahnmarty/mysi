@@ -13,6 +13,15 @@ use Filament\Tables\Concerns\InteractsWithTable;
 class ViewFamilyContactInformation extends Component implements HasTable
 {
     use InteractsWithTable;
+
+    public $account_id;
+
+    protected $listeners = ['set-account' => 'setAccountId'];
+
+    public function mount($accountId)
+    {
+        $this->account_id = $accountId;
+    }
     
     public function render()
     {
@@ -21,7 +30,7 @@ class ViewFamilyContactInformation extends Component implements HasTable
 
     public function getTableQuery()
     {
-        return SiDirectoryView::where('account_id', 11718);
+        return FamilyDirectory::where('account_id', $this->account_id);
     }
 
     protected function getTableColumns(): array 
@@ -38,5 +47,10 @@ class ViewFamilyContactInformation extends Component implements HasTable
                 ->label('Graduation Year')
                 ->sortable(),
         ];
+    }
+
+    public function open()
+    {
+        $this->dispatchBrowserEvent('open-modal', 'show-details');
     }
 }

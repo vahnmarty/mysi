@@ -1,3 +1,1 @@
-<div>
-   {{ $this->table }}
-</div>
+<button type="button" class="text-link" wire:click="open">View Contact Details</button>

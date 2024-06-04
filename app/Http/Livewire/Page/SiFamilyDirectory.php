@@ -31,6 +31,10 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     use InteractsWithForms;
 
     public $data = [];
+
+    public $account_id;
+
+    public $directory = [];
     
     public function render()
     {
@@ -40,11 +44,13 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     public function mount()
     {
         $this->form->fill();
+
+        $this->directory = FamilyDirectory::get();
     }
 
     public function getTableQuery()
     {
-        return FamilyDirectory::query();
+        return FamilyDirectory::where('account_id', $this->account_id);
     }
 
     public function isTableSearchable(): bool
@@ -55,21 +61,21 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     protected function getTableColumns(): array 
     {
         return [
+            
+            TextColumn::make('contact_type')
+                ->label('Type'),
             TextColumn::make('full_name')
                 ->label('Name')
-                ->searchable(isIndividual: true)
-                ->sortable()
                 ->wrap(),
-            BadgeColumn::make('contact_type')
-                ->label('Type')
-                ->colors([
-                    'success' => 'Student',
-                    'warning' => 'Guardian',
-                ])
-                ->sortable(),
-            TextColumn::make('grad_year')
-                ->label('Graduation Year')
-                ->sortable(),
+            TextColumn::make('graduation_year')
+                ->label('Class Of'),
+            TextColumn::make('personal_email')
+                ->label('Email'),
+            TextColumn::make('mobile_phone')
+                ->label('Phone')
+                ->formatStateUsing(fn($state) => format_phone($state)),
+            TextColumn::make('home_address')
+                ->label('Address'),
         ];
     }
     protected function getDefaultTableSortColumn(): ?string
@@ -92,66 +98,17 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
         return '---';
     }
 
-    protected function getTableActions(): array
+
+    public function open($accountId)
     {
-        return [ 
-            Action::make('view_family')
-                ->mountUsing(function(ComponentContainer $form, $record){
+        $this->account_id = $accountId;
 
-                    $tree = FamilyDirectory::where('account_id', $record->account_id)->get()->toArray();
-
-                    return $form->fill([
-                        'tree' => $tree
-                    ]);
-                })
-                ->form([
-                    TableRepeater::make('tree')
-                        ->extraAttributes([
-                            'class' => 'table-flat'
-                        ])
-                        ->label('')
-                        ->disableItemCreation()
-                        ->disableItemDeletion()
-                        ->disableItemMovement()
-                        ->hideLabels()
-                        ->columnSpan('full')
-                        ->schema([
-                            TextOnly::make('full_name')
-                                ->label('Name')
-                                ->disabled(),
-                            TextOnly::make('contact_type')
-                                ->label('Type')
-                                ->disabled(),
-                            TextOnly::make('grad_year')
-                                ->label('Graduation Year')
-                                ->disabled(),
-                            TextOnly::make('personal_email')
-                                ->label('Email')
-                                ->disabled(),
-                            TextOnly::make('mobile_phone')
-                                ->label('Mobile')
-                                ->disabled()
-                                ->formatStateUsing(fn($state) => format_phone($state)),
-                            TextOnly::make('home_address')
-                                ->label('Address')
-                                ->disabled(),
-                        ])
-
-                ])
-                ->action('hello')
-                ->label('Family Contact Information')
-                ->modalActions([])
-        ];
-    }
-
-    public function hello()
-    {
-
+        $this->dispatchBrowserEvent('open-modal', 'show-details');
     }
 
     public function isTablePaginationEnabled(): bool 
     {
-        return true;
+        return false;
     }
 
     protected function getTableRecordsPerPageSelectOptions(): array // [tl! focus:start]

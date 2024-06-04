@@ -22,8 +22,12 @@
             "pageLength": 100,
         });
     } );
+    
+
 </script>
 @endpush
+
+
 
 @section('content')
 <div>
@@ -55,9 +59,7 @@
                     </td>
                     <td> {{ $item->graduation_year }}</td>
                     <td>
-                        <button x-data
-                            x-on:click.prevent="$dispatch('open-modal', 'show-details')" 
-                            type="button" class="text-link">View Contact Details</button>
+                        @livewire('page.view-family-contact-information', ['accountId' => $item->account_id])
                     </td>
                 </tr>
                 @endforeach
@@ -66,14 +68,7 @@
     </div>
 
 
-    <div>
-       
-    </div>
-    <x-modal name="show-details" :show="false"  maxWidth="4xl">
-        <div class="p-10 bg-white border rounded-lg shadow-lg">
-            
-        </div>
-    </x-modal>
+    @livewire('page.modal-contact-details')
 
 </div>
 
