@@ -33,7 +33,7 @@
     </h2>
 
     <div class="mt-8" wire:ignore>
-        <table id="table" class="cell-border">
+        <table id="table" class="cell-border" style="width: 100%">
             <thead class="bg-gray-200 border">
                 <tr>
                     <th>Name</th>
