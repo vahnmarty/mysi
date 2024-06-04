@@ -20,7 +20,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @livewireScripts
-    @stack('scripts')
+    @stack('styles')
+    
 
     
 
@@ -54,6 +55,8 @@
     @include('includes.portal.page-loader')
 
     @livewire('notifications')
+
+    @stack('scripts')
 
 </body>
 
