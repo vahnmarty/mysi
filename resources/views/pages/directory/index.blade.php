@@ -2,6 +2,11 @@
 
 @push('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+<style>
+    #dt-length-0{
+        width: 80px;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -10,7 +15,7 @@
 <script>
     $(document).ready( function () {
         $('#table').DataTable({
-            "pageLength": 50
+            "pageLength": 100
         });
     } );
 </script>
@@ -23,7 +28,7 @@
     </h2>
 
 
-    <div>
+    <div class="mt-8">
         <table id="table" class="cell-border">
             <thead class="border">
                 <tr>
@@ -37,9 +42,17 @@
                 @foreach($directory as $item)
                 <tr>
                     <td>{{ $item->full_name }}</td>
-                    <td>{{ $item->contact_type }}</td>
-                    <td>{{ $item->graduation_year }}</td>
-                    <td>View Contact Details</td>
+                    <td>
+                        @if($item->contact_type == 'Student')
+                        <span class="bg-primary-blue px-2 py-0.5 rounded-md text-gray-100 text-sm ">{{ $item->contact_type }}</span>
+                        @else
+                        <span class="bg-primary-red px-2 py-0.5 rounded-md text-gray-100 text-sm ">{{ $item->contact_type }}</span>
+                        @endif
+                    </td>
+                    <td>{{ $item->grad_year }}</td>
+                    <td>
+                        
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
