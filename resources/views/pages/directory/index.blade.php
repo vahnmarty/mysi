@@ -6,6 +6,10 @@
     #dt-length-0{
         width: 80px;
     }
+
+    .dt-type-numeric{
+        text-align: left !important;
+    }
 </style>
 @endpush
 
@@ -15,7 +19,7 @@
 <script>
     $(document).ready( function () {
         $('#table').DataTable({
-            "pageLength": 100
+            "pageLength": 100,
         });
     } );
 </script>
@@ -30,12 +34,12 @@
 
     <div class="mt-8">
         <table id="table" class="cell-border">
-            <thead class="border">
+            <thead class="bg-gray-200 border">
                 <tr>
                     <th>Name</th>
                     <th>Type</th>
                     <th>Class of</th>
-                    <th></th>
+                    <th>Link</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,15 +53,27 @@
                         <span class="bg-primary-red px-2 py-0.5 rounded-md text-gray-100 text-sm ">{{ $item->contact_type }}</span>
                         @endif
                     </td>
-                    <td>{{ $item->grad_year }}</td>
+                    <td> {{ $item->grad_year }}</td>
                     <td>
-                        
+                        <button x-data
+                            x-on:click.prevent="$dispatch('open-modal', 'show-details')" 
+                            type="button" class="text-link">View Contact Details</button>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+
+
+    <div>
+       
+    </div>
+    <x-modal name="show-details" :show="false"  maxWidth="4xl">
+        <div class="p-10 bg-white border rounded-lg shadow-lg">
+            @livewire('page.view-family-contact-information')
+        </div>
+    </x-modal>
 
 </div>
 

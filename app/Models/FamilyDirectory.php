@@ -9,8 +9,6 @@ class FamilyDirectory extends Model
 {
     use HasFactory;
 
-    protected $table = 'si_family_directory';
-    
     protected $guarded =[];
 
     public function account()
