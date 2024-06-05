@@ -32,7 +32,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public $data = [];
 
-    public $account_id;
+    public $account_id, $account_family;
 
     public $last_updated_at;
 
@@ -106,6 +106,10 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     public function open($id, $accountId)
     {
         $this->account_id = $accountId;
+
+        $account = Account::find($accountId);
+
+        $this->account_family = $account->account_name;
 
         $this->dispatchBrowserEvent('open-modal', 'show-details');
     }

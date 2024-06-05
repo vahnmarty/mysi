@@ -70,8 +70,18 @@
     
 
     <x-modal name="show-details" :show="false"  maxWidth="6xl">
-        <div class="p-10 bg-white border rounded-lg shadow-lg">
-            {{ $this->table }}
+        <div class="relative">
+            <div class="absolute top-5 right-7">
+                <button x-on:click="$dispatch('close-modal', 'show-details')" type="button" class="text-gray-500 hover:text-gray-900">
+                    <x-heroicon-s-x class="w-5 h-5"/>
+                </button>
+            </div>
+            <div class="bg-white border rounded-lg shadow-lg p-7">
+                <h2 class="text-xl font-bold text-center text-primary-blue">{{ $account_family }}</h2>
+                <div class="mt-8">
+                    {{ $this->table }}
+                </div>
+            </div>
         </div>
     </x-modal>
 
