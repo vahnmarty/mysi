@@ -56,7 +56,7 @@
                         <div class="bg-primary-red px-2 py-0.5 rounded-md text-gray-100 text-sm w-20 text-center">{{ $item->contact_type }}</div>
                         @endif
                     </td>
-                    <td> {{ $item->graduation_year }}</td>
+                    <td> {{ $item->grad_year }}</td>
                     <td>
                         <x-loading-icon wire:target="open(`{{ $item->id }}`,`{{ $item->account_id }}`)"/>  
                         <button type="button" class="text-link" wire:click="open(`{{ $item->id }}`,`{{ $item->account_id }}`)">View Contact Details</button>
@@ -77,7 +77,6 @@
                 </button>
             </div>
             <div class="bg-white border rounded-lg shadow-lg p-7">
-                <h2 class="text-xl font-bold text-center text-primary-blue">{{ $account_family }}</h2>
                 <div class="mt-8">
                     {{ $this->table }}
                 </div>
