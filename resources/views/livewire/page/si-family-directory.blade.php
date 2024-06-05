@@ -51,9 +51,9 @@
                     <td>{{ $item->full_name }}</td>
                     <td>
                         @if($item->contact_type == 'Student')
-                        <span class="bg-primary-blue px-2 py-0.5 rounded-md text-gray-100 text-sm ">{{ $item->contact_type }}</span>
+                        <div class="bg-primary-blue px-2 py-0.5 rounded-md text-gray-100 text-sm w-20 text-center">{{ $item->contact_type }}</div>
                         @else
-                        <span class="bg-primary-red px-2 py-0.5 rounded-md text-gray-100 text-sm ">{{ $item->contact_type }}</span>
+                        <div class="bg-primary-red px-2 py-0.5 rounded-md text-gray-100 text-sm w-20 text-center">{{ $item->contact_type }}</div>
                         @endif
                     </td>
                     <td> {{ $item->graduation_year }}</td>
