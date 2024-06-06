@@ -70,7 +70,7 @@
     
 
     <x-modal name="show-details" :show="false"  maxWidth="6xl">
-        <div class="relative">
+        <div class="relative modal-box">
             <div class="absolute top-5 right-7">
                 <button x-on:click="$dispatch('close-modal', 'show-details')" type="button" class="text-gray-500 hover:text-gray-900">
                     <x-heroicon-s-x class="w-5 h-5"/>

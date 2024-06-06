@@ -72,7 +72,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
                 ->label('Name')
                 ->wrap(),
             TextColumn::make('grad_year')
-                ->label('Class Of'),
+                ->label('Class of'),
             TextColumn::make('personal_email')
                 ->label('Email'),
             TextColumn::make('mobile_phone')
