@@ -36,7 +36,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public $last_updated_at;
 
-    public $directory = [];
+    public $directory = [], $contacts = [];
     
     public function render()
     {
@@ -47,7 +47,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     {
         $this->form->fill();
 
-        $this->directory = FamilyDirectory::get();
+        $this->directory = FamilyDirectory::get()->take(50);
 
         $this->last_updated_at = FamilyDirectory::first()?->updated_at->format('F d, Y H:i a');
     }
@@ -110,6 +110,8 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
         $account = Account::find($accountId);
 
         $this->account_family = $account->account_name;
+
+        $this->contacts = FamilyDirectory::where('account_id', $this->account_id)->get();
 
         $this->dispatchBrowserEvent('open-modal', 'show-details');
     }

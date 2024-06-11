@@ -32,12 +32,12 @@
         <h2 class="text-2xl font-semibold font-heading text-primary-blue">
             SI Family Directory
         </h2>
-        <p class="self-center text-xs">Last Updated On: {{ $last_updated_at }}</p>
+        <p class="self-center hidden text-xs md:block">Last Updated On: {{ $last_updated_at }}</p>
     </div>
 
     <div class="mt-8" wire:ignore>
         <table id="table" class="cell-border" style="width: 100%">
-            <thead class="bg-gray-200 border">
+            <thead class="text-sm bg-gray-200 border md:text-base">
                 <tr>
                     <th>Name</th>
                     <th>Type</th>
@@ -51,15 +51,16 @@
                     <td>{{ $item->full_name }}</td>
                     <td>
                         @if($item->contact_type == 'Student')
-                        <div class="bg-primary-blue px-2 py-0.5 rounded-md text-gray-100 text-sm w-20 text-center">{{ $item->contact_type }}</div>
+                        <div class="bg-primary-blue px-0.5 md:px-2 py-0.5 rounded-md text-gray-100 text-xs md:text-sm w-20 text-center">{{ $item->contact_type }}</div>
                         @else
-                        <div class="bg-primary-red px-2 py-0.5 rounded-md text-gray-100 text-sm w-20 text-center">{{ $item->contact_type }}</div>
+                        <div class="bg-primary-red px-0.5 md:px-2 py-0.5 rounded-md text-gray-100 text-xs md:text-sm w-20 text-center">{{ $item->contact_type }}</div>
                         @endif
                     </td>
                     <td> {{ $item->grad_year }}</td>
                     <td>
                         <x-loading-icon wire:target="open(`{{ $item->id }}`,`{{ $item->account_id }}`)"/>  
-                        <button type="button" class="text-link" wire:click="open(`{{ $item->id }}`,`{{ $item->account_id }}`)">View Contact Details</button>
+                        <button type="button" class="hidden text-link md:block" wire:click="open(`{{ $item->id }}`,`{{ $item->account_id }}`)">View Contact Details</button>
+                        <button type="button" class="text-link md:hidden" wire:click="open(`{{ $item->id }}`,`{{ $item->account_id }}`)">View</button>
                     </td>
                 </tr>
                 @endforeach
@@ -77,8 +78,51 @@
                 </button>
             </div>
             <div class="bg-white border rounded-lg shadow-lg p-7">
-                <div class="mt-8">
+                <div class="hidden mt-8 md:block">
                     {{ $this->table }}
+                </div>
+                <div class="mt-8 space-y-2 md:hidden">
+                    @foreach($contacts as $contact)
+                    <div class="p-3 space-y-1 border border-gray-300 rounded-md">
+                        <div>
+                            @if($contact->contact_type == 'Student')
+                            <div class="bg-primary-blue px-0.5 md:px-2 py-0.5 rounded-md text-gray-100 text-xs md:text-sm w-20 text-center">{{ $contact->contact_type }}</div>
+                            @else
+                            <div class="bg-primary-red px-0.5 md:px-2 py-0.5 rounded-md text-gray-100 text-xs md:text-sm w-20 text-center">{{ $contact->contact_type }}</div>
+                            @endif
+                        </div>
+                        <div class="text-sm space-y-1.5">
+                            <h5 class="font-bold text-md">{{ $contact->full_name }}</h5>
+                            @if($contact->grad_year)
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-academic-cap class="flex-shrink-0 w-4 h-4 text-gray-500"/> 
+                                <span>{{ $contact->grad_year }}</span>
+                            </div>
+                            @endif
+
+                            @if($contact->personal_email)
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-mail class="flex-shrink-0 w-4 h-4 text-gray-500"/> 
+                                <span>{{ $contact->personal_email }}</span>
+                            </div>
+                            @endif
+
+                            @if($contact->mobile_phone)
+                            <div class="flex items-center gap-2">
+                                <x-heroicon-o-phone class="flex-shrink-0 w-4 h-4 text-gray-500"/> 
+                                <span>{{ format_phone($contact->mobile_phone) }}</span>
+                            </div>
+                            @endif
+
+                            @if($contact->home_address)
+                            <div class="flex items-start gap-2">
+                                <x-heroicon-o-location-marker class="flex-shrink-0 w-4 h-4 text-gray-500"/> 
+                                <span>{{ $contact->home_address }}</span>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

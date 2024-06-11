@@ -127,7 +127,11 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
 
     Route::get('hspt-scores', StudentHsptScores::class);
     Route::get('course-placement', FroshCoursePlacement::class);
-    Route::get('family-directory', SiFamilyDirectory::class);
+
+    Route::group(['middleware' => 'si-access'], function(){
+        Route::get('family-directory', SiFamilyDirectory::class);
+    });
+    
 
     Route::get('transfer-applications',TransferApplications::class)->name('transfer.index');
     Route::get('reregistration', ReRegistrations::class)->name('registration.re');
