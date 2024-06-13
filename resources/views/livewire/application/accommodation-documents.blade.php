@@ -3,6 +3,10 @@
         Accommodation Documents
     </h2>
 
+    <p class="mt-8">
+        Please use this form to submit learning difference documents to SI. DO NOT use this form to submit the SFUSD Health Form. Submit the SFUSD Health Form through the "Required Tasks for Frosh Students" page.
+    </p>
+
     <div class="mt-8">
         {{ $this->table }}
     </div>
