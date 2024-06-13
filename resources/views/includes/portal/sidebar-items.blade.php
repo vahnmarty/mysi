@@ -53,6 +53,8 @@
         <div class="border-t "></div>
     </div>
     <ul class="font-medium text-gray-700">
+
+        @if(Auth::user()->isAcceptedRegistration())
         <x-app-menu-item 
             start_date="{{ notification_setting('course_placement_notification_start_date')?->value }}"
             end_date="{{ notification_setting('course_placement_notification_end_date')?->value }}">
