@@ -3,9 +3,11 @@
 namespace App\Http\Livewire\Page;
 
 use DB;
+use Closure;
 use App\Models\Child;
 use App\Models\Account;
 use App\Models\Address;
+use App\Models\Parents;
 use Livewire\Component;
 use App\Models\CoursePlacement;
 use App\Models\FamilyDirectory;
@@ -13,12 +15,14 @@ use App\Forms\Components\TextOnly;
 use Filament\Tables\Actions\Action;
 use App\Models\Views\SiDirectoryView;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\BadgeColumn;
 use App\Forms\Components\ReadonlyTextbox;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -38,6 +42,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public $directory = [], $contacts = [];
     
+    
     public function render()
     {
         return view('livewire.page.si-family-directory');
@@ -45,7 +50,8 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function mount()
     {
-        $this->form->fill();
+        $parents = Parents::where('account_id', accountId())->get()->toArray();
+        $this->form->fill(['parents' => $parents]);
 
         $this->directory = FamilyDirectory::get()->take(50);
 
@@ -82,6 +88,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
                 ->label('Address'),
         ];
     }
+
     protected function getDefaultTableSortColumn(): ?string
     {
         return 'full_name';
@@ -154,7 +161,73 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     protected function getFormSchema(): array
     {
         return [
-            //Hidden::make('share_personal_email')
+            TableRepeater::make('parents')
+                ->label('')
+                ->disableItemCreation()
+                ->disableItemDeletion()
+                ->disableItemMovement()
+                ->hideLabels()
+                ->extraAttributes(['id' => 'table-si-directory'])
+                ->columnSpan('full')
+                ->schema([
+                    Hidden::make('id')->reactive(),
+                    Hidden::make('first_name')->reactive(),
+                    Hidden::make('last_name')->reactive(),
+                    TextInput::make('full_name')
+                        ->label('Parent/Guardian')
+                        ->afterStateHydrated(function(Closure $get, Closure $set){
+                            $set('full_name', $get('first_name') . ' ' . $get('last_name'));
+                        })
+                        ->reactive()
+                        ->disabled()
+                        ->required(),
+                    Select::make('share_personal_email')
+                        ->label('Share Personal Email?')
+                        ->disableLabel()
+                        ->required()
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ]),
+                    Select::make('share_mobile_phone')
+                        ->label('Share Mobile Phone?')
+                        ->disableLabel()
+                        ->required()
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ]),
+                    Select::make('share_full_address')
+                        ->label('Share Full Address?')
+                        ->disableLabel()
+                        ->required()
+                        ->options([
+                            1 => 'Yes',
+                            0 => 'No'
+                        ])
+                ])
         ];
     }
+
+    public function updatePreference()
+    {
+        $data = $this->form->getState();
+
+        foreach($data['parents'] as $item)
+        {
+            $parent = Parents::find($item['id']);
+            $parent->share_personal_email = $item['share_personal_email'];
+            $parent->share_mobile_phone = $item['share_mobile_phone'];
+            $parent->share_full_address = $item['share_full_address'];
+            $parent->save();
+        }
+
+        Notification::make()
+            ->title('Preference Updated Successfully')
+            ->success()
+            ->send();
+
+        $this->dispatchBrowserEvent('close-modal', 'edit-preference');
+    }
+    
 }
