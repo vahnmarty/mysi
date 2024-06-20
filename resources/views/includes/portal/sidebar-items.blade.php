@@ -69,7 +69,7 @@
             <li class="px-8 py-1 text-sm transition {{ request()->is('communication-preference*') ? 'border-green-400 border-r-2 bg-gray-200' : 'hover:bg-gray-200' }}">
                 <a href="{{ url('communication-preference') }}" class="inline-flex items-start w-full gap-3 text-gray-900 rounded-md text-md">
                     <x-heroicon-o-pencil-alt class="flex-shrink-0 w-5 h-5" />
-                    <strong>Manage Communication Preference</strong>
+                    <span>Manage Communication Preference</span>
                 </a>
             </li>
         </x-app-menu-item>
