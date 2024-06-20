@@ -33,12 +33,6 @@
             <h2 class="text-2xl font-semibold font-heading text-primary-blue">
                 SI Family Directory
             </h2>
-            <div class="mt-4">
-                <a x-data href="#" x-on:click.prevent="$dispatch('open-modal', 'edit-preference')" class="inline-flex items-center text-link">
-                    <x-heroicon-o-pencil class="flex-shrink-0 w-5 h-5 mr-1"/>
-                    Manage Communication Preferences
-                </a>
-            </div>
         </div>
         <p class="self-center hidden text-xs md:block">Last Updated On: {{ $last_updated_at }}</p>
     </div>
@@ -136,24 +130,6 @@
         </div>
     </x-modal>
 
-    <x-modal name="edit-preference" :show="false"  maxWidth="6xl">
-        <div class="relative modal-box">
-            <div class="absolute top-5 right-7">
-                <button x-on:click="$dispatch('close-modal', 'edit-preference')" type="button" class="text-gray-500 hover:text-gray-900">
-                    <x-heroicon-s-x class="w-5 h-5"/>
-                </button>
-            </div>
-            <div class="pt-16 bg-white border rounded-lg shadow-lg p-7">
-                <form action="" wire:submit.prevent="updatePreference">
-                    {{ $this->form }}
-
-                    <div class="flex justify-end mt-8">
-                        <button type="submit" class="btn-primary">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </x-modal>
 
 
 </div>

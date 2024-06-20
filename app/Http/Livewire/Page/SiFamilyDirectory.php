@@ -50,9 +50,6 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function mount()
     {
-        $parents = Parents::where('account_id', accountId())->get()->toArray();
-        $this->form->fill(['parents' => $parents]);
-
         $this->directory = FamilyDirectory::get()->take(50);
 
         $this->last_updated_at = FamilyDirectory::first()?->updated_at->format('F d, Y H:i a');
@@ -76,7 +73,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
                 ->label('Type'),
             TextColumn::make('full_name')
                 ->label('Name')
-                ->wrap(),
+                ->extraAttributes(['class' => 'w-36']),
             TextColumn::make('grad_year')
                 ->label('Class of'),
             TextColumn::make('personal_email')
@@ -85,7 +82,8 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
                 ->label('Phone')
                 ->formatStateUsing(fn($state) => format_phone($state)),
             TextColumn::make('home_address')
-                ->label('Address'),
+                ->label('Address')
+                ->wrap(),
         ];
     }
 
@@ -153,81 +151,8 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
         return 'Action';
     }
 
-    protected function getFormStatePath(): string 
-    {
-        return 'data';
-    }
+    
 
-    protected function getFormSchema(): array
-    {
-        return [
-            TableRepeater::make('parents')
-                ->label('')
-                ->disableItemCreation()
-                ->disableItemDeletion()
-                ->disableItemMovement()
-                ->hideLabels()
-                ->extraAttributes(['id' => 'table-si-directory'])
-                ->columnSpan('full')
-                ->schema([
-                    Hidden::make('id')->reactive(),
-                    Hidden::make('first_name')->reactive(),
-                    Hidden::make('last_name')->reactive(),
-                    TextInput::make('full_name')
-                        ->label('Parent/Guardian')
-                        ->afterStateHydrated(function(Closure $get, Closure $set){
-                            $set('full_name', $get('first_name') . ' ' . $get('last_name'));
-                        })
-                        ->reactive()
-                        ->disabled()
-                        ->required(),
-                    Select::make('share_personal_email')
-                        ->label('Share Personal Email?')
-                        ->disableLabel()
-                        ->required()
-                        ->options([
-                            1 => 'Yes',
-                            0 => 'No'
-                        ]),
-                    Select::make('share_mobile_phone')
-                        ->label('Share Mobile Phone?')
-                        ->disableLabel()
-                        ->required()
-                        ->options([
-                            1 => 'Yes',
-                            0 => 'No'
-                        ]),
-                    Select::make('share_full_address')
-                        ->label('Share Full Address?')
-                        ->disableLabel()
-                        ->required()
-                        ->options([
-                            1 => 'Yes',
-                            0 => 'No'
-                        ])
-                ])
-        ];
-    }
-
-    public function updatePreference()
-    {
-        $data = $this->form->getState();
-
-        foreach($data['parents'] as $item)
-        {
-            $parent = Parents::find($item['id']);
-            $parent->share_personal_email = $item['share_personal_email'];
-            $parent->share_mobile_phone = $item['share_mobile_phone'];
-            $parent->share_full_address = $item['share_full_address'];
-            $parent->save();
-        }
-
-        Notification::make()
-            ->title('Preference Updated Successfully')
-            ->success()
-            ->send();
-
-        $this->dispatchBrowserEvent('close-modal', 'edit-preference');
-    }
+    
     
 }

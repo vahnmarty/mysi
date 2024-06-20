@@ -18,8 +18,8 @@ use App\Http\Livewire\RecommendationForm;
 use App\Http\Livewire\NotificationPreview;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
-use App\Http\Livewire\Page\SiFamilyDirectory;
 use App\Http\Livewire\Auth\ResetPasswordPage;
+use App\Http\Livewire\Page\SiFamilyDirectory;
 
 use App\Http\Livewire\Page\StudentHsptScores;
 use App\Http\Controllers\Admin\AuthController;
@@ -48,6 +48,7 @@ use App\Http\Livewire\Application\HealthcareInformation;
 use App\Http\Livewire\Registration\SelectReregistration;
 use App\Http\Livewire\Registration\StudentRegistrations;
 use App\Http\Livewire\Application\AccommodationDocuments;
+use App\Http\Livewire\Page\ManageCommunicationPreference;
 use App\Http\Livewire\Registration\RegistrationCompleted;
 use App\Http\Livewire\Registration\ReRegistrationCompleted;
 use App\Http\Livewire\Registration\FinancialAidNotifications;
@@ -130,6 +131,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
 
     Route::group(['middleware' => 'si-access'], function(){
         Route::get('family-directory', SiFamilyDirectory::class);
+        Route::get('communication-preference', ManageCommunicationPreference::class);
     });
     
 
