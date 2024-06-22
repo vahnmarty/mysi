@@ -274,12 +274,16 @@
         </x-sidebar-item>
         @endif
 
-        <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
-            <x-slot name="icon">
-                <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
-            </x-slot>
-            Upload Accommodations Documents
-        </x-sidebar-item>
+        <x-app-menu-item 
+            start_date="{{ notification_setting('upload_accommodation_document_start_date')?->value }}"
+            end_date="{{ notification_setting('upload_accommodation_document_end_date')?->value }}">
+            <x-sidebar-item align="start" href="{{ route('application.accommodation-documents') }}">
+                <x-slot name="icon">
+                    <x-heroicon-o-document-add class="flex-shrink-0 w-5 h-5" />
+                </x-slot>
+                Upload Accommodations Documents
+            </x-sidebar-item>
+        </x-app-menu-item>
 
         @php
             $supplemental_recommendation_start_date = notification_setting('supplemental_recommendation_start_date');

@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'client' => CheckClientCredentials::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'si-access' => \App\Http\Middleware\SiFamilyAccess::class,
+        'timeline' => \App\Http\Middleware\TimelineAccess::class,
     ];
 }
