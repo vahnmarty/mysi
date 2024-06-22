@@ -106,7 +106,11 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('admission/payment/{uuid?}', PayApplicationFee::class)->name('application.payment');
     Route::get('admission/{uuid}', ApplicationForm::class)->name('application.form');
     Route::get('admission/{uuid}/readonly', ViewApplication::class)->name('application.show');
-    Route::get('accommodation-documents', AccommodationDocuments::class)->name('application.accommodation-documents');
+
+    Route::get('accommodation-documents', AccommodationDocuments::class)
+        ->name('application.accommodation-documents')
+        ->middleware('timeline:upload_accommodation_document_start_date,upload_accommodation_document_end_date');
+
     Route::get('help', ContactPage::class)->name('help');
     Route::get('prep-shop', SiPrepShop::class)->name('si-prep-shop');
     Route::get('supplemental-recommendation', SupplementalRecommendationPage::class)->name('application.supplemental-recommendation');

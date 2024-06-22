@@ -20,6 +20,9 @@ class NewSchoolTimelineSeeder extends Seeder
         $this->create('re_registration_start_date', 'Re-Registration Start Date', null, 'datetime');
         $this->create('re_registration_end_date', 'Re-Registration End Date', null, 'datetime');
 
+        $this->create('upload_accommodation_document_start_date', 'Upload Accommodations Start Date', null, 'datetime');
+        $this->create('upload_accommodation_document_end_date', 'Upload Accommodations End Date', null, 'datetime');
+
     }
 
     public function create($config, $description, $value = null, $form_type = null)
