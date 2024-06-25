@@ -20,6 +20,12 @@
         $(document).ready( function () {
             $('#table').DataTable({
                 "pageLength": 100,
+                columnDefs: [
+                    {
+                    orderSequence: ['desc', 'asc'],
+                    targets: '_all'
+                    }
+                ]
             });
         } );
         

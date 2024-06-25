@@ -50,7 +50,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
     public function mount()
     {
-        $this->directory = FamilyDirectory::orderBy('contact_type')->get()->take(50);
+        $this->directory = FamilyDirectory::get();
 
         $this->last_updated_at = FamilyDirectory::first()?->updated_at->format('F d, Y H:i a');
     }
@@ -116,7 +116,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
 
         $this->account_family = $account->account_name;
 
-        $this->contacts = FamilyDirectory::where('account_id', $this->account_id)->get();
+        $this->contacts = FamilyDirectory::where('account_id', $this->account_id)->orderBy('contact_type', 'asc')->get();
 
         $this->dispatchBrowserEvent('open-modal', 'show-details');
     }
