@@ -41,7 +41,8 @@
         <table id="table" class="cell-border" style="width: 100%">
             <thead class="text-sm bg-gray-200 border md:text-base">
                 <tr>
-                    <th>Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Type</th>
                     <th>Class of</th>
                     <th>Link</th>
@@ -50,7 +51,8 @@
             <tbody>
                 @foreach($directory as $item)
                 <tr wire:key="dir{{ $item->id }}">
-                    <td>{{ $item->full_name }}</td>
+                    <td>{{ $item->first_name }}</td>
+                    <td>{{ $item->last_name }}</td>
                     <td>
                         @if($item->contact_type == 'Student')
                         <div class="bg-primary-blue px-0.5 md:px-2 py-0.5 rounded-md text-gray-100 text-xs md:text-sm w-20 text-center">{{ $item->contact_type }}</div>
@@ -72,7 +74,7 @@
 
     
 
-    <x-modal name="show-details" :show="false"  maxWidth="6xl">
+    <x-modal name="show-details" :show="false"  maxWidth="md">
         <div class="relative modal-box">
             <div class="absolute top-5 right-7">
                 <button x-on:click="$dispatch('close-modal', 'show-details')" type="button" class="text-gray-500 hover:text-gray-900">
@@ -80,12 +82,12 @@
                 </button>
             </div>
             <div class="bg-white border rounded-lg shadow-lg p-7">
-                <div class="hidden mt-8 md:block">
+                <div class="hidden mt-8 ">
                     {{ $this->table }}
                 </div>
-                <div class="mt-8 space-y-2 md:hidden">
+                <div class="mt-8 space-y-2 md:space-y-4">
                     @foreach($contacts as $contact)
-                    <div class="p-3 space-y-1 border border-gray-300 rounded-md">
+                    <div class="p-3 space-y-1 border border-gray-300 rounded-md md:space-y-2">
                         <div>
                             @if($contact->contact_type == 'Student')
                             <div class="bg-primary-blue px-0.5 md:px-2 py-0.5 rounded-md text-gray-100 text-xs md:text-sm w-20 text-center">{{ $contact->contact_type }}</div>
@@ -116,10 +118,15 @@
                             </div>
                             @endif
 
-                            @if($contact->home_address)
+                            @if($contact->address_street || $contact->address_city)
                             <div class="flex items-start gap-2">
                                 <x-heroicon-o-location-marker class="flex-shrink-0 w-4 h-4 text-gray-500"/> 
-                                <span>{{ $contact->home_address }}</span>
+                                <div>
+                                    @if($contact->address_street)
+                                    <div>{{ $contact->address_street }}</div>
+                                    @endif
+                                    <div>{{ $contact->address_city  . ', ' . $contact->address_state . ' ' . $contact->address_zip}}</div>
+                                </div>
                             </div>
                             @endif
                         </div>
