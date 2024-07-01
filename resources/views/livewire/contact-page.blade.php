@@ -44,9 +44,11 @@
 
             {{ $this->form }}
 
+            @if(false)
             <div class="flex justify-center mt-8">
                 <button type="submit" class="btn-primary">Send</button>
             </div>
+            @endif
         </form>
 
     </div>
