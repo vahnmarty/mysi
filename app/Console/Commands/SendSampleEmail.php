@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Mail;
 use App\Mail\SampleMail;
 use Illuminate\Console\Command;
+use Log;
 
 class SendSampleEmail extends Command
 {
@@ -31,6 +32,12 @@ class SendSampleEmail extends Command
 
         $email = $this->argument('email');
 
-        Mail::to($email)->send(new SampleMail($message));
+        try {
+            Mail::to($email)->send(new SampleMail($message));
+        } catch (\Throwable $th) {
+            Log::alert('Mail Error');
+            Log::debug($th);
+        }
+        
     }
 }
