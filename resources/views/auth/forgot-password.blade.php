@@ -15,6 +15,8 @@
             <p class="mt-8 text-base text-center ">Back to <a href="{{ route('login') }}" class="font-bold text-link">Login</a>.</p>
         </div>
         @else
+
+        @if(false)
         <form method="POST" action="{{ route('password.email') }}" class="mt-8" novalidate>
             @csrf
     
@@ -25,11 +27,13 @@
                 <p class="mt-2">This email does not exist.   Please <a href="{{ route('register') }}" class="font-bold text-link">create an account</a>.</p>
                 @enderror
             </div>
-    
+
+            
             <div class="flex items-center justify-center mt-8">
                 <button type="submit" class="btn-primary-fixer">Submit</button>
             </div>
         </form>
+        @endif
         @endif
     </div>
 
