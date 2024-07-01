@@ -26,9 +26,11 @@
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
     
+            @if(false)
             <div class="flex items-center justify-center mt-8">
                 <button type="submit" class="btn-primary-fixer">Submit</button>
             </div>
+            @endif
         </form>
     </div>
 

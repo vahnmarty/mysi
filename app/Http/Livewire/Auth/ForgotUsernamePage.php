@@ -57,8 +57,6 @@ class ForgotUsernamePage extends Component implements HasForms
 
     public function submit()
     {
-        dd('Feature in maintenance mode.');
-        
         $data = $this->form->getState();
 
         $type = '';
