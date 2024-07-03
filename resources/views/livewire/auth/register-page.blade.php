@@ -27,11 +27,11 @@
 
             {{ $this->form }}
 
-            @if(false)
+            
             <div class="flex justify-center mt-8">
                 <button x-show="next" type="submit" class="btn-primary-fixer">Register</button>
             </div>
-            @endif
+            
 
             <p class="mt-8 text-sm text-center">Have an account? <a href="{{ route('login') }}" class="font-bold text-link">Login</a></p>
         </form>
