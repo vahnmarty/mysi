@@ -41,7 +41,6 @@
 
                     {{ $this->form }}
 
-                    @if(false)
                     <div class="flex items-center justify-center mt-4 space-x-2 lg:space-x-8">
                         <a class="text-sm rounded-md text-link hover:text-link hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                             href="{{ route('forgot-username') }}">
@@ -56,7 +55,6 @@
                         </a>
 
                     </div>
-                    @endif
                     
 
 
@@ -67,10 +65,8 @@
                         <button x-show="show" x-cloak type="submit" class="btn-primary-fixer"><x-loading-icon wire:target="login"/> Log In</button>
                     </div>
 
-                    @if(false)
                     <p class="mt-6 text-sm text-center ">Don't have an account? <a href="{{ route('register') }}"
                     class="font-bold text-link hover:underline">Create account</a>.</p>
-                    @endif
 
                     
                 </form>

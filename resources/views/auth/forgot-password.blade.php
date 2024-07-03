@@ -16,7 +16,6 @@
         </div>
         @else
 
-        @if(false)
         <form method="POST" action="{{ route('password.email') }}" class="mt-8" novalidate>
             @csrf
     
@@ -33,7 +32,6 @@
                 <button type="submit" class="btn-primary-fixer">Submit</button>
             </div>
         </form>
-        @endif
         @endif
     </div>
 
