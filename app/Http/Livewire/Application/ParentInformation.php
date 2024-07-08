@@ -302,6 +302,7 @@ class ParentInformation extends Component implements HasTable, HasForms
                                 ->validationAttribute('Phone Number')
                                 //->unique('parents','mobile_phone',  fn($livewire) => $livewire->model)
                                 ->default('')
+                                ->lazy()
                                 ->maxLength(14), // 14 for Mask, but 10 is for the actual Max
                             TextInput::make('personal_email')
                                 ->label('Preferred Email')
