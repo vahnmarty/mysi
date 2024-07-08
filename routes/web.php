@@ -14,13 +14,14 @@ use App\Http\Livewire\ViewFinancialAid;
 use App\Filament\Pages\ViewNotification;
 use App\Http\Livewire\Auth\RegisterPage;
 use App\Http\Livewire\Profile\MyProfile;
+use App\Http\Livewire\Page\ManageDevices;
 use App\Http\Livewire\RecommendationForm;
 use App\Http\Livewire\NotificationPreview;
 use App\Http\Livewire\Profile\EditProfile;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\Auth\ResetPasswordPage;
-use App\Http\Livewire\Page\SiFamilyDirectory;
 
+use App\Http\Livewire\Page\SiFamilyDirectory;
 use App\Http\Livewire\Page\StudentHsptScores;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
@@ -87,6 +88,7 @@ Route::get('reregistration/login', ReRegistrationLoginPage::class)->name('login.
 Route::get('register', RegisterPage::class)->name('register')->middleware('guest');
 Route::get('account/create/{token}', CreateAccountPassword::class)->name('account.request');
 Route::get('forgot-username', ForgotUsernamePage::class)->name('forgot-username');
+Route::get('devices', ManageDevices::class)->name('user-devices');
 
 Route::group(['middleware' => 'auth', 'verified'], function(){
 

@@ -54,7 +54,7 @@
                         </x-dropdown>
                     </div> -->
     
-                    <div class="relative flex-shrink-0 ml-5 rounded-md">
+                    <!-- <div class="relative flex-shrink-0 ml-5 rounded-md">
                         
                         <x-dropdown width="64">
                             <x-slot name="trigger">
@@ -86,7 +86,7 @@
                                 </div>
                             </x-slot>
                         </x-dropdown>
-                    </div>
+                    </div> -->
     
                     
                     
@@ -111,6 +111,12 @@
                                         <a href="{{ url('profile') }}" class="flex gap-3 px-6 py-3 text-xs ">
                                             <x-heroicon-o-user-circle class="w-4 h-4"/>
                                             Profile
+                                        </a>
+                                    </div>
+                                    <div class="hover:bg-gray-100">
+                                        <a href="{{ url('devices') }}" class="flex gap-3 px-6 py-3 text-xs ">
+                                            <x-heroicon-o-desktop-computer class="w-4 h-4"/>
+                                            My Devices
                                         </a>
                                     </div>
                                     @if(Auth::user()->isImpersonated())
