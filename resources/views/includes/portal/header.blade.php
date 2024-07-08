@@ -54,24 +54,42 @@
                         </x-dropdown>
                     </div> -->
     
-                    <!-- <div class="relative flex-shrink-0 ml-5 rounded-md">
+                    <div class="relative flex-shrink-0 ml-5 rounded-md">
                         
-                        <x-dropdown width="96">
+                        <x-dropdown width="64">
                             <x-slot name="trigger">
-                                <button type="button"  class="p-2 text-white bg-red-900 rounded-sm hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2">
-                                    <x-heroicon-o-bell class="w-4 h-4"/>
+                                <button class="p-1.5 bg-gray-500 rounded-sm lg:p-2">
+                                    <x-heroicon-s-desktop-computer class="w-4 h-4 text-white lg:w-5 lg:h-5"/>
                                 </button>
                             </x-slot>
                             <x-slot name="content">
                                 <div class="p-4 min-h-[10rem]">
-                                    <h4 class="text-sm font-bold">Notifications</h4>
+                                    <h4 class="text-sm font-bold">Users</h4>
+                                    <div class="pt-2 mt-2 space-y-3 border-t">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-2 h-2 bg-green-600 rounded-full"></div>
+                                            <div class="text-sm">You</div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+                                            <div class="text-sm text-gray-400">Vahn Marty</div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-2 h-2 bg-gray-300 rounded-full"></div>
+                                            <div class="text-sm text-gray-400">Ramil Ferro</div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-2 h-2 bg-green-600 rounded-full"></div>
+                                            <div class="text-sm">Steve Jobs</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </x-slot>
                         </x-dropdown>
-                    </div> -->
+                    </div>
     
                     
-    
+                    
                     <!-- Profile dropdown -->
                     <div class="relative flex-shrink-0 ml-5 rounded-md">
                         
