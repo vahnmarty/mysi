@@ -25,11 +25,21 @@
                         @endif
                     </p>
                 </div>
+
+                @if($sesh->id != session()->getId())
+                <div class="ml-4">
+                    <button class="inline-flex items-center px-4 py-1.5 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md bg-primary-blue dark:bg-gray-200 dark:text-gray-800 hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                        Logout
+                    </button>
+                </div>
+                @endif
             </div>
             @endforeach
         </div>
+        @if(count($sessions) > 1)
         <div class="mt-8">
             <button x-data x-on:click="confirm('Are you sure you want to logout other devices?')" type="button" class="btn-danger">Logout outher browser sessions?</button>
         </div>
+        @endif
     </div>
 </div>

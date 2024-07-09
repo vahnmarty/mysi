@@ -199,6 +199,18 @@
         
         @endif
 
+
+        <x-app-menu-item 
+            start_date="{{ notification_setting('hspt_scores_start_date')?->value }}"
+            end_date="{{ notification_setting('hspt_scores_end_date')?->value }}">
+            <x-sidebar-item align="start" href="{{ url('hspt-information') }}">
+                <x-slot name="icon">
+                    <x-heroicon-o-clipboard-list class="flex-shrink-0 w-5 h-5" />
+                </x-slot>
+                HSPT Information
+            </x-sidebar-item>
+        </x-app-menu-item>
+
         <x-app-menu-item 
             start_date="{{ notification_setting('hspt_scores_start_date')?->value }}"
             end_date="{{ notification_setting('hspt_scores_end_date')?->value }}">

@@ -32,6 +32,7 @@ use App\Http\Livewire\Auth\CreateAccountPassword;
 use App\Http\Livewire\Notifications\FinancialAid;
 use App\Http\Livewire\Application\ApplicationForm;
 use App\Http\Livewire\Application\ViewApplication;
+use App\Http\Livewire\Page\StudentHsptInformation;
 use App\Http\Livewire\Admission\TransactionHistory;
 use App\Http\Livewire\Auth\ReRegistrationLoginPage;
 use App\Http\Livewire\Registration\ReRegistrations;
@@ -133,6 +134,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('survey/{uuid}', SurveyForm::class)->name('survey-form');
 
     Route::get('hspt-scores', StudentHsptScores::class);
+    Route::get('hspt-information', StudentHsptInformation::class);
     Route::get('course-placement', FroshCoursePlacement::class);
 
     Route::group(['middleware' => 'si-access'], function(){
