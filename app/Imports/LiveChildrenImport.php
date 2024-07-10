@@ -38,7 +38,7 @@ class LiveChildrenImport implements ToCollection, WithStartRow
                     'birthdate' =>  !$row[15] ? date('Y-m-d', strtotime($row[15])) : null,
                     'gender' => (string) $row[16],
                     'race' => (string) $row[17],
-                    'ethnicity' => (string) $row[18],
+                    'ethnic_background' => (string) $row[18],
                     'current_grade' => (string) $row[19],
                     'current_school' => (string) $row[20],
                     'current_school_not_listed' => (string) $row[21],

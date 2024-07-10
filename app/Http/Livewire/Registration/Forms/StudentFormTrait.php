@@ -137,8 +137,8 @@ trait StudentFormTrait{
 
                     $this->autoSaveStudent('multi_racial_flag', $multi_racial_flag);
                 }),
-            TagsInput::make('student.ethnicity')
-                ->label(new HtmlString('<div>What is your child\'s ethnicity?</div>
+            TagsInput::make('student.ethnic_background')
+                ->label(new HtmlString('<div>What is your child\'s ethnic_background?</div>
                     <div class="text-sm" style="font-weight: 500">* If more than one, separate ethnicities with a comma.</div>'))
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
@@ -155,7 +155,7 @@ trait StudentFormTrait{
                 })
                 ->afterStateUpdated(function(Closure $get, $state){
                     $input = is_array($state) ? implode(',', $state) : $state;
-                    $this->autoSaveStudent('ethnicity', $input);
+                    $this->autoSaveStudent('ethnic_background', $input);
                 }),
             Grid::make(2)
                 ->schema([

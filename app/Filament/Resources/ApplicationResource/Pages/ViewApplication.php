@@ -87,7 +87,7 @@ class ViewApplication extends ViewRecord
             $data['placement_test_date'] = settings('placement_test_date');
 
             # Missing Fields
-            if(empty($data['student']['ethnicity'])){
+            if(empty($data['student']['ethnic_background'])){
                 $this->record->archive()->update([
                     'student' => $this->app->student->toArray()
                 ]);
@@ -213,8 +213,8 @@ class ViewApplication extends ViewRecord
                     }
                 })
                 ->disabled(),
-            TagsInput::make('student.ethnicity')
-                ->label(new HtmlString('<div>What is your ethnicity?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
+            TagsInput::make('student.ethnic_background')
+                ->label(new HtmlString('<div>What is your Ethnic Background?</div><div class="text-xs" style="font-weight: 500">*If more than one, separate ethnicities with a comma.</div>'))
                 ->helperText('EXAMPLE: "Filipino, Hawaiian, Irish, Italian, Eritrean, Armenian, Salvadorian"')
                 ->lazy()
                 ->placeholder('')
