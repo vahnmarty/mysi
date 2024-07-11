@@ -13,7 +13,9 @@ use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Livewire\Component as Livewire;
 //use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
@@ -81,11 +83,98 @@ trait StudentFormTrait{
                     $livewire->validateOnly($component->getStatePath());
                     $this->autoSaveStudent('preferred_first_name', $state);
                 }),
-            DatePicker::make('student.birthdate')
+            Placeholder::make('date_of_birth_label')
+                ->label('')
+                ->content(new HtmlString('
+                <label class="inline-flex items-center space-x-3 filament-forms-field-wrapper-label rtl:space-x-reverse">
+                    <span class="text-sm font-medium leading-4 text-gray-700">
+                        Date of Birth 
+                        <sup class="font-medium text-danger-700 whitespace-nowrap">
+                            *
+                        </sup>
+                    </span>
+                </label>')),
+            Grid::make('Date of Birth')
+                ->columns(5)
+                ->extraAttributes(['style' => 'margin-top: -1em', 'class' => ''])
+                ->schema([
+                    Select::make('student.birthdate_month')
+                        ->options([
+                            1 => 'January',
+                            2 => 'February',
+                            3 => 'March',
+                            4 => 'April',
+                            5 => 'May',
+                            6 => 'June',
+                            7 => 'July',
+                            8 => 'August',
+                            9 => 'September',
+                            10 => 'October',
+                            11 => 'November',
+                            12 => 'December'
+                        ])
+                        ->placeholder('Select Month')
+                        ->label('')
+                        ->lazy()
+                        ->afterStateHydrated(function(Closure $set, Closure $get, Select $component){
+                            $date = explode('-', $get('student.birthdate'));
+                            $component->state($date[1]);
+                        })
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $month = $get('student.birthdate_month');
+                            $day = $get('student.birthdate_day');
+                            $year = $get('student.birthdate_year');
+
+                            if($month && $year && $day){
+                                $date = $year . '-' . $month . '-' . $day;
+                                $this->autoSaveStudent('birthdate', $date);
+                            }
+                        }),
+                    Select::make('student.birthdate_day')
+                        ->options( array_combine( range(1, 31), range(1, 31)) )
+                        ->placeholder('Select Day')
+                        ->label("")
+                        ->lazy()
+                        ->afterStateHydrated(function(Closure $set, Closure $get, Select $component){
+                            $date = explode('-', $get('student.birthdate'));
+                            $component->state($date[2]);
+                        })
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $month = $get('student.birthdate_month');
+                            $day = $get('student.birthdate_day');
+                            $year = $get('student.birthdate_year');
+
+                            if($month && $year && $day){
+                                $date = $year . '-' . $month . '-' . $day;
+                                $this->autoSaveStudent('birthdate', $date);
+                            }
+                        }),
+                    Select::make('student.birthdate_year')
+                        ->options( array_combine( range(2000, date('Y')), range(2000, date('Y')) )  )
+                        ->placeholder('Select Year')
+                        ->label("")
+                        ->lazy()
+                        ->afterStateHydrated(function(Closure $set, Closure $get, Select $component){
+                            $date = explode('-', $get('student.birthdate'));
+                            $component->state($date[0]);
+                        })
+                        ->afterStateUpdated(function(Closure $get, $state){
+                            $month = $get('student.birthdate_month');
+                            $day = $get('student.birthdate_day');
+                            $year = $get('student.birthdate_year');
+
+                            if($month && $year && $day){
+                                $date = $year . '-' . $month . '-' . $day;
+                                $this->autoSaveStudent('birthdate', $date);
+                            }
+                        }),
+                ]),
+            
+            Hidden::make('student.birthdate')
                 ->label('Date of Birth')
-                ->lazy()
-                ->required()
-                ->closeOnDateSelection()
+                //->lazy()
+                //->required()
+                //->closeOnDateSelection()
                 ->afterStateUpdated(function($state){
                     $this->autoSaveStudent('birthdate', $state);
                 }),
@@ -265,6 +354,7 @@ trait StudentFormTrait{
             
         ];
     }
+
 
     private function autoSaveStudent($column, $value)
     {
