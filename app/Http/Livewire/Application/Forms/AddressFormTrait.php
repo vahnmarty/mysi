@@ -103,6 +103,7 @@ trait AddressFormTrait{
                         ->label('City')
                         ->disabled(fn(Closure $get) => !$get('address_type') )
                         ->lazy()
+                        ->disableAutocomplete()
                         ->afterStateUpdated(function(Closure $get, $state){
                             $this->autoSaveAddress($get('id'), 'city', $state);
                         })
