@@ -7,13 +7,11 @@
         {{ $this->table }}
     </div>
 
-    @if(false)
     <div class="py-6">
         <button x-data="{ form: $wire.entangle('enable_form') }" 
             x-show="!form" 
             class="btn-primary-red" wire:click="add">Add</button>
     </div>
-    @endif
 
 
     <div x-data="{ enable: $wire.entangle('enable_form') }" 
@@ -28,12 +26,10 @@
             
             {{ $this->form }}
 
-            @if(false)
             <div class="flex justify-end gap-8 mt-8">
                 <button type="button" wire:click="cancel()" class="btn-primary">Cancel</button>
                 <button type="submit" class="btn-primary">Save Changes</button>
             </div>
-            @endif
         </form>
     </div>
 </div>
