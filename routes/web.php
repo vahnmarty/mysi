@@ -25,6 +25,7 @@ use App\Http\Livewire\Page\SiFamilyDirectory;
 use App\Http\Livewire\Page\StudentHsptScores;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Livewire\Auth\ForgotUsernamePage;
+use App\Http\Livewire\Page\DeviceCompatability;
 use App\Http\Controllers\NotificationController;
 use App\Http\Livewire\Page\FroshCoursePlacement;
 use App\Http\Livewire\Admission\ViewApplications;
@@ -136,6 +137,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('hspt-scores', StudentHsptScores::class);
     Route::get('hspt-information', StudentHsptInformation::class);
     Route::get('course-placement', FroshCoursePlacement::class);
+    Route::get('device-compatability', DeviceCompatability::class)->name('device-compatability');
 
     Route::group(['middleware' => 'si-access'], function(){
         Route::get('family-directory', SiFamilyDirectory::class);

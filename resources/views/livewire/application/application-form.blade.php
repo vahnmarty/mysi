@@ -5,6 +5,15 @@
         </h2>
     </div>
 
+    <x-os-version/>
+
+
+    @php
+    $agent = new Jenssegers\Agent\Agent();
+    @endphp
+    
+
+    @if(!$agent->isMobile() && !$agent->is('Linux'))
     <div wire:loading wire:target="submit"
         class="fixed inset-0 bg-gray-900/90 z-[1000] flex items-center justify-center lg:p-32 p-8">
         <div 
@@ -54,4 +63,5 @@
         </div>
         
     </div>
+    @endif
 </div>
