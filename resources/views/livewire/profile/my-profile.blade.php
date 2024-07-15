@@ -1,7 +1,7 @@
 <div>
    <div class="flex justify-between">
         <h2 class="text-2xl font-semibold font-heading text-primary-blue">
-            My Profile
+            My Profile <div class="text-sm text-white"> {{ accountId() }}</div>
         </h2>
         <div>
             <a href="{{ route('profile.edit') }}" class="btn-primary">Edit</a>

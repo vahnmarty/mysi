@@ -21,17 +21,17 @@ class StudentHsptInformation extends Component implements HasTable
 
     public function getTableQuery()
     {
-        return Child::where('account_id', accountId());
+        return HsptScore::where('account_id', accountId());
     }
 
     protected function getTableColumns(): array 
     {
         return [
-            TextColumn::make('application.hspt_id')
+            TextColumn::make('hspt_id')
                 ->label('HSPT ID'),
-            TextColumn::make('full_name')
+            TextColumn::make('name')
                 ->label('Student Name'),
-            TextColumn::make('official_school')
+            TextColumn::make('school')
                 ->label('Name of School')
                 ->wrap(),
             TextColumn::make('school_code')
