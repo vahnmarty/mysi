@@ -118,7 +118,10 @@ trait StudentFormTrait{
                         ->lazy()
                         ->afterStateHydrated(function(Closure $set, Closure $get, Select $component){
                             $date = explode('-', $get('student.birthdate'));
-                            $component->state($date[1]);
+                            if(!empty($date[1])){
+                                $component->state($date[1]);
+                            }
+                            
                         })
                         ->afterStateUpdated(function(Closure $get, $state){
                             $month = $get('student.birthdate_month');
@@ -137,7 +140,10 @@ trait StudentFormTrait{
                         ->lazy()
                         ->afterStateHydrated(function(Closure $set, Closure $get, Select $component){
                             $date = explode('-', $get('student.birthdate'));
-                            $component->state($date[2]);
+
+                            if(!empty($date[2])){
+                                $component->state($date[2]);
+                            }
                         })
                         ->afterStateUpdated(function(Closure $get, $state){
                             $month = $get('student.birthdate_month');
@@ -156,7 +162,11 @@ trait StudentFormTrait{
                         ->lazy()
                         ->afterStateHydrated(function(Closure $set, Closure $get, Select $component){
                             $date = explode('-', $get('student.birthdate'));
-                            $component->state($date[0]);
+
+                            if(!empty($date[0])){
+                                $component->state($date[0]);
+                            }
+
                         })
                         ->afterStateUpdated(function(Closure $get, $state){
                             $month = $get('student.birthdate_month');
