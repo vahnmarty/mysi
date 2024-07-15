@@ -7,6 +7,7 @@ use Mail;
 use App\Models\User;
 use App\Models\Account;
 use App\Models\Parents;
+use App\Models\Session;
 use Livewire\Component;
 use App\Enums\AccountAction;
 use App\Mail\AccountRequested;
@@ -203,11 +204,11 @@ class LoginPage extends Component implements HasForms
         }
         
         if(Auth::attempt([ 'email' => $data['email'] , 'password' => $data['password']]) ){
-            return redirect('dashboard');
+            return $this->redirectLogin();
         }
 
         if(Auth::attempt([ 'username' => $data['email'] , 'password' => $data['password']]) ){
-            return redirect('dashboard');
+            return $this->redirectLogin();
         }
 
         $this->addError('login', 'Wrong username or wrong password');
@@ -227,5 +228,15 @@ class LoginPage extends Component implements HasForms
         $this->display_message = true;
         $this->action = 'primary_parent';
         $this->primary_parent_name = $primary_parent?->getFullName();
+    }
+
+    public function devices()
+    {
+        return Session::where('user_id', auth()->id())->count();
+    }
+
+    public function redirectLogin()
+    {
+        return redirect('dashboard');
     }
 }

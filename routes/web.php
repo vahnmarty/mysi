@@ -91,7 +91,6 @@ Route::get('reregistration/login', ReRegistrationLoginPage::class)->name('login.
 Route::get('register', RegisterPage::class)->name('register')->middleware('guest');
 Route::get('account/create/{token}', CreateAccountPassword::class)->name('account.request');
 Route::get('forgot-username', ForgotUsernamePage::class)->name('forgot-username');
-Route::get('devices', ManageDevices::class)->name('user-devices');
 
 Route::group(['middleware' => 'auth', 'verified'], function(){
 
@@ -101,8 +100,9 @@ Route::group(['middleware' => 'auth', 'verified'], function(){
 });
 
 
-Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
+Route::group(['middleware' => 'auth', 'auth.session', 'verified', 'role:user'], function(){
 
+    Route::get('devices', ManageDevices::class)->name('user-devices');
     Route::get('parents', ParentInformation::class)->name('application.parents');
     Route::get('children', ChildrenInformation::class)->name('application.children');
     Route::get('address', AddressInformation::class)->name('application.address');

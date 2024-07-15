@@ -31,6 +31,8 @@
 
 <body class="h-full font-sans antialiased">
 
+    @livewire('auth.active-devices')
+    
     @livewire('banner-impersonator')
 
     @include('includes.portal.header')

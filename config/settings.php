@@ -17,6 +17,8 @@ return [
     'class_year' => env('CLASS_YEAR'),
     'number_of_applicants' => env('NUMBER_OF_APPLICANTS'),
 
+    'max_devices' => env("MAX_DEVICES", 1),
+
     'registration' =>[
     ]
 

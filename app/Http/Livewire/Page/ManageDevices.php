@@ -22,4 +22,9 @@ class ManageDevices extends Component
     {
         
     }
+
+    public function logout($sessionId)
+    {
+        Session::destroy($sessionId);
+    }
 }
