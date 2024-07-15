@@ -272,12 +272,13 @@
             Entrance Exam (HSPT)
         </x-sidebar-item>
 
-        <x-sidebar-item align="start" href="https://www.siprep.org/admissions/apply/admissions-video" target="_blank">
+        <x-sidebar-item align="start" href="{{ route('admission-video') }}">
             <x-slot name="icon">
                 <x-heroicon-o-video-camera class="flex-shrink-0 w-5 h-5" />
             </x-slot>
-            Admissions Video
+            Student Admissions Video
         </x-sidebar-item>
+
 
         @else
         <x-sidebar-item align="start" href="{{ url('applications') }}">

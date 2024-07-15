@@ -42,6 +42,7 @@ use App\Http\Livewire\Application\ParentInformation;
 use App\Http\Livewire\Application\PayApplicationFee;
 use App\Http\Livewire\Registration\RegistrationForm;
 use App\Http\Livewire\Transfer\TransferApplications;
+use App\Http\Livewire\Admission\SubmitAdmissionVideo;
 use App\Http\Livewire\Application\AddressInformation;
 use App\Http\Livewire\Application\ChildrenInformation;
 use App\Http\Livewire\Registration\ReRegistrationForm;
@@ -137,6 +138,7 @@ Route::group(['middleware' => 'auth', 'verified', 'role:user'], function(){
     Route::get('hspt-scores', StudentHsptScores::class);
     Route::get('hspt-information', StudentHsptInformation::class);
     Route::get('course-placement', FroshCoursePlacement::class);
+    Route::get('submit-admission-video', SubmitAdmissionVideo::class)->name('admission-video');
     Route::get('device-compatability', DeviceCompatability::class)->name('device-compatability');
 
     Route::group(['middleware' => 'si-access'], function(){

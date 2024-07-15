@@ -160,4 +160,9 @@ class Child extends Model
     {
         return $this->morphMany(FamilyDynamic::class, 'related');
     }
+
+    public function admission_video()
+    {
+        return $this->hasOne(AdmissionVideo::class);
+    }
 }
