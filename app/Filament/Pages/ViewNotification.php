@@ -209,7 +209,25 @@ class ViewNotification extends CustomFilamentPage {
             Action::make('decline')
                 ->label('Decline Acceptance at SI')
                 ->requiresConfirmation()
-                ->action('decline')
+                ->form([
+                    TextInput::make('decline_school')
+                        ->label('Which school you will be attending?')
+                        ->required(),
+                ])
+                ->action(function(array $data){
+                    
+                    $app = $this->app;
+                    $app->appStatus()->update([
+                        'candidate_decision' => false,
+                        'candidate_decision_date' => now(),
+                        'candidate_decision_status' => 'Declined',
+                        'candidate_decline_school' => $data['decline_school']
+                    ]);
+
+                    $this->initSurveyForm($app, 'Declined');
+
+                    return redirect(request()->header('Referer'));
+                })
                 ->color('primary')
                 ->visible(function(){
                     $app = $this->app;
@@ -228,6 +246,7 @@ class ViewNotification extends CustomFilamentPage {
 
                     return false;
                 }),
+                
             Action::make('remain_waitlist')
                 ->label('Remain on Waitlist')
                 ->action('remainWaitlist')
@@ -243,20 +262,6 @@ class ViewNotification extends CustomFilamentPage {
             //     ->visible(fn() => $this->app->waitlisted() && !$this->app->waitlistRemoved() ),
 
         ];
-    }
-
-    public function decline()
-    {
-        $app = $this->app;
-        $app->appStatus()->update([
-            'candidate_decision' => false,
-            'candidate_decision_date' => now(),
-            'candidate_decision_status' => 'Declined',
-        ]);
-
-        $this->initSurveyForm($app, 'Declined');
-
-        return redirect(request()->header('Referer'));
     }
 
     public function remainWaitlist()

@@ -181,6 +181,10 @@ class ApplicationResource extends Resource
                 Tables\Columns\SelectColumn::make("appStatus.financial_aid")
                     ->label('With F/A')
                     ->options(['A' => 'A', 'B' => 'B', 'B1' => 'B1', 'C' => 'C', 'D' => 'D', 'E' => 'E']),
+                Tables\Columns\ToggleColumn::make("appStatus.claver_award")
+                    ->label('Claver Award'),  
+                Tables\Columns\ToggleColumn::make("appStatus.product_design")
+                    ->label('Product Design'), 
                 Tables\Columns\TextColumn::make("appStatus.deposit_amount")
                     ->label('Deposit Amount'),
                 Tables\Columns\TextColumn::make("appStatus.candidate_decision_status")

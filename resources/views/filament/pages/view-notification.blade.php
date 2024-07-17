@@ -102,7 +102,7 @@
                 
                 @if($app->applicationAccepted())
                 @if($app->appStatus->financial_aid)
-                <div class="grid grid-cols-5 mt-8">
+                <div class="grid grid-cols-6 gap-3 mt-8">
                     @if($app->fa_acknowledged())
                     <div class="col-span-2 p-3 bg-green-200 border border-red-100 border-dashed rounded-md shadow-md">
                         <div class="flex gap-3">
@@ -120,7 +120,7 @@
                     @else
                     <div class="col-span-2 p-3 bg-red-100 border border-red-100 border-dashed rounded-md shadow-md">
                         <div class="flex gap-3">
-                            <x-heroicon-o-newspaper class="w-10 h-10 shadow-sm text-primary-red"/>
+                            <x-heroicon-o-mail class="w-10 h-10 shadow-sm text-primary-red"/>
                             <div>
                                 <p class="text-base font-bold">Financial Assistance Letter</p>
                                 <div class="flex items-center gap-4">
@@ -132,6 +132,32 @@
                         </div>
                     </div>
                     @endif
+                    <div class="col-span-2 p-3 bg-red-100 border border-red-100 border-dashed rounded-md shadow-md">
+                        <div class="flex gap-3">
+                            <x-heroicon-o-mail class="w-10 h-10 shadow-sm text-primary-red"/>
+                            <div>
+                                <p class="text-base font-bold">Claver Award Letter</p>
+                                <div class="flex items-center gap-4">
+                                    <a href="#" x-data="{}"
+                                    x-on:click.prevent="$dispatch('open-modal', 'show-financial-aid')" 
+                                    class="underline">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-2 p-3 bg-red-100 border border-red-100 border-dashed rounded-md shadow-md">
+                        <div class="flex gap-3">
+                            <x-heroicon-o-mail class="w-10 h-10 shadow-sm text-primary-red"/>
+                            <div>
+                                <p class="text-base font-bold">Product Design Letter</p>
+                                <div class="flex items-center gap-4">
+                                    <a href="#" x-data="{}"
+                                    x-on:click.prevent="$dispatch('open-modal', 'show-financial-aid')" 
+                                    class="underline">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @endif
 

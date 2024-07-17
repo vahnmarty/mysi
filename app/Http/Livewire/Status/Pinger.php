@@ -8,6 +8,7 @@ use Http;
 class Pinger extends Component
 {
     public $ping = 0;
+    
     public function render()
     {
         $start=microtime(true);
