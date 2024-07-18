@@ -120,7 +120,7 @@ class ApplicationResource extends Resource
                                             ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
                                                 $component->state($record->appStatus?->withHonors() );
                                             }),
-                                            Forms\Components\Toggle::make('with_fa')
+                                        Forms\Components\Toggle::make('with_fa')
                                             ->label('With Financial Aid?')
                                             ->disabled()
                                             ->onColor('success')
@@ -129,6 +129,26 @@ class ApplicationResource extends Resource
                                             ->offIcon('heroicon-s-x')
                                             ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
                                                 $component->state($record->appStatus?->withFA() );
+                                            }),
+                                        Forms\Components\Toggle::make('claver_award')
+                                            ->label('Claver Award?')
+                                            ->disabled()
+                                            ->onColor('success')
+                                            ->offColor('secondary')
+                                            ->onIcon('heroicon-s-check')
+                                            ->offIcon('heroicon-s-x')
+                                            ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                                $component->state($record->appStatus?->claver_award);
+                                            }),
+                                        Forms\Components\Toggle::make('product_design')
+                                            ->label('Product Design')
+                                            ->disabled()
+                                            ->onColor('success')
+                                            ->offColor('secondary')
+                                            ->onIcon('heroicon-s-check')
+                                            ->offIcon('heroicon-s-x')
+                                            ->afterStateHydrated(function (Forms\Components\Toggle $component, Application $record) {
+                                                $component->state($record->appStatus?->product_design);
                                             }),
                                         Forms\Components\TextInput::make('math_class')
                                             ->label('Math Class')

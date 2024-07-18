@@ -44,7 +44,9 @@ class NotificationService{
         $content = $this->parseContent($notification->content, $variables);
 
         $fa_content = '';
-        $faq_content = '';
+        $faq_content = ''; 
+        $claver_award = '';
+        $product_design = '';
 
         if($appStatus->financial_aid){
             $fa_content = $this->createFinancialAidContent($app);
@@ -54,6 +56,14 @@ class NotificationService{
         if($appStatus->application_status == NotificationStatusType::WaitListed){
             $faq_content = $this->createFAQContent($app);
         }
+
+        if($appStatus->claver_award){
+            $claver_award = $this->createClaverAwardLetter($app);
+        }
+
+        if($appStatus->product_design){
+            $product_design = $this->createProductDesignLetter($app);
+        }
         
 
         $app->notificationMessage()->create([
@@ -61,6 +71,8 @@ class NotificationService{
             'content' => $content,
             'financial_aid_content' => $fa_content,
             'faq_content' => $faq_content,
+            'claver_award_content' => $claver_award,
+            'product_design_content' => $product_design,
         ]);
 
         return $letterType;
@@ -127,6 +139,56 @@ class NotificationService{
             'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
             'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray(),
             'financial_aid' => $currentStudent->toArray()
+        ];
+
+
+        $contents = $this->parseContent($notification->content, $variables);
+
+        return $contents;
+    }
+
+    public function createClaverAwardLetter(Application $app)
+    {
+        $notification = NotificationLetter::where('title', 'Claver Award')->first();
+
+        $account = $app->account;
+
+        $variables = [
+            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'system' => config('settings'),
+            'app' => AppVariable::get()->pluck('value', 'config')->toArray(),
+            'parents_name' => $account->getParentsName(),
+            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
+            'student' => $app->student->toArray(),
+            'application' => $app->toArray(),
+            'application_status' => $app->appStatus->toArray(),
+            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
+        ];
+
+
+        $contents = $this->parseContent($notification->content, $variables);
+
+        return $contents;
+    }
+
+    public function createProductDesignLetter(Application $app)
+    {
+        $notification = NotificationLetter::where('title', 'Product Design')->first();
+
+        $account = $app->account;
+
+        $variables = [
+            'timeline' => NotificationSetting::get()->pluck('value', 'config')->toArray(),
+            'system' => config('settings'),
+            'app' => AppVariable::get()->pluck('value', 'config')->toArray(),
+            'parents_name' => $account->getParentsName(),
+            'parents_name_salutation' => $account->getParentsName(withSalutation:true),
+            'student' => $app->student->toArray(),
+            'application' => $app->toArray(),
+            'application_status' => $app->appStatus->toArray(),
+            'parent' => $account->primaryParent ? $account->primaryParent->toArray() : $account->firstParent?->toArray(),
+            'address' => $account->primaryAddress ? $account->primaryAddress->toArray() : $account->addresses()->first()?->toArray()
         ];
 
 

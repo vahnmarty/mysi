@@ -17,6 +17,8 @@ class NotificationMessage extends Model
         'content' => 'json',
         'financial_aid_content' => 'json',
         'faq_content' => 'json',
+        'claver_award_content' => 'json',
+        'product_design_content' => 'json'
     ];
 
     public static function boot()

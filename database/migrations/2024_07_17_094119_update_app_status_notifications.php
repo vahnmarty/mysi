@@ -21,6 +21,13 @@ return new class extends Migration
 
             $table->string('candidate_decline_school', 250)->after('candidate_decision_date')->nullable();
         });
+
+        Schema::table('notification_messages', function (Blueprint $table) {
+            $table->after('faq_content', function(Blueprint $table){
+                $table->json('claver_award_content')->nullable();
+                $table->json('product_design_content')->nullable();
+            });
+        });
     }
 
     /**
@@ -34,6 +41,11 @@ return new class extends Migration
             $table->dropColumn('product_design');
             $table->dropColumn('product_design_acknowledged_at');
             $table->dropColumn('candidate_decline_school');
+        });
+
+        Schema::table('notification_messages', function (Blueprint $table) {
+            $table->dropColumn('claver_award_content')->nullable();
+            $table->dropColumn('product_design_content')->nullable();
         });
     }
 };

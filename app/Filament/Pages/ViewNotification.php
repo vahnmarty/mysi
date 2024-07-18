@@ -39,7 +39,7 @@ class ViewNotification extends CustomFilamentPage {
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public $content, $faq, $fa_content;
+    public $content, $faq, $fa_content, $claver_award_content, $product_design_content;
 
     public $show_fa = false, $checked, $declined, $decision_status;
 
@@ -73,6 +73,8 @@ class ViewNotification extends CustomFilamentPage {
         $this->content = $content;
         $this->app = $app;
         $this->fa_content = $notification->financial_aid_content;
+        $this->claver_award_content = $notification->claver_award_content;
+        $this->product_design_content = $notification->product_design_content;
         $this->declined = $app->declined();
         $this->decision_status = $appStatus->candidate_decision_status;
         $this->deposit_amount = $app->appStatus->deposit_amount;
