@@ -6,18 +6,46 @@
     @endphp
 
     @if($agent->isDesktop())
-    <div class="px-4 py-4 border border-blue-300 rounded-md shadow-md md:px-8 bg-blue-50">
-        <div class="flex items-start gap-4">
-            
-            <x-heroicon-o-desktop-computer class="flex-shrink-0 w-10 h-10 text-gray-700 "/>
 
-            <div>
-                For the best user experience on [PC/Mac], please update your operating system to [Windows 10/Monterey] or higher ([Windows 11/Ventura/Sonoma]).
-                <a href="{{ route('device-compatability') }}" class="text-link">Learn More</a>
+        @if(isWindowsOS())
+
+            @if(isBelowWindows10())
+            <div class="px-4 py-4 border border-blue-300 rounded-md shadow-md md:px-8 bg-blue-50">
+                <div class="flex items-start gap-4">
+                    
+                    <x-heroicon-o-desktop-computer class="flex-shrink-0 w-10 h-10 text-gray-700 "/>
+        
+                    <div>
+                        For the best user experience on Windows PC, please update your operating system to Windows 10 or higher (Windows 11).
+                        <a href="{{ route('device-compatability') }}" class="text-link">Learn More</a>.
+                        <span>Our system detected <strong>{{ getUserOS() }}</strong>, if this is incorrect, please disregard this message.</span>
+                    </div>
+                      
+                </div>
             </div>
-              
-        </div>
-    </div>
+            @endif
+
+        @endif
+
+        @if(isMacOS())
+
+            @if(isBelowMonterey())
+            <div class="px-4 py-4 border border-blue-300 rounded-md shadow-md md:px-8 bg-blue-50">
+                <div class="flex items-start gap-4">
+                    
+                    <x-heroicon-o-desktop-computer class="flex-shrink-0 w-10 h-10 text-gray-700 "/>
+        
+                    <div>
+                        For the best user experience on Mac, please update your operating system to Monterey or higher (Ventura/Sonoma).
+                        <a href="{{ route('device-compatability') }}" class="text-link">Learn More</a>.
+                        <span>Our system detected <strong>{{ getUserOS() }}</strong>, if this is incorrect, please disregard this message.</span>
+                    </div>
+                      
+                </div>
+            </div>
+            @endif
+        @endif
+    
     @elseif($agent->isMobile())
     <div class="px-4 py-4 border border-blue-300 rounded-md shadow-md md:px-8 bg-blue-50">
         <div class="flex items-start gap-4">

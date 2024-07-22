@@ -178,3 +178,87 @@ if (! function_exists('my_account')) {
         }
     }
 }
+
+function getUserOS() {
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    $osArray = [
+        'Windows 10' => 'Windows NT 10.0',
+        'Windows 8.1' => 'Windows NT 6.3',
+        'Windows 8' => 'Windows NT 6.2',
+        'Windows 7' => 'Windows NT 6.1',
+        'Windows Vista' => 'Windows NT 6.0',
+        'Windows XP' => 'Windows NT 5.1',
+        'Windows 2000' => 'Windows NT 5.0',
+        'macOS Sonoma' => 'Mac OS X 14',
+        'macOS Ventura' => 'Mac OS X 13',
+        'macOS Monterey' => 'Mac OS X 12',
+        'macOS Big Sur' => 'Mac OS X 11',
+        'macOS Catalina' => 'Mac OS X 10.15',
+        'macOS Mojave' => 'Mac OS X 10.14',
+        'macOS High Sierra' => 'Mac OS X 10.13',
+        'macOS Sierra' => 'Mac OS X 10.12',
+        'OS X El Capitan' => 'Mac OS X 10.11',
+        'OS X Yosemite' => 'Mac OS X 10.10',
+        'OS X Mavericks' => 'Mac OS X 10.9',
+        'OS X Mountain Lion' => 'Mac OS X 10.8',
+        'OS X Lion' => 'Mac OS X 10.7',
+        'OS X Snow Leopard' => 'Mac OS X 10.6',
+        'Linux' => 'Linux',
+        'Ubuntu' => 'Ubuntu',
+        'iPhone' => 'iPhone',
+        'iPad' => 'iPad',
+        'Android' => 'Android',
+        'BlackBerry' => 'BlackBerry',
+        'Mobile' => 'Mobile',
+    ];
+
+    foreach ($osArray as $os => $pattern) {
+        if (preg_match("/$pattern/i", $userAgent)) {
+            return $os;
+        }
+    }
+    return 'Unknown OS';
+}
+
+function isWindowsOS() {
+    $os = getUserOS();
+    return preg_match("/Windows/i", $os);
+}
+
+function isBelowWindows10() {
+    $os = getUserOS();
+    $windowsVersionsBelow10 = [
+        'Windows 8.1',
+        'Windows 8',
+        'Windows 7',
+        'Windows Vista',
+        'Windows XP',
+        'Windows 2000'
+    ];
+
+    return in_array($os, $windowsVersionsBelow10);
+}
+
+function isMacOS() {
+    $os = getUserOS();
+    return preg_match("/macOS|OS X/i", $os);
+}
+
+function isBelowMonterey() {
+    $os = getUserOS();
+    $macOSVersionsBelowMonterey = [
+        'macOS Big Sur',
+        'macOS Catalina',
+        'macOS Mojave',
+        'macOS High Sierra',
+        'macOS Sierra',
+        'OS X El Capitan',
+        'OS X Yosemite',
+        'OS X Mavericks',
+        'OS X Mountain Lion',
+        'OS X Lion',
+        'OS X Snow Leopard'
+    ];
+
+    return in_array($os, $macOSVersionsBelowMonterey);
+}

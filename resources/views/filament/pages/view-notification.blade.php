@@ -113,6 +113,52 @@
 
                     
                 </div>
+
+
+                <div class="hidden mt-8 space-y-3 w-96">
+
+                    <h3 class="text-xl font-bold">Attachments</h3>
+
+                    <div class="px-3 py-3 bg-gray-100 border-b border-dashed rounded-md">
+                        <div class="flex gap-3">
+                            <x-heroicon-o-mail-open class="self-center flex-shrink-0 text-gray-700 w-7 h-7"/>
+                            <div>
+                                <h3 class="text-lg text-gray-700">Financial Assistance Letter</h3>
+                                <div class="flex gap-3 text-xs divide-x">
+                                    <a href="#" class="text-link">Open</a>
+                                    <p class="pl-2 text-gray-500">Acknowledged at February 14, 2004</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-3 py-3 bg-gray-100 border-b border-dashed rounded-md">
+                        <div class="flex gap-3">
+                            <x-heroicon-s-mail class="self-center flex-shrink-0 text-gray-900 w-7 h-7"/>
+                            <div>
+                                <h3 class="text-lg font-bold">Claver Award Letter</h3>
+                                <div class="flex gap-3 text-xs divide-x">
+                                    <a href="#" class="text-link">Open</a>
+                                    <!-- <p class="pl-2 text-gray-500">Acknowledged at February 14, 2004</p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-3 py-3 bg-gray-100 border-b border-dashed rounded-md">
+                        <div class="flex gap-3">
+                            <x-heroicon-s-mail class="self-center flex-shrink-0 text-gray-900 w-7 h-7"/>
+                            <div>
+                                <h3 class="text-lg font-bold">Product Design Letter</h3>
+                                <div class="flex gap-3 text-xs divide-x">
+                                    <a href="#" class="text-link">Open</a>
+                                    <!-- <p class="pl-2 text-gray-500">Acknowledged at February 14, 2004</p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 @endif
 
                 
