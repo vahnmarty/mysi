@@ -90,13 +90,49 @@ class ViewNotification extends CustomFilamentPage {
         return 'Notification';
     }
 
-    protected function getFormSchema(): array 
+    protected function getForms(): array 
+    {
+        return [
+            'financialAidForm' => $this->makeForm()
+                ->schema($this->getFinancialAidFormSchema()),
+            'claverAwardForm' => $this->makeForm()
+                ->schema($this->claverAwardFormSchema()),
+            'productDesignForm' => $this->makeForm()
+                ->schema($this->getProductDesignFormSchema()),
+        ];
+    } 
+
+    protected function getFinancialAidFormSchema()
     {
         return [
             Checkbox::make('checked')
                 ->columnSpan('full')
                 ->required()
                 ->label('By checking this box, I acknowledge the Financial Assistance letter.')
+                ->lazy()
+                ->required()
+        ];
+    }
+
+    protected function claverAwardFormSchema()
+    {
+        return [
+            Checkbox::make('checked')
+                ->columnSpan('full')
+                ->required()
+                ->label('By checking this box, I acknowledge the Claver Award letter.')
+                ->lazy()
+                ->required()
+        ];
+    }
+
+    protected function getProductDesignFormSchema()
+    {
+        return [
+            Checkbox::make('checked')
+                ->columnSpan('full')
+                ->required()
+                ->label('By checking this box, I acknowledge the Product Design letter.')
                 ->lazy()
                 ->required()
         ];
@@ -190,7 +226,9 @@ class ViewNotification extends CustomFilamentPage {
                     $this->checkout($data['billing']);
                 })
                 ->visible(function(){
-                    return true;
+
+                    $isVisible = false;
+
                     $app = $this->app;
                     $has_amount = $this->deposit_amount > 0;
                     
@@ -200,13 +238,39 @@ class ViewNotification extends CustomFilamentPage {
                         }
 
                         if($app->hasFinancialAid()){
-                            return $has_amount && $app->fa_acknowledged();
+                            $check_visible = $has_amount && $app->fa_acknowledged();
+
+                            if($check_visible == false){
+                                return false;
+                            }
+
+                            $isVisible = $check_visible;
+                        }
+
+                        if($app->appStatus->claver_award){
+                            $check_visible = $app->appStatus->claver_award_acknowledged_at;
+
+                            if($check_visible == false){
+                                return false;
+                            }
+
+                            $isVisible = $check_visible;
+                        }
+
+                        if($app->appStatus->product_design){
+                            $check_visible =  $app->appStatus->product_design_acknowledged_at;
+
+                            if($check_visible == false){
+                                return false;
+                            }
+
+                            $isVisible = $check_visible;
                         }
 
                         return $has_amount > 0 && true;
                     }
 
-                    return false;
+                    return $isVisible;
                 }),
             Action::make('decline')
                 ->label('Decline Acceptance at SI')
@@ -289,10 +353,32 @@ class ViewNotification extends CustomFilamentPage {
 
     public function acknowledgeFinancialAid()
     {
-        $data = $this->form->getState();
+        $data = $this->financialAidForm->getState();
         
         $appStatus = $this->app->appStatus;
         $appStatus->fa_acknowledged_at = now();
+        $appStatus->save();
+
+        $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function acknowledgeClaverAward()
+    {
+        $data = $this->claverAwardForm->getState();
+
+        $appStatus = $this->app->appStatus;
+        $appStatus->claver_award_acknowledged_at= now();
+        $appStatus->save();
+
+        $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function acknowledgeProductDesign()
+    {
+        $data = $this->productDesignForm->getState();
+
+        $appStatus = $this->app->appStatus;
+        $appStatus->product_design_acknowledged_at= now();
         $appStatus->save();
 
         $this->dispatchBrowserEvent('close-modal');
