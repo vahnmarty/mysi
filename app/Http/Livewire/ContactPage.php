@@ -129,10 +129,10 @@ class ContactPage extends Component implements HasForms
             $recipients[] = 'admissions@siprep.org';
         }
 
-        // elseif($data['department'] == Departments::Academics){
-        //     $recipients[] = 'ggalletta@siprep.org';
-        //     $recipients[] = 'pcollins@siprep.org';
-        // }
+        elseif($data['department'] == Departments::Academics){
+            $recipients[] = 'ggalletta@siprep.org';
+            $recipients[] = 'pcollins@siprep.org';
+        }
 
         elseif($data['department'] == Departments::TechSupport){
             $recipients[] = 'mysi_admin@siprep.org';
@@ -143,7 +143,7 @@ class ContactPage extends Component implements HasForms
         }
         
         try {
-            //Mail::to($recipients)->send(new ContactInquiry($inquiry));
+            Mail::to($recipients)->send(new ContactInquiry($inquiry));
         } catch (\Throwable $th) {
             throw $th;
         }
