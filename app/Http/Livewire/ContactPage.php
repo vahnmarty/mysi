@@ -129,10 +129,10 @@ class ContactPage extends Component implements HasForms
             $recipients[] = 'admissions@siprep.org';
         }
 
-        elseif($data['department'] == Departments::Academics){
-            $recipients[] = 'ggalletta@siprep.org';
-            $recipients[] = 'pcollins@siprep.org';
-        }
+        // elseif($data['department'] == Departments::Academics){
+        //     $recipients[] = 'ggalletta@siprep.org';
+        //     $recipients[] = 'pcollins@siprep.org';
+        // }
 
         elseif($data['department'] == Departments::TechSupport){
             $recipients[] = 'mysi_admin@siprep.org';
