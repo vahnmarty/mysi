@@ -65,6 +65,17 @@
                     NOTE: In order to reserve your spot in the SI Class of {{ app_variable('class_year') }}, you must click the Enroll at SI button AND make a deposit payment before {{  app_variable('registration_end_date') }}. Your spot will not be reserved if you only click the Enroll at SI button and do not submit your deposit payment.
                 </p>
                 @endif
+
+                @if($app->appStatus)
+                    @if($app->appStatus->financial_aid || $app->appStatus->claver_award || $app->appStatus->product_design)
+                    <div class="p-6 mt-8 bg-blue-100 border-2 border-blue-300 rounded-md shadow-sm">
+                        <div class="flex gap-3">
+                            <x-heroicon-s-information-circle class="flex-shrink-0 text-blue-800 w-7 h-7"/>
+                            <p>The <strong>Enroll at SI</strong> button will appear at the bottom of this page once you have clicked on and acknowledged each letter below.</p>
+                        </div>
+                    </div>
+                    @endif
+                @endif
     
                 
                 
