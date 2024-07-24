@@ -143,7 +143,7 @@ class ContactPage extends Component implements HasForms
         }
         
         try {
-            //Mail::to($recipients)->send(new ContactInquiry($inquiry));
+            Mail::to($recipients)->send(new ContactInquiry($inquiry));
         } catch (\Throwable $th) {
             throw $th;
         }
