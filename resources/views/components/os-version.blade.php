@@ -9,7 +9,6 @@
 
         @if(isWindowsOS())
 
-            @if(isBelowWindows10())
             <div class="px-4 py-4 border border-blue-300 rounded-md shadow-md md:px-8 bg-blue-50">
                 <div class="flex items-start gap-4">
                     
@@ -23,13 +22,11 @@
                       
                 </div>
             </div>
-            @endif
 
         @endif
 
         @if(isMacOS())
 
-            @if(isBelowMonterey())
             <div class="px-4 py-4 border border-blue-300 rounded-md shadow-md md:px-8 bg-blue-50">
                 <div class="flex items-start gap-4">
                     
@@ -43,7 +40,6 @@
                       
                 </div>
             </div>
-            @endif
         @endif
     
     @elseif($agent->isMobile())
