@@ -52,7 +52,7 @@ class SiFamilyDirectory extends Component implements HasTable, HasForms
     {
         $this->directory = FamilyDirectory::get();
 
-        $this->last_updated_at = FamilyDirectory::first()?->updated_at->format('F d, Y H:i a');
+        $this->last_updated_at = FamilyDirectory::first()?->updated_at->format('F d, Y h:i a');
     }
 
     public function getTableQuery()
