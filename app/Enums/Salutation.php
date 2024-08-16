@@ -22,5 +22,6 @@ final class Salutation extends Enum
     const Prof = 'Prof.';
     const Rev = 'Rev.';
     const Hon = 'Hon.';
+    const Capt = 'Capt.';
 
 }
