@@ -20,4 +20,7 @@ final class ParentSuffix extends Enum
     const II = 'II';
     const III = 'III';
     const IV = 'IV';
+    const Esq = 'Esq.';
+    const MD = 'MD';
+    const DDS = 'DDS';
 }
